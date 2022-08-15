@@ -1,0 +1,119 @@
+{
+    "__root__": [
+        {
+            "week_number": 10,
+            "first_page": 244,
+            "last_page": 252
+        },
+        {
+            "week_number": 11,
+            "first_page": 252,
+            "last_page": 259
+        },
+        {
+            "week_number": 12,
+            "first_page": 259,
+            "last_page": 265
+        },
+        {
+            "week_number": 13,
+            "first_page": 265,
+            "last_page": 269
+        },
+        {
+            "week_number": 14,
+            "first_page": 269,
+            "last_page": 275
+        },
+        {
+            "week_number": 15,
+            "first_page": 275,
+            "last_page": 281
+        },
+        {
+            "week_number": 16,
+            "first_page": 281,
+            "last_page": 287
+        },
+        {
+            "week_number": 17,
+            "first_page": 287,
+            "last_page": 294
+        },
+        {
+            "week_number": 18,
+            "first_page": 294,
+            "last_page": 300
+        },
+        {
+            "week_number": 19,
+            "first_page": 300,
+            "last_page": 308
+        },
+        {
+            "week_number": 20,
+            "first_page": 308,
+            "last_page": 313
+        },
+        {
+            "week_number": 21,
+            "first_page": 313,
+            "last_page": 322
+        },
+        {
+            "week_number": 22,
+            "first_page": 322,
+            "last_page": 332
+        },
+        {
+            "week_number": 23,
+            "first_page": 332,
+            "last_page": 339
+        },
+        {
+            "week_number": 24,
+            "first_page": 339,
+            "last_page": 345
+        },
+        {
+            "week_number": 25,
+            "first_page": 345,
+            "last_page": 354
+        },
+        {
+            "week_number": 26,
+            "first_page": 354,
+            "last_page": 362
+        },
+        {
+            "week_number": 27,
+            "first_page": 362,
+            "last_page": 369
+        },
+        {
+            "week_number": 28,
+            "first_page": 369,
+            "last_page": 376
+        },
+        {
+            "week_number": 29,
+            "first_page": 376,
+            "last_page": 383
+        },
+        {
+            "week_number": 30,
+            "first_page": 383,
+            "last_page": 391
+        },
+        {
+            "week_number": 31,
+            "first_page": 391,
+            "last_page": 397
+        },
+        {
+            "week_number": 32,
+            "first_page": 397,
+            "last_page": 405
+        }
+    ]
+}
