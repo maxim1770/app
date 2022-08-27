@@ -1,6 +1,51 @@
 {
     "__root__": [
         {
+            "week_number": 1,
+            "first_page": 180,
+            "last_page": 187
+        },
+        {
+            "week_number": 2,
+            "first_page": 187,
+            "last_page": 192
+        },
+        {
+            "week_number": 3,
+            "first_page": 192,
+            "last_page": 199
+        },
+        {
+            "week_number": 4,
+            "first_page": 199,
+            "last_page": 207
+        },
+        {
+            "week_number": 5,
+            "first_page": 207,
+            "last_page": 215
+        },
+        {
+            "week_number": 6,
+            "first_page": 215,
+            "last_page": 223
+        },
+        {
+            "week_number": 7,
+            "first_page": 223,
+            "last_page": 231
+        },
+        {
+            "week_number": 8,
+            "first_page": 231,
+            "last_page": 236
+        },
+        {
+            "week_number": 9,
+            "first_page": 236,
+            "last_page": 244
+        },
+        {
             "week_number": 10,
             "first_page": 244,
             "last_page": 252
