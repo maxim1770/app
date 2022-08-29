@@ -1,12 +1,10 @@
 ## Источники:
 
-* rsl:
-    * шифр: Ф.304/I №206
-    * [304-i/f-304i-206](https://lib-fond.ru/lib-rgb/304-i/f-304i-206/)
-* Архив:
+* rsl: [304-i/f-304i-20][rsl]
+* archive:
     * Раздел: Поучения/Книги законов Церковных
     * Взято из rsl
-    * [Кормчая 16в(2).pdf](https://drive.google.com/file/d/16-P-3D49S_L-3Gdth0UHffBAhV8WFNmw/view?usp=sharing)
+    * [Кормчая 16в(2).pdf][archive]
 
 ## Инфо:
 
@@ -20,3 +18,8 @@
 * Содержание:
     * правила Апостолов, соборы (Вселенские и Поместные), правила Святых
     * ...
+
+
+
+[rsl]: https://lib-fond.ru/lib-rgb/304-i/f-304i-206/
+[archive]: https://drive.google.com/file/d/16-P-3D49S_L-3Gdth0UHffBAhV8WFNmw/view?usp=sharing
