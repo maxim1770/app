@@ -16,13 +16,13 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              turnover=TurnoverEnum.right
                              ),
-                PageTurnover(page=
+                PageTurnover(page=29
                              ,
-                             turnover=TurnoverEnum.
+                             turnover=TurnoverEnum.right
                              ),
-                PageTurnover(page=
+                PageTurnover(page=34
                              ,
-                             turnover=TurnoverEnum.
+                             turnover=TurnoverEnum.right
                              ),
                 PageTurnover(page=
                              ,
