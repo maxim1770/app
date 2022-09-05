@@ -41,7 +41,30 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=20
                              ),
-
+                PageTurnover(page=65
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Поместный Собор - Анкирский'
+                             ,
+                             number_rules=25
+                             ),
+                PageTurnover(page=72
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Поместный Собор - Неокесарийский'
+                             ,
+                             number_rules=14
+                             ),
+                PageTurnover(page=74
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Гангрский'
+                             ,
+                             number_rules=19
+                             ),
                 ),
     const_week_page=(1, 41)
     ,

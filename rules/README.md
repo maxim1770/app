@@ -92,7 +92,7 @@
                 3. [kormchaya_4][kormchaya_4]
                    После Правил Апостола Павла идет "Того ж правила о усопших" и "Того ж правила о властелех"  
                    И это выделяется в отдельную главу г(3)
-                4. [hram-troicy.prihod][hram-troicy.prihod]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
                    Так же есть эти два правила, и они как и в других выделены в отдельную главу
         * 0 Не нашел инфо
             * Сайты:
@@ -112,7 +112,7 @@
                 1. [304-i/f-304i-206][304-i/f-304i-206]
                 2. [kormchaya_3][kormchaya_3]
                 3. [kormchaya_4][kormchaya_4]
-                4. [hram-troicy.prihod][hram-troicy.prihod]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
             * Сайты:
                 1. [azbyka][azbyka]
                 2. [holytrinitymission][holytrinitymission]
@@ -131,6 +131,7 @@
                    правил кє(25)
                 2. [kormchaya_3][kormchaya_3]
                 3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
             * Сайты:
                 1. [azbyka][azbyka]
                 2. [holytrinitymission][holytrinitymission]
@@ -148,6 +149,7 @@
                 1. [304-i/f-304i-206][304-i/f-304i-206]
                 2. [kormchaya_3][kormchaya_3]
                 3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
         * 15
             * Сайты:
                 1. [azbyka][azbyka]
@@ -164,6 +166,7 @@
         * Ѳi(19)
             * Рукописи:
                 1. [304-i/f-304i-206][304-i/f-304i-206]
+                2. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
         * 21
             * Сайты:
                 1. [azbyka][azbyka]
