@@ -65,6 +65,14 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=19
                              ),
+                PageTurnover(page=77
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Антиохийский'
+                             ,
+                             number_rules=25
+                             ),
                 ),
     const_week_page=(1, 41)
     ,

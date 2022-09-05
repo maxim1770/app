@@ -88,7 +88,7 @@
             * Рукописи:
                 1. [304-i/f-304i-206][304-i/f-304i-206]
                 2. [kormchaya_3][kormchaya_3]  
-                    **Так же есть эти два правила**
+                   **Так же есть эти два правила**
                 3. [kormchaya_4][kormchaya_4]
                    После Правил Апостола Павла идет "Того ж правила о усопших" и "Того ж правила о властелех"  
                    И это выделяется в отдельную главу г(3)
@@ -166,7 +166,9 @@
         * Ѳi(19)
             * Рукописи:
                 1. [304-i/f-304i-206][304-i/f-304i-206]
-                2. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
         * 21
             * Сайты:
                 1. [azbyka][azbyka]
@@ -176,19 +178,40 @@
 
 
 8. Поместный Собор - Антиохийский
-    * кє(25)
-    * совпадает со всеми сайтами
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * кє(25)
+            * Рукописи:
+                1. [304-i/f-304i-206][304-i/f-304i-206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
 
 
 9. Поместный Собор - Лаодикийский
-    * ни(**А на сайтах написано 60**)
-    * На некоторых сайтах [[3]][orthodoxbible/canons] Поместный Собор - Сардикийский стоит раньше, чем
-      Лаодикийский
-    * Но в большинстве сайтов сначала Лаодикийский, а потом Лаодикийский
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * ни(58)
+            * Рукописи:
+                1. [304-i/f-304i-206][304-i/f-304i-206]
+                2. [kormchaya_3][kormchaya_3]
+        * 60
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                   На сайте [orthodoxbible/canons][orthodoxbible/canons] Поместный Собор - Сардикийский стоит раньше, чем
+                   Лаодикийский. Но в большинстве сайтов сначала Лаодикийский, а потом Лаодикийский
+                4. [hram-troicy.prihod][hram-troicy.prihod]
 
 
 10. **Второй Вселенский Собор - Константинопольский**
