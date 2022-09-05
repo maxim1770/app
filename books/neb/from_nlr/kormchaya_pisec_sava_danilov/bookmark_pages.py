@@ -81,6 +81,32 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=58
                              ),
+                PageTurnover(page=94
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Второй Вселенский Собор - Константинопольский'
+                             ,
+                             number_rules=8
+                             ),
+                PageTurnover(page=97
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Третий Вселенский Собор - Эфесский'
+                             ,
+                             # Послание записано как девятое правило и как отдельная глава вi(12)
+                             number_rules=8
+                             ),
+                PageTurnover(page=99
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             # Название с головы и немного с рукописи 304-i/f-304i-206
+                             title='Третий Вселенский Собор - Эфесский: послание к священному собору Памфилийскому'
+                             ,
+                             number_rules=1
+                             ),
                 ),
     const_week_page=(1, 41)
     ,

@@ -81,6 +81,24 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=58
                              ),
+                PageTurnover(page=88
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Второй Вселенский Собор - Константинопольский'
+                             ,
+                             number_rules=8
+                             ),
+                PageTurnover(page=90
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Третий Вселенский Собор - Эфесский'
+                             ,
+                             # Послание записано как девятое правило
+                             # **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
+                             number_rules=8
+                             ),
                 ),
     const_week_page=(1, 35)
     ,
@@ -88,5 +106,3 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
     ,
     pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_4.pdf")
 )
-
-
