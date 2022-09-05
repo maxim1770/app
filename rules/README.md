@@ -211,61 +211,97 @@
                 1. [azbyka][azbyka]
                 2. [holytrinitymission][holytrinitymission]
                 3. [orthodoxbible/canons][orthodoxbible/canons]
-                   На сайте [orthodoxbible/canons][orthodoxbible/canons] Поместный Собор - Сардикийский стоит раньше, чем
+                   На этом сайте Поместный Собор - Сардикийский стоит раньше,
+                   чем
                    Лаодикийский. Но в большинстве сайтов сначала Лаодикийский, а потом Лаодикийский
                 4. [hram-troicy.prihod][hram-troicy.prihod]
 
 
 10. **Второй Вселенский Собор - Константинопольский**
-    * и(**А на сайтах написано 7**)
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * и(8)
+            * Рукописи:
+                1. [304-i/f-304i-206][304-i/f-304i-206]
+        * 7
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
 
 
 11. **Третий Вселенский Собор - Эфесский**
-    * и(8)
-    * Так же Послание того же Собора к священному собору Памфилийскому о Евстафии (так же есть на сайтах)
-    * На этом сайте [[3]][orthodoxbible/canons] Послание записано как девятое правило
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * и(8) + Так же Послание того же Собора к священному собору Памфилийскому о Евстафии (так же есть на сайтах)
+            * Рукописи:
+                1. [304-i/f-304i-206][304-i/f-304i-206]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                   На этом сайте Послание записано как девятое правило
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
 
 12. **Четвертый Вселенский Собор - Халкидонский**
-    * л(30)
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * л(30)
+            * Рукописи:
+                1. [304-i/f-304i-206][304-i/f-304i-206]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
 
 13. Поместный Собор - Сардикийский
-    * ка(**А на сайтах написано 20**)
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * ка(**А на сайтах написано 20**)
 
 14. Поместный Собор - Карфагенский
-    * рлд(134)(**А на сайтах написано 147**)
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * рлд(134)(**А на сайтах написано 147**)
 
 15. **Шестой Вселенский Собор - Константинопольский, Трульский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
     * рв(102)
     * Пятый Вселенский Собор правил не оставил (об этом написано в ЛЛС)
-    * Название:
-        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
 
 16. **Седьмой Вселенский Собор - Никейский**
-    * кв(22)
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * кв(22)
 
 17. Поместный Собор - Константинопольский (двукратный)
-    * зi(17)
     * Название:
         * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
 
+    * зi(17)
+
 18. Поместный Собор - Константинопольский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
     * г(3)
     * **В тексте рукописи 3 правило не помечено, но оно есть,  
       начинается с заглавной красной буквы**
-    * Название:
-        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
 
 19. Правила святого Василия Великого от посланий к епископу Амфилохию Иконийскому,  
     Диодору Тарскому, и к другим неким послания
