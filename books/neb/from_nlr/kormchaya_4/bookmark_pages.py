@@ -73,7 +73,14 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=25
                              ),
-
+                PageTurnover(page=79
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Поместный Собор - Лаодикийский'
+                             ,
+                             number_rules=58
+                             ),
                 ),
     const_week_page=(1, 35)
     ,

@@ -204,6 +204,8 @@
             * Рукописи:
                 1. [304-i/f-304i-206][304-i/f-304i-206]
                 2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
         * 60
             * Сайты:
                 1. [azbyka][azbyka]
