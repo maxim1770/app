@@ -1,11 +1,18 @@
-from pydantic import BaseModel, Field
+from enum import IntEnum
+
+from pydantic import BaseModel, Field, FilePath
 from pydantic import parse_obj_as
 
 
 class PagesModel(BaseModel):
     week_number: int
     first_page: int
-    last_page: int
+    last_page: int | None
+    title: str | None
+    number_rules: int | None
+    pdf_plus_pages: int | None
+    pdf_path: FilePath | None = Field(default=None,
+                                           description="Путь к pdf файлу на этом ПК")
 
 
 class ListPagesModel(BaseModel):
@@ -19,18 +26,16 @@ class BookmarkPagesModel(BaseModel):
     const_week_page: tuple[int, int]
 
 
-from enum import IntEnum
-
-
 class TurnoverEnum(IntEnum):
-    left = 0
-    right = 1
+    left = -1
+    right = 0
 
 
 class PageTurnover(BaseModel):
     page: int
     turnover: TurnoverEnum
-
+    title: str | None
+    number_rules: int | None
 
 
 class BookmarkPagesTurnoverModel(BaseModel):
@@ -38,7 +43,6 @@ class BookmarkPagesTurnoverModel(BaseModel):
     pages_list: tuple[PageTurnover, ...]
 
     const_week_page: tuple[int, int]
-
-
-
-
+    pdf_plus_pages: int | None
+    pdf_path: FilePath | None = Field(default=None,
+                                           description="Путь к pdf файлу на этом ПК")

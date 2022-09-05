@@ -1,3 +1,8 @@
+"""
+Страница закладок для рукописи [neb](https://lib-fond.ru/lib-rgb/304-i/f-304i-206/)
+
+"""
+
 from crs.schemes import BookmarkPagesModel
 
 
@@ -10,3 +15,5 @@ data_model = BookmarkPagesModel(
                 ),
     const_week_page=(1, 27)
 )
+
+

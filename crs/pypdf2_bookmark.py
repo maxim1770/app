@@ -3,11 +3,11 @@ from pathlib import Path
 
 from PyPDF2 import PdfReader, PdfWriter
 
-from crs.pages_models import pages_models
+from crs.pages_turnover_models import pages_models
 from crs.schemes import ListPagesModel
 
 
-path: Path = Path(r"C:\Users\MaxDroN\Desktop\Кормчая 16в(2).pdf")
+path: Path = Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_3.pdf")
 
 
 pdf_writer = PdfWriter()
@@ -16,7 +16,7 @@ reader = PdfReader(path)
 for page in reader.pages:
     pdf_writer.add_page(page)
 
-PDF_PLUS_PAGES = 4
+PDF_PLUS_PAGES = 1 # для kormchaya_3
 for pages_model in pages_models.__root__:
     # Так же можно добавить число на дс, используя модифицированную библиотеку roman
     pdf_writer.add_bookmark(f"Глава {pages_model.week_number}", pages_model.first_page + PDF_PLUS_PAGES)
@@ -29,5 +29,5 @@ for pages_model in pages_models.__root__:
 #
 
 
-with path.with_name(path.stem + "_with_bookmarks").open(mode="wb") as file:
-    pdf_writer.write(file)
+with path.open(mode="wb") as file_:
+    pdf_writer.write(file_)

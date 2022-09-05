@@ -1,5 +1,5 @@
 """
-Страница закладок для рукописи [neb](https://kp.rusneb.ru/item/material/kormchaya-4)
+Страница закладок для рукописи [neb](https://kp.rusneb.ru/item/material/kormchaya-pisec-sava-danilov)
 
 """
 from pathlib import Path
@@ -9,15 +9,15 @@ from crs.schemes import BookmarkPagesTurnoverModel, PageTurnover, TurnoverEnum
 bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel(
     first_week_number=1
     ,
-    pages_list=(PageTurnover(page=35
+    pages_list=(PageTurnover(page=41
                              ,
-                             turnover=TurnoverEnum.right
+                             turnover=TurnoverEnum.left
                              ,
                              title='Правила святых Апостолов'
                              ,
                              number_rules=85
                              ),
-                PageTurnover(page=51
+                PageTurnover(page=56
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -25,7 +25,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=17
                              ),
-                PageTurnover(page=52
+                PageTurnover(page=57
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -33,7 +33,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=2
                              ),
-                PageTurnover(page=53
+                PageTurnover(page=58
                              ,
                              turnover=TurnoverEnum.left
                              ,
@@ -41,29 +41,11 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=20
                              ),
-                PageTurnover(page=60
-                             ,
-                             turnover=TurnoverEnum.right
-                             ,
-                             title='Поместный Собор - Анкирский'
-                             ,
-                             number_rules=25
-                             ),
-                PageTurnover(page=67
-                             ,
-                             turnover=TurnoverEnum.right
-                             ,
-                             title='Поместный Собор - Неокесарийский'
-                             ,
-                             number_rules=14
-                             ),
 
                 ),
-    const_week_page=(1, 35)
+    const_week_page=(1, 41)
     ,
-    pdf_plus_pages=9
+    pdf_plus_pages=7
     ,
-    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_4.pdf")
+    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_pisec_sava_danilov.pdf")
 )
-
-
