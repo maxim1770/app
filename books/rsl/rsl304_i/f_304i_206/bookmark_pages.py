@@ -3,17 +3,133 @@
 
 """
 
-from crs.schemes import BookmarkPagesModel
-
+from crs.schemes import BookmarkPagesModel, PageTurnover, TurnoverEnum
 
 data_model = BookmarkPagesModel(
     first_week_number=1,
-    pages_list=(27, 42, 43, 44, 51, 59,
-                62, 65, 72, 81, 84, 86,
-                97, 102, 129, 160, 169,
-                172, 172, 196, 197,
+    pages_list=(PageTurnover(page=27
+                             ,
+                             title='Правила святых Апостолов'
+                             ,
+                             number_rules=85
+                             ),
+                PageTurnover(page=42
+                             ,
+                             title='Святого Апостола Павла особно правил'
+                             ,
+                             number_rules=17
+                             ),
+                PageTurnover(page=43
+                             ,
+                             title='Того ж правила о усопших и властелех'
+                             ,
+                             # Выделены в отдельную главу
+                             number_rules=2
+                             ),
+                PageTurnover(page=44
+                             ,
+                             title='Первый Вселенский Собор - Никейский'
+                             ,
+                             number_rules=20
+                             ),
+                PageTurnover(page=51
+                             ,
+                             title='Поместный Собор - Анкирский'
+                             ,
+                             number_rules=25
+                             ),
+                PageTurnover(page=59
+                             ,
+                             title='Поместный Собор - Неокесарийский'
+                             ,
+                             number_rules=14
+                             ),
+                PageTurnover(page=62
+                             ,
+                             title='Поместный Собор - Гангрский'
+                             ,
+                             number_rules=19
+                             ),
+                PageTurnover(page=65
+                             ,
+                             title='Поместный Собор - Антиохийский'
+                             ,
+                             number_rules=25
+                             ),
+                PageTurnover(page=72
+                             ,
+                             title='Поместный Собор - Лаодикийский'
+                             ,
+                             number_rules=58
+                             ),
+                PageTurnover(page=81
+                             ,
+                             title='Второй Вселенский Собор - Константинопольский'
+                             ,
+                             number_rules=8
+                             ),
+                PageTurnover(page=84
+                             ,
+                             title='Третий Вселенский Собор - Эфесский'
+                             ,
+                             # **Так же послание записано как девятое правило**
+                             # **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
+                             number_rules=8
+                             ),
+                PageTurnover(page=86
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=97
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=102
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=129
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=160
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=169
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=172
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=196
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
+                PageTurnover(page=197
+                             # ,
+                             # title=''
+                             # ,
+                             # number_rules=
+                             ),
                 ),
     const_week_page=(1, 27)
 )
-
-
