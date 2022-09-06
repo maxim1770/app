@@ -11,9 +11,9 @@ from books.neb.from_nlr.kormchaya_3.bookmark_pages import bookmark_pages_turnove
 
 def add_bookmarks(models: ListPagesModel):
     pdf_writer = PdfWriter()
-    reader = PdfReader(models.__root__[0].pdf_path)
+    pdf_reader = PdfReader(models.__root__[0].pdf_path)
 
-    for page in reader.pages:
+    for page in pdf_reader.pages:
         pdf_writer.add_page(page)
 
     for model in models.__root__:
