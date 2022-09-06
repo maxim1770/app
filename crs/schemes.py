@@ -33,7 +33,7 @@ class TurnoverEnum(IntEnum):
 
 class PageTurnover(BaseModel):
     page: int
-    turnover: TurnoverEnum
+    turnover: TurnoverEnum | None
     title: str | None
     number_rules: int | None
 

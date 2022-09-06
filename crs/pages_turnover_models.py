@@ -13,16 +13,23 @@ def get_pages_models(bookmark_pages: BookmarkPagesTurnoverModel) -> ListPagesMod
         raise ValueError("Проверь соотношение страниц и номеров недель!")
 
     for i in range(len(bookmark_pages.pages_list) - 1):
+
+        if bookmark_pages.pages_list[i].turnover != None:
+            """
+            Арифметическая прогрессия (1, 3, 5, 7) 2n - 1 - это первая скобка
+            Если страница левая, то отнимаем единицу => 2n - 2 => 2(n - 1), и получается Ар. прогр. (0, 2, 4, 6) - это первая скобка
+            - (1 - bookmark_pages_turnover.pages_list[i].turnover)
+            Если left, то bookmark_pages_turnover.pages_list[i].turnover == -1 и получается - 1 => 2n - 2 => 2(n - 1) =>
+            Листы идут по четным числам и всегда это левые части на обороте листа
+            Если right, то bookmark_pages_turnover.pages_list[i].turnover == 0 и получается - 0 =>
+            Правые части на обороте листа
+            """
+            first_page = (2 * bookmark_pages.pages_list[i].page - 1) + bookmark_pages.pages_list[i].turnover
+        first_page = bookmark_pages.pages_list[i].page
+
         pages_models.__root__.append(PagesModel(week_number=bookmark_pages.first_week_number + i
                                                 ,
-                                                # Арифметическая прогрессия (1, 3, 5, 7) 2n - 1 - это первая скобка
-                                                # Если страница левая, то отнимаем единицу => 2n - 2 => 2(n - 1), и получается Ар. прогр. (0, 2, 4, 6) - это первая скобка
-                                                # - (1 - bookmark_pages_turnover.pages_list[i].turnover)
-                                                # Если left, то bookmark_pages_turnover.pages_list[i].turnover == -1 и получается - 1 => 2n - 2 => 2(n - 1) =>
-                                                # Листы идут по четным числам и всегда это левые части на обороте листа
-                                                # Если right, то bookmark_pages_turnover.pages_list[i].turnover == 0 и получается - 0 =>
-                                                # Правые части на обороте листа
-                                                first_page=(2 * bookmark_pages.pages_list[i].page - 1) + bookmark_pages.pages_list[i].turnover
+                                                first_page=first_page
                                                 ,
                                                 title=bookmark_pages.pages_list[i].title
                                                 ,
