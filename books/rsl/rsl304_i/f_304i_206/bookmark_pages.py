@@ -2,11 +2,13 @@
 Страница закладок для рукописи [neb](https://lib-fond.ru/lib-rgb/304-i/f-304i-206/)
 
 """
+from pathlib import Path
 
-from crs.schemes import BookmarkPagesModel, PageTurnover, TurnoverEnum
+from crs.schemes import BookmarkPagesTurnoverModel, PageTurnover
 
-data_model = BookmarkPagesModel(
-    first_week_number=1,
+bookmark_pages: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel(
+    first_week_number=1
+    ,
     pages_list=(PageTurnover(page=27
                              ,
                              title='Правила святых Апостолов'
@@ -132,4 +134,8 @@ data_model = BookmarkPagesModel(
                              ),
                 ),
     const_week_page=(1, 27)
+    ,
+    pdf_plus_pages=4
+    ,
+    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\f_304i_206.pdf")
 )

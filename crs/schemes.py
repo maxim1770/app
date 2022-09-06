@@ -12,7 +12,7 @@ class PagesModel(BaseModel):
     number_rules: int | None
     pdf_plus_pages: int | None
     pdf_path: FilePath | None = Field(default=None,
-                                           description="Путь к pdf файлу на этом ПК")
+                                      description="Путь к pdf файлу на этом ПК")
 
 
 class ListPagesModel(BaseModel):
@@ -33,9 +33,12 @@ class TurnoverEnum(IntEnum):
 
 class PageTurnover(BaseModel):
     page: int
-    turnover: TurnoverEnum | None
-    title: str | None
-    number_rules: int | None
+    turnover: TurnoverEnum | None = Field(default=None)
+    title: str | None = Field(default=None)
+    number_rules: int | None = Field(default=None)
+
+
+
 
 
 class BookmarkPagesTurnoverModel(BaseModel):
@@ -45,4 +48,6 @@ class BookmarkPagesTurnoverModel(BaseModel):
     const_week_page: tuple[int, int]
     pdf_plus_pages: int | None
     pdf_path: FilePath | None = Field(default=None,
-                                           description="Путь к pdf файлу на этом ПК")
+                                      description="Путь к pdf файлу на этом ПК")
+
+
