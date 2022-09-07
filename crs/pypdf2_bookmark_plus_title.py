@@ -18,7 +18,7 @@ def add_bookmarks(models: ListPagesModel):
 
     for model in models.__root__:
         # Так же можно добавить число на дс, используя модифицированную библиотеку roman
-        title: str = f'{Cyrillic.to_cyrillic(model.week_number)}({model.week_number}), {model.title}, Правил: {to_cyrillic(model.number_rules)}({model.number_rules})'
+        title: str = f'{Cyrillic.to_cyrillic(model.week_number)}({model.week_number}), {model.title}, Правил: {Cyrillic.to_cyrillic(model.number_rules)}({model.number_rules})'
 
         pdf_writer.add_bookmark(f'{title}', model.first_page + model.pdf_plus_pages)
 
