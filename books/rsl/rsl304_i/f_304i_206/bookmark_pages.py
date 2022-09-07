@@ -79,22 +79,23 @@ bookmark_pages: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel(
                              number_rules=8
                              ),
                 PageTurnover(page=86
-                             # ,
-                             # title=''
-                             # ,
-                             # number_rules=
+                             ,
+                             title='Четвертый Вселенский Собор - Халкидонский'
+                             ,
+                             number_rules=30
                              ),
                 PageTurnover(page=97
-                             # ,
-                             # title=''
-                             # ,
-                             # number_rules=
+                             ,
+                             title='Поместный Собор - Сардикийский'
+                             ,
+                             # **Пропущены правила иi(18) и к(20) - написано, что этих правил нет.**
+                             number_rules=21
                              ),
                 PageTurnover(page=102
-                             # ,
-                             # title=''
-                             # ,
-                             # number_rules=
+                             ,
+                             title='Поместный Собор - Карфагенский'
+                             ,
+                             number_rules=134
                              ),
                 PageTurnover(page=129
                              # ,

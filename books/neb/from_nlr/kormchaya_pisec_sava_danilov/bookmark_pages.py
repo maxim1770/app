@@ -107,10 +107,27 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=1
                              ),
+                PageTurnover(page=100
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Четвертый Вселенский Собор - Халкидонский'
+                             ,
+                             number_rules=30
+                             ),
+                PageTurnover(page=110
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Сардикийский'
+                             ,
+                             # **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
+                             number_rules=21
+                             ),
                 ),
     const_week_page=(1, 41)
     ,
     pdf_plus_pages=7
     ,
-    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_pisec_sava_danilov.pdf")
+    pdf_path=Path(r"C:\Users\MaxDroN\Desktop\kormchaya_pisec_sava_danilov.pdf")
 )

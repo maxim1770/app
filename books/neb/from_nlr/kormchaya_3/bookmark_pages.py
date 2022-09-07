@@ -99,6 +99,23 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              # **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
                              number_rules=8
                              ),
+                PageTurnover(page=55
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Четвертый Вселенский Собор - Халкидонский'
+                             ,
+                             number_rules=30
+                             ),
+                PageTurnover(page=61
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Сардикийский'
+                             ,
+                             # **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
+                             number_rules=21
+                             ),
                 ),
     const_week_page=(1, 19)
     ,
