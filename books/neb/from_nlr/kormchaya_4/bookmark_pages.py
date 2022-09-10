@@ -116,6 +116,14 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              # **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
                              number_rules=21
                              ),
+                PageTurnover(page=107
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Карфагенский'
+                             ,
+                             number_rules=134
+                             ),
                 ),
     const_week_page=(1, 35)
     ,

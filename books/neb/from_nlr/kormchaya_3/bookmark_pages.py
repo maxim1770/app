@@ -116,6 +116,25 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              # **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
                              number_rules=21
                              ),
+                PageTurnover(page=65
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Поместный Собор - Карфагенский'
+                             ,
+                             # Последнее правило помечено как рлв(132), но раньше правило рлв(132) уже было,
+                             # и перед последним правилом идет правило рлг(133).
+                             # Так что скорее всего описка, потому что **текст правила совпадает с текстом правила рлд(134).**
+                             number_rules=134
+                             ),
+                # PageTurnover(page=
+                #              ,
+                #              turnover=TurnoverEnum.
+                #              ,
+                #              title='Шестой Вселенский Собор - Константинопольский, Трульский'
+                #              ,
+                #              number_rules=
+                #              ),
                 ),
     const_week_page=(1, 19)
     ,

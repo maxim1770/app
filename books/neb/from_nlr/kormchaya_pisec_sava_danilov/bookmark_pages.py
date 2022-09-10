@@ -124,10 +124,18 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              # **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
                              number_rules=21
                              ),
+                PageTurnover(page=116
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Карфагенский'
+                             ,
+                             number_rules=134
+                             ),
                 ),
     const_week_page=(1, 41)
     ,
     pdf_plus_pages=7
     ,
-    pdf_path=Path(r"C:\Users\MaxDroN\Desktop\kormchaya_pisec_sava_danilov.pdf")
+    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_pisec_sava_danilo.pdf")
 )
