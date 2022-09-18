@@ -8,7 +8,16 @@ from pathlib import Path
 from crs.schemes import BookmarkPagesTurnoverModel, PageTurnover, TurnoverEnum
 
 bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel(
-    first_week_number=1,
+    first_week_number=1
+    ,
+    meta_bookmarks=(PageTurnover(page=1
+                                 ,
+                                 turnover=TurnoverEnum.right
+                                 ,
+                                 title='Содержание'
+                                 ),
+                    )
+    ,
     pages_list=(PageTurnover(page=19
                              ,
                              turnover=TurnoverEnum.left
@@ -127,14 +136,135 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              # Так что скорее всего описка, потому что **текст правила совпадает с текстом правила рлд(134).**
                              number_rules=134
                              ),
-                # PageTurnover(page=
-                #              ,
-                #              turnover=TurnoverEnum.
-                #              ,
-                #              title='Шестой Вселенский Собор - Константинопольский, Трульский'
-                #              ,
-                #              number_rules=
-                #              ),
+                PageTurnover(page=86
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Шестой Вселенский Собор - Константинопольский, Трульский'
+                             ,
+                             number_rules=102
+                             ),
+                PageTurnover(page=118
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Седьмой Вселенский Собор - Никейский'
+                             ,
+                             number_rules=22
+                             ),
+                PageTurnover(page=127
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Константинопольский (двукратный)'
+                             ,
+                             number_rules=16
+                             ),
+                PageTurnover(page=129
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Поместный Собор - Константинопольский'
+                             ,
+                             number_rules=3
+                             ),
+                PageTurnover(page=130
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='Правила святого Василия Великого от посланий к епископу Амфилохию Иконийскому, Диодору Тарскому, и к другим неким послания'
+                             ,
+                             number_rules=91
+                             ),
+                PageTurnover(page=152
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='Святаго Василя о времени согрешающих вкратце'
+                             ,
+                             # Выделено в отдельную 20 главу.
+                             number_rules=26
+                             ),
+                PageTurnover(page=153
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='От книг Божественных повелении, Божественыя кончины, Иустинияна, различныя заповеди'
+                             ,
+                             number_rules=87
+                             ),
+                PageTurnover(page=169
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='t_22'
+                             ,
+                             number_rules=100_22
+                             ),
+                PageTurnover(page=178
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_23'
+                             ,
+                             number_rules=100_23
+                             ),
+                PageTurnover(page=183
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='t_24'
+                             ,
+                             number_rules=100_24
+                             ),
+                PageTurnover(page=190
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='t_25'
+                             ,
+                             number_rules=100_25
+                             ),
+                PageTurnover(page=197
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_26'
+                             ,
+                             number_rules=100_26
+                             ),
+                PageTurnover(page=201
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_27'
+                             ,
+                             number_rules=100_27
+                             ),
+                PageTurnover(page=202
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_28'
+                             ,
+                             number_rules=100_28
+                             ),
+                PageTurnover(page=203
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='t_29'
+                             ,
+                             number_rules=100_29
+                             ),
+                PageTurnover(page=204
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_30'
+                             ,
+                             number_rules=100_30
+                             ),
                 ),
     const_week_page=(1, 19)
     ,
