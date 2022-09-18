@@ -1,6 +1,6 @@
 ## Источники:
 
-* neb: [kormchaya-4][neb]
+* neb: [kormchaya_4][neb]
 * nlr: [Кир.-Бел. 2/1079][nlr]
 * pk: [kormchaya_4.pdf][pk]
 
@@ -15,7 +15,7 @@
 * **Есть главы вначале**
 * Содержание:
     * Святые соборы все, правила Апостолов, ...
-    * **Содержание такое же как и у [Этой Кормчий][304-i/f-304i-206]**
+    * **Содержание такое же как и у [Этой Кормчий][f_304i_206]**
     * ...
 
 [neb]: https://kp.rusneb.ru/item/material/kormchaya-4
@@ -24,4 +24,4 @@
 
 [pk]: ../../../../../../pravoslavie/canons/kormchij/kormchaya_4.pdf
 
-[304-i/f-304i-206]: ../../../rsl/rsl304_i/f_304i_206/README.md
+[f_304i_206]: ../../../rsl/rsl304_i/f_304i_206/README.md
