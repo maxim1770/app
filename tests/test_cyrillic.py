@@ -1,6 +1,6 @@
 import pytest
 
-from crs.tools.cyrillic import Cyrillic
+from src.tools.cyrillic import Cyrillic
 
 TEST_MAP: list[tuple, ...] = [(1, 'а'), (10, 'i'), (11, 'аi'), (19, 'Ѳi'), (20, 'к'), (27, 'кз'), (111, 'раi'),
                               (234, 'слд')]

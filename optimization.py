@@ -2,7 +2,7 @@
 Тут данные для закладок рукописи: Евангелие учительское, которое я часто читаю
 """
 
-from crs.schemes import BookmarkPagesModel
+from src.schemes import BookmarkPagesModel
 
 
 data_model = BookmarkPagesModel(

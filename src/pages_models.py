@@ -1,6 +1,6 @@
 # import json
 #
-# from crs.schemes import ListPagesModel, PagesModel
+# from src.schemes import ListPagesModel, PagesModel
 #
 # from books.neb.from_nlr.kormchaya_4.bookmark_pages import bookmark_pages
 #

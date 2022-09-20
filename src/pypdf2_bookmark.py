@@ -3,8 +3,8 @@ from pathlib import Path
 
 from PyPDF2 import PdfReader, PdfWriter
 
-from crs.pages_turnover_models import pages_models
-from crs.schemes import ListPagesModel
+from src.pages_turnover_models import pages_models
+from src.schemes import ListPagesModel
 
 
 path: Path = Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_3.pdf")

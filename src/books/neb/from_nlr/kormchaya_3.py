@@ -1,15 +1,24 @@
 """
-Страница закладок для рукописи [neb](https://kp.rusneb.ru/item/material/kormchaya-pisec-sava-danilov)
+Страница закладок для рукописи [neb](https://kp.rusneb.ru/item/material/kormchaya-3)
+
 
 """
 from pathlib import Path
 
-from crs.schemes import BookmarkPagesTurnoverModel, PageTurnover, TurnoverEnum
+from src.schemes import BookmarkPagesTurnoverModel, PageTurnover, TurnoverEnum
 
 bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel(
     first_week_number=1
     ,
-    pages_list=(PageTurnover(page=41
+    meta_bookmarks=(PageTurnover(page=1
+                                 ,
+                                 turnover=TurnoverEnum.right
+                                 ,
+                                 title='Содержание'
+                                 ),
+                    )
+    ,
+    pages_list=(PageTurnover(page=19
                              ,
                              turnover=TurnoverEnum.left
                              ,
@@ -17,7 +26,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=85
                              ),
-                PageTurnover(page=56
+                PageTurnover(page=28
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -25,31 +34,31 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=17
                              ),
-                PageTurnover(page=57
+                PageTurnover(page=29
                              ,
-                             turnover=TurnoverEnum.right
+                             turnover=TurnoverEnum.left
                              ,
                              title='Того ж правила о усопших и властелех'
                              ,
                              number_rules=2
                              ),
-                PageTurnover(page=58
+                PageTurnover(page=29
                              ,
-                             turnover=TurnoverEnum.left
+                             turnover=TurnoverEnum.right
                              ,
                              title='Первый Вселенский Собор - Никейский'
                              ,
                              number_rules=20
                              ),
-                PageTurnover(page=65
+                PageTurnover(page=34
                              ,
-                             turnover=TurnoverEnum.left
+                             turnover=TurnoverEnum.right
                              ,
                              title='Поместный Собор - Анкирский'
                              ,
                              number_rules=25
                              ),
-                PageTurnover(page=72
+                PageTurnover(page=39
                              ,
                              turnover=TurnoverEnum.left
                              ,
@@ -57,7 +66,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=14
                              ),
-                PageTurnover(page=74
+                PageTurnover(page=40
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -65,7 +74,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=19
                              ),
-                PageTurnover(page=77
+                PageTurnover(page=42
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -73,7 +82,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=25
                              ),
-                PageTurnover(page=84
+                PageTurnover(page=46
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -81,41 +90,33 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=58
                              ),
-                PageTurnover(page=94
+                PageTurnover(page=52
                              ,
-                             turnover=TurnoverEnum.right
+                             turnover=TurnoverEnum.left
                              ,
                              title='Второй Вселенский Собор - Константинопольский'
                              ,
                              number_rules=8
                              ),
-                PageTurnover(page=97
+                PageTurnover(page=54
                              ,
-                             turnover=TurnoverEnum.right
+                             turnover=TurnoverEnum.left
                              ,
                              title='Третий Вселенский Собор - Эфесский'
                              ,
-                             # Послание записано как девятое правило и как отдельная глава вi(12)
+                             # "Того же собора послание сущим в Памфилии епископом Правило Ѳ(9)" - **записано как девятое правило**
+                             # **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
                              number_rules=8
                              ),
-                PageTurnover(page=99
+                PageTurnover(page=55
                              ,
                              turnover=TurnoverEnum.right
-                             ,
-                             # Название с головы и немного с рукописи 304-i/f-304i-206
-                             title='Третий Вселенский Собор - Эфесский: послание к священному собору Памфилийскому'
-                             ,
-                             number_rules=1
-                             ),
-                PageTurnover(page=100
-                             ,
-                             turnover=TurnoverEnum.left
                              ,
                              title='Четвертый Вселенский Собор - Халкидонский'
                              ,
                              number_rules=30
                              ),
-                PageTurnover(page=110
+                PageTurnover(page=61
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -124,15 +125,18 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              # **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
                              number_rules=21
                              ),
-                PageTurnover(page=116
+                PageTurnover(page=65
                              ,
-                             turnover=TurnoverEnum.right
+                             turnover=TurnoverEnum.left
                              ,
                              title='Поместный Собор - Карфагенский'
                              ,
+                             # Последнее правило помечено как рлв(132), но раньше правило рлв(132) уже было,
+                             # и перед последним правилом идет правило рлг(133).
+                             # Так что скорее всего описка, потому что **текст правила совпадает с текстом правила рлд(134).**
                              number_rules=134
                              ),
-                PageTurnover(page=145
+                PageTurnover(page=86
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -140,26 +144,23 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=102
                              ),
-                PageTurnover(page=176
+                PageTurnover(page=118
                              ,
                              turnover=TurnoverEnum.right
                              ,
                              title='Седьмой Вселенский Собор - Никейский'
                              ,
-                             # А в заглавии написано, что 20 правил, но в тексте 22.
                              number_rules=22
                              ),
-                PageTurnover(page=185
+                PageTurnover(page=127
                              ,
-                             turnover=TurnoverEnum.left
+                             turnover=TurnoverEnum.right
                              ,
                              title='Поместный Собор - Константинопольский (двукратный)'
                              ,
-                             # В тексте 17 правил
-                             # В других рукописях выделено как толк. на 16 правило, или просто с красной буквы.
-                             number_rules=17
+                             number_rules=16
                              ),
-                PageTurnover(page=187
+                PageTurnover(page=129
                              ,
                              turnover=TurnoverEnum.right
                              ,
@@ -167,7 +168,7 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=3
                              ),
-                PageTurnover(page=188
+                PageTurnover(page=130
                              ,
                              turnover=TurnoverEnum.left
                              ,
@@ -175,16 +176,16 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=91
                              ),
-                PageTurnover(page=211
+                PageTurnover(page=152
                              ,
-                             turnover=TurnoverEnum.left
+                             turnover=TurnoverEnum.right
                              ,
                              title='Святаго Василя о времени согрешающих вкратце'
                              ,
-                             # Выделено в отдельную 21 главу.
+                             # Выделено в отдельную 20 главу.
                              number_rules=26
                              ),
-                PageTurnover(page=212
+                PageTurnover(page=153
                              ,
                              turnover=TurnoverEnum.left
                              ,
@@ -192,45 +193,82 @@ bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel
                              ,
                              number_rules=87
                              ),
-                PageTurnover(page=229
+                PageTurnover(page=169
                              ,
-                             turnover=TurnoverEnum.left
+                             turnover=TurnoverEnum.right
                              ,
                              title='t_22'
                              ,
                              number_rules=100_22
                              ),
-                PageTurnover(page=238
+                PageTurnover(page=178
                              ,
                              turnover=TurnoverEnum.left
                              ,
-                             # глава 24
-                             title='t_24_moses'
-                             ,
-                             # number_rules=100_23
-                             ),
-                PageTurnover(page=249
-                             ,
-                             turnover=TurnoverEnum.right
-                             ,
-                             # глава 25, но совпадает с главой 23 других рукописей
                              title='t_23'
                              ,
                              number_rules=100_23
                              ),
-                PageTurnover(page=
+                PageTurnover(page=183
                              ,
-                             turnover=TurnoverEnum.
+                             turnover=TurnoverEnum.right
                              ,
-                             # глава 26, но совпадает с главой 30 других рукописей
+                             title='t_24'
+                             ,
+                             number_rules=100_24
+                             ),
+                PageTurnover(page=190
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='t_25'
+                             ,
+                             number_rules=100_25
+                             ),
+                PageTurnover(page=197
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_26'
+                             ,
+                             number_rules=100_26
+                             ),
+                PageTurnover(page=201
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_27'
+                             ,
+                             number_rules=100_27
+                             ),
+                PageTurnover(page=202
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
+                             title='t_28'
+                             ,
+                             number_rules=100_28
+                             ),
+                PageTurnover(page=203
+                             ,
+                             turnover=TurnoverEnum.right
+                             ,
+                             title='t_29'
+                             ,
+                             number_rules=100_29
+                             ),
+                PageTurnover(page=204
+                             ,
+                             turnover=TurnoverEnum.left
+                             ,
                              title='t_30'
                              ,
                              number_rules=100_30
                              ),
                 ),
-    const_week_page=(1, 41)
+    const_week_page=(1, 19)
     ,
-    pdf_plus_pages=7
+    pdf_plus_pages=1
     ,
-    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_pisec_sava_danilo.pdf")
+    pdf_path=Path(r"C:\Users\MaxDroN\pravoslavie\canons\kormchij\kormchaya_3.pdf")
 )

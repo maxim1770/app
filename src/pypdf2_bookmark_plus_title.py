@@ -2,10 +2,10 @@ from pathlib import Path
 
 from PyPDF2 import PdfReader, PdfWriter
 
-from crs.pages_turnover_models import get_pages_models
-from crs.schemes import ListPagesModel
-from crs.tools.cyrillic import Cyrillic
-from crs.books.neb.from_nlr.kormchaya_3 import bookmark_pages_turnover
+from src.pages_turnover_models import get_pages_models
+from src.schemes import ListPagesModel
+from src.tools.cyrillic import Cyrillic
+from src.books.neb.from_nlr.kormchaya_3 import bookmark_pages_turnover
 
 
 def add_bookmarks(models: ListPagesModel):

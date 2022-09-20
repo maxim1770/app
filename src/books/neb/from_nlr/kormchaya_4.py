@@ -4,7 +4,7 @@
 """
 from pathlib import Path
 
-from crs.schemes import BookmarkPagesTurnoverModel, PageTurnover, TurnoverEnum
+from src.schemes import BookmarkPagesTurnoverModel, PageTurnover, TurnoverEnum
 
 bookmark_pages_turnover: BookmarkPagesTurnoverModel = BookmarkPagesTurnoverModel(
     first_week_number=1

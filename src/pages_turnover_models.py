@@ -1,6 +1,6 @@
-from crs.schemes import ListPagesModel, PagesModel, BookmarkPagesTurnoverModel
+from src.schemes import ListPagesModel, PagesModel, BookmarkPagesTurnoverModel
 
-from crs.books.neb.from_nlr.kormchaya_3 import bookmark_pages_turnover
+from src.books.neb.from_nlr.kormchaya_3 import bookmark_pages_turnover
 
 
 def get_pages_models(bookmark_pages: BookmarkPagesTurnoverModel) -> ListPagesModel:
