@@ -28,4 +28,4 @@
 
 [nlr]: https://nlr.ru/manuscripts/RA1527/elektronnyiy-katalog?ab=CC3883B7-F9F8-4CB1-AEEB-AA835C900A16
 
-[pk]: ../../../../../pravoslavie/lives_saints/sbornik_agiograficheskiy_2.pdf
+[pk]: ../../../../../../pravoslavie/lives_saints/sbornik_agiograficheskiy_2.pdf

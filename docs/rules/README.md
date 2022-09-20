@@ -585,10 +585,10 @@
 [hram-troicy.prihod]: http://hram-troicy.prihod.ru/
 
 
-[f_304i_206]: ../../books/rsl/rsl304_i/f_304i_206.md
+[f_304i_206]: ../books/rsl/rsl304_i/f_304i_206.md
 
-[kormchaya_3]: ../../books/neb/from_nlr/kormchaya_3.md
+[kormchaya_3]: ../books/neb/from_nlr/kormchaya_3.md
 
-[kormchaya_4]: ../../books/neb/from_nlr/kormchaya_4.md
+[kormchaya_4]: ../books/neb/from_nlr/kormchaya_4.md
 
-[kormchaya_pisec_sava_danilov]: ../../books/neb/from_nlr/kormchaya_pisec_sava_danilov.md
+[kormchaya_pisec_sava_danilov]: ../books/neb/from_nlr/kormchaya_pisec_sava_danilov.md

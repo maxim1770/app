@@ -22,6 +22,6 @@
 
 [nlr]: https://nlr.ru/manuscripts/RA1527/elektronnyiy-katalog?ab=FBCC305D-7632-44BB-8264-D18E4DF174AC
 
-[pk]: ../../../../../pravoslavie/canons/kormchij/kormchaya_4.pdf
+[pk]: ../../../../../../pravoslavie/canons/kormchij/kormchaya_4.pdf
 
 [f_304i_206]: ../../rsl/rsl304_i/f_304i_206.md

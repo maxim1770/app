@@ -11,7 +11,7 @@ reader = PdfReader(
 for page in reader.pages:
     pdf_writer.add_page(page)
 
-with Path(r'books/rsl/rsl304_i/f_304i_206/data/pages.json').open(mode="r") as file:
+with Path(r'docs/books/rsl/rsl304_i/f_304i_206/data/pages.json').open(mode="r") as file:
     data = json.load(file)
 
 

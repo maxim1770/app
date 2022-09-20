@@ -23,4 +23,4 @@
 
 [nlr]: https://nlr.ru/manuscripts/RA1527/elektronnyiy-katalog?ab=BA4B7090-357D-49B9-9D7D-35CE714B6236
 
-[pk]: ../../../../../pravoslavie/canons/kormchij/kormchaya_pisec_sava_danilo.pdf
+[pk]: ../../../../../../pravoslavie/canons/kormchij/kormchaya_pisec_sava_danilo.pdf

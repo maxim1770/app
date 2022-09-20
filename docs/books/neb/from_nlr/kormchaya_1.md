@@ -30,4 +30,4 @@
 
 [archive]: https://drive.google.com/file/d/1uYm4UxACBvpLRDdxhZdEGYIDnBfflkPz/view?usp=sharing
 
-[pk]: ../../../../../pravoslavie/canons/kormchij/kormchaya_1.pdf
+[pk]: ../../../../../../pravoslavie/canons/kormchij/kormchaya_1.pdf
