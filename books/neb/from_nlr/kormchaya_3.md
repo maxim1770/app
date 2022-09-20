@@ -23,12 +23,12 @@
 а
 [nlr]: https://nlr.ru/manuscripts/RA1527/elektronnyiy-katalog?ab=E40B1692-8A78-4543-8495-3AA0C4E1DEEE
 
-[pk]: ../../../../../../pravoslavie/canons/kormchij/kormchaya_3.pdf
+[pk]: ../../../../../pravoslavie/canons/kormchij/kormchaya_3.pdf
 
 
-[f_304i_206]: ../../../rsl/rsl304_i/f_304i_206/README.md
+[f_304i_206]: ../../rsl/rsl304_i/f_304i_206.md
 
-[kormchaya_4]: ../kormchaya_4/README.md
+[kormchaya_4]: kormchaya_4.md
 
 
 

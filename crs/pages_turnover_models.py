@@ -1,8 +1,6 @@
-import json
-
 from crs.schemes import ListPagesModel, PagesModel, BookmarkPagesTurnoverModel
 
-from books.neb.from_nlr.kormchaya_3.bookmark_pages import bookmark_pages_turnover
+from crs.books.neb.from_nlr.kormchaya_3 import bookmark_pages_turnover
 
 
 def get_pages_models(bookmark_pages: BookmarkPagesTurnoverModel) -> ListPagesModel:
