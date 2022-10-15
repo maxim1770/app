@@ -39,7 +39,7 @@ def read_reading(reading_id: int, db: Session = Depends(get_db)):
 
 @app.post("/dates/", response_model=schemas.Date)
 def create_date_for_reading(date: schemas.DateCreate, db: Session = Depends(get_db)
-):
+                            ):
     return crud.create_reading_date(db=db, date=date)
 
 
@@ -50,12 +50,24 @@ def read_dates(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 
 @app.post("/bible_zachalos/", response_model=schemas.BibleZachalo)
-def create_bible_zachalo_for_reading(bible_zachalo: schemas.BibleZachaloCreate, db: Session = Depends(get_db)
-                            ):
-    return crud.create_reading_bible_zachalo(db=db, bible_zachalo=bible_zachalo)
+def create_bible_zachalo_for_reading(book_id: int, bible_zachalo: schemas.BibleZachaloCreate, db: Session = Depends(get_db)
+                                     ):
+    return crud.create_reading_bible_zachalo(db=db, book_id=book_id, bible_zachalo=bible_zachalo)
 
 
 @app.get("/bible_zachalos/", response_model=list[schemas.BibleZachalo])
 def read_bible_zachalos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     bible_zachalos = crud.get_bible_zachalos(db, skip=skip, limit=limit)
     return bible_zachalos
+
+
+@app.post("/book/", response_model=schemas.Book)
+def create_book_for_reading(book: schemas.BookCreate, db: Session = Depends(get_db)
+                            ):
+    return crud.create_reading_book(db=db, book=book)
+
+
+@app.get("/book/", response_model=list[schemas.Book])
+def read_book(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    book = crud.get_books(db, skip=skip, limit=limit)
+    return book

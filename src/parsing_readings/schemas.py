@@ -19,7 +19,6 @@ class Reading(ReadingBase):
 
 
 class BibleZachaloBase(BaseModel):
-    title: str
     zachalo: int
 
 
@@ -29,7 +28,25 @@ class BibleZachaloCreate(BibleZachaloBase):
 
 class BibleZachalo(BibleZachaloBase):
     id: int
+    book_id: int
     readings: list[Reading] = []
+
+    class Config:
+        orm_mode = True
+
+
+class BookBase(BaseModel):
+    new_or_old_testament: str
+    section: str = Field(description="Н: Евангелие/Апостолы/Пятикнижие")
+    title: str
+
+
+class BookCreate(BookBase):
+    pass
+
+
+class Book(BookBase):
+    bible_zachalos: list[BibleZachalo] = []
 
     class Config:
         orm_mode = True

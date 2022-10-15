@@ -33,7 +33,21 @@ class BibleZachalo(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    title = Column(String, index=True)
     zachalo = Column(Integer, index=True)
 
     readings = relationship("Reading", back_populates="bible_zachalo")
+
+    book_id = Column(Integer, ForeignKey("books.id"))
+    book = relationship("Book", back_populates="bible_zachalos")
+
+
+class Book(Base):
+    __tablename__ = "books"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    new_or_old_testament = Column(String, index=True)
+    section = Column(String, index=True)
+    title = Column(String, index=True)
+
+    bible_zachalos = relationship("BibleZachalo", back_populates="book")

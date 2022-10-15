@@ -43,9 +43,21 @@ def get_bible_zachalos(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.BibleZachalo).offset(skip).limit(limit).all()
 
 
-def create_reading_bible_zachalo(db: Session, bible_zachalo: schemas.BibleZachaloCreate):
-    db_bible_zachalo = models.BibleZachalo(title=bible_zachalo.title, zachalo=bible_zachalo.zachalo)
+def create_reading_bible_zachalo(db: Session, book_id: int, bible_zachalo: schemas.BibleZachaloCreate):
+    db_bible_zachalo = models.BibleZachalo(book_id=book_id, zachalo=bible_zachalo.zachalo)
     db.add(db_bible_zachalo)
     db.commit()
     db.refresh(db_bible_zachalo)
     return db_bible_zachalo
+
+
+def get_books(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Book).offset(skip).limit(limit).all()
+
+
+def create_reading_book(db: Session, book: schemas.BookCreate):
+    db_book = models.Book(**book.dict())
+    db.add(db_book)
+    db.commit()
+    db.refresh(db_book)
+    return db_book
