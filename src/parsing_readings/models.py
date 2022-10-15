@@ -9,8 +9,11 @@ class Reading(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    date = relationship("Date", back_populates="owner")
-    book = relationship("Book", back_populates="owner")
+    date_id = Column(Integer, ForeignKey("dates.id"))
+    date = relationship("Date", back_populates="readings")
+
+    book_id = Column(Integer, ForeignKey("books.id"))
+    book = relationship("Book", back_populates="readings")
 
 
 class Date(Base):
@@ -22,9 +25,7 @@ class Date(Base):
     week = Column(Integer, index=True)
     period = Column(Integer, index=True)
 
-    owner_id = Column(Integer, ForeignKey("readings.id"))
-
-    owner = relationship("Reading", back_populates="dates")
+    readings = relationship("Reading", back_populates="date")
 
 
 class Book(Base):
@@ -35,6 +36,4 @@ class Book(Base):
     title = Column(String, index=True)
     zachalo = Column(Integer, index=True)
 
-    owner_id = Column(Integer, ForeignKey("readings.id"))
-
-    owner = relationship("Reading", back_populates="books")
+    readings = relationship("Reading", back_populates="book")

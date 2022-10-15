@@ -19,8 +19,9 @@ def get_db():
 
 
 @app.post("/readings/", response_model=schemas.Reading)
-def create_reading(reading: schemas.Reading, db: Session = Depends(get_db)):
-    return crud.create_reading(db=db, reading=reading)
+def create_reading(date_id: int, book_id: int, db: Session = Depends(get_db)):
+    return crud.create_reading(db=db, date_id=date_id, book_id=book_id)
+
 
 @app.get("/readings/", response_model=list[schemas.Reading])
 def read_readings(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -36,11 +37,10 @@ def read_reading(reading_id: int, db: Session = Depends(get_db)):
     return db_reading
 
 
-@app.post("/readings/{reading_id}/dates/", response_model=schemas.Date)
-def create_date_for_reading(
-        reading_id: int, date: schemas.Date, db: Session = Depends(get_db)
+@app.post("/dates/", response_model=schemas.Date)
+def create_date_for_reading(date: schemas.DateCreate, db: Session = Depends(get_db)
 ):
-    return crud.create_reading_date(db=db, date=date, reading_id=reading_id)
+    return crud.create_reading_date(db=db, date=date)
 
 
 @app.get("/dates/", response_model=list[schemas.Date])
@@ -49,11 +49,10 @@ def read_dates(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return dates
 
 
-@app.post("/readings/{reading_id}/books/", response_model=schemas.Book)
-def create_book_for_reading(
-        reading_id: int, book: schemas.Book, db: Session = Depends(get_db)
-):
-    return crud.create_reading_book(db=db, book=book, reading_id=reading_id)
+@app.post("/books/", response_model=schemas.Book)
+def create_book_for_reading(book: schemas.BookCreate, db: Session = Depends(get_db)
+                            ):
+    return crud.create_reading_book(db=db, book=book)
 
 
 @app.get("/books/", response_model=list[schemas.Book])
