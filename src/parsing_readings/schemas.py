@@ -12,22 +12,22 @@ class ReadingCreate(ReadingBase):
 class Reading(ReadingBase):
     id: int
     date_id: int
-    book_id: int
+    bible_zachalo_id: int
 
     class Config:
         orm_mode = True
 
 
-class BookBase(BaseModel):
+class BibleZachaloBase(BaseModel):
     title: str
     zachalo: int
 
 
-class BookCreate(BookBase):
+class BibleZachaloCreate(BibleZachaloBase):
     pass
 
 
-class Book(BookBase):
+class BibleZachalo(BibleZachaloBase):
     id: int
     readings: list[Reading] = []
 

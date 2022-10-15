@@ -11,8 +11,8 @@ def get_readings(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Reading).offset(skip).limit(limit).all()
 
 
-def create_reading(db: Session, date_id: int, book_id: int):
-    db_reading = models.Reading(date_id=date_id, book_id=book_id)
+def create_reading(db: Session, date_id: int, bible_zachalo_id: int):
+    db_reading = models.Reading(date_id=date_id, bible_zachalo_id=bible_zachalo_id)
     db.add(db_reading)
     db.commit()
     db.refresh(db_reading)
@@ -39,13 +39,13 @@ def create_reading_date(db: Session, date: schemas.DateCreate):
     return db_date
 
 
-def get_books(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Book).offset(skip).limit(limit).all()
+def get_bible_zachalos(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.BibleZachalo).offset(skip).limit(limit).all()
 
 
-def create_reading_book(db: Session, book: schemas.BookCreate):
-    db_book = models.Book(title=book.title, zachalo=book.zachalo)
-    db.add(db_book)
+def create_reading_bible_zachalo(db: Session, bible_zachalo: schemas.BibleZachaloCreate):
+    db_bible_zachalo = models.BibleZachalo(title=bible_zachalo.title, zachalo=bible_zachalo.zachalo)
+    db.add(db_bible_zachalo)
     db.commit()
-    db.refresh(db_book)
-    return db_book
+    db.refresh(db_bible_zachalo)
+    return db_bible_zachalo

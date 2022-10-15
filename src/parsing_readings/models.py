@@ -12,8 +12,8 @@ class Reading(Base):
     date_id = Column(Integer, ForeignKey("dates.id"))
     date = relationship("Date", back_populates="readings")
 
-    book_id = Column(Integer, ForeignKey("books.id"))
-    book = relationship("Book", back_populates="readings")
+    bible_zachalo_id = Column(Integer, ForeignKey("bible_zachalos.id"))
+    bible_zachalo = relationship("BibleZachalo", back_populates="readings")
 
 
 class Date(Base):
@@ -28,12 +28,12 @@ class Date(Base):
     readings = relationship("Reading", back_populates="date")
 
 
-class Book(Base):
-    __tablename__ = "books"
+class BibleZachalo(Base):
+    __tablename__ = "bible_zachalos"
 
     id = Column(Integer, primary_key=True, index=True)
 
     title = Column(String, index=True)
     zachalo = Column(Integer, index=True)
 
-    readings = relationship("Reading", back_populates="book")
+    readings = relationship("Reading", back_populates="bible_zachalo")
