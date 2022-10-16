@@ -7,7 +7,7 @@ from .database import Base
 class Reading(Base):
     __tablename__ = "readings"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
 
     date_id = Column(Integer, ForeignKey("dates.id"))
     date = relationship("Date", back_populates="readings")
@@ -19,11 +19,11 @@ class Reading(Base):
 class Date(Base):
     __tablename__ = "dates"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
 
-    day = Column(String, index=True)
-    week = Column(Integer, index=True)
-    period = Column(Integer, index=True)
+    day = Column(String)
+    week = Column(Integer)
+    period = Column(Integer)
 
     readings = relationship("Reading", back_populates="date")
 
@@ -31,9 +31,9 @@ class Date(Base):
 class BibleZachalo(Base):
     __tablename__ = "bible_zachalos"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
 
-    zachalo = Column(Integer, index=True)
+    zachalo = Column(Integer)
 
     readings = relationship("Reading", back_populates="bible_zachalo")
 
@@ -44,10 +44,11 @@ class BibleZachalo(Base):
 class Book(Base):
     __tablename__ = "books"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
 
-    new_or_old_testament = Column(String, index=True)
-    section = Column(String, index=True)
-    title = Column(String, index=True)
+    new_or_old_testament = Column(String)
+    section = Column(String)
+    title = Column(String)
+    title_short_en = Column(String)
 
     bible_zachalos = relationship("BibleZachalo", back_populates="book")
