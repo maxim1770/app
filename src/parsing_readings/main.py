@@ -50,7 +50,8 @@ def read_dates(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 
 @app.post("/bible_zachalos/", response_model=schemas.BibleZachalo)
-def create_bible_zachalo_for_reading(book_id: int, bible_zachalo: schemas.BibleZachaloCreate, db: Session = Depends(get_db)
+def create_bible_zachalo_for_reading(book_id: int, bible_zachalo: schemas.BibleZachaloCreate,
+                                     db: Session = Depends(get_db)
                                      ):
     return crud.create_reading_bible_zachalo(db=db, book_id=book_id, bible_zachalo=bible_zachalo)
 
@@ -67,7 +68,7 @@ def create_book_for_reading(book: schemas.BookCreate, db: Session = Depends(get_
     return crud.create_reading_book(db=db, book=book)
 
 
-@app.get("/book/", response_model=list[schemas.Book])
-def read_book(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    book = crud.get_books(db, skip=skip, limit=limit)
-    return book
+@app.get("/books/", response_model=list[schemas.Book])
+def read_books(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    books = crud.get_books(db, skip=skip, limit=limit)
+    return books
