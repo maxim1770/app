@@ -52,7 +52,7 @@ def create_books_gospels(db: Session) -> int:
                 if not crud.get_books_by_title_short_en(db=db, title_short_en=title_short_en):
                     book: schemas.BookGospelCreate = schemas.BookGospelCreate(title=title,
                                                                               title_short_en=title_short_en)
-                    crud.create_reading_book(db=db, book=book)
+                    crud.create_book(db=db, book=book)
                     number_creatures += 1
 
     return number_creatures
@@ -106,7 +106,7 @@ def create_books_apostles(db: Session) -> int:
     ]
     for book in books:
         if not crud.get_books_by_title_short_en(db=db, title_short_en=book.title_short_en):
-            crud.create_reading_book(db=db, book=book)
+            crud.create_book(db=db, book=book)
             number_creatures += 1
 
     with open("data/index.html", encoding="utf-8") as file:
@@ -141,7 +141,7 @@ def create_books_apostles(db: Session) -> int:
                 if not crud.get_books_by_title_short_en(db=db, title_short_en=title_short_en):
                     book: schemas.BookApostleCreate = schemas.BookApostleCreate(title=title,
                                                                                 title_short_en=title_short_en)
-                    crud.create_reading_book(db=db, book=book)
+                    crud.create_book(db=db, book=book)
                     number_creatures += 1
 
     return number_creatures

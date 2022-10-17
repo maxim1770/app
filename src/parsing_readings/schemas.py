@@ -64,9 +64,9 @@ class Book(BookBase):
 
 
 class DateBase(BaseModel):
-    week: int
     day: str
-    period: int = Field(description="Один из трех периодов")
+    day_title: str | None
+    divine_service: str
 
 
 class DateCreate(DateBase):
@@ -75,7 +75,45 @@ class DateCreate(DateBase):
 
 class Date(DateBase):
     id: int
+    week_id: int
     readings: list[Reading] = []
+
+    class Config:
+        orm_mode = True
+
+
+class WeekBase(BaseModel):
+    week_title: str
+    week_num: int
+    sunday_title: str
+    sunday_num: int
+
+
+class WeekCreate(WeekBase):
+    pass
+
+
+class Week(WeekBase):
+    id: int
+    dates: list[Date] = []
+    period_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class PeriodBase(BaseModel):
+    period_title: str
+    period_num: int
+
+
+class PeriodCreate(PeriodBase):
+    pass
+
+
+class Period(PeriodBase):
+    id: int
+    weeks: list[Week] = []
 
     class Config:
         orm_mode = True

@@ -22,10 +22,40 @@ class Date(Base):
     id = Column(Integer, primary_key=True)
 
     day = Column(String)
-    week = Column(Integer)
-    period = Column(Integer)
+    day_title = Column(String)
+    divine_service = Column(String)
 
     readings = relationship("Reading", back_populates="date")
+
+    week_id = Column(Integer, ForeignKey("weeks.id"))
+    week = relationship("Week", back_populates="dates")
+
+
+class Week(Base):
+    __tablename__ = "weeks"
+
+    id = Column(Integer, primary_key=True)
+
+    week_title = Column(String)
+    week_num = Column(Integer)
+    sunday_title = Column(String)
+    sunday_num = Column(Integer)
+
+    dates = relationship("Date", back_populates="week")
+
+    period_id = Column(Integer, ForeignKey("periods.id"))
+    period = relationship("Period", back_populates="weeks")
+
+
+class Period(Base):
+    __tablename__ = "periods"
+
+    id = Column(Integer, primary_key=True)
+
+    period_title = Column(String)
+    period_num = Column(Integer)
+
+    weeks = relationship("Week", back_populates="period")
 
 
 class BibleZachalo(Base):
