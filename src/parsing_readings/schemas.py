@@ -66,7 +66,7 @@ class Book(BookBase):
 class DateBase(BaseModel):
     day: str
     day_title: str | None
-    divine_service: str
+    divine_service: str | None
 
 
 class DateCreate(DateBase):
@@ -103,7 +103,7 @@ class Week(WeekBase):
 
 
 class PeriodBase(BaseModel):
-    period_title: str
+    period_title: str | None
     period_num: int
 
 
