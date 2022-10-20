@@ -1,17 +1,139 @@
 import re
+from pathlib import Path
 
 import requests
-from sqlalchemy.orm import Session
 from bs4 import BeautifulSoup
 from bs4.element import Tag
+from sqlalchemy.orm import Session
 
-from src.parsing_readings import schemas, crud, main, models
+from src.parsing_readings import schemas, crud
 
 HEADERS: dict[str, str] = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 Safari/537.36"
 }
 
 DOMIN_AZBYKA: str = 'https://azbyka.ru'
+
+
+def pars_table(path_to_index: Path = Path('data/index.html')) -> Tag:
+    src: str = path_to_index.read_text(encoding="utf-8")
+
+    soup: BeautifulSoup = BeautifulSoup(src, "lxml")
+
+    table: Tag = soup.find("table", class_="adaptive").find("tbody")
+
+    return table
+
+
+def pars_gospels(table: Tag) -> list[Tag]:
+    gospels: list[Tag] = table.find_all('td',
+                                        {'style': 'width: 25.3209%;'})
+    return gospels
+
+
+def pars_apostles(table: Tag) -> list[Tag]:
+    apostles: list[Tag] = table.find_all('td',
+                                         {'style': 'width: 29.9883%;'})
+    return apostles
+
+
+def pars_weeks(table: Tag) -> list[Tag]:
+    weeks: list[Tag] = table.find_all('td',
+                                      {'style': 'width: 10%;', 'rowspan': '6', 'width': '10%'})
+    return weeks
+
+
+def pars_sundays(table: Tag) -> list[Tag]:
+    sundays: list[Tag] = table.find_all('td',
+                                        {'style': 'width: 20%;', 'colspan': '2'})
+    return sundays
+
+
+def pars_days(table: Tag) -> list[Tag]:
+    days: list[Tag] = table.find_all('td',
+                                     {'style': 'width: 21.4352%;', 'colspan': '2', 'width': '10%'})
+    return days
+
+
+def pars_matins(table: Tag) -> list[Tag]:
+    matins: list[Tag] = table.find_all('td',
+                                       {'style': 'width: 11.4352%;'})
+    return matins
+
+
+def pars_p1_gospels(gospels: list[Tag]) -> list[Tag]:
+    amount_p1_gospels: int = 56
+
+    p1_gospels: list[Tag] = gospels[:amount_p1_gospels]
+    return p1_gospels
+
+
+def pars_p1_apostles(apostles: list[Tag]) -> list[Tag]:
+    amount_p1_apostles: int = 56
+
+    p1_apostles: list[Tag] = apostles[:amount_p1_apostles]
+
+    return p1_apostles
+
+
+def pars_p1_weeks(weeks: list[Tag]) -> list[str]:
+    amount_p1_weeks: int = 7
+    p1_weeks: list[str] = [p1_week.text for p1_week in weeks[:amount_p1_weeks]]
+
+    week_6: str = '6 седмица по Пасхе'
+    p1_weeks.insert(5, week_6)
+    amount_p1_weeks += 1
+
+    # TODO
+    # САМ НАПИСАЛ ДАННЫЕ, ВОЗМОЖНО НЕВЕРНО
+    # В period_2 таких ситуаций много с Пятиде- сятнице, поэтому СТОИТ ПОТОМ ПЕРЕДЕЛАТЬ ЭТО В ФУНКЦИЮ
+    p1_weeks[amount_p1_weeks - 1] = p1_weeks[amount_p1_weeks - 1].replace('- ', '')
+
+    return p1_weeks
+
+
+def pars_p1_sundays(sundays: list[Tag]) -> list[str]:
+    amount_p1_sundays: int = 7
+    p1_sundays: list[str] = [p1_sunday.text.strip() for p1_sunday in sundays[:amount_p1_sundays]]
+
+    # САМ НАПИСАЛ ДАННЫЕ, ВОЗМОЖНО НЕВЕРНО
+    # т.к на сайте не по шаблону написано
+    sunday_1: str = 'Вс 1, "Пасха"'
+    p1_sundays.insert(0, sunday_1)
+    amount_p1_sundays += 1
+
+    # САМ НАПИСАЛ ДАННЫЕ, ВОЗМОЖНО НЕВЕРНО
+    # Слово Пятидесятница включил в " ", чтобы искалось потом при re.search()
+    p1_sundays[amount_p1_sundays - 1] = 'Вс 8, "Пятидесятница"'
+
+    return p1_sundays
+
+
+def pars_p1_days(days: list[Tag]) -> list[str]:
+    amount_p1_days: int = 48
+
+    p1_days: list[str] = [p1_day.text.strip() for p1_day in days[:amount_p1_days]]
+
+    return p1_days
+
+
+def pars_p1_matins(matins: list[Tag]) -> list[bool]:
+    amount_p1_matins: int = 7
+
+    # Во все Воскресения чтения на утрени, кроме Пасхи - по данным с сайта
+    is_matins_sundays: list[bool] = [bool(p1_matins_) for p1_matins_ in matins[:amount_p1_matins]]
+
+    is_matins_sundays.insert(0, False)
+    amount_p1_matins += 1
+
+    return is_matins_sundays
+
+
+def pars_p1_vespers() -> list[bool]:
+    # Только в Пасху чтения на вечерне - по данным с сайта
+    is_vespers_sundays: list[bool] = [True] + [False for _ in range(7)]
+
+    return is_vespers_sundays
 
 
 def create_books_gospels(db: Session) -> int:
@@ -35,7 +157,7 @@ def create_books_gospels(db: Session) -> int:
     table = soup.find("table", class_="adaptive").find("tbody")
 
     gospels: list = table.find_all('td',
-                                   {'style': 'width: 25.3209%;', 'valign': 'top'})
+                                   {'style': 'width: 25.3209%;', '': 'top'})
 
     number_creatures: int = 0
     for gospel in gospels:
@@ -156,7 +278,7 @@ def create_books_apostles(db: Session) -> int:
     return number_creatures
 
 
-def create_zachalos(db: Session) -> int:
+def create_p1_zachalos(db: Session) -> int:
     """
     Создает 110 = 8*7 + 8*7 - 2 (ПОКА ЧТО НЕ ПОЛУЧИЛОСЬ ДОБАВИТЬ ИХ) записи о Апостольских и Евангельских зачалах в таблице 'nums'.
 
@@ -508,9 +630,6 @@ def create_p1_dates(db: Session) -> int:
 
     # ----------------------
 
-    p1_matins.insert(0, None)
-    period_1_matins += 1
-
     num: int = 1
     period_id: int = crud.get_period(db=db, num=num).id
 
@@ -579,15 +698,30 @@ def create_p1_dates(db: Session) -> int:
     return number_creatures
 
 
+def main():
+    table: Tag = pars_table()
+
+    gospels: list[Tag] = pars_gospels(table=table)
+    apostles: list[Tag] = pars_apostles(table=table)
+    weeks: list[Tag] = pars_weeks(table=table)
+    sundays: list[Tag] = pars_sundays(table=table)
+    days: list[Tag] = pars_days(table=table)
+    matins: list[Tag] = pars_matins(table=table)
+
+
 if __name__ == '__main__':
-    print(create_books_apostles(db=main.get_db().__next__()))
-    print(create_books_gospels(db=main.get_db().__next__()))
+    main()
 
-    print(create_zachalos(db=main.get_db().__next__()))
+    # print(create_books_apostles(db=main.get_db().__next__()))
+    # print(create_books_gospels(db=main.get_db().__next__()))
+    #
+    # print(create_p1_zachalos(db=main.get_db().__next__()))
+    #
+    # print(create_periods(db=main.get_db().__next__()))
+    # print(create_p1_weeks(db=main.get_db().__next__()))
+    # print(create_p1_dates(db=main.get_db().__next__()))
 
-    print(create_periods(db=main.get_db().__next__()))
-    print(create_p1_weeks(db=main.get_db().__next__()))
-    print(create_p1_dates(db=main.get_db().__next__()))
+    pass
 
     # period = crud.get_period(db=main.get_db().__next__(), num=1)
     #
