@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from src.parsing_readings import schemas, crud, main
+from src.parsing_readings import schemas, crud, main, models
 
 HEADERS: dict[str, str] = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 Safari/537.36"
@@ -57,7 +57,7 @@ def create_books_gospels(db: Session) -> int:
                                                 tag_span['data-title']
                                                 )[0]
 
-                if not crud.get_book_by_title_short_en(db=db, title_short_en=title_short_en):
+                if not crud.get_book(db=db, title_short_en=title_short_en):
                     book: schemas.BookGospelCreate = schemas.BookGospelCreate(title=title,
                                                                               title_short_en=title_short_en)
                     crud.create_book(db=db, book=book)
@@ -114,7 +114,7 @@ def create_books_apostles(db: Session) -> int:
                                   title_short_en='Apok')
     ]
     for book in books:
-        if not crud.get_book_by_title_short_en(db=db, title_short_en=book.title_short_en):
+        if not crud.get_book(db=db, title_short_en=book.title_short_en):
             crud.create_book(db=db, book=book)
             number_creatures += 1
 
@@ -147,7 +147,7 @@ def create_books_apostles(db: Session) -> int:
                                                 tag_span['data-title']
                                                 )[0]
 
-                if not crud.get_book_by_title_short_en(db=db, title_short_en=title_short_en):
+                if not crud.get_book(db=db, title_short_en=title_short_en):
                     book: schemas.BookApostleCreate = schemas.BookApostleCreate(title=title,
                                                                                 title_short_en=title_short_en)
                     crud.create_book(db=db, book=book)
@@ -156,9 +156,9 @@ def create_books_apostles(db: Session) -> int:
     return number_creatures
 
 
-def create_bible_zachalos(db: Session) -> int:
+def create_zachalos(db: Session) -> int:
     """
-    Создает 110 = 8*7 + 8*7 - 2 (ПОКА ЧТО НЕ ПОЛУЧИЛОСЬ ДОБАВИТЬ ИХ) записи о Апостольских и Евангельских зачалах в таблице 'bible_zachalos'.
+    Создает 110 = 8*7 + 8*7 - 2 (ПОКА ЧТО НЕ ПОЛУЧИЛОСЬ ДОБАВИТЬ ИХ) записи о Апостольских и Евангельских зачалах в таблице 'nums'.
 
     **Если записи уже есть, то ничего не создает, и возвращает 0.**
 
@@ -200,19 +200,19 @@ def create_bible_zachalos(db: Session) -> int:
 
     number_creatures: int = 0
 
-    for zachalo_tag in p1_apostles + p1_gospels:
+    for num_tag in p1_apostles + p1_gospels:
 
-        tag_a: Tag = zachalo_tag.find('a', {'target': "BibleAV"})
+        tag_a: Tag = num_tag.find('a', {'target': "BibleAV"})
 
         title_short_en: str = re.search(
             r'(?<=\?)\S+(?=\.)',
             tag_a['href']
         )[0]
 
-        book_id: int = crud.get_book_by_title_short_en(db=db, title_short_en=title_short_en).id
+        book_id: int = crud.get_book(db=db, title_short_en=title_short_en).id
 
         try:
-            zachalo: int = int(re.search(r'(?<=\[)\d*(?=\])', zachalo_tag.text)[0])
+            num: int = int(re.search(r'(?<=\[)\d*(?=\])', num_tag.text)[0])
         except TypeError:
             req = requests.get(
                 url=DOMIN_AZBYKA + tag_a['href'],
@@ -220,37 +220,37 @@ def create_bible_zachalos(db: Session) -> int:
             )
             soup = BeautifulSoup(req.text, "lxml")
 
-            zachala_str: str | None = None
+            num_str: str | None = None
             is_find_next_zachala: bool = False
             tag_div_verse: Tag = soup.find('div', {'class': 'crossref-verse', 'data-lang': 'r'})
             try:
-                zachala_str: str = tag_div_verse.find('span', class_='zachala').text
+                num_str: str = tag_div_verse.find('span', class_='zachala').text
             except AttributeError:
                 try:
                     # Когда zachala выше на один первого выделенного div
-                    zachala_str: str = tag_div_verse.find_previous_sibling('div').find(
+                    num_str: str = tag_div_verse.find_previous_sibling('div').find(
                         'span',
                         class_='zachala').text
 
-                    print(zachalo_tag.text, 'Когда zachala выше на один первого выделенного div')
+                    print(num_tag.text, 'Когда zachala выше на один первого выделенного div')
                 except AttributeError:
                     try:
                         # Когда zachala ниже (на 1 или больше) первого выделенного div, но находится так же в выделении
                         for div in tag_div_verse.find_next_siblings('div', {'class': 'crossref-verse'}):
                             tag_span: Tag = div.find('span', class_='zachala')
                             if tag_span:
-                                zachala_str: str = tag_span.text
+                                num_str: str = tag_span.text
                                 break
 
-                        if not zachala_str:
+                        if not num_str:
                             raise AttributeError
 
-                        print(zachalo_tag.text, 'Когда zachala ниже (на 1 или больше)')
+                        print(num_tag.text, 'Когда zachala ниже (на 1 или больше)')
                     except AttributeError:
                         # Берем первое попавшееся zachala на странице
                         try:
-                            zachala_str: str = soup.find('span', class_='zachala').text
-                            print(zachalo_tag.text, 'Берем первое попавшееся zachala на странице')
+                            num_str: str = soup.find('span', class_='zachala').text
+                            print(num_tag.text, 'Берем первое попавшееся zachala на странице')
                         except AttributeError:
 
                             # Когда zachala нет на странице, ищем самое нижнее zachala на предыдущей стр.
@@ -266,31 +266,31 @@ def create_bible_zachalos(db: Session) -> int:
                             for div in soup.find_all('div', {'data-lang': 'r'})[::-1]:
                                 tag_span: Tag = div.find('span', class_='zachala')
                                 if tag_span:
-                                    zachala_str: str = tag_span.text
+                                    num_str: str = tag_span.text
                                     break
 
-                            if not zachala_str:
+                            if not num_str:
                                 raise AttributeError
 
-                            print(zachalo_tag.text,
+                            print(num_tag.text,
                                   'Когда zachala нет на странице, ищем самое нижнее zachala на предыдущей стр.')
 
-            zachalo: int = int(re.search(
+            num: int = int(re.search(
                 r'\d+',
-                zachala_str
+                num_str
             )[0])
             if is_find_next_zachala:
-                zachalo -= 1
+                num -= 1
 
-        if not crud.get_bible_zachalo_by_columns(db=db, zachalo=zachalo, book_id=book_id):
-            bible_zachalo: schemas.BibleZachaloCreate = schemas.BibleZachaloCreate(zachalo=zachalo)
-            crud.create_bible_zachalo(db=db, bible_zachalo=bible_zachalo, book_id=book_id)
+        if not crud.get_zachalo(db=db, num=num, book_id=book_id):
+            zachalo: schemas.ZachaloCreate = schemas.ZachaloCreate(num=num)
+            crud.create_zachalo(db=db, zachalo=zachalo, book_id=book_id)
             number_creatures += 1
 
-            print('(+)', number_creatures, "|", zachalo_tag.text, "|", zachalo, "|", book_id)
+            print('(+)', number_creatures, "|", num_tag.text, "|", num, "|", book_id)
 
         else:
-            print("ERROR! not create", "|", zachalo_tag.text)
+            print("ERROR! not create", "|", num_tag.text)
 
     return number_creatures
 
@@ -309,22 +309,22 @@ def create_periods(db: Session) -> int:
 
     periods: list[schemas.PeriodCreate] = [
         schemas.PeriodCreate(
-            period_title=None,
-            period_num=1,
+            title=None,
+            num=1,
         ),
         schemas.PeriodCreate(
-            period_title=None,
-            period_num=2,
+            title=None,
+            num=2,
         ),
         schemas.PeriodCreate(
-            period_title=None,
-            period_num=3,
+            title=None,
+            num=3,
         )
     ]
 
     for period in periods:
 
-        if not crud.get_period_by_num(db=db, period_num=period.period_num):
+        if not crud.get_period(db=db, num=period.num):
             crud.create_period(db=db, period=period)
             number_creatures += 1
 
@@ -397,8 +397,8 @@ def create_p1_weeks(db: Session) -> int:
 
     # ----------------------
 
-    period_num: int = 1
-    period_id: int = crud.get_period_by_num(db=db, period_num=period_num).id
+    num: int = 1
+    period_id: int = crud.get_period(db=db, num=num).id
 
     number_creatures: int = 0
 
@@ -407,21 +407,21 @@ def create_p1_weeks(db: Session) -> int:
         sunday_num: int = re.search(r'\d', p1_sunday)[0]
 
         try:
-            week_num: int = re.search(r'\d', p1_week)[0]
+            num: int = re.search(r'\d', p1_week)[0]
         except TypeError as e:
             if p1_week == 'Пасхальная седмица':
-                week_num = 1
+                num = 1
 
         sunday_title: str = re.search(r'(?<=").*(?=")', p1_sunday)[0]
 
-        week_title: str = p1_week
+        title: str = p1_week
 
-        if not crud.get_week_by_nums(db=db, sunday_num=sunday_num, period_id=period_id):
+        if not crud.get_week(db=db, sunday_num=sunday_num, period_id=period_id):
             week: schemas.WeekCreate = schemas.WeekCreate(
                 sunday_num=sunday_num,
-                week_num=week_num,
+                num=num,
                 sunday_title=sunday_title,
-                week_title=week_title,
+                title=title,
             )
 
             crud.create_week(db=db, period_id=period_id, week=week)
@@ -511,8 +511,8 @@ def create_p1_dates(db: Session) -> int:
     p1_matins.insert(0, None)
     period_1_matins += 1
 
-    period_num: int = 1
-    period_id: int = crud.get_period_by_num(db=db, period_num=period_num).id
+    num: int = 1
+    period_id: int = crud.get_period(db=db, num=num).id
 
     number_creatures: int = 0
 
@@ -521,8 +521,8 @@ def create_p1_dates(db: Session) -> int:
     VESPERS: str = 'Вечерня'
 
     # Утреня в чт 6 недели - ввел вручную
-    week_id_th: int = crud.get_week_by_nums(db=db, sunday_num=6, period_id=period_id).id
-    if not crud.get_date_by_columns(db=db, divine_service=MATINS, day='чт', week_id=week_id_th):
+    week_id_th: int = crud.get_week(db=db, sunday_num=6, period_id=period_id).id
+    if not crud.get_date(db=db, divine_service=MATINS, day='чт', week_id=week_id_th):
         date: schemas.DateCreate = schemas.DateCreate(
             day='чт',
             day_title=None,
@@ -532,7 +532,7 @@ def create_p1_dates(db: Session) -> int:
         number_creatures += 1
 
     for i, sunday_num in enumerate(p1_sundays_nums):
-        week_id: int = crud.get_week_by_nums(db=db, sunday_num=sunday_num, period_id=period_id).id
+        week_id: int = crud.get_week(db=db, sunday_num=sunday_num, period_id=period_id).id
 
         sunday: str = 'вс'
         date_sunday: schemas.DateCreate = schemas.DateCreate(
@@ -541,18 +541,18 @@ def create_p1_dates(db: Session) -> int:
         )
 
         if is_matins_sundays[i]:
-            if not crud.get_date_by_columns(db=db, divine_service=MATINS, day=sunday, week_id=week_id):
+            if not crud.get_date(db=db, divine_service=MATINS, day=sunday, week_id=week_id):
                 date_sunday.divine_service = MATINS
                 crud.create_date(db=db, week_id=week_id, date=date_sunday)
                 number_creatures += 1
 
         if is_vespers_sundays[i]:
-            if not crud.get_date_by_columns(db=db, divine_service=VESPERS, day=sunday, week_id=week_id):
+            if not crud.get_date(db=db, divine_service=VESPERS, day=sunday, week_id=week_id):
                 date_sunday.divine_service = VESPERS
                 crud.create_date(db=db, week_id=week_id, date=date_sunday)
                 number_creatures += 1
 
-        if not crud.get_date_by_columns(db=db, divine_service=LITURGY, day=sunday, week_id=week_id):
+        if not crud.get_date(db=db, divine_service=LITURGY, day=sunday, week_id=week_id):
             date_sunday.divine_service = LITURGY
             crud.create_date(db=db, week_id=week_id, date=date_sunday)
             number_creatures += 1
@@ -566,7 +566,7 @@ def create_p1_dates(db: Session) -> int:
             else:
                 day: str = re.search('(?<=^)\S{2}', day)[0]
 
-            if not crud.get_date_by_columns(db=db, divine_service=LITURGY, day=day, week_id=week_id):
+            if not crud.get_date(db=db, divine_service=LITURGY, day=day, week_id=week_id):
                 date: schemas.DateCreate = schemas.DateCreate(
                     day=day,
                     day_title=day_title,
@@ -580,16 +580,26 @@ def create_p1_dates(db: Session) -> int:
 
 
 if __name__ == '__main__':
-    # print(create_books_apostles(db=main.get_db().__next__()))
-    # print(create_books_gospels(db=main.get_db().__next__()))
-    print(create_bible_zachalos(db=main.get_db().__next__()))
-    # print(create_periods(db=main.get_db().__next__()))
-    # print(create_p1_weeks(db=main.get_db().__next__()))
-    # print(create_p1_dates(db=main.get_db().__next__()))
+    print(create_books_apostles(db=main.get_db().__next__()))
+    print(create_books_gospels(db=main.get_db().__next__()))
 
-    # period = crud.get_period_by_num(db=main.get_db().__next__(), period_num=1)
+    print(create_zachalos(db=main.get_db().__next__()))
+
+    print(create_periods(db=main.get_db().__next__()))
+    print(create_p1_weeks(db=main.get_db().__next__()))
+    print(create_p1_dates(db=main.get_db().__next__()))
+
+    # period = crud.get_period(db=main.get_db().__next__(), num=1)
     #
-    # print(period)
+    # print(period.weeks[0].sunday_title)
     # print(type(period))
-    # print(period.__dict__)
-    # print(period.id)
+    #
+    # date = crud.get_date(db=main.get_db().__next__(), divine_service='Литургия', day='пн', week_id=2)
+    #
+    # print(date.week.title)
+    # print(type(date))
+    # print(date.__dict__)
+    # print(date.id)
+
+    # query = models.Date.query.join(roles_users).join(Role).
+    # filter((roles_users.c.user_id == User.id) & (roles_users.c.role_id == Role.id)).all()

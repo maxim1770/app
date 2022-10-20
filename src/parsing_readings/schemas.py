@@ -12,21 +12,21 @@ class ReadingCreate(ReadingBase):
 class Reading(ReadingBase):
     id: int
     date_id: int
-    bible_zachalo_id: int
+    num_id: int
 
     class Config:
         orm_mode = True
 
 
-class BibleZachaloBase(BaseModel):
-    zachalo: int
+class ZachaloBase(BaseModel):
+    num: int
 
 
-class BibleZachaloCreate(BibleZachaloBase):
+class ZachaloCreate(ZachaloBase):
     pass
 
 
-class BibleZachalo(BibleZachaloBase):
+class Zachalo(ZachaloBase):
     id: int
     book_id: int
     readings: list[Reading] = []
@@ -57,7 +57,7 @@ class BookApostleCreate(BookCreate):
 
 
 class Book(BookBase):
-    bible_zachalos: list[BibleZachalo] = []
+    zachalos: list[Zachalo] = []
 
     class Config:
         orm_mode = True
@@ -83,8 +83,8 @@ class Date(DateBase):
 
 
 class WeekBase(BaseModel):
-    week_title: str
-    week_num: int
+    title: str
+    num: int
     sunday_title: str
     sunday_num: int
 
@@ -103,8 +103,8 @@ class Week(WeekBase):
 
 
 class PeriodBase(BaseModel):
-    period_title: str | None
-    period_num: int
+    title: str | None
+    num: int
 
 
 class PeriodCreate(PeriodBase):

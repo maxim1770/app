@@ -6,19 +6,41 @@ from .database import Base
 
 class Reading(Base):
     __tablename__ = "readings"
-
     id = Column(Integer, primary_key=True)
 
     date_id = Column(Integer, ForeignKey("dates.id"))
     date = relationship("Date", back_populates="readings")
 
-    bible_zachalo_id = Column(Integer, ForeignKey("bible_zachalos.id"))
-    bible_zachalo = relationship("BibleZachalo", back_populates="readings")
+    zachalo_id = Column(Integer, ForeignKey("zachalos.id"))
+    zachalo = relationship("Zachalo", back_populates="readings")
+
+
+class Zachalo(Base):
+    __tablename__ = "zachalos"
+    id = Column(Integer, primary_key=True)
+
+    num = Column(Integer)
+
+    readings = relationship("Reading", back_populates="zachalo")
+
+    book_id = Column(Integer, ForeignKey("books.id"))
+    book = relationship("Book", back_populates="zachalos")
+
+
+class Book(Base):
+    __tablename__ = "books"
+    id = Column(Integer, primary_key=True)
+
+    new_or_old_testament = Column(String)
+    section = Column(String)
+    title = Column(String)
+    title_short_en = Column(String)
+
+    zachalos = relationship("Zachalo", back_populates="book")
 
 
 class Date(Base):
     __tablename__ = "dates"
-
     id = Column(Integer, primary_key=True)
 
     day = Column(String)
@@ -33,11 +55,10 @@ class Date(Base):
 
 class Week(Base):
     __tablename__ = "weeks"
-
     id = Column(Integer, primary_key=True)
 
-    week_title = Column(String)
-    week_num = Column(Integer)
+    title = Column(String)
+    num = Column(Integer)
     sunday_title = Column(String)
     sunday_num = Column(Integer)
 
@@ -49,36 +70,9 @@ class Week(Base):
 
 class Period(Base):
     __tablename__ = "periods"
-
     id = Column(Integer, primary_key=True)
 
-    period_title = Column(String)
-    period_num = Column(Integer)
+    title = Column(String)
+    num = Column(Integer)
 
     weeks = relationship("Week", back_populates="period")
-
-
-class BibleZachalo(Base):
-    __tablename__ = "bible_zachalos"
-
-    id = Column(Integer, primary_key=True)
-
-    zachalo = Column(Integer)
-
-    readings = relationship("Reading", back_populates="bible_zachalo")
-
-    book_id = Column(Integer, ForeignKey("books.id"))
-    book = relationship("Book", back_populates="bible_zachalos")
-
-
-class Book(Base):
-    __tablename__ = "books"
-
-    id = Column(Integer, primary_key=True)
-
-    new_or_old_testament = Column(String)
-    section = Column(String)
-    title = Column(String)
-    title_short_en = Column(String)
-
-    bible_zachalos = relationship("BibleZachalo", back_populates="book")
