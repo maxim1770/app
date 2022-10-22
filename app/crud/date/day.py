@@ -1,0 +1,29 @@
+from sqlalchemy import and_
+from sqlalchemy.orm import Session
+
+from app import models, schemas
+from app.crud.date.week import get_week
+
+
+def get_days(db: Session, period_num: int, sunday_num: int) -> list[models.Day]:
+    week_id: int = get_week(db, period_num=period_num, sunday_num=sunday_num).id
+    return db.query(models.Day).filter(models.Day.week_id == week_id).all()
+
+
+def get_day(db: Session, period_num: int, sunday_num: int, num: schemas.DayEnum) -> models.Day:
+    week_id: int = get_week(db, period_num=period_num, sunday_num=sunday_num).id
+    return db.query(models.Day).filter(
+        and_(
+            models.Day.week_id == week_id,
+            models.Day.num == num
+        )
+    ).first()
+
+
+def create_day(db: Session, period_num: int, sunday_num: int, day: schemas.DayCreate) -> models.Day:
+    week_id: int = get_week(db, period_num=period_num, sunday_num=sunday_num).id
+    db_day: models.Day = models.Day(week_id=week_id, **day.dict())
+    db.add(db_day)
+    db.commit()
+    db.refresh(db_day)
+    return db_day
