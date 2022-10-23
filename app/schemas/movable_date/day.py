@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from app.schemas.date.date import Date
+from app.schemas.movable_date.divine_service import DivineService
 
 from pydantic import BaseModel
 
@@ -26,7 +26,7 @@ class DayCreate(DayBase):
 
 class Day(DayBase):
     id: int
-    dates: list[Date] = []
+    divine_services: list[DivineService] = []
     week_id: int
 
     class Config:

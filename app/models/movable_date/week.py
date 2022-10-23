@@ -15,5 +15,5 @@ class Week(Base):
 
     days = relationship("Day", back_populates="week")
 
-    period_id = Column(Integer, ForeignKey("periods.id"))
-    period = relationship("Period", back_populates="weeks")
+    cycle_id = Column(Integer, ForeignKey("cycles.id"))
+    cycle = relationship("Cycle", back_populates="weeks")

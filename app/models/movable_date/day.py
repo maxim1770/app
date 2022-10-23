@@ -11,7 +11,7 @@ class Day(Base):
     num = Column(Integer)
     title = Column(String)
 
-    dates = relationship("Date", back_populates="day")
+    divine_services = relationship("DivineService", back_populates="day")
 
     week_id = Column(Integer, ForeignKey("weeks.id"))
     week = relationship("Week", back_populates="days")

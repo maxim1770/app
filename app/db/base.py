@@ -4,7 +4,7 @@
 # from app.models import Reading
 # from app.models import Book
 # from app.models import Zachalo
-# from app.models import Date
+# from app.models import DivineService
 # from app.models import Day
 # from app.models import Week
-# from app.models import Period
+# from app.models import Cycle

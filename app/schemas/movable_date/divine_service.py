@@ -3,18 +3,19 @@ from pydantic import BaseModel
 from app.schemas.reading import Reading
 
 
-class DateBase(BaseModel):
-    divine_service: str
+class DivineServiceBase(BaseModel):
+    title: str
 
 
-class DateCreate(DateBase):
-    divine_service: str | None
+class DivineServiceCreate(DivineServiceBase):
+    title: str | None
 
 
-class Date(DateBase):
+class DivineService(DivineServiceBase):
     id: int
     day_id: int
     readings: list[Reading] = []
 
     class Config:
         orm_mode = True
+

@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
-from app.schemas.date.day import Day
+from app.schemas.movable_date.day import Day
+
 
 class WeekBase(BaseModel):
     title: str
@@ -19,7 +20,7 @@ class WeekCreate(WeekBase):
 class Week(WeekBase):
     id: int
     days: list[Day] = []
-    period_id: int
+    cycle_id: int
 
     class Config:
         orm_mode = True

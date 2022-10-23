@@ -11,7 +11,7 @@ class ReadingCreate(ReadingBase):
 
 class Reading(ReadingBase):
     id: int
-    date_id: int
+    divine_service_id: int
     num_id: int
 
     class Config:
