@@ -19,8 +19,10 @@ class WeekCreate(WeekBase):
 
 class Week(WeekBase):
     id: int
-    days: list[Day] = []
+
     cycle_id: int
+
+    days: list[Day] = []
 
     class Config:
         orm_mode = True

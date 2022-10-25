@@ -1,21 +1,29 @@
+from enum import auto
+
+from fastapi_utils.enums import StrEnum
 from pydantic import BaseModel
 
-from app.schemas.reading import Reading
+from app.schemas.movable_date import MovableDate
+
+
+class DivineServiceEnum(StrEnum):
+    liturgy = auto()
+    matins = auto()
+    vespers = auto()
 
 
 class DivineServiceBase(BaseModel):
-    title: str
+    title: DivineServiceEnum
 
 
 class DivineServiceCreate(DivineServiceBase):
-    title: str | None
+    pass
 
 
 class DivineService(DivineServiceBase):
     id: int
-    day_id: int
-    readings: list[Reading] = []
+
+    movable_dates: list[MovableDate] = []
 
     class Config:
         orm_mode = True
-

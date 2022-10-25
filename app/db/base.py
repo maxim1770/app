@@ -2,7 +2,7 @@
 # imported by Alembic
 # from app.db.base_class import Base
 # from app.models import Reading
-# from app.models import Book
+# from app.models import BibleBook
 # from app.models import Zachalo
 # from app.models import DivineService
 # from app.models import Day

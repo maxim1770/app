@@ -12,5 +12,5 @@ class Zachalo(Base):
 
     readings = relationship("Reading", back_populates="zachalo")
 
-    book_id = Column(Integer, ForeignKey("books.id"))
-    book = relationship("Book", back_populates="zachalos")
+    bible_book_id = Column(Integer, ForeignKey("bible_books.id"))
+    bible_book = relationship("BibleBook", back_populates="zachalos")

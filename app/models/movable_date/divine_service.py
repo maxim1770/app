@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db.session import Base
+
 
 class DivineService(Base):
     __tablename__ = "divine_services"
@@ -9,7 +10,4 @@ class DivineService(Base):
 
     title = Column(String)
 
-    readings = relationship("Reading", back_populates="divine_service")
-
-    day_id = Column(Integer, ForeignKey("days.id"))
-    day = relationship("Day", back_populates="divine_services")
+    movable_dates = relationship("MovableDate", back_populates="divine_service")

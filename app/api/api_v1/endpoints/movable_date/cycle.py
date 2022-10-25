@@ -14,8 +14,8 @@ def read_cycles(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_
     return cycles
 
 
-@router.get('/{cycle_num}', response_model=schemas.Cycle)
-def read_cycle(cycle_num: int, db: Session = Depends(deps.get_db)):
+@router.get('/cycle-{cycle_num}', response_model=schemas.Cycle)
+def read_cycle(cycle_num: schemas.CycleEnum, db: Session = Depends(deps.get_db)):
     cycle: models.Cycle = crud.get_cycle(db, num=cycle_num)
     return cycle
 

@@ -8,7 +8,8 @@ class Cycle(Base):
     __tablename__ = "cycles"
     id = Column(Integer, primary_key=True)
 
-    title = Column(String)
     num = Column(Integer)
+    title = Column(String)
+
 
     weeks = relationship("Week", back_populates="cycle")

@@ -11,8 +11,9 @@ class ReadingCreate(ReadingBase):
 
 class Reading(ReadingBase):
     id: int
-    divine_service_id: int
-    num_id: int
+
+    movable_date_id: int
+    zachalo_id: int
 
     class Config:
         orm_mode = True

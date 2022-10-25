@@ -8,8 +8,8 @@ class Reading(Base):
     __tablename__ = "readings"
     id = Column(Integer, primary_key=True)
 
-    divine_service_id = Column(Integer, ForeignKey("divine_services.id"))
-    divine_service = relationship("DivineService", back_populates="readings")
+    movable_date_id = Column(Integer, ForeignKey("movable_dates.id"))
+    movable_date = relationship("MovableDate", back_populates="readings")
 
     zachalo_id = Column(Integer, ForeignKey("zachalos.id"))
     zachalo = relationship("Zachalo", back_populates="readings")

@@ -13,7 +13,7 @@ class ZachaloCreate(ZachaloBase):
 
 class Zachalo(ZachaloBase):
     id: int
-    book_id: int
+    bible_book_id: int
     readings: list[Reading] = []
 
     class Config:

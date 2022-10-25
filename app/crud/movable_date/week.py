@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 from app.crud.movable_date.cycle import get_cycle
 
 
-def get_weeks(db: Session, cycle_num: int) -> list[models.Week]:
-    cycle_id: int = get_cycle(db, num=cycle_num).id
-    return db.query(models.Week).filter(models.Week.cycle_id == cycle_id).all()
+# def get_weeks(db: Session, cycle_num: schemas.CycleEnum) -> list[models.Week]:
+#     cycle_id: int = get_cycle(db, num=cycle_num).id
+#     return db.query(models.Week).filter(models.Week.cycle_id == cycle_id).all()
 
 
-def get_week(db: Session, cycle_num: int, sunday_num: int) -> models.Week:
+def get_week(db: Session, cycle_num: schemas.CycleEnum, sunday_num: int) -> models.Week | None:
     cycle_id: int = get_cycle(db, num=cycle_num).id
     return db.query(models.Week).filter(
         and_(
@@ -20,7 +20,7 @@ def get_week(db: Session, cycle_num: int, sunday_num: int) -> models.Week:
     ).first()
 
 
-def create_week(db: Session, cycle_num: int, week: schemas.WeekCreate) -> models.Week:
+def create_week(db: Session, cycle_num: schemas.CycleEnum, week: schemas.WeekCreate) -> models.Week:
     cycle_id: int = get_cycle(db, num=cycle_num).id
     db_week: models.Week = models.Week(cycle_id=cycle_id, **week.dict())
     db.add(db_week)

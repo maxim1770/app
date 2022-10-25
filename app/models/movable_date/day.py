@@ -8,10 +8,11 @@ class Day(Base):
     __tablename__ = "days"
     id = Column(Integer, primary_key=True)
 
-    num = Column(Integer)
+    abbr = Column(String)
+    abbr_ru = Column(String)
     title = Column(String)
-
-    divine_services = relationship("DivineService", back_populates="day")
 
     week_id = Column(Integer, ForeignKey("weeks.id"))
     week = relationship("Week", back_populates="days")
+
+    movable_dates = relationship("MovableDate", back_populates="day")

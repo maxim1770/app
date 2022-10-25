@@ -11,20 +11,23 @@ import json
 import csv
 
 
-def get_first_page():
+def pars_index(
+        url: str = "https://azbyka.ru/days/p-ukazatel-evangelskih-i-apostolskih-chtenij-na-kazhdyj-den-goda") -> bool:
     headers: dict[str, str] = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 Safari/537.36"
     }
 
-    url: str = "https://azbyka.ru/days/p-ukazatel-evangelskih-i-apostolskih-chtenij-na-kazhdyj-den-goda"
-
-    if not os.path.exists("data/index_first.html"):
+    if not os.path.exists("data/index.html"):
         req = requests.get(url, headers)
 
         time.sleep(5)
 
         with open("data/index.html", "w", encoding="utf-8") as file:
             file.write(req.text)
+
+        return True
+
+    return False
 
 
 def pars_data():
@@ -83,7 +86,7 @@ def pars_data():
     apostles: list = table.find_all('td',
                                     {'style': 'width: 29.9883%;', 'valign': 'top'})
 
-    gospels: list = table.find_all('td',
+    evangels: list = table.find_all('td',
                                    {'style': 'width: 25.3209%;', 'valign': 'top'})
 
     # НАД НАЗВАНИЕМ НЕ УВЕРЕН
@@ -92,14 +95,14 @@ def pars_data():
                                    'valign': 'top'})
 
     # ВКЛЮЧАЯ НЕДЕЛЮ Пятидесятницы
-    # потом будет + 1 к period_1_weeks, когда добавится 6 неделя у которой rowspan': '7'
+    # потом будет + 1 к cycle_1_weeks, когда добавится 6 неделя у которой rowspan': '7'
 
     # ----------------------
     # weeks
 
-    period_1_weeks: int = 7
+    cycle_1_weeks: int = 7
 
-    p1_weeks: list[Tag] = weeks[:period_1_weeks]
+    p1_weeks: list[Tag] = weeks[:cycle_1_weeks]
     p1_weeks: list[str] = [p1_week.text for p1_week in p1_weeks]
 
     week_6: str = table.find('td',
@@ -109,14 +112,14 @@ def pars_data():
     # p1_weeks[5:5] = [week_6]
     # p1_weeks: list[str] = p1_weeks[:5] + [week_6] + p1_weeks[5:]
     p1_weeks.insert(5, week_6)
-    period_1_weeks += 1
+    cycle_1_weeks += 1
 
     # ----------------------
     # sundays
 
-    period_1_sundays: int = 7
+    cycle_1_sundays: int = 7
 
-    p1_sundays: list[Tag] = sundays[:period_1_sundays]
+    p1_sundays: list[Tag] = sundays[:cycle_1_sundays]
     p1_sundays: list[str] = [p1_sunday.text.strip() for p1_sunday in p1_sundays]
 
     sunday_1: str = table.find('td',
@@ -124,60 +127,55 @@ def pars_data():
                                 'valign': 'top'}
                                ).text
     p1_sundays.insert(0, sunday_1)
-    period_1_sundays += 1
+    cycle_1_sundays += 1
 
     # ----------------------
     # matins
 
-    period_1_matins: int = 7
+    cycle_1_matins: int = 7
 
-    p1_matins: list[Tag] = matins[:period_1_matins]
+    p1_matins: list[Tag] = matins[:cycle_1_matins]
     p1_matins: list[str | None] = [p1_mat.text.strip() for p1_mat in p1_matins]
 
     p1_matins.insert(0, None)
-    period_1_matins += 1
+    cycle_1_matins += 1
 
     # ----------------------
     # apostles
 
-    period_1_apostles: int = 56
+    cycle_1_apostles: int = 56
 
-    p1_apostles: list[Tag] = apostles[:period_1_apostles]
+    p1_apostles: list[Tag] = apostles[:cycle_1_apostles]
 
     # ----------------------
-    # gospels
+    # evangels
 
-    period_1_gospels: int = 56
+    cycle_1_evangels: int = 56
 
-    p1_gospels: list[Tag] = gospels[:period_1_gospels]
+    p1_evangels: list[Tag] = evangels[:cycle_1_evangels]
 
     # ----------------------
     # days
 
-    period_1_days: int = 48
+    cycle_1_days: int = 48
 
-    p1_days: list[Tag] = days[:period_1_days]
+    p1_days: list[Tag] = days[:cycle_1_days]
 
     p1_days: list[str] = [p1_day.text.strip() for p1_day in p1_days]
 
     # ----------------------
 
-    print(len(p1_days), len(p1_gospels), len(p1_apostles), len(p1_matins), len(p1_sundays), len(p1_weeks))
+    print(p1_matins)
 
-    for day_ in range(period_1_gospels):
+    print(len(p1_days), len(p1_evangels), len(p1_apostles), len(p1_matins), len(p1_sundays), len(p1_weeks))
+
+    for day_ in range(cycle_1_evangels):
         if day_ % 7 == 0:
-            print(p1_sundays[day_ // 7], p1_matins[day_ // 7], p1_apostles[day_].text, p1_gospels[day_].text,
+            print(p1_sundays[day_ // 7], p1_matins[day_ // 7], p1_apostles[day_].text, p1_evangels[day_].text,
                   sep=' | ')
         else:
-            print(p1_weeks[day_ // 7], p1_days[day_ - day_ // 7 - 1], p1_apostles[day_].text, p1_gospels[day_].text,
+            print(p1_weeks[day_ // 7], p1_days[day_ - day_ // 7 - 1], p1_apostles[day_].text, p1_evangels[day_].text,
                   sep=' | ')
-
-
-def view_data_set(data: list):
-    set_ = set(data)
-
-    for i in set_:
-        print(i)
 
 
 if __name__ == '__main__':
