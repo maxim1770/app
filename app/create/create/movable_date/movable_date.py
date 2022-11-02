@@ -10,6 +10,9 @@ from app import schemas, crud
 #  ТУТ И ПОВТОРОВ МНОГО, ТАК ЧТО ДУМАЮ ТОЧНО СТОИТ РАЗДЕЛИТЬ НА ДВЕ ЧАСТИ
 
 
+# def
+
+
 def create_c1_movable_dates(
         db: Session,
         c1_sundays_nums: list[int],

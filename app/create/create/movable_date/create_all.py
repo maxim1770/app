@@ -1,7 +1,7 @@
 from bs4.element import Tag
 from sqlalchemy.orm import Session
 
-from app.create import prepare
+from app.create import prepare, combine
 from app.create.create.movable_date.cycle import create_cycles
 from app.create.create.movable_date.week import create_c1_weeks
 from app.create.create.movable_date.day import create_c1_days
@@ -11,49 +11,31 @@ from app.api import deps
 from app import schemas
 
 
-def create_all():
-    db: Session = deps.get_db().__next__()
+def create_all_movable_dates(db: Session):
+    print(create_cycles(db))
+    create_all_c_1_movable_dates(db)
+
+
+def create_all_c_1_movable_dates(db: Session):
+    c1_weeks: list[schemas.WeekCreate] = combine.combine_fields_for_c1_weeks()
+
+    c1_days: list[schemas.DayCreate] = combine.combine_fields_for_c1_days()
+
+    print(create_c1_weeks(db, c1_weeks=c1_weeks))
+    c1_sundays_nums: list[int] = [week.sunday_num for week in c1_weeks]
+    print(create_c1_days(db,
+                         c1_sundays_nums=c1_sundays_nums,
+                         c1_days=c1_days))
 
     table: Tag = prepare.collect_table()
-
-    sundays: list[str] = prepare.PrepareSunday(table=table).data
-    c1_sundays: list[str] = prepare.PrepareС1Sunday(sundays).data
-    c1_sundays_nums: list[int] = prepare.PrepareС1SundayNum(c1_sundays.copy()).data
-    c1_sundays_titles: list[str] = prepare.PrepareС1SundayTitle(c1_sundays.copy()).data
-
-    weeks: list[str] = prepare.PrepareWeek(table=table).data
-    c1_weeks: list[str] = prepare.PrepareС1Week(weeks).data
-    c1_weeks_nums: list[int] = prepare.PrepareС1WeekNum(c1_weeks.copy()).data
-    c1_weeks_titles: list[str] = prepare.PrepareС1WeekTitle(c1_weeks.copy()).data
-
-    days: list[str] = prepare.PrepareDay(table=table).data
-    c1_days: list[str] = prepare.PrepareС1Day(days).data
-    c1_days_abbrs: list[schemas.DayAbbrEnum] = prepare.PrepareС1DayAbbr(c1_days.copy()).data
-    c1_days_titles: list[str | None] = prepare.PrepareС1DayTitle(c1_days.copy()).data
-
-    # print(create_cycles(db))
-    # print(create_c1_weeks(db,
-    #                       c1_sundays_nums=c1_sundays_nums,
-    #                       c1_sundays_titles=c1_sundays_titles,
-    #                       c1_weeks_nums=c1_weeks_nums,
-    #                       c1_weeks_titles=c1_weeks_titles
-    #                       )
-    #       )
-    #
-    # print(create_c1_days(db,
-    #                      c1_sundays_nums=c1_sundays_nums,
-    #                      c1_days_abbrs=c1_days_abbrs,
-    #                      c1_days_titles=c1_days_titles
-    #                      )
-    #       )
-
-    matins: list[str] = prepare.PrepareSundayMatins(table=table).data
-    is_c1_sundays_matins: list[bool] = prepare.PrepareС1SundayMatins(matins).data
+    prepare_sunday_matins: prepare.PrepareSundayMatins = prepare.PrepareSundayMatins(table=table)
+    is_c1_sundays_matins: list[bool] = prepare.PrepareС1SundayMatins(prepare_sunday_matins.data.copy()).data
 
     is_c1_sundays_vespers: list[bool] = prepare.PrepareС1SundayVespers().data
 
-    # print(create_divine_services(db))
+    print(create_divine_services(db))
 
+    c1_days_abbrs: list[schemas.DayAbbrEnum] = [day.abbr for day in c1_days]
     print(
         create_c1_movable_dates(db,
                                 c1_sundays_nums=c1_sundays_nums,
@@ -65,4 +47,5 @@ def create_all():
 
 
 if __name__ == '__main__':
-    create_all()
+    db: Session = deps.get_db().__next__()
+    create_all_movable_dates(db)

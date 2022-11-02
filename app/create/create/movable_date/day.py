@@ -7,8 +7,7 @@ from app import schemas, crud
 
 def create_c1_days(db: Session,
                    c1_sundays_nums: list[int],
-                   c1_days_abbrs: list[schemas.DayAbbrEnum],
-                   c1_days_titles: list[str | None]
+                   c1_days: list[schemas.DayCreate]
                    ) -> bool:
     """
     Создает 56 записей о днях первого периода в таблице "days".
@@ -34,15 +33,12 @@ def create_c1_days(db: Session,
             number_creatures += 1
 
         # Создание пн, вт, ср, чт, пт, сб
-        for abbr, title in list(zip(c1_days_abbrs, c1_days_titles))[i * 6: (i + 1) * 6]:
+        for day in c1_days[i * 6: (i + 1) * 6]:
 
-            day: schemas.DayCreate = schemas.DayCreate(abbr=abbr)
             if crud.get_day(db, cycle_num=schemas.CycleEnum.cycle_1, sunday_num=sunday_num, abbr=day.abbr):
                 raise ValueError(
                     f'Day: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={sunday_num}, abbr={day.abbr} уже была создана')
             else:
-                day.title = title
-
                 crud.create_day(db, cycle_num=schemas.CycleEnum.cycle_1, sunday_num=sunday_num, day=day)
                 number_creatures += 1
 

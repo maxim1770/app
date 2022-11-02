@@ -1,9 +1,13 @@
-from app.create.create.movable_date.create_all import create_all as create_all_movable_date
+from sqlalchemy.orm import Session
+
+from app.api import deps
+from app.create.create.movable_date.create_all import create_all_movable_dates
 
 
-def main():
-    create_all_movable_date()
+def create_all(db: Session):
+    create_all_movable_dates(db)
 
 
 if __name__ == '__main__':
-    main()
+    db: Session = deps.get_db().__next__()
+    create_all(db)

@@ -173,7 +173,7 @@ class PrepareС1WeekNum(PrepareBase):
         pass
 
 
-class PrepareС1WeekTitle(PrepareBase): 
+class PrepareС1WeekTitle(PrepareBase):
     final_len: Final[int] = 8
 
     def __init__(self, data: list[str]):
