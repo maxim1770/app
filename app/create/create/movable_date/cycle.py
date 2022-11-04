@@ -18,15 +18,15 @@ def create_cycles(db: Session) -> bool:
     cycles: list[schemas.CycleCreate] = [
         schemas.CycleCreate(
             title=None,
-            num=1,
+            num=schemas.CycleEnum.cycle_1,
         ),
         schemas.CycleCreate(
             title=None,
-            num=2,
+            num=schemas.CycleEnum.cycle_2,
         ),
         schemas.CycleCreate(
             title=None,
-            num=3,
+            num=schemas.CycleEnum.cycle_3,
         )
     ]
 
@@ -36,9 +36,9 @@ def create_cycles(db: Session) -> bool:
         if crud.get_cycle(db, num=cycle.num):
             raise ValueError(
                 f'Cycle: num={cycle.num} уже была создана')
-        else:
-            crud.create_cycle(db, cycle=cycle)
-            number_creatures += 1
+
+        crud.create_cycle(db, cycle=cycle)
+        number_creatures += 1
 
     if number_cycles != number_creatures:
         raise ValueError(

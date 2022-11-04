@@ -6,21 +6,21 @@ from app import schemas, crud
 
 
 # TODO Тут возможно стоит разделить создания записей и создания pydantic моделей, для того чтобы в разы уменьшить кол. кода
-#  Но тогда возможно потерятеся логига с различием данных, в создании записей, по идее, все будет в одном цикле for
+#  Но тогда возможно потеряться логика с различием данных, в создании записей, по идее, все будет в одном цикле for
 #  ТУТ И ПОВТОРОВ МНОГО, ТАК ЧТО ДУМАЮ ТОЧНО СТОИТ РАЗДЕЛИТЬ НА ДВЕ ЧАСТИ
 
 
-# def
-
-
-def create_c1_movable_dates(
+def create_movable_dates(
         db: Session,
-        c1_sundays_nums: list[int],
-        c1_days_abbrs: list[schemas.DayAbbrEnum],
-        is_c1_sundays_matins: list[bool],
-        is_c1_sundays_vespers: list[bool],
+        cycle_num: schemas.CycleEnum,
+        sundays_nums: list[int],
+        days_abbrs: list[schemas.DayAbbrEnum],
+        sundays_matins: list[int | None],
+        sundays_vespers: list[bool],
+        number_movable_dates: Final[int]
 ) -> bool:
     """
+        ## КОММЕНТАРИЙ ОСТАЛЬСЯ ИЗ create_c1_movable_dates()
         Создает 65 = 56 (7*8 (кол. нд) литургий) + 7 (утрених в вс) + 1 (вечерня в Пасху) + 1 (утреня в чт 6 нд)
         записей о днях первого периода в таблице "movable_dates".
 
@@ -31,51 +31,54 @@ def create_c1_movable_dates(
 
         :return: true, если все создалось успешно. Или завершается с ошибкой ValueError.
     """
-    number_movable_dates: Final[int] = 65
+
+    # просто заглушка для вызовов функции create_movable_date()
+    movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
 
     number_creatures: int = 0
 
-    # Создание чт 6 недели Утрени - ввел вручную
-    sunday_num_6: Final[int] = 6
-    movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
-    if crud.get_movable_date(
-            db,
-            cycle_num=schemas.CycleEnum.cycle_1,
-            sunday_num=sunday_num_6,
-            day_abbr=schemas.DayAbbrEnum.thu,
-            divine_service_title=schemas.DivineServiceEnum.matins
-    ):
-        raise ValueError(
-            f'MovableDate: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={sunday_num_6}, abbr={schemas.DayAbbrEnum.thu}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
-    else:
-        crud.create_movable_date(
-            db,
-            cycle_num=schemas.CycleEnum.cycle_1,
-            sunday_num=sunday_num_6,
-            day_abbr=schemas.DayAbbrEnum.thu,
-            divine_service_title=schemas.DivineServiceEnum.matins,
-            movable_date=movable_date
-        )
-        number_creatures += 1
+    # не знаю что с этим делать
+    # # Создание чт 6 недели Утрени - ввел вручную
+    # sunday_num_6: Final[int] = 6
+    #
+    # if crud.get_movable_date(
+    #         db,
+    #         cycle_num=cycle_num,
+    #         sunday_num=sunday_num_6,
+    #         day_abbr=schemas.DayAbbrEnum.thu,
+    #         divine_service_title=schemas.DivineServiceEnum.matins
+    # ):
+    #     raise ValueError(
+    #         f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num_6}, abbr={schemas.DayAbbrEnum.thu}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
+    # else:
+    #     crud.create_movable_date(
+    #         db,
+    #         cycle_num=cycle_num,
+    #         sunday_num=sunday_num_6,
+    #         day_abbr=schemas.DayAbbrEnum.thu,
+    #         divine_service_title=schemas.DivineServiceEnum.matins,
+    #         movable_date=movable_date
+    #     )
+    #     number_creatures += 1
 
-    for i, sunday_num in enumerate(c1_sundays_nums):
+    for i, sunday_num in enumerate(sundays_nums):
 
         # Создание вс Утрени
-        if is_c1_sundays_matins[i]:
-            movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
+        if sundays_matins[i]:
+
             if crud.get_movable_date(
                     db,
-                    cycle_num=schemas.CycleEnum.cycle_1,
+                    cycle_num=cycle_num,
                     sunday_num=sunday_num,
                     day_abbr=schemas.DayAbbrEnum.sun,
                     divine_service_title=schemas.DivineServiceEnum.matins
             ):
                 raise ValueError(
-                    f'MovableDate: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
+                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
             else:
                 crud.create_movable_date(
                     db,
-                    cycle_num=schemas.CycleEnum.cycle_1,
+                    cycle_num=cycle_num,
                     sunday_num=sunday_num,
                     day_abbr=schemas.DayAbbrEnum.sun,
                     divine_service_title=schemas.DivineServiceEnum.matins,
@@ -84,73 +87,71 @@ def create_c1_movable_dates(
                 number_creatures += 1
 
         # Создание вс Вечерни
-        if is_c1_sundays_vespers[i]:
-            movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
+        if sundays_vespers[i]:
+
             if crud.get_movable_date(
                     db,
-                    cycle_num=schemas.CycleEnum.cycle_1,
+                    cycle_num=cycle_num,
                     sunday_num=sunday_num,
                     day_abbr=schemas.DayAbbrEnum.sun,
                     divine_service_title=schemas.DivineServiceEnum.vespers
             ):
                 raise ValueError(
-                    f'MovableDate: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.vespers} уже была создана')
-            else:
-                crud.create_movable_date(
-                    db,
-                    cycle_num=schemas.CycleEnum.cycle_1,
-                    sunday_num=sunday_num,
-                    day_abbr=schemas.DayAbbrEnum.sun,
-                    divine_service_title=schemas.DivineServiceEnum.vespers,
-                    movable_date=movable_date
-                )
-                number_creatures += 1
+                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.vespers} уже была создана')
+
+            crud.create_movable_date(
+                db,
+                cycle_num=cycle_num,
+                sunday_num=sunday_num,
+                day_abbr=schemas.DayAbbrEnum.sun,
+                divine_service_title=schemas.DivineServiceEnum.vespers,
+                movable_date=movable_date
+            )
+            number_creatures += 1
 
         # Создание вс Литургии
-        movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
+
         if crud.get_movable_date(
                 db,
-                cycle_num=schemas.CycleEnum.cycle_1,
+                cycle_num=cycle_num,
                 sunday_num=sunday_num,
                 day_abbr=schemas.DayAbbrEnum.sun,
                 divine_service_title=schemas.DivineServiceEnum.liturgy
         ):
             raise ValueError(
-                f'MovableDate: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
-        else:
-            crud.create_movable_date(
-                db,
-                cycle_num=schemas.CycleEnum.cycle_1,
-                sunday_num=sunday_num,
-                day_abbr=schemas.DayAbbrEnum.sun,
-                divine_service_title=schemas.DivineServiceEnum.liturgy,
-                movable_date=movable_date
-            )
-            number_creatures += 1
+                f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
+
+        crud.create_movable_date(
+            db,
+            cycle_num=cycle_num,
+            sunday_num=sunday_num,
+            day_abbr=schemas.DayAbbrEnum.sun,
+            divine_service_title=schemas.DivineServiceEnum.liturgy,
+            movable_date=movable_date
+        )
+        number_creatures += 1
 
         # Создание пн, вт, ср, чт, пт, сб - Литургии
-        for day_abbr in c1_days_abbrs[i * 6: (i + 1) * 6]:
-
-            movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
+        for day_abbr in days_abbrs[i * 6: (i + 1) * 6]:
 
             if crud.get_movable_date(
                     db,
-                    cycle_num=schemas.CycleEnum.cycle_1,
+                    cycle_num=cycle_num,
                     sunday_num=sunday_num,
                     day_abbr=day_abbr,
                     divine_service_title=schemas.DivineServiceEnum.liturgy
             ):
                 raise ValueError(
-                    f'MovableDate: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={sunday_num}, abbr={day_abbr}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
-            else:
-                crud.create_movable_date(
-                    db,
-                    cycle_num=schemas.CycleEnum.cycle_1,
-                    sunday_num=sunday_num,
-                    day_abbr=day_abbr,
-                    divine_service_title=schemas.DivineServiceEnum.liturgy,
-                    movable_date=movable_date
-                )
+                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={day_abbr}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
+
+            crud.create_movable_date(
+                db,
+                cycle_num=cycle_num,
+                sunday_num=sunday_num,
+                day_abbr=day_abbr,
+                divine_service_title=schemas.DivineServiceEnum.liturgy,
+                movable_date=movable_date
+            )
             number_creatures += 1
 
     if number_movable_dates != number_creatures:

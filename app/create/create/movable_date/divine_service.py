@@ -33,9 +33,9 @@ def create_divine_services(db: Session) -> bool:
         if crud.get_divine_service(db, title=divine_service.title):
             raise ValueError(
                 f'DivineService: title={divine_service.title} уже была создана')
-        else:
-            crud.create_divine_service(db, divine_service=divine_service)
-            number_creatures += 1
+
+        crud.create_divine_service(db, divine_service=divine_service)
+        number_creatures += 1
 
     if number_divine_services != number_creatures:
         raise ValueError(

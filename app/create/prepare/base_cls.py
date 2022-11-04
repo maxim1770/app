@@ -35,12 +35,10 @@ class PrepareBase(ABC):
         pass
 
     @abstractmethod
-    def fill_gaps(self):
-        pass
+    def fill_gaps(self): pass
 
     @abstractmethod
-    def clean(self):
-        pass
+    def clean(self): pass
 
     @abstractmethod
     def convert(self):
