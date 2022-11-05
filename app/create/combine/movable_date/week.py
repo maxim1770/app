@@ -3,7 +3,7 @@ from pydantic import parse_obj_as
 from app import schemas
 
 
-def combine_fields_for_weeks(
+def combine_fields_weeks(
         weeks_titles: list[str | None],
         weeks_nums: list[int | None],
         sundays_titles: list[str],

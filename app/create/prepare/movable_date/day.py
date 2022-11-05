@@ -9,37 +9,6 @@ from app.create.prepare.base_cls import PrepareBase
 from app.create.prepare.base_collect import collect_table
 
 
-def get_fields_for_c1_days() -> dict[str, list[schemas.DayAbbrEnum | str | None]]:
-    table: Tag = collect_table()
-
-    prepare_day: PrepareDay = PrepareDay(table=table)
-    prepare_c1_day: PrepareC1Day = PrepareC1Day(prepare_day.data.copy())
-    days_abbrs: list[schemas.DayAbbrEnum] = PrepareC1DayAbbr(prepare_c1_day.data.copy()).data
-    days_titles: list[str | None] = PrepareC1DayTitle(prepare_c1_day.data.copy()).data
-
-    return {'days_abbrs': days_abbrs,
-            'days_titles': days_titles
-            }
-
-
-def get_fields_for_c2_days() -> dict[str, list[schemas.DayAbbrEnum | None]]:
-    table: Tag = collect_table()
-
-    days_abbrs: list[schemas.DayAbbrEnum] = [schemas.DayAbbrEnum.mon,
-                                             schemas.DayAbbrEnum.tue,
-                                             schemas.DayAbbrEnum.wed,
-                                             schemas.DayAbbrEnum.thu,
-                                             schemas.DayAbbrEnum.fri,
-                                             schemas.DayAbbrEnum.sat,
-                                             ] * const.NumWeek.IN_CYCLE_2
-
-    days_titles: list[None] = [None] * 6 * const.NumWeek.IN_CYCLE_2
-
-    return {'days_abbrs': days_abbrs,
-            'days_titles': days_titles
-            }
-
-
 class PrepareDay(PrepareBase):
     # длина не окончательная, еще в работе
     final_len: Final[int] = 266
@@ -146,3 +115,34 @@ class PrepareC1DayTitle(PrepareBase):
             day_title: str | None = None
 
         return day_title
+
+
+def prepare_fields_c1_days() -> dict[str, list[schemas.DayAbbrEnum | str | None]]:
+    table: Tag = collect_table()
+
+    prepare_day: PrepareDay = PrepareDay(table=table)
+    prepare_c1_day: PrepareC1Day = PrepareC1Day(prepare_day.data.copy())
+    days_abbrs: list[schemas.DayAbbrEnum] = PrepareC1DayAbbr(prepare_c1_day.data.copy()).data
+    days_titles: list[str | None] = PrepareC1DayTitle(prepare_c1_day.data.copy()).data
+
+    return {'days_abbrs': days_abbrs,
+            'days_titles': days_titles
+            }
+
+
+def prepare_fields_c2_days() -> dict[str, list[schemas.DayAbbrEnum | None]]:
+    table: Tag = collect_table()
+
+    days_abbrs: list[schemas.DayAbbrEnum] = [schemas.DayAbbrEnum.mon,
+                                             schemas.DayAbbrEnum.tue,
+                                             schemas.DayAbbrEnum.wed,
+                                             schemas.DayAbbrEnum.thu,
+                                             schemas.DayAbbrEnum.fri,
+                                             schemas.DayAbbrEnum.sat,
+                                             ] * const.NumWeek.IN_CYCLE_2
+
+    days_titles: list[None] = [None] * 6 * const.NumWeek.IN_CYCLE_2
+
+    return {'days_abbrs': days_abbrs,
+            'days_titles': days_titles
+            }

@@ -1,2 +1,3 @@
-from .movable_date import combine_fields_for_weeks
-from .movable_date import combine_fields_for_days
+from .movable_date import combine_fields_weeks
+from .movable_date import combine_fields_days
+from .bible_book import combine_fields_zachalos

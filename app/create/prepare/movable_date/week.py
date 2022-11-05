@@ -335,7 +335,7 @@ def _replace_dash_with_space(v: str) -> str:
     return v.replace('- ', '')
 
 
-def get_fields_for_c1_weeks() -> dict[str, list[str | int]]:
+def prepare_fields_c1_weeks() -> dict[str, list[str | int]]:
     table: Tag = collect_table()
 
     prepare_sunday: PrepareSunday = PrepareSunday(table=table)
@@ -355,7 +355,7 @@ def get_fields_for_c1_weeks() -> dict[str, list[str | int]]:
             }
 
 
-def get_fields_for_c2_weeks() -> dict[str, list[str | int | None]]:
+def prepare_fields_c2_weeks() -> dict[str, list[str | int | None]]:
     table: Tag = collect_table()
 
     prepare_sunday: PrepareSunday = PrepareSunday(table=table)
@@ -389,4 +389,4 @@ def get_fields_for_c2_weeks() -> dict[str, list[str | int | None]]:
 
 
 if __name__ == '__main__':
-    print(get_fields_for_c2_weeks()['weeks_titles'])
+    print(prepare_fields_c2_weeks()['weeks_titles'])

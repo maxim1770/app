@@ -113,6 +113,22 @@ class PrepareC1SundayVespers(PrepareBase):
         pass
 
 
+def prepare_c1_sundays_matins() -> list[int | None]:
+    table: Tag = collect_table()
+    prepare_sunday_matins: PrepareSundayMatins = PrepareSundayMatins(table=table)
+    sundays_matins: list[int | None] = PrepareC1SundayMatins(prepare_sunday_matins.data.copy()).data
+
+    return sundays_matins
+
+
+def prepare_c2_sundays_matins() -> list[int]:
+    table: Tag = collect_table()
+    prepare_sunday_matins: PrepareSundayMatins = PrepareSundayMatins(table=table)
+    sundays_matins: list[int] = PrepareC2SundayMatins(prepare_sunday_matins.data.copy()).data
+
+    return sundays_matins
+
+
 if __name__ == '__main__':
     table: Tag = collect_table()
     prepare_sunday_matins: PrepareSundayMatins = PrepareSundayMatins(table=table)

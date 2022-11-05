@@ -1,16 +1,14 @@
-from bs4.element import Tag
 from sqlalchemy.orm import Session
 
 from app import schemas
 from app.api import deps
-
-from app.db.session import engine, Base
 from app.create import prepare, combine, const
 from app.create.create.movable_date.cycle import create_cycles
-from app.create.create.movable_date.week import create_weeks
 from app.create.create.movable_date.day import create_days
 from app.create.create.movable_date.divine_service import create_divine_services
 from app.create.create.movable_date.movable_date import create_movable_dates
+from app.create.create.movable_date.week import create_weeks
+from app.db.session import engine, Base
 
 
 def create_all_movable_dates(db: Session):
@@ -18,17 +16,17 @@ def create_all_movable_dates(db: Session):
     print('create_divine_services', create_divine_services(db))
 
     print("c1")
-    create_all_c_1_movable_dates(db)
+    create_all_c1_movable_dates(db)
 
     print("c2")
 
-    create_all_c_2_movable_dates(db)
+    create_all_c2_movable_dates(db)
 
 
-def create_all_c_1_movable_dates(db: Session):
-    weeks: list[schemas.WeekCreate] = combine.combine_fields_for_weeks(**prepare.get_fields_for_c1_weeks())
+def create_all_c1_movable_dates(db: Session):
+    weeks: list[schemas.WeekCreate] = combine.combine_fields_weeks(**prepare.prepare_fields_c1_weeks())
 
-    days: list[schemas.DayCreate] = combine.combine_fields_for_days(**prepare.get_fields_for_c1_days())
+    days: list[schemas.DayCreate] = combine.combine_fields_days(**prepare.prepare_fields_c1_days())
 
     print('create_weeks',
           create_weeks(db, cycle_num=schemas.CycleEnum.cycle_1, weeks=weeks, number_weeks=const.NumSunday.IN_CYCLE_1))
@@ -41,9 +39,7 @@ def create_all_c_1_movable_dates(db: Session):
                                      )
           )
 
-    table: Tag = prepare.collect_table()
-    prepare_sunday_matins: prepare.PrepareSundayMatins = prepare.PrepareSundayMatins(table=table)
-    sundays_matins: list[int | None] = prepare.PrepareC1SundayMatins(prepare_sunday_matins.data.copy()).data
+    sundays_matins: list[int | None] = prepare.prepare_c1_sundays_matins()
 
     sundays_vespers: list[bool] = prepare.PrepareC1SundayVespers().data
 
@@ -60,12 +56,12 @@ def create_all_c_1_movable_dates(db: Session):
           )
 
 
-def create_all_c_2_movable_dates(db: Session):
-    weeks: list[schemas.WeekCreate] = combine.combine_fields_for_weeks(**prepare.get_fields_for_c2_weeks())
+def create_all_c2_movable_dates(db: Session):
+    weeks: list[schemas.WeekCreate] = combine.combine_fields_weeks(**prepare.prepare_fields_c2_weeks())
     print('create_weeks',
           create_weeks(db, cycle_num=schemas.CycleEnum.cycle_2, weeks=weeks, number_weeks=const.NumSunday.IN_CYCLE_2))
 
-    days: list[schemas.DayCreate] = combine.combine_fields_for_days(**prepare.get_fields_for_c2_days())
+    days: list[schemas.DayCreate] = combine.combine_fields_days(**prepare.prepare_fields_c2_days())
 
     sundays_nums: list[int] = [week.sunday_num for week in weeks]
     print('create_days', create_days(db,
@@ -77,9 +73,7 @@ def create_all_c_2_movable_dates(db: Session):
                                      )
           )
 
-    table: Tag = prepare.collect_table()
-    prepare_sunday_matins: prepare.PrepareSundayMatins = prepare.PrepareSundayMatins(table=table)
-    sundays_matins: list[int] = prepare.PrepareC2SundayMatins(prepare_sunday_matins.data.copy()).data
+    sundays_matins: list[int] = prepare.prepare_c2_sundays_matins()
 
     sundays_vespers: list[False] = [False] * const.NumSunday.IN_CYCLE_2
 

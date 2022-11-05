@@ -3,7 +3,7 @@ from pydantic import parse_obj_as
 from app import schemas
 
 
-def combine_fields_for_days(
+def combine_fields_days(
         days_abbrs: list[schemas.DayAbbrEnum],
         days_titles: list[str | None]
 ) -> list[schemas.DayCreate]:
