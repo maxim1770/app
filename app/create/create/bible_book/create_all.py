@@ -11,7 +11,7 @@ from app.create import prepare, combine, const
 def create_all_zachalos(db: Session):
     print('create_bible_books', create_bible_books(db))
 
-    print("c1")
+    print('c1')
     create_all_c1_zachalos(db)
 
 

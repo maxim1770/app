@@ -5,10 +5,11 @@ from app.schemas.reading import Reading
 
 class ZachaloBase(BaseModel):
     num: int
+    title: str | None
 
 
 class ZachaloCreate(ZachaloBase):
-    num: int | None
+    pass
 
 
 class Zachalo(ZachaloBase):

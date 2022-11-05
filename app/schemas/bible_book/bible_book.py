@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 from fastapi_utils.enums import StrEnum
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field, root_validator
 
 from app.schemas.bible_book.zachalo import Zachalo
 
@@ -123,7 +123,7 @@ class BibleBookBase(BaseModel):
 class BibleBookCreate(BibleBookBase):
     abbr_ru: AbbrRuEnum | None
 
-    # С этим не получилось создать записи из пакета pars
+    # С этим не получилось создать записи из пакета create
     # @validator('abbr_ru')
     # def _set_abbr_ru(cls, field_value, values: dict, field, config):
     #     field = AbbrRuEnum[values["abbr"]]

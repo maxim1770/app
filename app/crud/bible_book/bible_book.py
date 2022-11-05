@@ -21,15 +21,19 @@ def get_bible_books_by_part(db: Session, testament: schemas.TestamentEnum, part:
     ).all()
 
 
-def get_bible_book(db: Session, testament: schemas.TestamentEnum, part: schemas.PartEnum,
-                   abbr: schemas.AbbrEnum) -> models.BibleBook:
-    return db.query(models.BibleBook).filter(
-        and_(
-            models.BibleBook.abbr == abbr.value,
-            models.BibleBook.part == part.value,
-            models.BibleBook.testament == testament.value
-        )
-    ).first()
+# def get_bible_book(db: Session, testament: schemas.TestamentEnum, part: schemas.PartEnum,
+#                    abbr: schemas.AbbrEnum) -> models.BibleBook:
+#     return db.query(models.BibleBook).filter(
+#         and_(
+#             models.BibleBook.abbr == abbr.value,
+#             models.BibleBook.part == part.value,
+#             models.BibleBook.testament == testament.value
+#         )
+#     ).first()
+
+
+def get_bible_book(db: Session, abbr: schemas.AbbrEnum, *args, **kwargs) -> models.BibleBook:
+    return db.query(models.BibleBook).filter(models.BibleBook.abbr == abbr.value).first()
 
 
 def create_bible_book(db: Session, bible_book: schemas.BibleBookCreate) -> models.BibleBook:

@@ -35,7 +35,7 @@ def create_movable_dates(
     # просто заглушка для вызовов функции create_movable_date()
     movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
 
-    number_creatures: int = 0
+    num_creatures: int = 0
 
     # не знаю что с этим делать
     # # Создание чт 6 недели Утрени - ввел вручную
@@ -59,7 +59,7 @@ def create_movable_dates(
     #         divine_service_title=schemas.DivineServiceEnum.matins,
     #         movable_date=movable_date
     #     )
-    #     number_creatures += 1
+    #     num_creatures += 1
 
     for i, sunday_num in enumerate(sundays_nums):
 
@@ -74,7 +74,7 @@ def create_movable_dates(
                     divine_service_title=schemas.DivineServiceEnum.matins
             ):
                 raise ValueError(
-                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
+                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
             else:
                 crud.create_movable_date(
                     db,
@@ -84,7 +84,7 @@ def create_movable_dates(
                     divine_service_title=schemas.DivineServiceEnum.matins,
                     movable_date=movable_date
                 )
-                number_creatures += 1
+                num_creatures += 1
 
         # Создание вс Вечерни
         if sundays_vespers[i]:
@@ -97,7 +97,7 @@ def create_movable_dates(
                     divine_service_title=schemas.DivineServiceEnum.vespers
             ):
                 raise ValueError(
-                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.vespers} уже была создана')
+                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.vespers} уже была создана')
 
             crud.create_movable_date(
                 db,
@@ -107,7 +107,7 @@ def create_movable_dates(
                 divine_service_title=schemas.DivineServiceEnum.vespers,
                 movable_date=movable_date
             )
-            number_creatures += 1
+            num_creatures += 1
 
         # Создание вс Литургии
 
@@ -119,7 +119,7 @@ def create_movable_dates(
                 divine_service_title=schemas.DivineServiceEnum.liturgy
         ):
             raise ValueError(
-                f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
+                f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
 
         crud.create_movable_date(
             db,
@@ -129,7 +129,7 @@ def create_movable_dates(
             divine_service_title=schemas.DivineServiceEnum.liturgy,
             movable_date=movable_date
         )
-        number_creatures += 1
+        num_creatures += 1
 
         # Создание пн, вт, ср, чт, пт, сб - Литургии
         for day_abbr in days_abbrs[i * 6: (i + 1) * 6]:
@@ -142,7 +142,7 @@ def create_movable_dates(
                     divine_service_title=schemas.DivineServiceEnum.liturgy
             ):
                 raise ValueError(
-                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={day_abbr}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
+                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={day_abbr}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
 
             crud.create_movable_date(
                 db,
@@ -152,9 +152,9 @@ def create_movable_dates(
                 divine_service_title=schemas.DivineServiceEnum.liturgy,
                 movable_date=movable_date
             )
-            number_creatures += 1
+            num_creatures += 1
 
-    if number_movable_dates != number_creatures:
+    if number_movable_dates != num_creatures:
         raise ValueError(
             f'Не создались {number_movable_dates} записи о переходящих датах в таблице `movable_dates`.')
     return True

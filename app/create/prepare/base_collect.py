@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 
 
-def collect_table(path_to_index: Path = Path('../../../data/index.html')) -> Tag:
+def collect_table(
+        path_to_index: Path = Path(r'C:\Users\MaxDroN\python_projects\const_data_books\app\data\index.html')) -> Tag:
     """
     :param path_to_index: Насчет пути по умолчанию СКОРЕЕ ВСЕГО НЕПРАВИЛЬНО
     """

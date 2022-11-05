@@ -27,7 +27,7 @@ def create_divine_services(db: Session) -> bool:
         )
     ]
 
-    number_creatures: int = 0
+    num_creatures: int = 0
 
     for divine_service in divine_services:
         if crud.get_divine_service(db, title=divine_service.title):
@@ -35,9 +35,9 @@ def create_divine_services(db: Session) -> bool:
                 f'DivineService: title={divine_service.title} уже была создана')
 
         crud.create_divine_service(db, divine_service=divine_service)
-        number_creatures += 1
+        num_creatures += 1
 
-    if number_divine_services != number_creatures:
+    if number_divine_services != num_creatures:
         raise ValueError(
             f'Не создались {number_divine_services} записи о Божественных службах в таблице `divine_services`.')
     return True

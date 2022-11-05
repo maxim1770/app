@@ -33,7 +33,6 @@ class DayBase(BaseModel):
 
 
 class DayCreate(DayBase):
-    abbr: DayAbbrEnum | None
     abbr_ru: DayAbbrRuEnum | None
 
     @root_validator()

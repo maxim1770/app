@@ -4,17 +4,14 @@ from app.schemas.movable_date.day import Day
 
 
 class WeekBase(BaseModel):
-    title: str
-    num: int
-    sunday_title: str
+    title: str | None
+    num: int | None
+    sunday_title: str | None
     sunday_num: int
 
 
 class WeekCreate(WeekBase):
-    title: str | None
-    num: int | None
-    sunday_title: str | None
-    sunday_num: int | None
+    pass
 
 
 class Week(WeekBase):

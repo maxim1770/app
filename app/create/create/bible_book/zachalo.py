@@ -21,7 +21,7 @@ def create_zachalos(db: Session,
     :return: количество созданных записей в таблице.
     """
 
-    number_creatures: int = 0
+    num_creatures: int = 0
 
     for bible_book_abbr, zachalo in zip(bible_books_abbrs, zachalos):
 
@@ -30,12 +30,12 @@ def create_zachalos(db: Session,
                 f'Zachalo: bible_book_abbr={bible_book_abbr}, num={zachalo.num} уже была создана')
 
         crud.create_zachalo(db, bible_book_abbr=bible_book_abbr, zachalo=zachalo)
-        number_creatures += 1
+        num_creatures += 1
 
-        print: str = 'Apostole' if number_creatures % 2 == 0 else 'Evangel'
-        print(f'(+)', number_creatures, "|", {print}, "|", zachalo.num, "|", bible_book_abbr)
+        print_view: str = 'Apostole' if num_creatures % 2 == 0 else 'Evangel'
+        print(f'(+)', num_creatures, "|", {print_view}, "|", zachalo.num, "|", bible_book_abbr)
 
-    if number_zachalos != number_creatures:
+    if number_zachalos != num_creatures:
         raise ValueError(
             f'Не создались {number_zachalos} записи об зачалах в таблице `zachalos`.')
     return True

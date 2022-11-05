@@ -5,16 +5,16 @@ from app import models, schemas
 from app.crud.bible_book.bible_book import get_bible_book
 
 
-def get_zachalos(db: Session, bible_book_abbr: str) -> list[models.Zachalo]:
-    # Другой вариант, не знаю какой лучше и быстрее
-    # return db.query(models.Zachalo).join(models.BibleBook).filter(models.BibleBook.abbr == bible_book_abbr).all()
+# def get_zachalos(db: Session, bible_book_abbr: schemas.AbbrEnum) -> list[models.Zachalo]:
+#     # Другой вариант, не знаю какой лучше и быстрее
+#     # return db.query(models.Zachalo).join(models.BibleBook).filter(models.BibleBook.abbr == bible_book_abbr).all()
+#
+#     bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
+#     return db.query(models.Zachalo).filter(models.Zachalo.bible_book_id == bible_book_id).all()
 
-    bible_book_id: int = get_bible_book(abbr=bible_book_abbr, db=db).id
-    return db.query(models.Zachalo).filter(models.Zachalo.bible_book_id == bible_book_id).all()
 
-
-def get_zachalo(db: Session, bible_book_abbr: str, num: int) -> models.Zachalo:
-    bible_book_id: int = get_bible_book(abbr=bible_book_abbr, db=db).id
+def get_zachalo(db: Session, bible_book_abbr: schemas.AbbrEnum, num: int) -> models.Zachalo:
+    bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
     return db.query(models.Zachalo).filter(
         and_(
             models.Zachalo.num == num,
@@ -23,8 +23,8 @@ def get_zachalo(db: Session, bible_book_abbr: str, num: int) -> models.Zachalo:
     ).first()
 
 
-def create_zachalo(db: Session, bible_book_abbr: str, zachalo: schemas.ZachaloCreate) -> models.Zachalo:
-    bible_book_id: int = get_bible_book(abbr=bible_book_abbr, db=db).id
+def create_zachalo(db: Session, bible_book_abbr: schemas.AbbrEnum, zachalo: schemas.ZachaloCreate) -> models.Zachalo:
+    bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
     db_zachalo = models.Zachalo(bible_book_id=bible_book_id, **zachalo.dict())
     db.add(db_zachalo)
     db.commit()

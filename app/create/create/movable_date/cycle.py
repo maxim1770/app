@@ -30,7 +30,7 @@ def create_cycles(db: Session) -> bool:
         )
     ]
 
-    number_creatures: int = 0
+    num_creatures: int = 0
 
     for cycle in cycles:
         if crud.get_cycle(db, num=cycle.num):
@@ -38,9 +38,9 @@ def create_cycles(db: Session) -> bool:
                 f'Cycle: num={cycle.num} уже была создана')
 
         crud.create_cycle(db, cycle=cycle)
-        number_creatures += 1
+        num_creatures += 1
 
-    if number_cycles != number_creatures:
+    if number_cycles != num_creatures:
         raise ValueError(
             f'Не создались {number_cycles} записи о годовых кругах в таблице `cycles`.')
     return True

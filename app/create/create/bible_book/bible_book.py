@@ -135,7 +135,7 @@ def create_bible_books(db: Session) -> bool:
         ),
     ]
 
-    number_creatures: int = 0
+    num_creatures: int = 0
 
     for bible_book in bible_books:
         # TODO тут изменить аргументы get_bible_book, если все таки решу использовать только abbr
@@ -144,9 +144,9 @@ def create_bible_books(db: Session) -> bool:
                 f'BibleBook: testament={bible_book.testament}, part={bible_book.part}, abbr={bible_book.abbr} уже была создана')
 
         crud.create_bible_book(db, bible_book=bible_book)
-        number_creatures += 1
+        num_creatures += 1
 
-    if number_bible_books != number_creatures:
+    if number_bible_books != num_creatures:
         raise ValueError(
             f'Не создались {number_bible_books} записи об книгах Нового Завета в таблице `bible_books`.')
     return True

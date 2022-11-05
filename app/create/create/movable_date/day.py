@@ -20,7 +20,7 @@ def create_days(db: Session,
     :return: true, если все создалось успешно. Или завершается с ошибкой ValueError.
     """
 
-    number_creatures: int = 0
+    num_creatures: int = 0
 
     for i, sunday_num in enumerate(sundays_nums):
 
@@ -32,7 +32,7 @@ def create_days(db: Session,
 
         day_sunday.title = None
         crud.create_day(db, cycle_num=cycle_num, sunday_num=sunday_num, day=day_sunday)
-        number_creatures += 1
+        num_creatures += 1
 
         # Создание пн, вт, ср, чт, пт, сб
         for day in days[i * 6: (i + 1) * 6]:
@@ -42,9 +42,9 @@ def create_days(db: Session,
                     f'Day: cycle_num={cycle_num}, sunday_num={sunday_num}, abbr={day.abbr} уже была создана')
 
             crud.create_day(db, cycle_num=cycle_num, sunday_num=sunday_num, day=day)
-            number_creatures += 1
+            num_creatures += 1
 
-    if number_days != number_creatures:
+    if number_days != num_creatures:
         raise ValueError(
             f'Не создались {number_days} записи о днях в таблице `days`.')
     return True
