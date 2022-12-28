@@ -1,36 +1,40 @@
+import logging
+
 from sqlalchemy.orm import Session
 
-from app import schemas
 from app.api import deps
+from app.create import prepare
 from app.create.create.bible_book.bible_book import create_bible_books
-from app.create.create.bible_book.zachalo import create_zachalos
+from app.create.create.bible_book.zachalo import CreateZachalo
 from app.db.session import engine, Base
-from app.create import prepare, combine, const
 
 
 def create_all_zachalos(db: Session):
-    print('create_bible_books', create_bible_books(db))
+    create_bible_books(db)
+    # logging.info("Create bible books")
 
-    print('c1')
-    create_all_c1_zachalos(db)
+    # zachalos_id: list[int] = create_all_c1_zachalos(db)
+
+    # zachalos_id: list[int] = create_all_c2_zachalos(db)
 
 
-def create_all_c1_zachalos(db: Session):
-    zachalos: list[schemas.ZachaloCreate] = combine.combine_fields_zachalos(**prepare.prepare_fields_c1_zachalos())
+def create_all_c1_zachalos(db: Session) -> list[int]:
+    create_zachalo: CreateZachalo = prepare.CreateZachaloFactory.get_c1_zachalo(db)
+    zachalos_id: list[int] = create_zachalo.create()
+    logging.info("Create c1 zachalos")
 
-    bible_books_abbrs: list[schemas.AbbrEnum] = prepare.prepare_с1_bible_books_abbrs()
+    return zachalos_id
 
-    print('create_zachalos', create_zachalos(db,
-                                             bible_books_abbrs=bible_books_abbrs,
-                                             zachalos=zachalos,
-                                             number_zachalos=(const.NumWeek.IN_CYCLE_1 * 7) * 2
-                                             )
-          )
+
+def create_all_c2_zachalos(db: Session) -> list[int]:
+    create_zachalo: CreateZachalo = prepare.CreateZachaloFactory.get_c2_zachalo(db)
+    zachalos_id: list[int] = create_zachalo.create()
+    logging.info("Create c2 zachalos")
+
+    return zachalos_id
 
 
 if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
-
     Base.metadata.create_all(bind=engine)
-
     create_all_zachalos(db)

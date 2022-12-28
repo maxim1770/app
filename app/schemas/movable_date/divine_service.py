@@ -3,7 +3,8 @@ from enum import auto
 from fastapi_utils.enums import StrEnum
 from pydantic import BaseModel
 
-from app.schemas.movable_date import MovableDate
+
+# from app.schemas.movable_date import MovableDate
 
 
 class DivineServiceEnum(StrEnum):
@@ -23,7 +24,7 @@ class DivineServiceCreate(DivineServiceBase):
 class DivineService(DivineServiceBase):
     id: int
 
-    movable_dates: list[MovableDate] = []
+    # movable_dates: list[MovableDate] = []
 
     class Config:
         orm_mode = True

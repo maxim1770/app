@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.db.session import Base
@@ -9,6 +9,7 @@ class Zachalo(Base):
     id = Column(Integer, primary_key=True)
 
     num = Column(Integer)
+    title = Column(String)
 
     readings = relationship("Reading", back_populates="zachalo")
 

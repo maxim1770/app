@@ -1,8 +1,7 @@
-from typing import Final
-
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
+from app.create.create.base_cls import CreateBase, FatalCreateError
 
 
 # TODO Тут возможно стоит разделить создания записей и создания pydantic моделей, для того чтобы в разы уменьшить кол. кода
@@ -10,151 +9,60 @@ from app import schemas, crud
 #  ТУТ И ПОВТОРОВ МНОГО, ТАК ЧТО ДУМАЮ ТОЧНО СТОИТ РАЗДЕЛИТЬ НА ДВЕ ЧАСТИ
 
 
-def create_movable_dates(
-        db: Session,
-        cycle_num: schemas.CycleEnum,
-        sundays_nums: list[int],
-        days_abbrs: list[schemas.DayAbbrEnum],
-        sundays_matins: list[int | None],
-        sundays_vespers: list[bool],
-        number_movable_dates: Final[int]
-) -> bool:
-    """
-        ## КОММЕНТАРИЙ ОСТАЛЬСЯ ИЗ create_c1_movable_dates()
-        Создает 65 = 56 (7*8 (кол. нд) литургий) + 7 (утрених в вс) + 1 (вечерня в Пасху) + 1 (утреня в чт 6 нд)
-        записей о днях первого периода в таблице "movable_dates".
+# TODO если что про утреню в четверг и комментарий можно посмотреть в Local History
 
-        **Дни с утреней или вечерней Воскресений введены вручную.**
-        Так же утреня в чт 6 нд введена вручную.
-        Так же об номере одной неделе (sunday_1_num) введено вручную.
-        **Все остальное с парсера.**
+class CreateMovableDate(CreateBase):
 
-        :return: true, если все создалось успешно. Или завершается с ошибкой ValueError.
-    """
+    def __init__(self, db: Session, parents_id: list[int], sundays_matins: list[int | None], num_creatures: int):
+        super().__init__(db, items=None, parents_id=parents_id, num_creatures=num_creatures)
+        self.sundays_matins = sundays_matins
 
-    # просто заглушка для вызовов функции create_movable_date()
-    movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
+    def create(self) -> list[int]:
+        movable_dates_id: list[int] = []
 
-    num_creatures: int = 0
+        # FIXME попробовать убрать это и в функции create_movable_date не требовать movable_date
+        # просто заглушка для вызовов функции create_movable_date()
+        movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
 
-    # не знаю что с этим делать
-    # # Создание чт 6 недели Утрени - ввел вручную
-    # sunday_num_6: Final[int] = 6
-    #
-    # if crud.get_movable_date(
-    #         db,
-    #         cycle_num=cycle_num,
-    #         sunday_num=sunday_num_6,
-    #         day_abbr=schemas.DayAbbrEnum.thu,
-    #         divine_service_title=schemas.DivineServiceEnum.matins
-    # ):
-    #     raise ValueError(
-    #         f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num_6}, abbr={schemas.DayAbbrEnum.thu}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
-    # else:
-    #     crud.create_movable_date(
-    #         db,
-    #         cycle_num=cycle_num,
-    #         sunday_num=sunday_num_6,
-    #         day_abbr=schemas.DayAbbrEnum.thu,
-    #         divine_service_title=schemas.DivineServiceEnum.matins,
-    #         movable_date=movable_date
-    #     )
-    #     num_creatures += 1
+        for i, movable_day_id in enumerate(self.parents_id):
 
-    for i, sunday_num in enumerate(sundays_nums):
+            if i % 7 == 0:
+                # Создание вс Утрени
+                if self.sundays_matins[i // 7]:
 
-        # Создание вс Утрени
-        if sundays_matins[i]:
+                    if crud.get_movable_date_by_id(
+                            self.db,
+                            movable_day_id=movable_day_id,
+                            divine_service_title=schemas.DivineServiceEnum.matins
+                    ):
+                        raise FatalCreateError(self.get_except_text_created(movable_day_id, schemas.DivineServiceEnum.matins))
+                    else:
+                        movable_dates_id.append(
+                            crud.create_movable_date(
+                                self.db,
+                                movable_day_id=movable_day_id,
+                                divine_service_title=schemas.DivineServiceEnum.matins,
+                                movable_date=movable_date
+                            ).id
+                        )
 
-            if crud.get_movable_date(
-                    db,
-                    cycle_num=cycle_num,
-                    sunday_num=sunday_num,
-                    day_abbr=schemas.DayAbbrEnum.sun,
-                    divine_service_title=schemas.DivineServiceEnum.matins
-            ):
-                raise ValueError(
-                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.matins} уже была создана')
-            else:
-                crud.create_movable_date(
-                    db,
-                    cycle_num=cycle_num,
-                    sunday_num=sunday_num,
-                    day_abbr=schemas.DayAbbrEnum.sun,
-                    divine_service_title=schemas.DivineServiceEnum.matins,
-                    movable_date=movable_date
-                )
-                num_creatures += 1
-
-        # Создание вс Вечерни
-        if sundays_vespers[i]:
-
-            if crud.get_movable_date(
-                    db,
-                    cycle_num=cycle_num,
-                    sunday_num=sunday_num,
-                    day_abbr=schemas.DayAbbrEnum.sun,
-                    divine_service_title=schemas.DivineServiceEnum.vespers
-            ):
-                raise ValueError(
-                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.vespers} уже была создана')
-
-            crud.create_movable_date(
-                db,
-                cycle_num=cycle_num,
-                sunday_num=sunday_num,
-                day_abbr=schemas.DayAbbrEnum.sun,
-                divine_service_title=schemas.DivineServiceEnum.vespers,
-                movable_date=movable_date
-            )
-            num_creatures += 1
-
-        # Создание вс Литургии
-
-        if crud.get_movable_date(
-                db,
-                cycle_num=cycle_num,
-                sunday_num=sunday_num,
-                day_abbr=schemas.DayAbbrEnum.sun,
-                divine_service_title=schemas.DivineServiceEnum.liturgy
-        ):
-            raise ValueError(
-                f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={schemas.DayAbbrEnum.sun}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
-
-        crud.create_movable_date(
-            db,
-            cycle_num=cycle_num,
-            sunday_num=sunday_num,
-            day_abbr=schemas.DayAbbrEnum.sun,
-            divine_service_title=schemas.DivineServiceEnum.liturgy,
-            movable_date=movable_date
-        )
-        num_creatures += 1
-
-        # Создание пн, вт, ср, чт, пт, сб - Литургии
-        for day_abbr in days_abbrs[i * 6: (i + 1) * 6]:
-
-            if crud.get_movable_date(
-                    db,
-                    cycle_num=cycle_num,
-                    sunday_num=sunday_num,
-                    day_abbr=day_abbr,
+            # Создание Вс, пн, вт, ср, чт, пт, сб - Литургии
+            if crud.get_movable_date_by_id(
+                    self.db,
+                    movable_day_id=movable_day_id,
                     divine_service_title=schemas.DivineServiceEnum.liturgy
             ):
-                raise ValueError(
-                    f'MovableDate: cycle_num={cycle_num}, sunday_num={sunday_num}, day_abbr={day_abbr}, divine_service_title={schemas.DivineServiceEnum.liturgy} уже была создана')
+                raise FatalCreateError(self.get_except_text_created(movable_day_id, schemas.DivineServiceEnum.liturgy))
 
-            crud.create_movable_date(
-                db,
-                cycle_num=cycle_num,
-                sunday_num=sunday_num,
-                day_abbr=day_abbr,
-                divine_service_title=schemas.DivineServiceEnum.liturgy,
-                movable_date=movable_date
+            movable_dates_id.append(
+                crud.create_movable_date(
+                    self.db,
+                    movable_day_id=movable_day_id,
+                    divine_service_title=schemas.DivineServiceEnum.liturgy,
+                    movable_date=movable_date
+                ).id
             )
-            num_creatures += 1
 
-    if number_movable_dates != num_creatures:
-        raise ValueError(
-            f'Не создались {number_movable_dates} записи о переходящих датах в таблице `movable_dates`.')
-    return True
+        self.check_num_creatures(movable_dates_id)
+
+        return movable_dates_id

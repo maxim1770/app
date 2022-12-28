@@ -8,8 +8,8 @@ class MovableDate(Base):
     __tablename__ = "movable_dates"
     id = Column(Integer, primary_key=True)
 
-    day_id = Column(Integer, ForeignKey("days.id"))
-    day = relationship("Day", back_populates="movable_dates")
+    movable_day_id = Column(Integer, ForeignKey("movable_days.id"))
+    movable_day = relationship("MovableDay", back_populates="movable_dates")
 
     divine_service_id = Column(Integer, ForeignKey("divine_services.id"))
     divine_service = relationship("DivineService", back_populates="movable_dates")

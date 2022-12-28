@@ -7,14 +7,15 @@ from app import crud, models, schemas
 router = APIRouter()
 
 
-@router.get('/', response_model=list[schemas.Zachalo])
-def read_zachalos(bible_book_abbr: str, db: Session = Depends(deps.get_db)):
-    zachalos: list[models.Zachalo] = crud.get_zachalos(db, bible_book_abbr=bible_book_abbr)
-    return zachalos
+# ПОКА ЧТО НЕ НАДО ИСПОЛЬЗОВАТЬ Т.К ПУТЬ
+# @router.get('/', response_model=list[schemas.Zachalo])
+# def read_zachalos(bible_book_abbr: schemas.AbbrEnum, db: Session = Depends(deps.get_db)):
+#     zachalos: list[models.Zachalo] = crud.get_zachalos(db, bible_book_abbr=bible_book_abbr)
+#     return zachalos
 
 
-@router.get('/{zachalo_num}', response_model=schemas.Zachalo)
-def read_zachalos(bible_book_abbr: str, zachalo_num: int, db: Session = Depends(deps.get_db)):
+@router.get('/zachalo-{zachalo_num}', response_model=schemas.Zachalo)
+def read_zachalo(bible_book_abbr: schemas.AbbrEnum, zachalo_num: int, db: Session = Depends(deps.get_db)):
     zachalo: models.Zachalo = crud.get_zachalo(db, bible_book_abbr=bible_book_abbr, num=zachalo_num)
     return zachalo
 

@@ -3,6 +3,7 @@ from typing import Final
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
+from app.create.create.base_cls import FatalCreateError
 
 
 def create_divine_services(db: Session) -> bool:
@@ -31,13 +32,13 @@ def create_divine_services(db: Session) -> bool:
 
     for divine_service in divine_services:
         if crud.get_divine_service(db, title=divine_service.title):
-            raise ValueError(
+            raise FatalCreateError(
                 f'DivineService: title={divine_service.title} уже была создана')
 
         crud.create_divine_service(db, divine_service=divine_service)
         num_creatures += 1
 
     if number_divine_services != num_creatures:
-        raise ValueError(
+        raise FatalCreateError(
             f'Не создались {number_divine_services} записи о Божественных службах в таблице `divine_services`.')
     return True

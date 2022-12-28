@@ -3,6 +3,7 @@ from typing import Final
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
+from app.create.create.base_cls import FatalCreateError
 
 
 def create_cycles(db: Session) -> bool:
@@ -34,13 +35,13 @@ def create_cycles(db: Session) -> bool:
 
     for cycle in cycles:
         if crud.get_cycle(db, num=cycle.num):
-            raise ValueError(
+            raise FatalCreateError(
                 f'Cycle: num={cycle.num} уже была создана')
 
         crud.create_cycle(db, cycle=cycle)
         num_creatures += 1
 
     if number_cycles != num_creatures:
-        raise ValueError(
+        raise FatalCreateError(
             f'Не создались {number_cycles} записи о годовых кругах в таблице `cycles`.')
     return True

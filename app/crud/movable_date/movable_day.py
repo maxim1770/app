@@ -1,0 +1,37 @@
+from sqlalchemy import and_
+from sqlalchemy.orm import Session
+
+from app import models, schemas
+from app.crud.movable_date.week import get_week
+
+
+def get_movable_days(db: Session, cycle_id: int) -> list[models.MovableDay]:
+    return db.query(models.MovableDay).join(models.Week).filter_by(cycle_id=cycle_id).all()
+
+
+def get_movable_day(db: Session, cycle_num: schemas.CycleEnum, sunday_num: int, abbr: schemas.MovableDayAbbrEnum) -> models.MovableDay | None:
+    week_id: int = get_week(db, cycle_num=cycle_num, sunday_num=sunday_num).id
+
+    return db.query(models.MovableDay).filter(
+        and_(
+            models.MovableDay.week_id == week_id,
+            models.MovableDay.abbr == abbr
+        )
+    ).first()
+
+
+def get_movable_day_by_id(db: Session, week_id: int, abbr: schemas.MovableDayAbbrEnum) -> models.MovableDay | None:
+    return db.query(models.MovableDay).filter(
+        and_(
+            models.MovableDay.week_id == week_id,
+            models.MovableDay.abbr == abbr
+        )
+    ).first()
+
+
+def create_movable_day(db: Session, week_id: int, movable_day: schemas.MovableDayCreate) -> models.MovableDay:
+    db_movable_day: models.MovableDay = models.MovableDay(week_id=week_id, **movable_day.dict())
+    db.add(db_movable_day)
+    db.commit()
+    db.refresh(db_movable_day)
+    return db_movable_day

@@ -13,3 +13,6 @@ class Reading(Base):
 
     zachalo_id = Column(Integer, ForeignKey("zachalos.id"))
     zachalo = relationship("Zachalo", back_populates="readings")
+
+    test_field = Column(Integer)
+    test_field_2 = Column(Integer)

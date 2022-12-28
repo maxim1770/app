@@ -3,6 +3,7 @@ from typing import Final
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
+from app.create.create.base_cls import FatalCreateError
 
 
 def create_bible_books(db: Session) -> bool:
@@ -140,13 +141,13 @@ def create_bible_books(db: Session) -> bool:
     for bible_book in bible_books:
         # TODO тут изменить аргументы get_bible_book, если все таки решу использовать только abbr
         if crud.get_bible_book(db, testament=bible_book.testament, part=bible_book.part, abbr=bible_book.abbr):
-            raise ValueError(
+            raise FatalCreateError(
                 f'BibleBook: testament={bible_book.testament}, part={bible_book.part}, abbr={bible_book.abbr} уже была создана')
 
         crud.create_bible_book(db, bible_book=bible_book)
         num_creatures += 1
 
     if number_bible_books != num_creatures:
-        raise ValueError(
+        raise FatalCreateError(
             f'Не создались {number_bible_books} записи об книгах Нового Завета в таблице `bible_books`.')
     return True

@@ -11,7 +11,7 @@ router = APIRouter()
 def read_movable_date(
         cycle_num: schemas.CycleEnum,
         sunday_num: int,
-        day_abbr: schemas.DayAbbrEnum,
+        movable_day_abbr: schemas.MovableDayAbbrEnum,
         divine_service_title: schemas.DivineServiceEnum,
         db: Session = Depends(deps.get_db)
 ):
@@ -19,7 +19,7 @@ def read_movable_date(
         db,
         cycle_num=cycle_num,
         sunday_num=sunday_num,
-        day_abbr=day_abbr,
+        movable_day_abbr=movable_day_abbr,
         divine_service_title=divine_service_title
     )
     return movable_date
@@ -30,7 +30,7 @@ def read_movable_date(
 def create_movable_date(
         cycle_num: schemas.CycleEnum,
         sunday_num: int,
-        day_abbr: schemas.DayAbbrEnum,
+        movable_day_abbr: schemas.MovableDayAbbrEnum,
         divine_service_title: schemas.DivineServiceEnum,
         movable_date: schemas.MovableDateCreate,
         db: Session = Depends(deps.get_db)
@@ -39,7 +39,7 @@ def create_movable_date(
         db,
         cycle_num=cycle_num,
         sunday_num=sunday_num,
-        day_abbr=day_abbr,
+        movable_day_abbr=movable_day_abbr,
         divine_service_title=divine_service_title,
         movable_date=movable_date
     )

@@ -1,24 +1,24 @@
-from typing import Final
-
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
+from app.create.create.base_cls import CreateBase, FatalCreateError
 
 
-def create_weeks(db: Session, cycle_num: schemas.CycleEnum, weeks: list[schemas.WeekCreate],
-                 number_weeks: Final[int]) -> bool:
-    num_creatures: int = 0
-    for week in weeks:
+class CreateWeek(CreateBase):
 
-        if crud.get_week(db, cycle_num=cycle_num, sunday_num=week.sunday_num):
-            raise ValueError(
-                f'Week: cycle_num={schemas.CycleEnum.cycle_1}, sunday_num={week.sunday_num} уже была создана'
-            )
+    def __init__(self, db: Session, items: list[schemas.WeekCreate], parents_id: int, num_creatures: int):
+        super().__init__(db, items, parents_id, num_creatures)
 
-        crud.create_week(db, cycle_num=cycle_num, week=week)
-        num_creatures += 1
+    def create(self) -> list[int]:
+        weeks_id: list[int] = []
 
-    if number_weeks != num_creatures:
-        raise ValueError(
-            f'Не создались {number_weeks} записи о неделях в таблице `weeks`.')
-    return True
+        for week in self.items:
+
+            if crud.get_week_by_id(self.db, cycle_id=self.parents_id, sunday_num=week.sunday_num):
+                raise FatalCreateError(self.get_except_text_created(self.parents_id, week))
+
+            weeks_id.append(crud.create_week(self.db, cycle_id=self.parents_id, week=week).id)
+
+        self.check_num_creatures(weeks_id)
+
+        return weeks_id

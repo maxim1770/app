@@ -11,5 +11,4 @@ class Cycle(Base):
     num = Column(Integer)
     title = Column(String)
 
-
     weeks = relationship("Week", back_populates="cycle")

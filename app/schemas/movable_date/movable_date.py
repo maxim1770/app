@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+from app.schemas.movable_date.divine_service import DivineService
 from app.schemas.reading import Reading
 
 
@@ -14,8 +15,9 @@ class MovableDateCreate(MovableDateBase):
 class MovableDate(MovableDateBase):
     id: int
 
-    day_id: int
-    divine_service_id: int
+    movable_day_id: int
+    # divine_service_id: int
+    divine_service: DivineService
 
     readings: list[Reading] = []
 

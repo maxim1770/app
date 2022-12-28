@@ -13,6 +13,10 @@ from app.crud.bible_book.bible_book import get_bible_book
 #     return db.query(models.Zachalo).filter(models.Zachalo.bible_book_id == bible_book_id).all()
 
 
+def get_all_zachalos(db: Session, skip: int = 0, limit: int = 1000) -> list[models.Zachalo]:
+    return db.query(models.Zachalo).offset(skip).limit(limit).all()
+
+
 def get_zachalo(db: Session, bible_book_abbr: schemas.AbbrEnum, num: int) -> models.Zachalo:
     bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
     return db.query(models.Zachalo).filter(

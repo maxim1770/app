@@ -1,0 +1,1302 @@
+[
+  {
+    "num": 1,
+    "title": null,
+    "id": 1,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 1,
+        "movable_date_id": 2,
+        "zachalo_id": 1
+      }
+    ]
+  },
+  {
+    "num": 1,
+    "title": null,
+    "id": 2,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 2,
+        "movable_date_id": 2,
+        "zachalo_id": 2
+      }
+    ]
+  },
+  {
+    "num": 2,
+    "title": null,
+    "id": 3,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 3,
+        "movable_date_id": 3,
+        "zachalo_id": 3
+      }
+    ]
+  },
+  {
+    "num": 2,
+    "title": null,
+    "id": 4,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 4,
+        "movable_date_id": 3,
+        "zachalo_id": 4
+      }
+    ]
+  },
+  {
+    "num": 113,
+    "title": null,
+    "id": 5,
+    "bible_book_id": 3,
+    "readings": [
+      {
+        "id": 5,
+        "movable_date_id": 4,
+        "zachalo_id": 5
+      }
+    ]
+  },
+  {
+    "num": 4,
+    "title": null,
+    "id": 6,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 6,
+        "movable_date_id": 4,
+        "zachalo_id": 6
+      }
+    ]
+  },
+  {
+    "num": 4,
+    "title": null,
+    "id": 7,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 7,
+        "movable_date_id": 5,
+        "zachalo_id": 7
+      }
+    ]
+  },
+  {
+    "num": 5,
+    "title": null,
+    "id": 8,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 8,
+        "movable_date_id": 5,
+        "zachalo_id": 8
+      }
+    ]
+  },
+  {
+    "num": 8,
+    "title": null,
+    "id": 9,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 9,
+        "movable_date_id": 6,
+        "zachalo_id": 9
+      }
+    ]
+  },
+  {
+    "num": 6,
+    "title": null,
+    "id": 10,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 10,
+        "movable_date_id": 6,
+        "zachalo_id": 10
+      }
+    ]
+  },
+  {
+    "num": 7,
+    "title": null,
+    "id": 11,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 11,
+        "movable_date_id": 7,
+        "zachalo_id": 11
+      }
+    ]
+  },
+  {
+    "num": 7,
+    "title": null,
+    "id": 12,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 12,
+        "movable_date_id": 7,
+        "zachalo_id": 12
+      }
+    ]
+  },
+  {
+    "num": 11,
+    "title": null,
+    "id": 13,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 13,
+        "movable_date_id": 8,
+        "zachalo_id": 13
+      }
+    ]
+  },
+  {
+    "num": 8,
+    "title": null,
+    "id": 14,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 14,
+        "movable_date_id": 8,
+        "zachalo_id": 14
+      }
+    ]
+  },
+  {
+    "num": 65,
+    "title": null,
+    "id": 15,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 15,
+        "movable_date_id": 10,
+        "zachalo_id": 15
+      }
+    ]
+  },
+  {
+    "num": 14,
+    "title": null,
+    "id": 16,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 16,
+        "movable_date_id": 10,
+        "zachalo_id": 16
+      }
+    ]
+  },
+  {
+    "num": 6,
+    "title": null,
+    "id": 17,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 17,
+        "movable_date_id": 11,
+        "zachalo_id": 17
+      }
+    ]
+  },
+  {
+    "num": 9,
+    "title": null,
+    "id": 18,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 18,
+        "movable_date_id": 11,
+        "zachalo_id": 18
+      }
+    ]
+  },
+  {
+    "num": 10,
+    "title": null,
+    "id": 19,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 19,
+        "movable_date_id": 12,
+        "zachalo_id": 19
+      }
+    ]
+  },
+  {
+    "num": 10,
+    "title": null,
+    "id": 20,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 20,
+        "movable_date_id": 12,
+        "zachalo_id": 20
+      }
+    ]
+  },
+  {
+    "num": 15,
+    "title": null,
+    "id": 21,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 21,
+        "movable_date_id": 13,
+        "zachalo_id": 21
+      }
+    ]
+  },
+  {
+    "num": 11,
+    "title": null,
+    "id": 22,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 22,
+        "movable_date_id": 13,
+        "zachalo_id": 22
+      }
+    ]
+  },
+  {
+    "num": 16,
+    "title": null,
+    "id": 23,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 23,
+        "movable_date_id": 14,
+        "zachalo_id": 23
+      }
+    ]
+  },
+  {
+    "num": 12,
+    "title": null,
+    "id": 24,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 24,
+        "movable_date_id": 14,
+        "zachalo_id": 24
+      }
+    ]
+  },
+  {
+    "num": 17,
+    "title": null,
+    "id": 25,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 25,
+        "movable_date_id": 15,
+        "zachalo_id": 25
+      }
+    ]
+  },
+  {
+    "num": 13,
+    "title": null,
+    "id": 26,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 26,
+        "movable_date_id": 15,
+        "zachalo_id": 26
+      }
+    ]
+  },
+  {
+    "num": 19,
+    "title": null,
+    "id": 27,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 27,
+        "movable_date_id": 16,
+        "zachalo_id": 27
+      }
+    ]
+  },
+  {
+    "num": 15,
+    "title": null,
+    "id": 28,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 28,
+        "movable_date_id": 16,
+        "zachalo_id": 28
+      }
+    ]
+  },
+  {
+    "num": 69,
+    "title": null,
+    "id": 29,
+    "bible_book_id": 2,
+    "readings": [
+      {
+        "id": 29,
+        "movable_date_id": 18,
+        "zachalo_id": 29
+      }
+    ]
+  },
+  {
+    "num": 16,
+    "title": null,
+    "id": 30,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 30,
+        "movable_date_id": 18,
+        "zachalo_id": 30
+      }
+    ]
+  },
+  {
+    "num": 13,
+    "title": null,
+    "id": 31,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 31,
+        "movable_date_id": 19,
+        "zachalo_id": 31
+      }
+    ]
+  },
+  {
+    "num": 17,
+    "title": null,
+    "id": 32,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 32,
+        "movable_date_id": 19,
+        "zachalo_id": 32
+      }
+    ]
+  },
+  {
+    "num": 20,
+    "title": null,
+    "id": 33,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 33,
+        "movable_date_id": 20,
+        "zachalo_id": 33
+      }
+    ]
+  },
+  {
+    "num": 18,
+    "title": null,
+    "id": 34,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 34,
+        "movable_date_id": 20,
+        "zachalo_id": 34
+      }
+    ]
+  },
+  {
+    "num": 21,
+    "title": null,
+    "id": 35,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 35,
+        "movable_date_id": 21,
+        "zachalo_id": 35
+      }
+    ]
+  },
+  {
+    "num": 19,
+    "title": null,
+    "id": 36,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 36,
+        "movable_date_id": 21,
+        "zachalo_id": 36
+      }
+    ]
+  },
+  {
+    "num": 22,
+    "title": null,
+    "id": 37,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 37,
+        "movable_date_id": 22,
+        "zachalo_id": 37
+      }
+    ]
+  },
+  {
+    "num": 20,
+    "title": null,
+    "id": 38,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 38,
+        "movable_date_id": 22,
+        "zachalo_id": 38
+      }
+    ]
+  },
+  {
+    "num": 23,
+    "title": null,
+    "id": 39,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 39,
+        "movable_date_id": 23,
+        "zachalo_id": 39
+      }
+    ]
+  },
+  {
+    "num": 21,
+    "title": null,
+    "id": 40,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 40,
+        "movable_date_id": 23,
+        "zachalo_id": 40
+      }
+    ]
+  },
+  {
+    "num": 52,
+    "title": null,
+    "id": 41,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 41,
+        "movable_date_id": 24,
+        "zachalo_id": 41
+      }
+    ]
+  },
+  {
+    "num": 22,
+    "title": null,
+    "id": 42,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 42,
+        "movable_date_id": 24,
+        "zachalo_id": 42
+      }
+    ]
+  },
+  {
+    "num": 14,
+    "title": null,
+    "id": 43,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 43,
+        "movable_date_id": 26,
+        "zachalo_id": 43
+      }
+    ]
+  },
+  {
+    "num": 23,
+    "title": null,
+    "id": 44,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 44,
+        "movable_date_id": 26,
+        "zachalo_id": 44
+      }
+    ]
+  },
+  {
+    "num": 24,
+    "title": null,
+    "id": 45,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 45,
+        "movable_date_id": 27,
+        "zachalo_id": 45
+      }
+    ]
+  },
+  {
+    "num": 24,
+    "title": null,
+    "id": 46,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 46,
+        "movable_date_id": 27,
+        "zachalo_id": 46
+      }
+    ]
+  },
+  {
+    "num": 25,
+    "title": null,
+    "id": 47,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 47,
+        "movable_date_id": 28,
+        "zachalo_id": 47
+      }
+    ]
+  },
+  {
+    "num": 25,
+    "title": null,
+    "id": 48,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 48,
+        "movable_date_id": 28,
+        "zachalo_id": 48
+      }
+    ]
+  },
+  {
+    "num": 26,
+    "title": null,
+    "id": 49,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 49,
+        "movable_date_id": 29,
+        "zachalo_id": 49
+      }
+    ]
+  },
+  {
+    "num": 34,
+    "title": null,
+    "id": 50,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 50,
+        "movable_date_id": 29,
+        "zachalo_id": 50
+      }
+    ]
+  },
+  {
+    "num": 29,
+    "title": null,
+    "id": 51,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 51,
+        "movable_date_id": 30,
+        "zachalo_id": 51
+      }
+    ]
+  },
+  {
+    "num": 26,
+    "title": null,
+    "id": 52,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 52,
+        "movable_date_id": 30,
+        "zachalo_id": 52
+      }
+    ]
+  },
+  {
+    "num": 30,
+    "title": null,
+    "id": 53,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 53,
+        "movable_date_id": 31,
+        "zachalo_id": 53
+      }
+    ]
+  },
+  {
+    "num": 27,
+    "title": null,
+    "id": 54,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 54,
+        "movable_date_id": 31,
+        "zachalo_id": 54
+      }
+    ]
+  },
+  {
+    "num": 31,
+    "title": null,
+    "id": 55,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 55,
+        "movable_date_id": 32,
+        "zachalo_id": 55
+      }
+    ]
+  },
+  {
+    "num": 29,
+    "title": null,
+    "id": 56,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 56,
+        "movable_date_id": 32,
+        "zachalo_id": 56
+      }
+    ]
+  },
+  {
+    "num": 12,
+    "title": null,
+    "id": 57,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 57,
+        "movable_date_id": 34,
+        "zachalo_id": 57
+      }
+    ]
+  },
+  {
+    "num": 28,
+    "title": null,
+    "id": 58,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 58,
+        "movable_date_id": 34,
+        "zachalo_id": 58
+      }
+    ]
+  },
+  {
+    "num": 32,
+    "title": null,
+    "id": 59,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 59,
+        "movable_date_id": 35,
+        "zachalo_id": 59
+      }
+    ]
+  },
+  {
+    "num": 30,
+    "title": null,
+    "id": 60,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 60,
+        "movable_date_id": 35,
+        "zachalo_id": 60
+      }
+    ]
+  },
+  {
+    "num": 33,
+    "title": null,
+    "id": 61,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 61,
+        "movable_date_id": 36,
+        "zachalo_id": 61
+      }
+    ]
+  },
+  {
+    "num": 31,
+    "title": null,
+    "id": 62,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 62,
+        "movable_date_id": 36,
+        "zachalo_id": 62
+      }
+    ]
+  },
+  {
+    "num": 18,
+    "title": null,
+    "id": 63,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 63,
+        "movable_date_id": 37,
+        "zachalo_id": 63
+      }
+    ]
+  },
+  {
+    "num": 32,
+    "title": null,
+    "id": 64,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 64,
+        "movable_date_id": 37,
+        "zachalo_id": 64
+      }
+    ]
+  },
+  {
+    "num": 35,
+    "title": null,
+    "id": 65,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 65,
+        "movable_date_id": 38,
+        "zachalo_id": 65
+      }
+    ]
+  },
+  {
+    "num": 35,
+    "title": null,
+    "id": 66,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 66,
+        "movable_date_id": 38,
+        "zachalo_id": 66
+      }
+    ]
+  },
+  {
+    "num": 37,
+    "title": null,
+    "id": 67,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 67,
+        "movable_date_id": 39,
+        "zachalo_id": 67
+      }
+    ]
+  },
+  {
+    "num": 36,
+    "title": null,
+    "id": 68,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 68,
+        "movable_date_id": 39,
+        "zachalo_id": 68
+      }
+    ]
+  },
+  {
+    "num": 38,
+    "title": null,
+    "id": 69,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 69,
+        "movable_date_id": 40,
+        "zachalo_id": 69
+      }
+    ]
+  },
+  {
+    "num": 37,
+    "title": null,
+    "id": 70,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 70,
+        "movable_date_id": 40,
+        "zachalo_id": 70
+      }
+    ]
+  },
+  {
+    "num": 34,
+    "title": null,
+    "id": 71,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 71,
+        "movable_date_id": 42,
+        "zachalo_id": 71
+      }
+    ]
+  },
+  {
+    "num": 38,
+    "title": null,
+    "id": 72,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 72,
+        "movable_date_id": 42,
+        "zachalo_id": 72
+      }
+    ]
+  },
+  {
+    "num": 40,
+    "title": null,
+    "id": 73,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 73,
+        "movable_date_id": 43,
+        "zachalo_id": 73
+      }
+    ]
+  },
+  {
+    "num": 39,
+    "title": null,
+    "id": 74,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 74,
+        "movable_date_id": 43,
+        "zachalo_id": 74
+      }
+    ]
+  },
+  {
+    "num": 42,
+    "title": null,
+    "id": 75,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 75,
+        "movable_date_id": 44,
+        "zachalo_id": 75
+      }
+    ]
+  },
+  {
+    "num": 40,
+    "title": null,
+    "id": 76,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 76,
+        "movable_date_id": 44,
+        "zachalo_id": 76
+      }
+    ]
+  },
+  {
+    "num": 43,
+    "title": null,
+    "id": 77,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 77,
+        "movable_date_id": 45,
+        "zachalo_id": 77
+      }
+    ]
+  },
+  {
+    "num": 41,
+    "title": null,
+    "id": 78,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 78,
+        "movable_date_id": 45,
+        "zachalo_id": 78
+      }
+    ]
+  },
+  {
+    "num": 114,
+    "title": null,
+    "id": 79,
+    "bible_book_id": 3,
+    "readings": [
+      {
+        "id": 79,
+        "movable_date_id": 46,
+        "zachalo_id": 79
+      }
+    ]
+  },
+  {
+    "num": -1,
+    "title": null,
+    "id": 80,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 80,
+        "movable_date_id": 46,
+        "zachalo_id": 80
+      }
+    ]
+  },
+  {
+    "num": 47,
+    "title": null,
+    "id": 81,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 81,
+        "movable_date_id": 47,
+        "zachalo_id": 81
+      }
+    ]
+  },
+  {
+    "num": 42,
+    "title": null,
+    "id": 82,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 82,
+        "movable_date_id": 47,
+        "zachalo_id": 82
+      }
+    ]
+  },
+  {
+    "num": 48,
+    "title": null,
+    "id": 83,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 83,
+        "movable_date_id": 48,
+        "zachalo_id": 83
+      }
+    ]
+  },
+  {
+    "num": 43,
+    "title": null,
+    "id": 84,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 84,
+        "movable_date_id": 48,
+        "zachalo_id": 84
+      }
+    ]
+  },
+  {
+    "num": 56,
+    "title": null,
+    "id": 85,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 85,
+        "movable_date_id": 50,
+        "zachalo_id": 85
+      }
+    ]
+  },
+  {
+    "num": 44,
+    "title": null,
+    "id": 86,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 86,
+        "movable_date_id": 50,
+        "zachalo_id": 86
+      }
+    ]
+  },
+  {
+    "num": 49,
+    "title": null,
+    "id": 87,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 87,
+        "movable_date_id": 51,
+        "zachalo_id": 87
+      }
+    ]
+  },
+  {
+    "num": 45,
+    "title": null,
+    "id": 88,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 88,
+        "movable_date_id": 51,
+        "zachalo_id": 88
+      }
+    ]
+  },
+  {
+    "num": 53,
+    "title": null,
+    "id": 89,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 89,
+        "movable_date_id": 52,
+        "zachalo_id": 89
+      }
+    ]
+  },
+  {
+    "num": 46,
+    "title": null,
+    "id": 90,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 90,
+        "movable_date_id": 52,
+        "zachalo_id": 90
+      }
+    ]
+  },
+  {
+    "num": 54,
+    "title": null,
+    "id": 91,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 91,
+        "movable_date_id": 53,
+        "zachalo_id": 91
+      }
+    ]
+  },
+  {
+    "num": 47,
+    "title": null,
+    "id": 92,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 92,
+        "movable_date_id": 53,
+        "zachalo_id": 92
+      }
+    ]
+  },
+  {
+    "num": 55,
+    "title": null,
+    "id": 93,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 93,
+        "movable_date_id": 54,
+        "zachalo_id": 93
+      }
+    ]
+  },
+  {
+    "num": 48,
+    "title": null,
+    "id": 94,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 94,
+        "movable_date_id": 54,
+        "zachalo_id": 94
+      }
+    ]
+  },
+  {
+    "num": 57,
+    "title": null,
+    "id": 95,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 95,
+        "movable_date_id": 55,
+        "zachalo_id": 95
+      }
+    ]
+  },
+  {
+    "num": 50,
+    "title": null,
+    "id": 96,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 96,
+        "movable_date_id": 55,
+        "zachalo_id": 96
+      }
+    ]
+  },
+  {
+    "num": 67,
+    "title": null,
+    "id": 97,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 97,
+        "movable_date_id": 56,
+        "zachalo_id": 97
+      }
+    ]
+  },
+  {
+    "num": 51,
+    "title": null,
+    "id": 98,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 98,
+        "movable_date_id": 56,
+        "zachalo_id": 98
+      }
+    ]
+  },
+  {
+    "num": 27,
+    "title": null,
+    "id": 99,
+    "bible_book_id": 4,
+    "readings": [
+      {
+        "id": 99,
+        "movable_date_id": 58,
+        "zachalo_id": 99
+      }
+    ]
+  },
+  {
+    "num": 3,
+    "title": null,
+    "id": 100,
+    "bible_book_id": 5,
+    "readings": [
+      {
+        "id": 100,
+        "movable_date_id": 58,
+        "zachalo_id": 100
+      }
+    ]
+  }
+]

@@ -3,7 +3,7 @@ from requests import Session
 
 from app.api import deps
 from app import crud, models, schemas
-from app.api.api_v1.endpoints.movable_date import day
+from app.api.api_v1.endpoints.movable_date import movable_day
 
 router = APIRouter()
 
