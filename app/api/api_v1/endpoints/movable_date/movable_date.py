@@ -2,17 +2,17 @@ from fastapi import Depends, APIRouter, status
 from requests import Session
 
 from app.api import deps
-from app import crud, models, schemas
+from app import crud, models, schemas, enums
 
 router = APIRouter()
 
 
 @router.get('/', response_model=schemas.MovableDate)
 def read_movable_date(
-        cycle_num: schemas.CycleEnum,
+        cycle_num: enums.CycleNum,
         sunday_num: int,
-        movable_day_abbr: schemas.MovableDayAbbrEnum,
-        divine_service_title: schemas.DivineServiceEnum,
+        movable_day_abbr: enums.MovableDayAbbr,
+        divine_service_title: enums.DivineServiceTitle,
         db: Session = Depends(deps.get_db)
 ):
     movable_date: models.MovableDate = crud.get_movable_date(
@@ -28,10 +28,10 @@ def read_movable_date(
 @router.post('/', response_model=schemas.MovableDate,
              status_code=status.HTTP_201_CREATED)
 def create_movable_date(
-        cycle_num: schemas.CycleEnum,
+        cycle_num: enums.CycleNum,
         sunday_num: int,
-        movable_day_abbr: schemas.MovableDayAbbrEnum,
-        divine_service_title: schemas.DivineServiceEnum,
+        movable_day_abbr: enums.MovableDayAbbr,
+        divine_service_title: enums.DivineServiceTitle,
         movable_date: schemas.MovableDateCreate,
         db: Session = Depends(deps.get_db)
 ):

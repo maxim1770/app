@@ -1,4 +1,4 @@
-from app import models, schemas
+from app import models, schemas, enums
 from sqlalchemy.orm import Session
 
 
@@ -6,7 +6,7 @@ def get_holidays_categories(db: Session, skip: int = 0, limit: int = 100) -> lis
     return db.query(models.HolidayCategory).offset(skip).limit(limit).all()
 
 
-def get_holiday_category(db: Session, title: schemas.HolidayCategoryTitle) -> models.HolidayCategory | None:
+def get_holiday_category(db: Session, title: enums.HolidayCategoryTitle) -> models.HolidayCategory | None:
     return db.query(models.HolidayCategory).filter(models.HolidayCategory.title == title).first()
 
 

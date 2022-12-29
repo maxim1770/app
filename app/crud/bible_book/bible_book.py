@@ -1,17 +1,17 @@
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
-from app import models, schemas
+from app import models, schemas, enums
 
 
 def get_bible_books(db: Session, skip: int = 0, limit: int = 100) -> list[models.BibleBook]:
     return db.query(models.BibleBook).offset(skip).limit(limit).all()
 
 
-def get_bible_books_by_testament(db: Session, testament: schemas.TestamentEnum) -> list[models.BibleBook]:
+def get_bible_books_by_testament(db: Session, testament: enums.BibleBookTestament) -> list[models.BibleBook]:
     return db.query(models.BibleBook).filter(models.BibleBook.testament == testament.value).all()
 
 
-def get_bible_books_by_part(db: Session, testament: schemas.TestamentEnum, part: schemas.PartEnum) -> list[
+def get_bible_books_by_part(db: Session, testament: enums.BibleBookTestament, part: enums.BibleBookPart) -> list[
     models.BibleBook]:
     return db.query(models.BibleBook).filter(
         and_(
@@ -21,8 +21,8 @@ def get_bible_books_by_part(db: Session, testament: schemas.TestamentEnum, part:
     ).all()
 
 
-# def get_bible_book(db: Session, testament: schemas.TestamentEnum, part: schemas.PartEnum,
-#                    abbr: schemas.AbbrEnum) -> models.BibleBook:
+# def get_bible_book(db: Session, testament: enums.BibleBookTestament, part: enums.BibleBookPart,
+#                    abbr: enums.BibleBookAbbr) -> models.BibleBook:
 #     return db.query(models.BibleBook).filter(
 #         and_(
 #             models.BibleBook.abbr == abbr.value,
@@ -32,7 +32,7 @@ def get_bible_books_by_part(db: Session, testament: schemas.TestamentEnum, part:
 #     ).first()
 
 
-def get_bible_book(db: Session, abbr: schemas.AbbrEnum, *args, **kwargs) -> models.BibleBook:
+def get_bible_book(db: Session, abbr: enums.BibleBookAbbr, *args, **kwargs) -> models.BibleBook:
     return db.query(models.BibleBook).filter(models.BibleBook.abbr == abbr.value).first()
 
 

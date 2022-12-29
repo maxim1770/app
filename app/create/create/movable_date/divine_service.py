@@ -2,7 +2,7 @@ from typing import Final
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import FatalCreateError
 
 
@@ -18,13 +18,13 @@ def create_divine_services(db: Session) -> bool:
 
     divine_services: list[schemas.DivineServiceCreate] = [
         schemas.DivineServiceCreate(
-            title=schemas.DivineServiceEnum.matins,
+            title=enums.DivineServiceTitle.matins,
         ),
         schemas.DivineServiceCreate(
-            title=schemas.DivineServiceEnum.liturgy,
+            title=enums.DivineServiceTitle.liturgy,
         ),
         schemas.DivineServiceCreate(
-            title=schemas.DivineServiceEnum.vespers,
+            title=enums.DivineServiceTitle.vespers,
         )
     ]
 

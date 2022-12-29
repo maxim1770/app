@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 from sqlalchemy.orm import Session
 
-from app import schemas
+from app import schemas, enums
 from app.create import const
 from app.create.create.bible_book.zachalo import CreateZachalo
 from app.create.prepare.base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
@@ -329,7 +329,7 @@ class PrepareC2ApostleZachaloNum(PrepareParentNoCopyBase):
 # TODO: можно сделать PrepareC1EvangelAbbr... как функцию, и просто в PrepareZachaloFactoryBase...
 #  передавать и получать list[abbr] =>
 #  ПРИМЕР:
-#     def get_bible_books_abbrs(self) -> list[schemas.AbbrEnum]:
+#     def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
 #         return self._merge_lists(
 #             foo(self.__prepare_c1_evangel_zachalo.data),
 #             foo(self.__prepare_c1_apostle_zachalo.data)
@@ -348,7 +348,7 @@ class PrepareC1EvangelAbbr(PrepareParentNoCopyBase):
         for i, zachalo in enumerate(self.parent.data):
             zachalo: str = zachalo.text.strip()
             evangel_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: schemas.AbbrEnum = schemas.AbbrEnum(schemas.AbbrRuEnum(evangel_abbr_ru).name)
+            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(evangel_abbr_ru).name)
 
 
 class PrepareC1ApostleAbbr(PrepareParentNoCopyBase):
@@ -367,7 +367,7 @@ class PrepareC1ApostleAbbr(PrepareParentNoCopyBase):
         for i, zachalo in enumerate(self.parent.data):
             zachalo: str = zachalo.text.strip()
             apostle_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: schemas.AbbrEnum = schemas.AbbrEnum(schemas.AbbrRuEnum(apostle_abbr_ru).name)
+            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(apostle_abbr_ru).name)
 
 
 class PrepareC2EvangelAbbr(PrepareParentNoCopyBase):
@@ -383,7 +383,7 @@ class PrepareC2EvangelAbbr(PrepareParentNoCopyBase):
         for i, zachalo in enumerate(self.parent.data):
             zachalo: str = zachalo.text.strip()
             evangel_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: schemas.AbbrEnum = schemas.AbbrEnum(schemas.AbbrRuEnum(evangel_abbr_ru).name)
+            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(evangel_abbr_ru).name)
 
 
 class PrepareC2ApostleAbbr(PrepareParentNoCopyBase):
@@ -399,7 +399,7 @@ class PrepareC2ApostleAbbr(PrepareParentNoCopyBase):
         for i, zachalo in enumerate(self.parent.data):
             zachalo: str = zachalo.text.strip()
             apostle_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: schemas.AbbrEnum = schemas.AbbrEnum(schemas.AbbrRuEnum(apostle_abbr_ru).name)
+            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(apostle_abbr_ru).name)
 
 
 class PrepareZachaloFactoryBase(ABC):
@@ -427,7 +427,7 @@ class PrepareZachaloFactoryBase(ABC):
     # TODO: не относится к созданию schemas.ZachaloCreate, поэтому возможно писать это тут неправильно,
     #  и это нарушает логику
     @abstractmethod
-    def get_bible_books_abbrs(self) -> list[schemas.AbbrEnum]:
+    def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
         pass
 
     @staticmethod
@@ -458,7 +458,7 @@ class PrepareC1ZachaloFactory(PrepareZachaloFactoryBase):
     def _get_zachalos_titles() -> list[None]:
         return [None] * const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK * 2
 
-    def get_bible_books_abbrs(self) -> list[schemas.AbbrEnum]:
+    def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
         return self._merge_lists(
             PrepareC1EvangelAbbr(self.__prepare_c1_evangel_zachalo).data,
             PrepareC1ApostleAbbr(self.__prepare_c1_apostle_zachalo).data
@@ -484,7 +484,7 @@ class PrepareC2ZachaloFactory(PrepareZachaloFactoryBase):
     def _get_zachalos_titles() -> list[None]:
         return [None] * const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK * 2
 
-    def get_bible_books_abbrs(self) -> list[schemas.AbbrEnum]:
+    def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
         return self._merge_lists(
             PrepareC2EvangelAbbr(self.__prepare_c2_evangel_zachalo).data,
             PrepareC2ApostleAbbr(self.__prepare_c2_apostle_zachalo).data

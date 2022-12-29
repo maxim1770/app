@@ -1,3 +1,3 @@
 from .bible_book import BibleBook, BibleBookCreate, BibleBookNewTestamentCreate, BibleBookEvangelCreate, \
-    BibleBookApostleCreate, BibleBookBase, TestamentEnum, TestamentRuEnum, PartEnum, PartRuEnum, AbbrEnum, AbbrRuEnum
+    BibleBookApostleCreate, BibleBookBase
 from .zachalo import Zachalo, ZachaloCreate, ZachaloBase

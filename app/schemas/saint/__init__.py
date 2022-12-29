@@ -1,9 +1,9 @@
-from .saint import Saint, SaintCreate
-from .dignity import Dignity, DignityCreate, DignityTitle
-from .face_sanctity import FaceSanctity, FaceSanctityCreate, FaceSanctityTitle
-from .cathedral_saints import CathedralSaints, CathedralSaintsCreate, CathedralSaintsTitle
+from transliterate import translit
 
-from transliterate import translit, slugify
+from .cathedral_saints import CathedralSaints, CathedralSaintsCreate, CathedralSaintsTitle
+from .dignity import Dignity, DignityCreate
+from .face_sanctity import FaceSanctity, FaceSanctityCreate
+from .saint import Saint, SaintCreate
 
 
 def meta_create_enum(l: list):

@@ -1,17 +1,12 @@
-from enum import IntEnum
 from pydantic import BaseModel
+
+from app import enums
 
 from app.schemas.movable_date.week import Week
 
 
-class CycleEnum(IntEnum):
-    cycle_1: int = 1
-    cycle_2: int = 2
-    cycle_3: int = 3
-
-
 class CycleBase(BaseModel):
-    num: CycleEnum
+    num: enums.CycleNum
     title: str | None
 
 

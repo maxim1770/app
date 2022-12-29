@@ -2,7 +2,7 @@ from typing import Final
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import FatalCreateError
 
 
@@ -11,7 +11,7 @@ def create_dignities(db: Session) -> bool:
 
     num_creatures: int = 0
 
-    for dignity_title in schemas.DignityTitle:
+    for dignity_title in enums.DignityTitle:
         if crud.get_dignity(db, title=dignity_title):
             raise FatalCreateError(f'Dignity: title={dignity_title} уже была создана')
 

@@ -149,14 +149,14 @@ def main():
         # dignity = info.find('a', class_='saint-church-link')
         # if dignity:
         #     try:
-        #         print(schemas.DignityTitle(dignity.text))
+        #         print(enums.DignityTitle(dignity.text))
         #     except Exception:
         #         print(f"ERROR: {dignity.text}")
 
         # face_sanctity = info.find('a', class_='saint-type-link')
         # if face_sanctity:
         #     try:
-        #         print(schemas.FaceSanctityTitle(face_sanctity.text))
+        #         print(enums.FaceSanctityTitle(face_sanctity.text))
         #     except Exception:
         #         print(f"ERROR: {face_sanctity.text}")
 

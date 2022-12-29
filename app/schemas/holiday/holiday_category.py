@@ -1,16 +1,11 @@
-from enum import Enum
-
 from pydantic import BaseModel
 
+from app import enums
 from app.schemas.holiday.holiday import Holiday
 
 
-class HolidayCategoryTitle(str, Enum):
-    pass
-
-
 class HolidayCategoryBase(BaseModel):
-    title: HolidayCategoryTitle
+    title: enums.HolidayCategoryTitle
 
 
 class HolidayCategoryCreate(HolidayCategoryBase):

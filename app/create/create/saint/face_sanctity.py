@@ -2,7 +2,7 @@ from typing import Final
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import FatalCreateError
 
 
@@ -11,7 +11,7 @@ def create_faces_sanctity(db: Session) -> bool:
 
     num_creatures: int = 0
 
-    for face_sanctity_title in schemas.FaceSanctityTitle:
+    for face_sanctity_title in enums.FaceSanctityTitle:
         if crud.get_face_sanctity(db, title=face_sanctity_title):
             raise FatalCreateError(f'FaceSanctity: title={face_sanctity_title} уже была создана')
 
