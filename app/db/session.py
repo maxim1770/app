@@ -12,15 +12,15 @@ from sqlalchemy.orm import sessionmaker
 #     database='app',
 # )
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:kopkop99@localhost:5432/app"
+# SQLALCHEMY_DATABASE_URL = "postgresql://postgres:kopkop99@localhost:5432/app"
 
-# SQLALCHEMY_DATABASE_URL = "sqlite:///C:/Users/MaxDroN/python_projects/const_data_books/readings_.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///C:/Users/MaxDroN/python_projects/const_data_books/readings_.db"
 
-# engine = create_engine(
-#     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-# )
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
