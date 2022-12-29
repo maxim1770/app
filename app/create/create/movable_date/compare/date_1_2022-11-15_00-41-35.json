@@ -1,0 +1,1591 @@
+{
+  "num": 1,
+  "title": null,
+  "id": 1,
+  "weeks": [
+    {
+      "title": "1 \u041f\u0430\u0441\u0445\u0430\u043b\u044c\u043d\u0430\u044f \u0441\u0435\u0434\u043c\u0438\u0446\u0430",
+      "num": 1,
+      "sunday_title": "\u041f\u0430\u0441\u0445\u0430",
+      "sunday_num": 1,
+      "id": 1,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 1,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 1,
+              "day_id": 1,
+              "divine_service_id": 3,
+              "readings": []
+            },
+            {
+              "id": 2,
+              "day_id": 1,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 1,
+                  "movable_date_id": 2,
+                  "zachalo_id": 1
+                },
+                {
+                  "id": 2,
+                  "movable_date_id": 2,
+                  "zachalo_id": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 2,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 3,
+              "day_id": 2,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 3,
+                  "movable_date_id": 3,
+                  "zachalo_id": 3
+                },
+                {
+                  "id": 4,
+                  "movable_date_id": 3,
+                  "zachalo_id": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 3,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 4,
+              "day_id": 3,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 5,
+                  "movable_date_id": 4,
+                  "zachalo_id": 5
+                },
+                {
+                  "id": 6,
+                  "movable_date_id": 4,
+                  "zachalo_id": 6
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 4,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 5,
+              "day_id": 4,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 7,
+                  "movable_date_id": 5,
+                  "zachalo_id": 7
+                },
+                {
+                  "id": 8,
+                  "movable_date_id": 5,
+                  "zachalo_id": 8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 5,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 6,
+              "day_id": 5,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 9,
+                  "movable_date_id": 6,
+                  "zachalo_id": 9
+                },
+                {
+                  "id": 10,
+                  "movable_date_id": 6,
+                  "zachalo_id": 10
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 6,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 7,
+              "day_id": 6,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 11,
+                  "movable_date_id": 7,
+                  "zachalo_id": 11
+                },
+                {
+                  "id": 12,
+                  "movable_date_id": 7,
+                  "zachalo_id": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 7,
+          "week_id": 1,
+          "movable_dates": [
+            {
+              "id": 8,
+              "day_id": 7,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 13,
+                  "movable_date_id": 8,
+                  "zachalo_id": 13
+                },
+                {
+                  "id": 14,
+                  "movable_date_id": 8,
+                  "zachalo_id": 14
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u0430\u0441\u0445\u0435",
+      "num": 2,
+      "sunday_title": "\u041e \u0424\u043e\u043c\u0435",
+      "sunday_num": 2,
+      "id": 2,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 8,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 9,
+              "day_id": 8,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 10,
+              "day_id": 8,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 15,
+                  "movable_date_id": 10,
+                  "zachalo_id": 15
+                },
+                {
+                  "id": 16,
+                  "movable_date_id": 10,
+                  "zachalo_id": 16
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 9,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 11,
+              "day_id": 9,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 17,
+                  "movable_date_id": 11,
+                  "zachalo_id": 17
+                },
+                {
+                  "id": 18,
+                  "movable_date_id": 11,
+                  "zachalo_id": 18
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 10,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 12,
+              "day_id": 10,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 19,
+                  "movable_date_id": 12,
+                  "zachalo_id": 19
+                },
+                {
+                  "id": 20,
+                  "movable_date_id": 12,
+                  "zachalo_id": 20
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 11,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 13,
+              "day_id": 11,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 21,
+                  "movable_date_id": 13,
+                  "zachalo_id": 21
+                },
+                {
+                  "id": 22,
+                  "movable_date_id": 13,
+                  "zachalo_id": 22
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 12,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 14,
+              "day_id": 12,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 23,
+                  "movable_date_id": 14,
+                  "zachalo_id": 23
+                },
+                {
+                  "id": 24,
+                  "movable_date_id": 14,
+                  "zachalo_id": 24
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 13,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 15,
+              "day_id": 13,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 25,
+                  "movable_date_id": 15,
+                  "zachalo_id": 25
+                },
+                {
+                  "id": 26,
+                  "movable_date_id": 15,
+                  "zachalo_id": 26
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 14,
+          "week_id": 2,
+          "movable_dates": [
+            {
+              "id": 16,
+              "day_id": 14,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 27,
+                  "movable_date_id": 16,
+                  "zachalo_id": 27
+                },
+                {
+                  "id": 28,
+                  "movable_date_id": 16,
+                  "zachalo_id": 28
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "3 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u0430\u0441\u0445\u0435",
+      "num": 3,
+      "sunday_title": "\u041e \u043c\u0438\u0440\u043e\u043d\u043e\u0441\u0438\u0446\u0430\u0445",
+      "sunday_num": 3,
+      "id": 3,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 15,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 17,
+              "day_id": 15,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 18,
+              "day_id": 15,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 29,
+                  "movable_date_id": 18,
+                  "zachalo_id": 29
+                },
+                {
+                  "id": 30,
+                  "movable_date_id": 18,
+                  "zachalo_id": 30
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 16,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 19,
+              "day_id": 16,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 31,
+                  "movable_date_id": 19,
+                  "zachalo_id": 31
+                },
+                {
+                  "id": 32,
+                  "movable_date_id": 19,
+                  "zachalo_id": 32
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 17,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 20,
+              "day_id": 17,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 33,
+                  "movable_date_id": 20,
+                  "zachalo_id": 33
+                },
+                {
+                  "id": 34,
+                  "movable_date_id": 20,
+                  "zachalo_id": 34
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 18,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 21,
+              "day_id": 18,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 35,
+                  "movable_date_id": 21,
+                  "zachalo_id": 35
+                },
+                {
+                  "id": 36,
+                  "movable_date_id": 21,
+                  "zachalo_id": 36
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 19,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 22,
+              "day_id": 19,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 37,
+                  "movable_date_id": 22,
+                  "zachalo_id": 37
+                },
+                {
+                  "id": 38,
+                  "movable_date_id": 22,
+                  "zachalo_id": 38
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 20,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 23,
+              "day_id": 20,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 39,
+                  "movable_date_id": 23,
+                  "zachalo_id": 39
+                },
+                {
+                  "id": 40,
+                  "movable_date_id": 23,
+                  "zachalo_id": 40
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 21,
+          "week_id": 3,
+          "movable_dates": [
+            {
+              "id": 24,
+              "day_id": 21,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 41,
+                  "movable_date_id": 24,
+                  "zachalo_id": 41
+                },
+                {
+                  "id": 42,
+                  "movable_date_id": 24,
+                  "zachalo_id": 42
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "4 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u0430\u0441\u0445\u0435",
+      "num": 4,
+      "sunday_title": "\u041e \u0440\u0430\u0441\u0441\u043b\u0430\u0431\u043b\u0435\u043d\u043d\u043e\u043c",
+      "sunday_num": 4,
+      "id": 4,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 22,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 25,
+              "day_id": 22,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 26,
+              "day_id": 22,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 43,
+                  "movable_date_id": 26,
+                  "zachalo_id": 43
+                },
+                {
+                  "id": 44,
+                  "movable_date_id": 26,
+                  "zachalo_id": 44
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 23,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 27,
+              "day_id": 23,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 45,
+                  "movable_date_id": 27,
+                  "zachalo_id": 45
+                },
+                {
+                  "id": 46,
+                  "movable_date_id": 27,
+                  "zachalo_id": 46
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 24,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 28,
+              "day_id": 24,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 47,
+                  "movable_date_id": 28,
+                  "zachalo_id": 47
+                },
+                {
+                  "id": 48,
+                  "movable_date_id": 28,
+                  "zachalo_id": 48
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": "\u041f\u0440\u0435\u043f\u043e\u043b\u043e\u0432\u0435\u043d\u0438\u0435 \u041f\u044f\u0442\u0438\u0434\u0435\u0441.",
+          "id": 25,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 29,
+              "day_id": 25,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 49,
+                  "movable_date_id": 29,
+                  "zachalo_id": 49
+                },
+                {
+                  "id": 50,
+                  "movable_date_id": 29,
+                  "zachalo_id": 50
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 26,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 30,
+              "day_id": 26,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 51,
+                  "movable_date_id": 30,
+                  "zachalo_id": 51
+                },
+                {
+                  "id": 52,
+                  "movable_date_id": 30,
+                  "zachalo_id": 52
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 27,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 31,
+              "day_id": 27,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 53,
+                  "movable_date_id": 31,
+                  "zachalo_id": 53
+                },
+                {
+                  "id": 54,
+                  "movable_date_id": 31,
+                  "zachalo_id": 54
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 28,
+          "week_id": 4,
+          "movable_dates": [
+            {
+              "id": 32,
+              "day_id": 28,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 55,
+                  "movable_date_id": 32,
+                  "zachalo_id": 55
+                },
+                {
+                  "id": 56,
+                  "movable_date_id": 32,
+                  "zachalo_id": 56
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "5 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u0430\u0441\u0445\u0435",
+      "num": 5,
+      "sunday_title": "\u041e \u0441\u0430\u043c\u0430\u0440\u044f\u043d\u044b\u043d\u0435",
+      "sunday_num": 5,
+      "id": 5,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 29,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 33,
+              "day_id": 29,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 34,
+              "day_id": 29,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 57,
+                  "movable_date_id": 34,
+                  "zachalo_id": 57
+                },
+                {
+                  "id": 58,
+                  "movable_date_id": 34,
+                  "zachalo_id": 58
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 30,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 35,
+              "day_id": 30,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 59,
+                  "movable_date_id": 35,
+                  "zachalo_id": 59
+                },
+                {
+                  "id": 60,
+                  "movable_date_id": 35,
+                  "zachalo_id": 60
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 31,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 36,
+              "day_id": 31,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 61,
+                  "movable_date_id": 36,
+                  "zachalo_id": 61
+                },
+                {
+                  "id": 62,
+                  "movable_date_id": 36,
+                  "zachalo_id": 62
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 32,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 37,
+              "day_id": 32,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 63,
+                  "movable_date_id": 37,
+                  "zachalo_id": 63
+                },
+                {
+                  "id": 64,
+                  "movable_date_id": 37,
+                  "zachalo_id": 64
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 33,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 38,
+              "day_id": 33,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 65,
+                  "movable_date_id": 38,
+                  "zachalo_id": 65
+                },
+                {
+                  "id": 66,
+                  "movable_date_id": 38,
+                  "zachalo_id": 66
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 34,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 39,
+              "day_id": 34,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 67,
+                  "movable_date_id": 39,
+                  "zachalo_id": 67
+                },
+                {
+                  "id": 68,
+                  "movable_date_id": 39,
+                  "zachalo_id": 68
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 35,
+          "week_id": 5,
+          "movable_dates": [
+            {
+              "id": 40,
+              "day_id": 35,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 69,
+                  "movable_date_id": 40,
+                  "zachalo_id": 69
+                },
+                {
+                  "id": 70,
+                  "movable_date_id": 40,
+                  "zachalo_id": 70
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "6 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u0430\u0441\u0445\u0435",
+      "num": 6,
+      "sunday_title": "\u041e \u0441\u043b\u0435\u043f\u043e\u043c",
+      "sunday_num": 6,
+      "id": 6,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 36,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 41,
+              "day_id": 36,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 42,
+              "day_id": 36,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 71,
+                  "movable_date_id": 42,
+                  "zachalo_id": 71
+                },
+                {
+                  "id": 72,
+                  "movable_date_id": 42,
+                  "zachalo_id": 72
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 37,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 43,
+              "day_id": 37,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 73,
+                  "movable_date_id": 43,
+                  "zachalo_id": 73
+                },
+                {
+                  "id": 74,
+                  "movable_date_id": 43,
+                  "zachalo_id": 74
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 38,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 44,
+              "day_id": 38,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 75,
+                  "movable_date_id": 44,
+                  "zachalo_id": 75
+                },
+                {
+                  "id": 76,
+                  "movable_date_id": 44,
+                  "zachalo_id": 76
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 39,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 45,
+              "day_id": 39,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 77,
+                  "movable_date_id": 45,
+                  "zachalo_id": 77
+                },
+                {
+                  "id": 78,
+                  "movable_date_id": 45,
+                  "zachalo_id": 78
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 40,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 46,
+              "day_id": 40,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 79,
+                  "movable_date_id": 46,
+                  "zachalo_id": 79
+                },
+                {
+                  "id": 80,
+                  "movable_date_id": 46,
+                  "zachalo_id": 80
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 41,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 47,
+              "day_id": 41,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 81,
+                  "movable_date_id": 47,
+                  "zachalo_id": 81
+                },
+                {
+                  "id": 82,
+                  "movable_date_id": 47,
+                  "zachalo_id": 82
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 42,
+          "week_id": 6,
+          "movable_dates": [
+            {
+              "id": 48,
+              "day_id": 42,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 83,
+                  "movable_date_id": 48,
+                  "zachalo_id": 83
+                },
+                {
+                  "id": 84,
+                  "movable_date_id": 48,
+                  "zachalo_id": 84
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "7 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u0430\u0441\u0445\u0435",
+      "num": 7,
+      "sunday_title": "\u0421\u0432\u044f\u0442\u044b\u0445 \u043e\u0442\u0435\u0446",
+      "sunday_num": 7,
+      "id": 7,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 43,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 49,
+              "day_id": 43,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 50,
+              "day_id": 43,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 85,
+                  "movable_date_id": 50,
+                  "zachalo_id": 85
+                },
+                {
+                  "id": 86,
+                  "movable_date_id": 50,
+                  "zachalo_id": 86
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": null,
+          "id": 44,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 51,
+              "day_id": 44,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 87,
+                  "movable_date_id": 51,
+                  "zachalo_id": 87
+                },
+                {
+                  "id": 88,
+                  "movable_date_id": 51,
+                  "zachalo_id": 88
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 45,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 52,
+              "day_id": 45,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 89,
+                  "movable_date_id": 52,
+                  "zachalo_id": 89
+                },
+                {
+                  "id": 90,
+                  "movable_date_id": 52,
+                  "zachalo_id": 90
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 46,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 53,
+              "day_id": 46,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 91,
+                  "movable_date_id": 53,
+                  "zachalo_id": 91
+                },
+                {
+                  "id": 92,
+                  "movable_date_id": 53,
+                  "zachalo_id": 92
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 47,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 54,
+              "day_id": 47,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 93,
+                  "movable_date_id": 54,
+                  "zachalo_id": 93
+                },
+                {
+                  "id": 94,
+                  "movable_date_id": 54,
+                  "zachalo_id": 94
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 48,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 55,
+              "day_id": 48,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 95,
+                  "movable_date_id": 55,
+                  "zachalo_id": 95
+                },
+                {
+                  "id": 96,
+                  "movable_date_id": 55,
+                  "zachalo_id": 96
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 49,
+          "week_id": 7,
+          "movable_dates": [
+            {
+              "id": 56,
+              "day_id": 49,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 97,
+                  "movable_date_id": 56,
+                  "zachalo_id": 97
+                },
+                {
+                  "id": 98,
+                  "movable_date_id": 56,
+                  "zachalo_id": 98
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "1 \u0441\u0435\u0434\u043c\u0438\u0446\u0430 \u043f\u043e \u041f\u044f\u0442\u0438\u0434\u0435\u0441\u044f\u0442\u043d\u0438\u0446\u0435",
+      "num": 1,
+      "sunday_title": "\u041f\u044f\u0442\u0438\u0434\u0435\u0441\u044f\u0442\u043d\u0438\u0446\u0430",
+      "sunday_num": 8,
+      "id": 8,
+      "cycle_id": 1,
+      "days": [
+        {
+          "abbr": "sun",
+          "abbr_ru": "\u0432\u0441",
+          "title": null,
+          "id": 50,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 57,
+              "day_id": 50,
+              "divine_service_id": 1,
+              "readings": []
+            },
+            {
+              "id": 58,
+              "day_id": 50,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 99,
+                  "movable_date_id": 58,
+                  "zachalo_id": 99
+                },
+                {
+                  "id": 100,
+                  "movable_date_id": 58,
+                  "zachalo_id": 100
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "mon",
+          "abbr_ru": "\u043f\u043d",
+          "title": "\u0421\u0432. \u0414\u0443\u0445\u0430",
+          "id": 51,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 59,
+              "day_id": 51,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 101,
+                  "movable_date_id": 59,
+                  "zachalo_id": 101
+                },
+                {
+                  "id": 102,
+                  "movable_date_id": 59,
+                  "zachalo_id": 102
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "tue",
+          "abbr_ru": "\u0432\u0442",
+          "title": null,
+          "id": 52,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 60,
+              "day_id": 52,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 103,
+                  "movable_date_id": 60,
+                  "zachalo_id": 103
+                },
+                {
+                  "id": 104,
+                  "movable_date_id": 60,
+                  "zachalo_id": 104
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "wed",
+          "abbr_ru": "\u0441\u0440",
+          "title": null,
+          "id": 53,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 61,
+              "day_id": 53,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 105,
+                  "movable_date_id": 61,
+                  "zachalo_id": 105
+                },
+                {
+                  "id": 106,
+                  "movable_date_id": 61,
+                  "zachalo_id": 106
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "thu",
+          "abbr_ru": "\u0447\u0442",
+          "title": null,
+          "id": 54,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 62,
+              "day_id": 54,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 107,
+                  "movable_date_id": 62,
+                  "zachalo_id": 107
+                },
+                {
+                  "id": 108,
+                  "movable_date_id": 62,
+                  "zachalo_id": 108
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "fri",
+          "abbr_ru": "\u043f\u0442",
+          "title": null,
+          "id": 55,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 63,
+              "day_id": 55,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 109,
+                  "movable_date_id": 63,
+                  "zachalo_id": 109
+                },
+                {
+                  "id": 110,
+                  "movable_date_id": 63,
+                  "zachalo_id": 110
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "abbr": "sat",
+          "abbr_ru": "\u0441\u0431",
+          "title": null,
+          "id": 56,
+          "week_id": 8,
+          "movable_dates": [
+            {
+              "id": 64,
+              "day_id": 56,
+              "divine_service_id": 2,
+              "readings": [
+                {
+                  "id": 111,
+                  "movable_date_id": 64,
+                  "zachalo_id": 111
+                },
+                {
+                  "id": 112,
+                  "movable_date_id": 64,
+                  "zachalo_id": 112
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

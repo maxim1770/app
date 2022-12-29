@@ -1,0 +1,4 @@
+
+Mpython:S60353"0Replace this alternation with a character class.(¬π‹ÿÿÿÿÿ
+qpython:S58430"TSimplify this regular expression to reduce its complexity from 34 to the 20 allowed.(ΰμ“βÿÿÿÿÿ
+Bpython:S1172;"*Remove the unused function parameter "db".(εκο

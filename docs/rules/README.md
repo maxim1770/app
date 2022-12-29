@@ -1,0 +1,594 @@
+#### Источник:
+
+1. Кормчая 16в(2)
+    * 
+   **Архив:** [Кормчая 16в(2).pdf][f_304i_206]
+    * **РГБ:** [Ф.304/I №206. Кормчая](https://lib-fond.ru/lib-rgb/304-i/f-304i-206/#image-3)
+    * **Дата:** 16 в.
+    * Данные в оглавление совпадают с тексом (то есть если в оглавление написано к(20) глав, то в рукописи тоже 20
+      глав) (Проверил до 3 собора, вроде все сошлось)
+    * **хотя в заглавии (конкретного собора) в рукописи, и в тексте рукописи (в правилах) отличия (возможны опечатки)**
+    * хотя фактическое кол. правил в рукописи совпадает с оглавлением в начале, чем с огл. в конкретном соборе
+
+***
+
+#### Сайты сравнения на рус.:
+
+1. **Сайт:** [azbyka][azbyka]
+    * [Правила Святых Апостолов и Вселенских соборов с толкованиями](https://azbyka.ru/otechnik/Nikodim_Milash/pravila-svjatyh-apostolov-i-vselenskih-soborov-s-tolkovanijami/)
+    * [Правила Поместных Соборов с толкованиями](https://azbyka.ru/otechnik/Nikodim_Milash/pravila-pomestnyh-soborov-s-tolkovanijami/)
+    * [Правила Святых Отцов Православной Церкви с толкованиями](https://azbyka.ru/otechnik/Nikodim_Milash/pravila-svjatyh-ottsov-pravoslavnoj-tserkvi-s-tolkovanijami/#sel=)
+    * На сайте написано, что толкования священноисповедник Никодим (Милаш), как и у
+      сайта [holytrinitymission.org](http://holytrinitymission.org/books/russian/canons_vselen_soborov_nikodim_milosh.htm)
+
+
+2. **Сайт:** [holytrinitymission][holytrinitymission]
+    * [Правила Святой Православной Церкви с толкованиями Епископа Никодима(Милоша)](http://holytrinitymission.org/books/russian/canons_vselen_soborov_nikodim_milosh.htm)
+    * Текст совпадает с текстом на
+      сайте [azbyka.ru](https://azbyka.ru/otechnik/Nikodim_Milash/pravila-svjatyh-apostolov-i-vselenskih-soborov-s-tolkovanijami/)
+
+
+3. **Сайт:** [orthodoxbible][orthodoxbible]
+    * [Канонические правила Православной Церкви с толкованиями][orthodoxbible/canons]
+    * С Правилами Св. Отцов и Поместных Соборов
+    * Толкования вроде как, тоже Епископа Никодима(Милоша)(19 в.), как и на первых двух
+      сайтах [[1]](https://azbyka.ru/otechnik/Nikodim_Milash/pravila-svjatyh-apostolov-i-vselenskih-soborov-s-tolkovanijami/) [[2]](http://holytrinitymission.org/books/russian/canons_vselen_soborov_nikodim_milosh.htm)
+    * Так же есть толкования Преподобный Никодим Святогорец(19 в. Греция)
+
+4. **Сайт:** [hram-troicy.prihod][hram-troicy.prihod]
+    * [КРАТКИЙ СВОД КАНОНОВ ПРАВОСЛАВНОЙ ЦЕРКВИ](http://hram-troicy.prihod.ru/spravochniki/view/id/1173612)
+    * С Правилами Св. Отцов и Поместных Соборов
+    * Вроде как без толкований, сам текст правил сжат "скорее всего искажен"
+
+**Как я понял правила располагаются по дате собора**
+(в хронологическом порядке)
+
+1. **Правила святых Апостолов**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * пє(85)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+2. Святого Апостола Павла особно правил
+    * Название:
+        * взято с рукописи [[1]][f_304i_206]
+
+    * Кол. Правил:
+        * зi(17)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 0 Не нашел инфо
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+3. "Того ж правила о усопших" и "Того ж правила о властелех"
+    * Название:
+        * взято с рукописи [[1]][f_304i_206]
+    * Кол. Правил:
+        * 2
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                   **Выделены в отдельную главу**
+                2. [kormchaya_3][kormchaya_3]  
+                   **Так же есть эти два правила**
+                3. [kormchaya_4][kormchaya_4]
+                   После Правил Апостола Павла идет "Того ж правила о усопших" и "Того ж правила о властелех"  
+                   И это выделяется в отдельную главу г(3)
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+                   Так же есть эти два правила, и они как и в других выделены в отдельную главу
+        * 0 Не нашел инфо
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+4. **Первый Вселенский Собор - Никейский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * к(20)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+5. Поместный Собор - Анкирский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * кє(25)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]  
+                   Вроде на л. 51 рукописи, написано, что правил кв(22), но самих правил кє(25)
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+6. Поместный Собор - Неокесарийский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * дi(14)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 15
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+7. Поместный Собор - Гангрский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * Ѳi(19)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 21
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+8. Поместный Собор - Антиохийский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * кє(25)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+9. Поместный Собор - Лаодикийский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * ни(58)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 60
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                   На этом сайте Поместный Собор - Сардикийский стоит раньше,
+                   чем
+                   Лаодикийский. Но в большинстве сайтов сначала Лаодикийский, а потом Лаодикийский
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+10. **Второй Вселенский Собор - Константинопольский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * и(8)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 7
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+11. **Третий Вселенский Собор - Эфесский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * и(8) + Так же Послание того же Собора к священному собору Памфилийскому о Евстафии (так же есть на сайтах)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                   **Так же послание записано как девятое правило**
+                   **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
+                2. [kormchaya_3][kormchaya_3]
+                   "Того же собора послание сущим в Памфилии епископом Правило Ѳ(9)" - **записано как девятое правило**
+                   **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
+                3. [kormchaya_4][kormchaya_4]
+                   **Так же послание записано как девятое правило**
+                   **Не выделено как отдельная глава, вi(12) - уже про 4 Вселенский Собор**
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+                   **Так же послание записано как девятое правило**  
+                   **И как отдельная глава вi(12)**
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                   На этом сайте Послание записано как девятое правило
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+12. **Четвертый Вселенский Собор - Халкидонский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * л(30)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+13. Поместный Собор - Сардикийский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * ка(21)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                   **Пропущены правила иi(18) и к(20) - написано, что этих правил нет.**
+                2. [kormchaya_3][kormchaya_3]
+                   **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
+                3. [kormchaya_4][kormchaya_4]
+                   **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+                   **Так же пропущены правила иi(18) и к(20) - ничего не написано про это.**
+        * 20
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+15. Поместный Собор - Карфагенский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * рлд(134)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]  
+                   **Последнее правило помечено как рлв(132)**, но раньше правило рлв(132) уже было,
+                   и перед последним правилом идет правило рлг(133).
+                   Так что скорее всего описка, потому что **текст правила совпадает с текстом правила рлд(134).**
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 147
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+16. **Шестой Вселенский Собор - Константинопольский, Трульский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Пятый Вселенский Собор правил не оставил (об этом написано в ЛЛС)  
+      На Шестом Вселенском Соборе записаны были правила Пятого.
+
+    * Кол. Правил:
+        * рв(102)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+                5.
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+17. **Седьмой Вселенский Собор - Никейский**
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * кв(22)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]  
+                   А в заглавии написано, что 20 правил, но в тексте 22.
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+18. Поместный Собор - Константинопольский (двукратный)
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * si(16)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+        * зi(17)
+            * Рукописи:
+                1. [kormchaya_4][kormchaya_4]  
+                   В тексте 17 правил.  
+                   **В других рукописях выделено как толк. на 16 правило, или просто с красной буквы.**
+                2. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]  
+                   В тексте 17 правил.  
+                   В заглавии тоже написано про 17 правил.
+                   **В других рукописях выделено как толк. на 16 правило, или просто с красной буквы.**
+        * кв(22)
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+19. Поместный Собор - Константинопольский
+    * Название:
+        * взято с сайта [orthodoxbible/canons][orthodoxbible/canons]
+
+    * Кол. Правил:
+        * г(3)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                   **В тексте рукописи 3 правило не помечено, но оно есть, начинается с заглавной красной буквы**
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+20. Правила святого Василия Великого от посланий к епископу Амфилохию Иконийскому, Диодору Тарскому, и к другим неким
+    послания
+    * Название:
+        * взято с сайта [azbyka/canons][azbyka/canons]  
+          **а что-то в названии дописал сам**
+
+    * Кол. Правил:
+        * ча(91)
+            * Рукописи:  
+              **Общие заметки:**  
+              После 91 правила, идет еще правило 20 в котором 26 подправил.  
+              **В тексте уже было правило 20 из 91 правила**  
+              **На самом деле это глава 20 (как я понял), и в этой главе 26 правил Святаго Василия.**
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+
+        * 92
+            * Сайты:
+                1. [azbyka][azbyka]
+                2. [holytrinitymission][holytrinitymission]
+                3. [orthodoxbible/canons][orthodoxbible/canons]
+                4. [hram-troicy.prihod][hram-troicy.prihod]
+
+
+21. Святаго Василя о времени согрешающих вкратце
+    * Название:
+        * взято с рукописи [f_304i_206][f_304i_206], **изменено мной,** убрано кол. правил из названия.
+
+    * Кол. Правил:
+        * кs(26)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]  
+                   Выделено в отдельную 20 главу.
+                2. [kormchaya_3][kormchaya_3]  
+                   Выделено в отдельную 20 главу.
+                3. [kormchaya_4][kormchaya_4]  
+                   Выделено в отдельную 20 главу.
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]  
+                   Выделено в отдельную 21 главу.
+        * 0
+            * Сайты:  
+              **На сайтах вообще не нашел ничего про это**  
+              Хотя везде на сайтах на одно правило больше, но вроде в 92 правиле на сайте не то  
+              Но я не сильно вдумчиво смотрел.
+
+
+22. От книг Божественных повелении, Божественыя кончины, Иустинияна, различныя заповеди
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * пз(87)
+            * Рукописи:
+                1. [f_304i_206][f_304i_206]
+                2. [kormchaya_3][kormchaya_3]
+                3. [kormchaya_4][kormchaya_4]
+                4. [kormchaya_pisec_sava_danilov][kormchaya_pisec_sava_danilov]
+        * 0
+            * Сайты:  
+              На сайтах пока что ничего не нашел об этом.
+
+
+23. t_22
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_22
+            * Рукописи:
+            * Сайты:
+
+24. t_23
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_23
+            * Рукописи:
+            * Сайты:
+
+25. t_24
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_24
+            * Рукописи:
+            * Сайты:
+
+
+26. t_25
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_25
+            * Рукописи:
+            * Сайты:
+
+
+27. t_26
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_26
+            * Рукописи:
+            * Сайты:
+
+
+28. t_27
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_27
+            * Рукописи:
+            * Сайты:
+
+
+29. t_28
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_28
+            * Рукописи:
+            * Сайты:
+
+
+30. t_29
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_29
+            * Рукописи:
+            * Сайты:
+
+
+31. t_30
+    * Название:
+        * На основе рукописей **написал сам**.
+
+    * Кол. Правил:
+        * 100_30
+            * Рукописи:
+            * Сайты:
+
+
+
+
+
+
+[azbyka]: https://azbyka.ru/
+
+[azbyka/canons]: https://azbyka.ru/otechnik/Nikodim_Milash/pravila-svjatyh-ottsov-pravoslavnoj-tserkvi-s-tolkovanijami/#sel=
+
+
+[holytrinitymission]: http://holytrinitymission.org/
+
+
+[orthodoxbible]: https://orthodoxbible.ru/
+
+[orthodoxbible/canons]: https://orthodoxbible.ru/canons.php
+
+
+[hram-troicy.prihod]: http://hram-troicy.prihod.ru/
+
+
+[f_304i_206]: ../books/rsl/rsl304_i/f_304i_206.md
+
+[kormchaya_3]: ../books/neb/from_nlr/kormchaya_3.md
+
+[kormchaya_4]: ../books/neb/from_nlr/kormchaya_4.md
+
+[kormchaya_pisec_sava_danilov]: ../books/neb/from_nlr/kormchaya_pisec_sava_danilov.md
