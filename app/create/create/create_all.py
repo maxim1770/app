@@ -10,7 +10,7 @@ from app.create.create.reading import CreateReading
 from app.db.session import engine, Base
 
 
-# TODO
+# TODO (что то написал в master)
 #  изменить названия с классами Enum и убрать слово Enum, заменить на названия таблицы + поле
 #  подумать над тем чтобы не создавать schemas в ф. create_c1_readings, а написать функции в модулях prepare
 #  которые будут сразу выдавать нужные значения
