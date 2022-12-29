@@ -1,26 +1,0 @@
-
-Bpython:S125%"Remove this commented out code.(¶ÿ˜‰şÿÿÿÿ8‡å…¹Ó0
-jpython:S11345"LTake the required action to fix the issue indicated by this "FIXME" comment.(‰¢Œ'8‡å…¹Ó0
-Spython:S1135)"4Complete the task associated to this "TODO" comment.(Æ£Âë8‡å…¹Ó0
-Xpython:S1135,"4Complete the task associated to this "TODO" comment.(ƒÌõİûÿÿÿÿ8ˆå…¹Ó0
-Spython:S1135."4Complete the task associated to this "TODO" comment.(Ú£»›8’å…¹Ó0
-Rpython:S11350"4Complete the task associated to this "TODO" comment.(âòİ-8¢å…¹Ó0
-Tpython:S6035g"0Replace this alternation with a character class.(Š¬ğ‹ÿÿÿÿÿ8¢å…¹Ó0
-xpython:S5843c"TSimplify this regular expression to reduce its complexity from 36 to the 20 allowed.(àì“âÿÿÿÿÿ8¢å…¹Ó0
-ypython:S3776"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(©©äÏùÿÿÿÿ8£å…¹Ó0
-Tpython:S1135‚"4Complete the task associated to this "TODO" comment.(–Îªı8£å…¹Ó0
-Ypython:S1135’"4Complete the task associated to this "TODO" comment.(ìªƒØúÿÿÿÿ8£å…¹Ó0
-Tpython:S1135Ÿ"4Complete the task associated to this "TODO" comment.(…ñÎÏ8£å…¹Ó0
-tpython:S3776ï"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(¾›€Ÿ8£å…¹Ó0
-Ypython:S1135÷"4Complete the task associated to this "TODO" comment.(âà›ıÿÿÿÿ8¤å…¹Ó0
-Tpython:S1135ü"4Complete the task associated to this "TODO" comment.(şÉÇ 8²å…¹Ó0
-Ypython:S1135ÿ"4Complete the task associated to this "TODO" comment.(¬•Á ÿÿÿÿÿ8Áå…¹Ó0
-Ypython:S1135"4Complete the task associated to this "TODO" comment.(Û„ûÿÿÿÿ8Áå…¹Ó0
-Tpython:S1135—"4Complete the task associated to this "TODO" comment.(ƒøÆÊ8Áå…¹Ó0
-ypython:S3776²"TRefactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.(¼»Æäüÿÿÿÿ8Áå…¹Ó0
-=python:S125ò"Remove this commented out code.(ç¹ãq8Áå…¹Ó0
-Cpython:S125"Remove this commented out code.(ë¯ÛËøÿÿÿÿ8Âå…¹Ó0
-Cpython:S125„"Remove this commented out code.(ïÿÓÔûÿÿÿÿ8Âå…¹Ó0
->python:S125‡"Remove this commented out code.(ŠÑ†˜8Âå…¹Ó0
-Cpython:S125"Remove this commented out code.(Ç‚’×úÿÿÿÿ8Âå…¹Ó0
-Cpython:S125–"Remove this commented out code.(€˜™şûÿÿÿÿ8Âå…¹Ó0
