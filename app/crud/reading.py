@@ -1,17 +1,18 @@
-from app import models, schemas
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
-from app.crud.movable_date.movable_date import get_movable_date
+
+from app import models, enums
 from app.crud.bible_book.zachalo import get_zachalo
+from app.crud.movable_date.movable_date import get_movable_date
 
 
 def get_readings(db: Session, skip: int = 0, limit: int = 100) -> list[models.Reading]:
     return db.query(models.Reading).offset(skip).limit(limit).all()
 
 
-def get_reading(db: Session, cycle_num: schemas.CycleEnum, sunday_num: int,
-                day_abbr: schemas.MovableDayAbbrEnum, divine_service_title: schemas.DivineServiceEnum,
-                bible_book_abbr: schemas.AbbrEnum, zachalo_num: int
+def get_reading(db: Session, cycle_num: enums.CycleNum, sunday_num: int,
+                day_abbr: enums.MovableDayAbbr, divine_service_title: enums.DivineServiceTitle,
+                bible_book_abbr: enums.BibleBookAbbr, zachalo_num: int
                 ) -> models.Reading:
     movable_date_id: int = get_movable_date(db, cycle_num=cycle_num, sunday_num=sunday_num,
                                             day_abbr=day_abbr, divine_service_title=divine_service_title

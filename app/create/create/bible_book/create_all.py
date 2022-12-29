@@ -11,9 +11,9 @@ from app.db.session import engine, Base
 
 def create_all_zachalos(db: Session):
     create_bible_books(db)
-    # logging.info("Create bible books")
+    logging.info("Create bible books")
 
-    # zachalos_id: list[int] = create_all_c1_zachalos(db)
+    zachalos_id: list[int] = create_all_c1_zachalos(db)
 
     # zachalos_id: list[int] = create_all_c2_zachalos(db)
 

@@ -48,8 +48,8 @@ class CreateReadingFactory(object):
 
     @staticmethod
     def get_c1_reading(db: Session, zachalos_id: list[int]) -> CreateReading:
-        cycle_id: int = crud.get_cycle(db, num=schemas.CycleEnum.cycle_1).id
-        divine_service_id: int = crud.get_divine_service(db, title=schemas.DivineServiceEnum.liturgy).id
+        cycle_id: int = crud.get_cycle(db, num=enums.CycleNum.cycle_1).id
+        divine_service_id: int = crud.get_divine_service(db, title=enums.DivineServiceTitle.liturgy).id
 
         movable_dates_id: list[int] = [movable_date.id for movable_date in
                                        crud.get_movable_dates(db, cycle_id=cycle_id,

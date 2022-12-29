@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import CreateBase, FatalCreateError
 
 
@@ -9,7 +9,7 @@ class CreateZachalo(CreateBase):
     def __init__(self,
                  db: Session,
                  items: list[schemas.ZachaloCreate],
-                 parents_id: list[schemas.AbbrEnum],
+                 parents_id: list[enums.BibleBookAbbr],
                  num_creatures: int):
         super().__init__(db, items, parents_id, num_creatures)
 

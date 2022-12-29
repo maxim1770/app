@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import CreateBase, FatalCreateError
 
 
@@ -33,15 +33,15 @@ class CreateMovableDate(CreateBase):
                     if crud.get_movable_date_by_id(
                             self.db,
                             movable_day_id=movable_day_id,
-                            divine_service_title=schemas.DivineServiceEnum.matins
+                            divine_service_title=enums.DivineServiceTitle.matins
                     ):
-                        raise FatalCreateError(self.get_except_text_created(movable_day_id, schemas.DivineServiceEnum.matins))
+                        raise FatalCreateError(self.get_except_text_created(movable_day_id, enums.DivineServiceTitle.matins))
                     else:
                         movable_dates_id.append(
                             crud.create_movable_date(
                                 self.db,
                                 movable_day_id=movable_day_id,
-                                divine_service_title=schemas.DivineServiceEnum.matins,
+                                divine_service_title=enums.DivineServiceTitle.matins,
                                 movable_date=movable_date
                             ).id
                         )
@@ -50,15 +50,15 @@ class CreateMovableDate(CreateBase):
             if crud.get_movable_date_by_id(
                     self.db,
                     movable_day_id=movable_day_id,
-                    divine_service_title=schemas.DivineServiceEnum.liturgy
+                    divine_service_title=enums.DivineServiceTitle.liturgy
             ):
-                raise FatalCreateError(self.get_except_text_created(movable_day_id, schemas.DivineServiceEnum.liturgy))
+                raise FatalCreateError(self.get_except_text_created(movable_day_id, enums.DivineServiceTitle.liturgy))
 
             movable_dates_id.append(
                 crud.create_movable_date(
                     self.db,
                     movable_day_id=movable_day_id,
-                    divine_service_title=schemas.DivineServiceEnum.liturgy,
+                    divine_service_title=enums.DivineServiceTitle.liturgy,
                     movable_date=movable_date
                 ).id
             )

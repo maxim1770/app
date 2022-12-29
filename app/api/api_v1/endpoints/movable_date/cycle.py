@@ -2,7 +2,7 @@ from fastapi import Depends, APIRouter, status
 from requests import Session
 
 from app.api import deps
-from app import crud, models, schemas
+from app import crud, models, schemas, enums
 from app.api.api_v1.endpoints.movable_date import week
 
 router = APIRouter()
@@ -15,7 +15,7 @@ def read_cycles(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_
 
 
 @router.get('/cycle-{cycle_num}', response_model=schemas.Cycle)
-def read_cycle(cycle_num: schemas.CycleEnum, db: Session = Depends(deps.get_db)):
+def read_cycle(cycle_num: enums.CycleNum, db: Session = Depends(deps.get_db)):
     cycle: models.Cycle = crud.get_cycle(db, num=cycle_num)
     return cycle
 

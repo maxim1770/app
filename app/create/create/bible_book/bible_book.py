@@ -2,7 +2,7 @@ from typing import Final
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import FatalCreateError
 
 
@@ -20,119 +20,119 @@ def create_bible_books(db: Session) -> bool:
     bible_books: list[schemas.BibleBookEvangelCreate | schemas.BibleBookApostleCreate] = [
         schemas.BibleBookEvangelCreate(
             title='Евангелие от Матфея',
-            abbr=schemas.AbbrEnum.Mt
+            abbr=enums.BibleBookAbbr.Mt
         ),
         schemas.BibleBookEvangelCreate(
             title='Евангелие от Марка',
-            abbr=schemas.AbbrEnum.Mk
+            abbr=enums.BibleBookAbbr.Mk
         ),
         schemas.BibleBookEvangelCreate(
             title='Евангелие от Луки',
-            abbr=schemas.AbbrEnum.Lk
+            abbr=enums.BibleBookAbbr.Lk
         ),
         schemas.BibleBookEvangelCreate(
             title='Евангелие от Иоанна',
-            abbr=schemas.AbbrEnum.Jn
+            abbr=enums.BibleBookAbbr.Jn
         ),
 
         # Деяния святых Апостолов
         schemas.BibleBookApostleCreate(
             title='Деяния святых Апостолов',
-            abbr=schemas.AbbrEnum.Act
+            abbr=enums.BibleBookAbbr.Act
         ),
 
         # Соборные Послания
         schemas.BibleBookApostleCreate(
             title='Послание Иакова',
-            abbr=schemas.AbbrEnum.Jac
+            abbr=enums.BibleBookAbbr.Jac
         ),
         schemas.BibleBookApostleCreate(
             title='1-е послание Петра',
-            abbr=schemas.AbbrEnum._1Pet
+            abbr=enums.BibleBookAbbr._1Pet
         ),
         schemas.BibleBookApostleCreate(
             title='2-е послание Петра',
-            abbr=schemas.AbbrEnum._2Pet
+            abbr=enums.BibleBookAbbr._2Pet
         ),
         schemas.BibleBookApostleCreate(
             title='1-е послание Иоанна',
-            abbr=schemas.AbbrEnum._1Jn
+            abbr=enums.BibleBookAbbr._1Jn
         ),
         schemas.BibleBookApostleCreate(
             title='2-е послание Иоанна',
-            abbr=schemas.AbbrEnum._2Jn
+            abbr=enums.BibleBookAbbr._2Jn
         ),
         schemas.BibleBookApostleCreate(
             title='3-е послание Иоанна',
-            abbr=schemas.AbbrEnum._3Jn
+            abbr=enums.BibleBookAbbr._3Jn
         ),
         schemas.BibleBookApostleCreate(
             title='Послание Иуды',
-            abbr=schemas.AbbrEnum.Juda
+            abbr=enums.BibleBookAbbr.Juda
         ),
 
         # Послания Апостола Павла
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Римлянам',
-            abbr=schemas.AbbrEnum.Rom
+            abbr=enums.BibleBookAbbr.Rom
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла 1-е послание к коринфянам',
-            abbr=schemas.AbbrEnum._1Cor
+            abbr=enums.BibleBookAbbr._1Cor
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла 2-е послание к коринфянам',
-            abbr=schemas.AbbrEnum._2Cor
+            abbr=enums.BibleBookAbbr._2Cor
         ),
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Галатам',
-            abbr=schemas.AbbrEnum.Gal
+            abbr=enums.BibleBookAbbr.Gal
         ),
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Ефесянам',
-            abbr=schemas.AbbrEnum.Eph
+            abbr=enums.BibleBookAbbr.Eph
         ),
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Филиппийцам',
-            abbr=schemas.AbbrEnum.Phil
+            abbr=enums.BibleBookAbbr.Phil
         ),
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Колоссянам',
-            abbr=schemas.AbbrEnum.Col
+            abbr=enums.BibleBookAbbr.Col
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла 1-е послание к фессалоникийцам',
-            abbr=schemas.AbbrEnum._1Thes
+            abbr=enums.BibleBookAbbr._1Thes
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла 2-е послание к фессалоникийцам',
-            abbr=schemas.AbbrEnum._2Thes
+            abbr=enums.BibleBookAbbr._2Thes
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла 1-е послание к Тимофею',
-            abbr=schemas.AbbrEnum._1Tim
+            abbr=enums.BibleBookAbbr._1Tim
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла 2-е послание к Тимофею',
-            abbr=schemas.AbbrEnum._2Tim
+            abbr=enums.BibleBookAbbr._2Tim
         ),
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Титу',
-            abbr=schemas.AbbrEnum.Tit
+            abbr=enums.BibleBookAbbr.Tit
         ),
         schemas.BibleBookApostleCreate(
             title='Апостола Павла послание к Филимону',
-            abbr=schemas.AbbrEnum.Phlm
+            abbr=enums.BibleBookAbbr.Phlm
         ),
         schemas.BibleBookApostleCreate(
             title='Послание апостола Павла к Евреям',
-            abbr=schemas.AbbrEnum.Hebr
+            abbr=enums.BibleBookAbbr.Hebr
         ),
 
         # Апокалипсис
         schemas.BibleBookApostleCreate(
             title='Откровение Иоанна Богослова',
-            abbr=schemas.AbbrEnum.Apok
+            abbr=enums.BibleBookAbbr.Apok
         ),
     ]
 

@@ -2,7 +2,7 @@ from typing import Final
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import schemas, crud, enums
 from app.create.create.base_cls import FatalCreateError
 
 
@@ -19,15 +19,15 @@ def create_cycles(db: Session) -> bool:
     cycles: list[schemas.CycleCreate] = [
         schemas.CycleCreate(
             title=None,
-            num=schemas.CycleEnum.cycle_1,
+            num=enums.CycleNum.cycle_1,
         ),
         schemas.CycleCreate(
             title=None,
-            num=schemas.CycleEnum.cycle_2,
+            num=enums.CycleNum.cycle_2,
         ),
         schemas.CycleCreate(
             title=None,
-            num=schemas.CycleEnum.cycle_3,
+            num=enums.CycleNum.cycle_3,
         )
     ]
 

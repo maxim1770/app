@@ -3,22 +3,22 @@ from typing import Final
 
 from sqlalchemy.orm import Session
 
-from app import schemas
+from app import schemas, enums
 from app.create import const
 from app.create.create.movable_date.movable_day import CreateMovableDay
 from app.create.prepare.base_classes import PrepareMethodsBase, convert_to_schemas
 
 
-def _get_days_abbrs_in_weeks(num_weeks: int) -> list[schemas.MovableDayAbbrEnum]:
-    # хотя этот код плох тем, что если изменить порядок в MovableDayAbbrEnum, тот ту тоже изменится, а это ошибка
-    # return [*schemas.MovableDayAbbrEnum] * num_weeks
-    return [schemas.MovableDayAbbrEnum.sun,
-            schemas.MovableDayAbbrEnum.mon,
-            schemas.MovableDayAbbrEnum.tue,
-            schemas.MovableDayAbbrEnum.wed,
-            schemas.MovableDayAbbrEnum.thu,
-            schemas.MovableDayAbbrEnum.fri,
-            schemas.MovableDayAbbrEnum.sat,
+def _get_days_abbrs_in_weeks(num_weeks: int) -> list[enums.MovableDayAbbr]:
+    # хотя этот код плох тем, что если изменить порядок в MovableDayAbbr, тот ту тоже изменится, а это ошибка
+    # return [*enums.MovableDayAbbr] * num_weeks
+    return [enums.MovableDayAbbr.sun,
+            enums.MovableDayAbbr.mon,
+            enums.MovableDayAbbr.tue,
+            enums.MovableDayAbbr.wed,
+            enums.MovableDayAbbr.thu,
+            enums.MovableDayAbbr.fri,
+            enums.MovableDayAbbr.sat,
             ] * num_weeks
 
 
@@ -29,7 +29,7 @@ class PrepareC1MovableDayAbbr(PrepareMethodsBase):
         super().__init__()
 
     def _fill_gaps(self):
-        self.data: list[schemas.MovableDayAbbrEnum] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_1)
+        self.data: list[enums.MovableDayAbbr] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_1)
 
     def _clean(self): pass
 
@@ -44,8 +44,8 @@ class PrepareC2MovableDayAbbr(PrepareMethodsBase):
         super().__init__()
 
     def _fill_gaps(self):
-        self.data: list[schemas.MovableDayAbbrEnum] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_2) \
-                                               + [schemas.MovableDayAbbrEnum.sun]
+        self.data: list[enums.MovableDayAbbr] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_2) \
+                                               + [enums.MovableDayAbbr.sun]
 
     def _clean(self): pass
 
@@ -59,7 +59,7 @@ class PrepareC3MovableDayAbbr(PrepareMethodsBase):
         super().__init__()
 
     def _fill_gaps(self):
-        self.data: list[schemas.MovableDayAbbrEnum] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_3)
+        self.data: list[enums.MovableDayAbbr] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_3)
 
     def _clean(self): pass
 
@@ -115,7 +115,7 @@ class PrepareMovableDayFactoryBase(ABC):
 
     @staticmethod
     @abstractmethod
-    def _get_days_abbrs() -> list[schemas.MovableDayAbbrEnum]:
+    def _get_days_abbrs() -> list[enums.MovableDayAbbr]:
         pass
 
     @staticmethod
@@ -135,7 +135,7 @@ class PrepareMovableDayFactoryBase(ABC):
 class PrepareC1MovableDayFactory(PrepareMovableDayFactoryBase):
 
     @staticmethod
-    def _get_days_abbrs() -> list[schemas.MovableDayAbbrEnum]:
+    def _get_days_abbrs() -> list[enums.MovableDayAbbr]:
         return PrepareC1MovableDayAbbr().data
 
     @staticmethod
@@ -146,7 +146,7 @@ class PrepareC1MovableDayFactory(PrepareMovableDayFactoryBase):
 class PrepareC2MovableDayFactory(PrepareMovableDayFactoryBase):
 
     @staticmethod
-    def _get_days_abbrs() -> list[schemas.MovableDayAbbrEnum]:
+    def _get_days_abbrs() -> list[enums.MovableDayAbbr]:
         return PrepareC2MovableDayAbbr().data
 
     @staticmethod
@@ -157,7 +157,7 @@ class PrepareC2MovableDayFactory(PrepareMovableDayFactoryBase):
 class PrepareC3MovableDayFactory(PrepareMovableDayFactoryBase):
 
     @staticmethod
-    def _get_days_abbrs() -> list[schemas.MovableDayAbbrEnum]:
+    def _get_days_abbrs() -> list[enums.MovableDayAbbr]:
         return PrepareC3MovableDayAbbr().data
 
     @staticmethod

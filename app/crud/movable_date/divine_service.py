@@ -1,4 +1,4 @@
-from app import models, schemas
+from app import models, schemas, enums
 from sqlalchemy.orm import Session
 
 
@@ -6,7 +6,7 @@ def get_divine_services(db: Session, skip: int = 0, limit: int = 100) -> list[mo
     return db.query(models.DivineService).offset(skip).limit(limit).all()
 
 
-def get_divine_service(db: Session, title: schemas.DivineServiceEnum) -> models.DivineService | None:
+def get_divine_service(db: Session, title: enums.DivineServiceTitle) -> models.DivineService | None:
     return db.query(models.DivineService).filter(models.DivineService.title == title.value).first()
 
 

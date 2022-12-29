@@ -1,43 +1,21 @@
-from enum import auto, Enum
-
 from pydantic import BaseModel, root_validator
-from fastapi_utils.enums import StrEnum
 
+from app import enums
 from app.schemas.movable_date.movable_date import MovableDate
 
 
-class MovableDayAbbrEnum(StrEnum):
-    sun = auto()
-    mon = auto()
-    tue = auto()
-    wed = auto()
-    thu = auto()
-    fri = auto()
-    sat = auto()
-
-
-class MovableDayAbbrRuEnum(str, Enum):
-    sun = 'вс'
-    mon = 'пн'
-    tue = 'вт'
-    wed = 'ср'
-    thu = 'чт'
-    fri = 'пт'
-    sat = 'сб'
-
-
 class MovableDayBase(BaseModel):
-    abbr: MovableDayAbbrEnum
-    abbr_ru: MovableDayAbbrRuEnum
+    abbr: enums.MovableDayAbbr
+    abbr_ru: enums.MovableDayAbbrRu
     title: str | None
 
 
 class MovableDayCreate(MovableDayBase):
-    abbr_ru: MovableDayAbbrRuEnum | None
+    abbr_ru: enums.MovableDayAbbrRu | None
 
     @root_validator()
     def _set_abbr_ru(cls, values: dict) -> dict:
-        values["abbr_ru"] = MovableDayAbbrRuEnum[values["abbr"].name]
+        values["abbr_ru"] = enums.MovableDayAbbrRu[values["abbr"].name]
         return values
 
 

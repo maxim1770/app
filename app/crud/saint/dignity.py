@@ -1,4 +1,4 @@
-from app import models, schemas
+from app import models, schemas, enums
 from sqlalchemy.orm import Session
 
 
@@ -6,7 +6,7 @@ def get_dignities(db: Session, skip: int = 0, limit: int = 100) -> list[models.D
     return db.query(models.Dignity).offset(skip).limit(limit).all()
 
 
-def get_dignity(db: Session, title: schemas.DignityTitle) -> models.Dignity | None:
+def get_dignity(db: Session, title: enums.DignityTitle) -> models.Dignity | None:
     return db.query(models.Dignity).filter(models.Dignity.title == title).first()
 
 

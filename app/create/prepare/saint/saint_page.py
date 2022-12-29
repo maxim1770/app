@@ -6,7 +6,7 @@ from bs4.element import Tag
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app import schemas, crud, models
+from app import schemas, crud, models, enums
 from app.api import deps
 from app.create import const
 from app.create.create.saint.dignity import create_dignities
@@ -18,8 +18,8 @@ logging.basicConfig(level=logging.INFO)
 
 class UpdateSaintData(BaseModel):
     name: str
-    face_sanctity_title: schemas.FaceSanctityTitle
-    dignity_title: schemas.DignityTitle | None
+    face_sanctity_title: enums.FaceSanctityTitle
+    dignity_title: enums.DignityTitle | None
 
 
 def collect_saint_data(saint_name_en: str) -> Tag:
@@ -35,13 +35,13 @@ def prepare_saint_data(collected_saint_data: Tag) -> UpdateSaintData:
     name: str = ' '.join(name_tag.text.split())
 
     face_sanctity_text: str = name_tag.find(lambda tag: tag.name == 'a' and 'p-tip-svjatosti' in tag['href']).text
-    face_sanctity_title: schemas.FaceSanctityTitle = schemas.FaceSanctityTitle(
+    face_sanctity_title: enums.FaceSanctityTitle = enums.FaceSanctityTitle(
         face_sanctity_text.lower().strip()
     )
 
     dignity_tag: Tag | None = name_tag.find(lambda tag: tag.name == 'a' and 'p-san' in tag['href'])
     dignity_text: str | None = dignity_tag.text if dignity_tag else None
-    dignity_title: schemas.DignityTitle | None = schemas.DignityTitle(
+    dignity_title: enums.DignityTitle | None = enums.DignityTitle(
         dignity_text.replace(',', '').strip()
     ) if dignity_text else None
 

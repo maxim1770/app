@@ -1,4 +1,4 @@
-from app import models, schemas
+from app import models, schemas, enums
 from sqlalchemy.orm import Session
 
 
@@ -6,7 +6,7 @@ def get_faces_sanctity(db: Session, skip: int = 0, limit: int = 100) -> list[mod
     return db.query(models.FaceSanctity).offset(skip).limit(limit).all()
 
 
-def get_face_sanctity(db: Session, title: schemas.FaceSanctityTitle) -> models.FaceSanctity | None:
+def get_face_sanctity(db: Session, title: enums.FaceSanctityTitle) -> models.FaceSanctity | None:
     return db.query(models.FaceSanctity).filter(models.FaceSanctity.title == title).first()
 
 

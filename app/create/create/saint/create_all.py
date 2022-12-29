@@ -11,5 +11,5 @@ if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
     Base.metadata.create_all(bind=engine)
 
-    create_dignities(db)
-    create_faces_sanctity(db)
+    # create_dignities(db)
+    # create_faces_sanctity(db)

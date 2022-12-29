@@ -6,12 +6,12 @@ logging.basicConfig(  # filename="create.log", filemode="w", encoding='utf-8',
 
 from sqlalchemy.orm import Session
 
-from app import crud, schemas
+from app import crud, enums
 from app.api import deps
 
 
 def print_table_reading(db: Session):
-    cycle_1 = crud.get_cycle(db, num=schemas.CycleEnum.cycle_1)
+    cycle_1 = crud.get_cycle(db, num=enums.CycleNum.cycle_1)
     for week in cycle_1.weeks:
 
         print(f'Неделя {week.sunday_num}')
@@ -19,7 +19,7 @@ def print_table_reading(db: Session):
         for day in week.days:
             movable_dates = day.movable_dates
             movable_date_liturgy = [movable_date for movable_date in movable_dates
-                                    if movable_date.divine_service.title == schemas.DivineServiceEnum.liturgy
+                                    if movable_date.divine_service.title == enums.DivineServiceTitle.liturgy
                                     ][0]
             readings = movable_date_liturgy.readings
             reading_apostle = [reading for reading in readings

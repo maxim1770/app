@@ -4,11 +4,11 @@ from pathlib import Path
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app import schemas, crud, models
+from app import schemas, crud, models, enums
 from app.api import deps
 
 
-def create(num: schemas.CycleEnum):
+def create(num: enums.CycleNum):
     db: Session = deps.get_db().__next__()
 
     cycle: models.Cycle = crud.get_cycle(db, num)
@@ -43,7 +43,7 @@ def compare_zachalos():
     print(True)
 
 
-def compare(num: schemas.CycleEnum):
+def compare(num: enums.CycleNum):
     files = list(Path('compare').glob(f'date_{num}*.json'))
 
     c_1 = schemas.Cycle.parse_file(files[0])
@@ -54,7 +54,7 @@ def compare(num: schemas.CycleEnum):
 
 
 if __name__ == '__main__':
-    # create(schemas.CycleEnum.cycle_1)
+    # create(enums.CycleNum.cycle_1)
     create_zachalo()
     # compare_zachalos()
-    # compare(schemas.CycleEnum.cycle_3)
+    # compare(enums.CycleNum.cycle_3)

@@ -1,4 +1,4 @@
-from app import models, schemas
+from app import models, schemas, enums
 from sqlalchemy.orm import Session
 
 
@@ -6,7 +6,7 @@ def get_cycles(db: Session, skip: int = 0, limit: int = 100) -> list[models.Cycl
     return db.query(models.Cycle).offset(skip).limit(limit).all()
 
 
-def get_cycle(db: Session, num: schemas.CycleEnum) -> models.Cycle | None:
+def get_cycle(db: Session, num: enums.CycleNum) -> models.Cycle | None:
     return db.query(models.Cycle).filter(models.Cycle.num == num).first()
 
 
