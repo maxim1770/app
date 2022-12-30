@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-import jellyfish
+# import jellyfish
 
 from app import schemas, crud, models
 from app.api import deps

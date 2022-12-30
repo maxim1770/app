@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Final, Match
 
 from bs4.element import Tag
-from requests import Session
+from sqlalchemy.orm import Session
 
 from app import schemas
 from app.create import const
