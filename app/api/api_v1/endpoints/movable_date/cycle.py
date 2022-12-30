@@ -1,5 +1,5 @@
 from fastapi import Depends, APIRouter, status
-from requests import Session
+from sqlalchemy.orm import Session
 
 from app.api import deps
 from app import crud, models, schemas, enums
