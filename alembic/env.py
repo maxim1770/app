@@ -1,14 +1,14 @@
+import os
 import sys
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
-from alembic import context
+from sqlalchemy.engine import URL
 
 sys.path = ['', '..'] + sys.path[1:]
 
-from app.db.session import SQLALCHEMY_DATABASE_URL
 from app.db.base import Base
 
 # this is the Alembic Config object, which provides
@@ -25,7 +25,6 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 target_metadata = Base.metadata
 
-
 # target_metadata = None
 
 
@@ -33,6 +32,15 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+
+url_object = URL.create(
+    os.getenv('DATABASE', 'postgresql'),
+    username=os.getenv('POSTGRES_USER', 'postgres'),
+    password=os.getenv('POSTGRES_PASSWORD', ''),
+    host=os.getenv('POSTGRES_HOST', 'localhost'),
+    database=os.getenv('POSTGRES_DB', 'app-db'),
+)
 
 
 def run_migrations_offline() -> None:
@@ -47,13 +55,10 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    # url = config.get_main_option("sqlalchemy.url")
-    url = config.get_main_option(SQLALCHEMY_DATABASE_URL)
+    url = url_object
     context.configure(
         url=url,
         target_metadata=target_metadata,
-        render_as_batch=True,
-        # TODO добавил сам смотря тут https://stackoverflow.com/questions/30378233/sqlite-lack-of-alter-support-alembic-migration-failing-because-of-this-solutio
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
     )
@@ -70,7 +75,7 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration['sqlalchemy.url'] = SQLALCHEMY_DATABASE_URL
+    configuration['sqlalchemy.url'] = url_object
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",
