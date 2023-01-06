@@ -1,5 +1,5 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class HolidayCategoryTitle(str, Enum):
+class HolidayCategoryTitle(StrEnum):
     pass

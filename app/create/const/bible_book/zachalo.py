@@ -1,4 +1,4 @@
-from fastapi_utils.enums import StrEnum
+from enum import StrEnum
 
 
 class ZachaloTitle(StrEnum):

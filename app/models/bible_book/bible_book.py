@@ -1,21 +1,22 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
+from app import enums
 from app.db.session import Base
 
 
 class BibleBook(Base):
-    __tablename__ = "bible_books"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'bible_books'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    testament = Column(String)
-    testament_ru = Column(String)
+    testament: Mapped[enums.BibleBookTestament]
+    testament_ru: Mapped[enums.BibleBookTestamentRu]
 
-    part = Column(String)
-    part_ru = Column(String)
+    part: Mapped[enums.BibleBookPart]
+    part_ru: Mapped[enums.BibleBookPartRu]
 
-    title = Column(String)
-    abbr = Column(String)
-    abbr_ru = Column(String)
+    title: Mapped[str] = mapped_column(sa.String(50), unique=True)
+    abbr: Mapped[enums.BibleBookAbbr] = mapped_column(unique=True)
+    abbr_ru: Mapped[enums.BibleBookAbbrRu] = mapped_column(unique=True)
 
-    zachalos = relationship("Zachalo", back_populates="bible_book")
+    zachalos: Mapped[list['Zachalo']] = relationship(back_populates='bible_book')

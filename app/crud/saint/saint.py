@@ -1,13 +1,15 @@
-from app import models, schemas
+import sqlalchemy as sa
 from sqlalchemy.orm import Session
+
+from app import models, schemas
 
 
 def get_saints(db: Session, skip: int = 0, limit: int = 100) -> list[models.Saint]:
-    return db.query(models.Saint).offset(skip).limit(limit).all()
+    return list(db.execute(sa.select(models.Saint).offset(skip).limit(limit)).scalars())
 
 
 def get_saint(db: Session, name_en: str) -> models.Saint | None:
-    return db.query(models.Saint).filter(models.Saint.name_en == name_en).first()
+    return db.execute(sa.select(models.Saint).filter_by(name_en=name_en)).scalar_one_or_none()
 
 
 def create_saint(

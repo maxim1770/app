@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class FaceSanctityTitle(str, Enum):
+class FaceSanctityTitle(StrEnum):
     """
         l: list = [
         'апостол', 'апостол от 70-ти', 'равноапостольный', 'равноапостольная',

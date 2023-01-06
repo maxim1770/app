@@ -1,14 +1,15 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
+from app import enums
 from app.db.session import Base
 
 
 class Cycle(Base):
-    __tablename__ = "cycles"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'cycles'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    num = Column(Integer)
-    title = Column(String)
+    num: Mapped[enums.CycleNum] = mapped_column(unique=True)
+    title: Mapped[str | None] = mapped_column(sa.String(30), unique=True)
 
-    weeks = relationship("Week", back_populates="cycle")
+    weeks: Mapped[list['Week']] = relationship(back_populates='cycle')

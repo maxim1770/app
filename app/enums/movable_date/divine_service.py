@@ -1,6 +1,4 @@
-from enum import auto
-
-from fastapi_utils.enums import StrEnum
+from enum import StrEnum, auto
 
 
 class DivineServiceTitle(StrEnum):

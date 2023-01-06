@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class DignityTitle(str, Enum):
+class DignityTitle(StrEnum):
     """
 
     l: list = ['папа Римский', 'патриарх', 'митрополит', 'архиепископ', 'епископ',

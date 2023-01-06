@@ -1,14 +1,14 @@
-from sqlalchemy import Integer, Column, ForeignKey, String
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
 
 
 class Year(Base):
-    __tablename__ = "years"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'years'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    title = Column(String)
-    _year = Column(Integer)  # TODO: тут потом заменить на тип данных YEAR или Date
+    title: Mapped[str] = mapped_column(sa.String(30), unique=True)
+    _year: Mapped[int] = mapped_column(sa.SmallInteger)
 
-    holidays = relationship("Holiday", back_populates="year")
+    holidays: Mapped[list['Holiday']] = relationship(back_populates='year')

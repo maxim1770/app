@@ -1,14 +1,23 @@
-from sqlalchemy import and_
+import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums
-from app.crud.movable_date.movable_day import get_movable_day
 from app.crud.movable_date.divine_service import get_divine_service
+from app.crud.movable_date.movable_day import get_movable_day
 
 
 def get_movable_dates(db: Session, cycle_id: int, divine_service_id: int) -> list[models.MovableDate]:
-    return db.query(models.MovableDate).filter_by(divine_service_id=divine_service_id).join(models.MovableDay).join(
-        models.Week).filter_by(cycle_id=cycle_id).all()
+    return list(db.execute(
+        sa.select(models.MovableDate).filter_by(
+            divine_service_id=divine_service_id
+        ).join(
+            models.MovableDay
+        ).join(
+            models.Week
+        ).filter_by(
+            cycle_id=cycle_id
+        )
+    ).scalars())
 
 
 def get_movable_date(
@@ -21,12 +30,15 @@ def get_movable_date(
     movable_day_id: int = get_movable_day(db, cycle_num=cycle_num, sunday_num=sunday_num, abbr=movable_day_abbr).id
     divine_service_id: int = get_divine_service(db, title=divine_service_title).id
 
-    return db.query(models.MovableDate).filter(
-        and_(
-            models.MovableDate.movable_day_id == movable_day_id,
-            models.MovableDate.divine_service_id == divine_service_id
+    return db.execute(
+        sa.select(
+            models.MovableDate
+        ).filter_by(
+            movable_day_id=movable_day_id
+        ).filter_by(
+            divine_service_id=divine_service_id
         )
-    ).first()
+    ).scalar_one_or_none()
 
 
 def get_movable_date_by_id(
@@ -36,12 +48,15 @@ def get_movable_date_by_id(
 ) -> models.MovableDate:
     divine_service_id: int = get_divine_service(db, title=divine_service_title).id
 
-    return db.query(models.MovableDate).filter(
-        and_(
-            models.MovableDate.movable_day_id == movable_day_id,
-            models.MovableDate.divine_service_id == divine_service_id
+    return db.execute(
+        sa.select(
+            models.MovableDate
+        ).filter_by(
+            movable_day_id=movable_day_id
+        ).filter_by(
+            divine_service_id=divine_service_id
         )
-    ).first()
+    ).scalar_one_or_none()
 
 
 def create_movable_date(

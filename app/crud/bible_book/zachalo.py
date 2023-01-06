@@ -1,4 +1,4 @@
-from sqlalchemy import and_
+import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums
@@ -14,17 +14,15 @@ from app.crud.bible_book.bible_book import get_bible_book
 
 
 def get_all_zachalos(db: Session, skip: int = 0, limit: int = 1000) -> list[models.Zachalo]:
-    return db.query(models.Zachalo).offset(skip).limit(limit).all()
+    return list(db.execute(sa.select(models.Zachalo).offset(skip).limit(limit)).scalars())
 
 
-def get_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, num: int) -> models.Zachalo:
+def get_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, num: int) -> models.Zachalo | None:
     bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
-    return db.query(models.Zachalo).filter(
-        and_(
-            models.Zachalo.num == num,
-            models.Zachalo.bible_book_id == bible_book_id
-        )
-    ).first()
+
+    return db.execute(
+        sa.select(models.Zachalo).filter_by(bible_book_id=bible_book_id).filter_by(num=num)
+    ).scalar_one_or_none()
 
 
 def create_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, zachalo: schemas.ZachaloCreate) -> models.Zachalo:
