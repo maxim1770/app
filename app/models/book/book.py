@@ -1,13 +1,13 @@
-from sqlalchemy import Integer, Column, ForeignKey, String
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
 
 
 class Book(Base):
-    __tablename__ = "books"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'books'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    title = Column(String)
+    title: Mapped[str] = mapped_column(sa.String(100), unique=True, nullable=False)
 
-    saint_live = relationship("SaintLive", back_populates="book", uselist=False)
+    saint_live: Mapped['SaintLive'] = relationship(back_populates='book', uselist=False)

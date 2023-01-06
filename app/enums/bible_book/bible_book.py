@@ -1,6 +1,4 @@
-from enum import Enum, auto
-
-from fastapi_utils.enums import StrEnum
+from enum import StrEnum, auto
 
 
 class BibleBookTestament(StrEnum):
@@ -9,7 +7,7 @@ class BibleBookTestament(StrEnum):
     old_testament = auto()
 
 
-class BibleBookTestamentRu(str, Enum):
+class BibleBookTestamentRu(StrEnum):
     """OT - Old Testament, NT - New Testament"""
     new_testament = 'Новый завет'
     old_testament = 'Ветхий завет'
@@ -20,7 +18,7 @@ class BibleBookPart(StrEnum):
     apostle = auto()
 
 
-class BibleBookPartRu(str, Enum):
+class BibleBookPartRu(StrEnum):
     evangel = 'Евангелие'
     apostle = 'Апостол'
 
@@ -64,7 +62,7 @@ class BibleBookAbbr(StrEnum):
     Apok = auto()
 
 
-class BibleBookAbbrRu(str, Enum):
+class BibleBookAbbrRu(StrEnum):
     # Евангелие
     Jn = 'Ин'
     Lk = 'Лк'

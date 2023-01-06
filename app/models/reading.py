@@ -1,18 +1,15 @@
-from sqlalchemy import Integer, Column, ForeignKey
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
 
 
 class Reading(Base):
-    __tablename__ = "readings"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'readings'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    movable_date_id = Column(Integer, ForeignKey("movable_dates.id"))
-    movable_date = relationship("MovableDate", back_populates="readings")
+    movable_date_id = mapped_column(sa.ForeignKey('movable_dates.id'))
+    zachalo_id = mapped_column(sa.ForeignKey('zachalos.id'))
 
-    zachalo_id = Column(Integer, ForeignKey("zachalos.id"))
-    zachalo = relationship("Zachalo", back_populates="readings")
-
-    test_field = Column(Integer)
-    test_field_2 = Column(Integer)
+    movable_date: Mapped['MovableDate'] = relationship(back_populates='readings')
+    zachalo: Mapped['Zachalo'] = relationship(back_populates='readings')

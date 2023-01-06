@@ -1,18 +1,20 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
+from app import enums
 from app.db.session import Base
 
 
 class MovableDay(Base):
-    __tablename__ = "movable_days"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'movable_days'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    abbr = Column(String)
-    abbr_ru = Column(String)
-    title = Column(String)
+    abbr: Mapped[enums.MovableDayAbbr]
+    abbr_ru: Mapped[enums.MovableDayAbbrRu]
+    title: Mapped[str | None] = mapped_column(sa.String(30), unique=True, nullable=True)
 
-    week_id = Column(Integer, ForeignKey("weeks.id"))
-    week = relationship("Week", back_populates="days")
+    week_id = mapped_column(sa.ForeignKey('weeks.id'))
 
-    movable_dates = relationship("MovableDate", back_populates="movable_day")
+    week: Mapped['Week'] = relationship(back_populates='movable_days')
+
+    movable_dates: Mapped[list['MovableDate']] = relationship(back_populates='movable_day')
