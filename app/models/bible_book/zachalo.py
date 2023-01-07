@@ -1,17 +1,18 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
 
 
 class Zachalo(Base):
-    __tablename__ = "zachalos"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'zachalos'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    num = Column(Integer)
-    title = Column(String)
+    num: Mapped[int] = mapped_column(sa.SmallInteger)
+    title: Mapped[str | None] = mapped_column(sa.String(30), unique=True)
 
-    readings = relationship("Reading", back_populates="zachalo")
+    bible_book_id = mapped_column(sa.ForeignKey('bible_books.id'))
 
-    bible_book_id = Column(Integer, ForeignKey("bible_books.id"))
-    bible_book = relationship("BibleBook", back_populates="zachalos")
+    bible_book: Mapped['BibleBook'] = relationship(back_populates='zachalos')
+
+    readings: Mapped[list['Reading']] = relationship(back_populates='zachalo')

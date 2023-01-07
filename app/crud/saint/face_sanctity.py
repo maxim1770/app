@@ -1,13 +1,15 @@
-from app import models, schemas, enums
+import sqlalchemy as sa
 from sqlalchemy.orm import Session
+
+from app import models, schemas, enums
 
 
 def get_faces_sanctity(db: Session, skip: int = 0, limit: int = 100) -> list[models.FaceSanctity]:
-    return db.query(models.FaceSanctity).offset(skip).limit(limit).all()
+    return list(db.execute(sa.select(models.FaceSanctity).offset(skip).limit(limit)).scalars())
 
 
 def get_face_sanctity(db: Session, title: enums.FaceSanctityTitle) -> models.FaceSanctity | None:
-    return db.query(models.FaceSanctity).filter(models.FaceSanctity.title == title).first()
+    return db.execute(sa.select(models.FaceSanctity).filter_by(title=title)).scalar_one_or_none()
 
 
 def create_face_sanctity(db: Session, face_sanctity: schemas.FaceSanctityCreate) -> models.FaceSanctity:

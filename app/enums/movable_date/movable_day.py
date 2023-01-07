@@ -1,6 +1,4 @@
-from enum import auto, Enum
-
-from fastapi_utils.enums import StrEnum
+from enum import StrEnum, auto
 
 
 class MovableDayAbbr(StrEnum):
@@ -13,7 +11,7 @@ class MovableDayAbbr(StrEnum):
     sat = auto()
 
 
-class MovableDayAbbrRu(str, Enum):
+class MovableDayAbbrRu(StrEnum):
     sun = 'вс'
     mon = 'пн'
     tue = 'вт'

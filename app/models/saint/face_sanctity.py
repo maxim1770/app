@@ -1,13 +1,13 @@
-from sqlalchemy import Integer, Column, ForeignKey, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
+from app import enums
 from app.db.session import Base
 
 
 class FaceSanctity(Base):
-    __tablename__ = "faces_sanctity"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'faces_sanctity'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    title = Column(String)
+    title: Mapped[enums.FaceSanctityTitle] = mapped_column(unique=True)
 
-    saints = relationship("Saint", back_populates="face_sanctity")
+    saints: Mapped[list['Saint']] = relationship(back_populates='face_sanctity')

@@ -1,14 +1,14 @@
-from sqlalchemy import Integer, Column
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
 
 
 class Day(Base):
-    __tablename__ = "days"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'days'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    month = Column(Integer)
-    day = Column(Integer)
+    month: Mapped[int] = mapped_column(sa.SmallInteger)
+    day: Mapped[int] = mapped_column(sa.SmallInteger)
 
-    holidays = relationship("Holiday", back_populates="day")
+    holidays: Mapped[list['Holiday']] = relationship(back_populates='day')

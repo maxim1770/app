@@ -1,19 +1,20 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
 
 
 class Week(Base):
-    __tablename__ = "weeks"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = 'weeks'
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    title = Column(String)
-    num = Column(Integer)
-    sunday_title = Column(String)
-    sunday_num = Column(Integer)
+    title: Mapped[str | None] = mapped_column(sa.String(100), unique=True)
+    num: Mapped[int | None] = mapped_column(sa.SmallInteger)
+    sunday_title: Mapped[str | None] = mapped_column(sa.String(50), unique=True)
+    sunday_num: Mapped[int] = mapped_column(sa.SmallInteger)
 
-    cycle_id = Column(Integer, ForeignKey("cycles.id"))
-    cycle = relationship("Cycle", back_populates="weeks")
+    cycle_id = mapped_column(sa.ForeignKey('cycles.id'))
 
-    days = relationship("MovableDay", back_populates="week")
+    cycle: Mapped['Cycle'] = relationship(back_populates='weeks')
+
+    movable_days: Mapped[list['MovableDay']] = relationship(back_populates='week')
