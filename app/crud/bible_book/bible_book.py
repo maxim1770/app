@@ -9,7 +9,7 @@ def get_bible_books(db: Session, skip: int = 0, limit: int = 100) -> list[models
 
 
 def get_bible_books_by_testament(db: Session, testament: enums.BibleBookTestament) -> list[models.BibleBook]:
-    return list(db.execute(sa.select(models.BibleBook).filter_by(testament=testament.value)).scalars())
+    return list(db.execute(sa.select(models.BibleBook).filter_by(testament=testament)).scalars())
 
 
 def get_bible_books_by_part(
@@ -17,7 +17,7 @@ def get_bible_books_by_part(
 ) -> list[models.BibleBook]:
     return list(
         db.execute(
-            sa.select(models.BibleBook).filter_by(part=part.value).filter_by(testament=testament.value)
+            sa.select(models.BibleBook).filter_by(part=part).filter_by(testament=testament)
         ).scalars()
     )
 
@@ -26,15 +26,15 @@ def get_bible_books_by_part(
 #                    abbr: enums.BibleBookAbbr) -> models.BibleBook:
 #     return db.query(models.BibleBook).filter(
 #         and_(
-#             models.BibleBook.abbr == abbr.value,
-#             models.BibleBook.part == part.value,
-#             models.BibleBook.testament == testament.value
+#             models.BibleBook.abbr == abbr,
+#             models.BibleBook.part == part,
+#             models.BibleBook.testament == testament
 #         )
 #     ).first()
 
 
 def get_bible_book(db: Session, abbr: enums.BibleBookAbbr, *args, **kwargs) -> models.BibleBook | None:
-    return db.execute(sa.select(models.BibleBook).filter_by(abbr=abbr.value)).scalar_one_or_none()
+    return db.execute(sa.select(models.BibleBook).filter_by(abbr=abbr)).scalar_one_or_none()
 
 
 def create_bible_book(db: Session, bible_book: schemas.BibleBookCreate) -> models.BibleBook:
