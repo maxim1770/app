@@ -2,13 +2,13 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud, enums
+from app import crud, enums
 from app.api import deps
 from app.create import prepare
 from app.create.create.movable_date.cycle import create_cycles
-from app.create.create.movable_date.movable_day import CreateMovableDay
 from app.create.create.movable_date.divine_service import create_divine_services
 from app.create.create.movable_date.movable_date import CreateMovableDate
+from app.create.create.movable_date.movable_day import CreateMovableDay
 from app.create.create.movable_date.week import CreateWeek
 from app.db.session import engine, Base
 
@@ -40,12 +40,12 @@ def create_all_c1_movable_dates(db: Session):
     days_id: list[int] = create_day.create()
     logging.info("Create c1 days")
 
-    crud.create_movable_date(
-        db,
-        movable_day_id=1,
-        divine_service_title=enums.DivineServiceTitle.vespers,
-        movable_date=schemas.MovableDateCreate()
-    )
+    # crud.create_movable_date(
+    #     db,
+    #     movable_day_id=1, # TODO: тут заменить  1 на запрос crud.get_movable_date(...)
+    #     divine_service_title=enums.DivineServiceTitle.vespers,
+    #     movable_date=schemas.MovableDateCreate()
+    # )
     create_movable_date: CreateMovableDate = prepare.CreateMovableDateFactory.get_c1_movable_date(db, days_id=days_id)
     movable_dates_id: list[int] = create_movable_date.create()
     logging.info("Create c1 movable dates")
@@ -87,4 +87,3 @@ if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
     Base.metadata.create_all(bind=engine)
     create_all_movable_dates(db)
- 
