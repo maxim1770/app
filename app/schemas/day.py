@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, conint
 
 
 class DayBase(BaseModel):
-    month: int
-    day: int
+    month: conint(strict=True, ge=1, le=12)
+    day: conint(strict=True, ge=1, le=31)
 
 
 class DayCreate(DayBase):

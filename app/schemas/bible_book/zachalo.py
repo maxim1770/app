@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, conint
 
 from app.schemas.reading import Reading
 
 
 class ZachaloBase(BaseModel):
-    num: int
+    num: conint(strict=True, ge=1, le=335)
     title: str | None
 
 
@@ -14,7 +14,9 @@ class ZachaloCreate(ZachaloBase):
 
 class Zachalo(ZachaloBase):
     id: int
+
     bible_book_id: int
+
     readings: list[Reading] = []
 
     class Config:
