@@ -1,9 +1,8 @@
 from fastapi import Depends, APIRouter, status
 from sqlalchemy.orm import Session
 
-from app.api import deps
 from app import crud, models, schemas, enums
-from app.api.api_v1.endpoints.movable_date import week
+from app.api import deps
 
 router = APIRouter()
 
