@@ -1,7 +1,7 @@
-from abc import ABC
-from typing import Pattern
 import re
+from abc import ABC
 from pathlib import Path
+from typing import Pattern
 
 from pydantic import BaseModel, DirectoryPath, Field, constr
 
@@ -87,8 +87,8 @@ class SectionScheme(BaseModel):
 
 def create_book_files(lib_scheme: LibBaseScheme,
                       sections_schemes: list[SectionScheme] = (
-                              SectionScheme(name='docs', files_suffix='.md'),
-                              SectionScheme(name='src', files_suffix='.py')
+                              SectionScheme(name='..\..\docs', files_suffix='.md'),
+                              # SectionScheme(name='src', files_suffix='.py')
                       )
                       ) -> bool:
     last_part_path_book: str = lib_scheme.text_for_name_folder + replace_dash_with_underscore(
