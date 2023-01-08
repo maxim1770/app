@@ -1,17 +1,10 @@
 from fastapi import Depends, APIRouter, status
 from sqlalchemy.orm import Session
 
-from app.api import deps
 from app import crud, models, schemas, enums
+from app.api import deps
 
 router = APIRouter()
-
-
-# ПОКА ЧТО НЕ НАДО ИСПОЛЬЗОВАТЬ Т.К ПУТЬ
-# @router.get('/', response_model=list[schemas.Zachalo])
-# def read_zachalos(bible_book_abbr: enums.BibleBookAbbr, db: Session = Depends(deps.get_db)):
-#     zachalos: list[models.Zachalo] = crud.get_zachalos(db, bible_book_abbr=bible_book_abbr)
-#     return zachalos
 
 
 @router.get('/zachalo-{zachalo_num}', response_model=schemas.Zachalo)

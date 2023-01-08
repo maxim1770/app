@@ -1,18 +1,10 @@
 from fastapi import Depends, APIRouter, status
 from sqlalchemy.orm import Session
 
-from app.api import deps
 from app import crud, models, schemas, enums
-from app.api.api_v1.endpoints.movable_date import movable_day
+from app.api import deps
 
 router = APIRouter()
-
-
-# # Убрал т.к json отличается только двумя полями от /movable-dates/cycle_{cycle_num}
-# @router.get('/', response_model=list[schemas.Week])
-# def read_weeks(cycle_num: enums.CycleNum, db: Session = Depends(deps.get_db)):
-#     weeks: list[models.Week] = crud.get_weeks(db, cycle_num=cycle_num)
-#     return weeks
 
 
 @router.get('/sunday-{sunday_num}', response_model=schemas.Week)
