@@ -1,4 +1,4 @@
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, validator, constr
 
 from app import enums
 from app.schemas.movable_date.movable_date import MovableDate
@@ -7,16 +7,16 @@ from app.schemas.movable_date.movable_date import MovableDate
 class MovableDayBase(BaseModel):
     abbr: enums.MovableDayAbbr
     abbr_ru: enums.MovableDayAbbrRu
-    title: str | None
+    title: constr(strip_whitespace=True, strict=True, max_length=30) | None
 
 
 class MovableDayCreate(MovableDayBase):
-    abbr_ru: enums.MovableDayAbbrRu | None
+    abbr_ru: enums.MovableDayAbbrRu = None
 
-    @root_validator()
-    def _set_abbr_ru(cls, values: dict) -> dict:
-        values["abbr_ru"] = enums.MovableDayAbbrRu[values["abbr"].name]
-        return values
+    @validator('abbr_ru', pre=True, always=True)
+    def set_abbr_ru(cls, v, values):
+        v: enums.MovableDayAbbrRu = enums.MovableDayAbbrRu[values['abbr'].name]
+        return v
 
 
 class MovableDay(MovableDayBase):

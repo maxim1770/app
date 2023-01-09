@@ -1,14 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
+
+from app.create import const
 from app.schemas.holiday.holiday import Holiday
 
 
-class SaintBase(BaseModel):
-    name: str | None = None
-    name_en: str
+class SaintCreate(BaseModel):
+    name_en: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
 
 
-class SaintCreate(SaintBase):
-    pass
+class SaintBase(SaintCreate):
+    name: constr(strip_whitespace=True, strict=True, max_length=100)
 
 
 class Saint(SaintBase):

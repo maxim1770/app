@@ -1,13 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, conint, constr
 
 from app.schemas.movable_date.movable_day import MovableDay
 
 
 class WeekBase(BaseModel):
-    title: str | None
-    num: int | None
-    sunday_title: str | None
-    sunday_num: int
+    title: constr(strip_whitespace=True, strict=True, max_length=100) | None
+    num: conint(strict=True, ge=1, le=36) | None
+    sunday_title: constr(strip_whitespace=True, strict=True, max_length=50) | None
+    sunday_num: conint(strict=True, ge=1, le=36)
 
 
 class WeekCreate(WeekBase):

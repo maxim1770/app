@@ -9,7 +9,7 @@ class Saint(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     name: Mapped[str | None] = mapped_column(sa.String(100), unique=True)
-    name_en: Mapped[str] = mapped_column(sa.String(50), unique=True)
+    name_en: Mapped[str] = mapped_column(sa.String(70), unique=True)
 
     dignity_id = mapped_column(sa.ForeignKey('dignities.id'))
     face_sanctity_id = mapped_column(sa.ForeignKey('faces_sanctity.id'))

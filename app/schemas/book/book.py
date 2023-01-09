@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 
 from app.schemas.book.saint_live import SaintLive
 
 
 class BookBase(BaseModel):
-    title: str
+    title: constr(strip_whitespace=True, strict=True, max_length=100)
 
 
 class BookCreate(BookBase):
