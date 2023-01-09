@@ -33,7 +33,7 @@ def get_bible_books_by_part(
 #     ).first()
 
 
-def get_bible_book(db: Session, abbr: enums.BibleBookAbbr, *args, **kwargs) -> models.BibleBook | None:
+def get_bible_book(db: Session, abbr: enums.BibleBookAbbr) -> models.BibleBook | None:
     return db.execute(sa.select(models.BibleBook).filter_by(abbr=abbr)).scalar_one_or_none()
 
 

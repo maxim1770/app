@@ -140,9 +140,9 @@ def create_bible_books(db: Session) -> bool:
 
     for bible_book in bible_books:
         # TODO тут изменить аргументы get_bible_book, если все таки решу использовать только abbr
-        if crud.get_bible_book(db, testament=bible_book.testament, part=bible_book.part, abbr=bible_book.abbr):
+        if crud.get_bible_book(db, abbr=bible_book.abbr):
             raise FatalCreateError(
-                f'BibleBook: testament={bible_book.testament}, part={bible_book.part}, abbr={bible_book.abbr} уже была создана')
+                f'BibleBook: abbr={bible_book.abbr} уже была создана')
 
         crud.create_bible_book(db, bible_book=bible_book)
         num_creatures += 1
