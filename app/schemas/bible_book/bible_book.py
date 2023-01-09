@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, root_validator
+from pydantic import BaseModel, constr, validator
 
 from app import enums
 from app.schemas.bible_book.zachalo import Zachalo
@@ -8,25 +8,19 @@ class BibleBookBase(BaseModel):
     testament: enums.BibleBookTestament
     testament_ru: enums.BibleBookTestamentRu
     part: enums.BibleBookPart
-    part_ru: enums.BibleBookPartRu = Field(description="Н: Евангелие/Апостол/Пятикнижие/...")
-    title: str
+    part_ru: enums.BibleBookPartRu
+    title: constr(strip_whitespace=True, strict=True, max_length=50)
     abbr: enums.BibleBookAbbr
     abbr_ru: enums.BibleBookAbbrRu
 
 
 class BibleBookCreate(BibleBookBase):
-    abbr_ru: enums.BibleBookAbbrRu | None
+    abbr_ru: enums.BibleBookAbbrRu = None
 
-    # С этим не получилось создать записи из пакета create
-    # @validator('abbr_ru')
-    # def _set_abbr_ru(cls, field_value, values: dict, field, config):
-    #     field = enums.BibleBookAbbrRu[values["abbr"]]
-    #     return field
-
-    @root_validator()
-    def _set_abbr_ru(cls, values: dict) -> dict:
-        values["abbr_ru"] = enums.BibleBookAbbrRu[values["abbr"].name]
-        return values
+    @validator('abbr_ru', pre=True, always=True)
+    def set_abbr_ru(cls, v, values):
+        v: enums.BibleBookAbbrRu = enums.BibleBookAbbrRu[values['abbr'].name]
+        return v
 
 
 class BibleBookNewTestamentCreate(BibleBookCreate):

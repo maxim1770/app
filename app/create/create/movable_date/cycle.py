@@ -18,15 +18,15 @@ def create_cycles(db: Session) -> bool:
 
     cycles: list[schemas.CycleCreate] = [
         schemas.CycleCreate(
-            title=None,
+            title='foo 1',
             num=enums.CycleNum.cycle_1,
         ),
         schemas.CycleCreate(
-            title=None,
+            title='foo 2',
             num=enums.CycleNum.cycle_2,
         ),
         schemas.CycleCreate(
-            title=None,
+            title='foo 3',
             num=enums.CycleNum.cycle_3,
         )
     ]

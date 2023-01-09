@@ -1,13 +1,12 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 
 from app import enums
-
 from app.schemas.movable_date.week import Week
 
 
 class CycleBase(BaseModel):
     num: enums.CycleNum
-    title: str | None
+    title: constr(strip_whitespace=True, strict=True, max_length=30)
 
 
 class CycleCreate(CycleBase):
