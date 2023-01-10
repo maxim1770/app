@@ -10,6 +10,6 @@ class Cycle(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     num: Mapped[enums.CycleNum] = mapped_column(unique=True)
-    title: Mapped[str | None] = mapped_column(sa.String(30), unique=True)
+    title: Mapped[str] = mapped_column(sa.String(30), unique=True)
 
     weeks: Mapped[list['Week']] = relationship(back_populates='cycle')
