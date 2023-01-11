@@ -18,6 +18,9 @@ roman = "*"
 lxml = "*"
 mypy = "*"
 pylint = "*"
+hypothesis = "*"
+hypothesis-jsonschema = "*"
+pydantic-factories = "*"
 
 [requires]
 python_version = "3.11"
