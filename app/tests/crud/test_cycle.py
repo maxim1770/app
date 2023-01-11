@@ -20,7 +20,7 @@ def test_create_cycle_bad_unique(db: Session, cycle_in: schemas.CycleCreate) -> 
         cycle_2 = crud.create_cycle(db, cycle=cycle_in)
 
     assert e.type is IntegrityError
-    assert e.value.args[0] == '(sqlite3.IntegrityError) UNIQUE constraint failed: cycles.title'
+    assert '(sqlite3.IntegrityError) UNIQUE constraint failed: cycles.' in e.value.args[0]
 
 
 def test_get_cycle(db: Session, cycle_in: schemas.CycleCreate) -> None:

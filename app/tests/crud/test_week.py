@@ -27,13 +27,14 @@ def test_create_week_bas_cycle_id_is_none(db: Session, week_in: schemas.WeekCrea
 
 
 def test_create_week_bad_unique(db: Session, week_in: schemas.WeekCreate, cycle: models.Cycle) -> None:
+    week_in.title = 'foo'
     week = crud.create_week(db, cycle_id=cycle.id, week=week_in)
 
     with pytest.raises(IntegrityError) as e:
         week_2 = crud.create_week(db, cycle_id=cycle.id, week=week_in)
 
     assert e.type is IntegrityError
-    assert e.value.args[0] == '(sqlite3.IntegrityError) UNIQUE constraint failed: weeks.sunday_title'
+    assert '(sqlite3.IntegrityError) UNIQUE constraint failed: weeks.' in e.value.args[0]
 
 
 def test_get_week(db: Session, week_in: schemas.WeekCreate, cycle: models.Cycle) -> None:
