@@ -28,4 +28,4 @@ if __name__ == '__main__':
 
     print(book.__dict__)
     print(book.title)
-    print(book.saint_live.saint.name_en)
+    print(book.saint_live.saint.slug)

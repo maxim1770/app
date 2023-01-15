@@ -13,9 +13,9 @@ def read_saints(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_
     return saints
 
 
-@router.get('/{name_en}', response_model=schemas.Saint)
-def read_saint(name_en: str, db: Session = Depends(deps.get_db)):
-    saint: models.Saint = crud.get_saint(db, name_en=name_en)
+@router.get('/{slug}', response_model=schemas.Saint)
+def read_saint(slug: str, db: Session = Depends(deps.get_db)):
+    saint: models.Saint = crud.get_saint(db, slug=slug)
     return saint
 
 

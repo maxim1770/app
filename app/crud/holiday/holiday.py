@@ -6,8 +6,8 @@ def get_holidays(db: Session, skip: int = 0, limit: int = 100) -> list[models.Ho
     return db.query(models.Holiday).offset(skip).limit(limit).all()
 
 
-def get_holiday(db: Session, title_en: str) -> models.Holiday | None:
-    return db.query(models.Holiday).filter(models.Holiday.title_en == title_en).first()
+def get_holiday(db: Session, slug: str) -> models.Holiday | None:
+    return db.query(models.Holiday).filter(models.Holiday.slug == slug).first()
 
 
 def create_holiday(

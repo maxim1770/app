@@ -15,9 +15,9 @@ from app.models import MovableDate
 from app.models import MovableDay
 from app.models import Week
 from app.models import Reading
-from app.models import CathedralSaints
 from app.models import Dignity
 from app.models import FaceSanctity
 from app.models import Saint
+from app.models.saint.saint import SaintsHolidays
 from app.models import Year
 from app.models import Day

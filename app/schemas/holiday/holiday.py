@@ -4,7 +4,7 @@ from app.create import const
 
 
 class HolidayCreate(BaseModel):
-    title_en: constr(strip_whitespace=True, strict=True, max_length=50, regex=const.REGEX_SLUG)
+    slug: constr(strip_whitespace=True, strict=True, max_length=50, regex=const.REGEX_SLUG)
 
 
 class HolidayBase(HolidayCreate):

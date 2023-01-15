@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     saint: schemas.SaintCreate = schemas.SaintCreate(
         name='тест 3',
-        name_en='test-3'
+        slug='test-3'
     )
 
     db_saint: models.Saint = models.Saint(

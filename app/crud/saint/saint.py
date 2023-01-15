@@ -8,8 +8,8 @@ def get_saints(db: Session, skip: int = 0, limit: int = 100) -> list[models.Sain
     return list(db.execute(sa.select(models.Saint).offset(skip).limit(limit)).scalars())
 
 
-def get_saint(db: Session, name_en: str) -> models.Saint | None:
-    return db.execute(sa.select(models.Saint).filter_by(name_en=name_en)).scalar_one_or_none()
+def get_saint(db: Session, slug: str) -> models.Saint | None:
+    return db.execute(sa.select(models.Saint).filter_by(slug=slug)).scalar_one_or_none()
 
 
 def create_saint(

@@ -5,7 +5,7 @@ from app.schemas.holiday.holiday import Holiday
 
 
 class SaintCreate(BaseModel):
-    name_en: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
+    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
 
 
 class SaintBase(SaintCreate):

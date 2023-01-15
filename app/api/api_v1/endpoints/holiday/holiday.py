@@ -13,9 +13,9 @@ def read_holidays(skip: int = 0, limit: int = 100, db: Session = Depends(deps.ge
     return holidays
 
 
-@router.get('/{name_en}', response_model=schemas.Holiday)
-def read_holiday(title_en: str, db: Session = Depends(deps.get_db)):
-    holiday: models.Holiday = crud.get_holiday(db, title_en=title_en)
+@router.get('/{slug}', response_model=schemas.Holiday)
+def read_holiday(slug: str, db: Session = Depends(deps.get_db)):
+    holiday: models.Holiday = crud.get_holiday(db, slug=slug)
     return holiday
 
 
