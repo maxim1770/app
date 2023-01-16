@@ -16,5 +16,5 @@ from .reading import Reading, ReadingCreate
 from .saint import CathedralSaints, CathedralSaintsCreate, CathedralSaintsTitle
 from .saint import Dignity, DignityCreate
 from .saint import FaceSanctity, FaceSanctityCreate
-from .saint import Saint, SaintCreate
+from .saint import Saint, SaintCreate, SaintUpdate
 from .year import Year, YearCreate

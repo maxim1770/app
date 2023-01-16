@@ -7,7 +7,7 @@ from app.schemas.saint.face_sanctity import FaceSanctity
 
 class SaintBase(BaseModel):
     name: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
-    slug: str | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG) | None = None
 
 
 class SaintCreate(SaintBase):

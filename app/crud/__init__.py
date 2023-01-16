@@ -14,5 +14,5 @@ from .movable_date import get_weeks, get_week, get_week_by_id, create_week
 from .reading import get_readings, get_reading, get_reading_by_id, create_reading
 from .saint import get_dignities, get_dignity, create_dignity
 from .saint import get_faces_sanctity, get_face_sanctity, create_face_sanctity
-from .saint import get_saints, get_saint, create_saint
+from .saint import saint
 from .year import get_years, get_year, create_year
