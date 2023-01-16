@@ -13,5 +13,7 @@ class YearCreate(YearBase):
 class Year(YearBase):
     id: int
 
+    # holidays: list[Holiday] = []
+
     class Config:
         orm_mode = True

@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
 from app import enums
-from app.schemas.holiday.holiday import Holiday
 
 
 class HolidayCategoryBase(BaseModel):
@@ -15,7 +14,7 @@ class HolidayCategoryCreate(HolidayCategoryBase):
 class HolidayCategory(HolidayCategoryBase):
     id: int
 
-    holidays: list[Holiday] = []
+    # holidays: list[Holiday] = []
 
     class Config:
         orm_mode = True

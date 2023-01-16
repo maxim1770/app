@@ -14,14 +14,12 @@ Base.metadata.create_all(bind=engine)
 
 class RouterTag(StrEnum):
     bible_books = auto()
-    zachalos = auto()
 
     books = auto()
 
-    cycles = auto()
-    weeks = auto()
-    days = auto()
     movable_dates = auto()
+
+    dates = auto()
 
     readings = auto()
 
@@ -43,3 +41,5 @@ api_router.include_router(reading.router, prefix="/readings", tags=[RouterTag.re
 api_router.include_router(saint.router, prefix="/saints", tags=[RouterTag.saints])
 
 api_router.include_router(holiday.router, prefix="/holidays", tags=[RouterTag.holidays])
+
+# api_router.include_router(holiday.router, prefix="/dates", tags=[RouterTag.dates])

@@ -23,8 +23,9 @@ class MovableDay(MovableDayBase):
     id: int
 
     week_id: int
-
     movable_dates: list[MovableDate] = []
+
+    # holidays: list[Holiday] = []
 
     class Config:
         orm_mode = True

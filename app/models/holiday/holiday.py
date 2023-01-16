@@ -9,7 +9,7 @@ class Holiday(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     title: Mapped[str | None] = mapped_column(sa.String(100), unique=True)
-    slug: Mapped[str] = mapped_column(sa.String(50), unique=True)
+    slug: Mapped[str] = mapped_column(sa.String(70), unique=True)
 
     holiday_category_id = mapped_column(sa.ForeignKey('holidays_categories.id'))
     year_id = mapped_column(sa.ForeignKey('years.id'))

@@ -13,9 +13,10 @@ def get_holiday(db: Session, slug: str) -> models.Holiday | None:
 def create_holiday(
         db: Session,
         holiday: schemas.HolidayCreate,
+        holiday_category_id: int
 ) -> models.Holiday:
     db_holiday: models.Holiday = models.Holiday(
-        **holiday.dict()
+        **holiday.dict(), holiday_category_id=holiday_category_id
     )
     db.add(db_holiday)
     db.commit()
