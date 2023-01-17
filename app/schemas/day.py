@@ -13,5 +13,7 @@ class DayCreate(DayBase):
 class Day(DayBase):
     id: int
 
+    # holidays: list[Holiday] = []
+
     class Config:
         orm_mode = True

@@ -1,3 +1,5 @@
+from enum import StrEnum, auto
+
 from fastapi import APIRouter
 
 from app.api.api_v1.endpoints import reading
@@ -6,22 +8,20 @@ from app.api.api_v1.endpoints.book import api as book
 from app.api.api_v1.endpoints.holiday import api as holiday
 from app.api.api_v1.endpoints.movable_date import api as movable_date
 from app.api.api_v1.endpoints.saint import api as saint
+from app.api.api_v1.endpoints import date
 from app.db.session import engine, Base
-from enum import StrEnum, auto
 
 Base.metadata.create_all(bind=engine)
 
 
 class RouterTag(StrEnum):
     bible_books = auto()
-    zachalos = auto()
 
     books = auto()
 
-    cycles = auto()
-    weeks = auto()
-    days = auto()
     movable_dates = auto()
+
+    dates = auto()
 
     readings = auto()
 
@@ -43,3 +43,5 @@ api_router.include_router(reading.router, prefix="/readings", tags=[RouterTag.re
 api_router.include_router(saint.router, prefix="/saints", tags=[RouterTag.saints])
 
 api_router.include_router(holiday.router, prefix="/holidays", tags=[RouterTag.holidays])
+
+api_router.include_router(date.router, prefix="/dates", tags=[RouterTag.dates])

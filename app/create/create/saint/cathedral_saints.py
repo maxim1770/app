@@ -35,30 +35,30 @@ def collect_saints_cathedral_saints(cathedral_saints_title: str) -> list[str]:
                     and 'Список Святых' in tag.text
     ).next_sibling.next_sibling
 
-    saints_titles_en: list[str] = [saint_title_en['href'].replace('/days/sv-', '') for saint_title_en in
+    saints_slugs: list[str] = [saint_slug['href'].replace('/days/sv-', '') for saint_slug in
                                    saints_data.find_all('a')]
 
-    return saints_titles_en
+    return saints_slugs
 
 
 def main(db: Session):
-    # saints_titles_en: list[str] = collect_saints_cathedral_saints('sobor-slavnyh-i-vsehvalnyh-12-ti-apostolov')
+    # saints_slugs: list[str] = collect_saints_cathedral_saints('sobor-slavnyh-i-vsehvalnyh-12-ti-apostolov')
 
-    saints_titles_en: list[str] = collect_saints_cathedral_saints('sobor-70-ti-apostolov')
+    saints_slugs: list[str] = collect_saints_cathedral_saints('sobor-70-ti-apostolov')
 
-    # saints_titles_en: list[str] = collect_saints_cathedral_saints('sobor-vseh-prepodobnyh-otcov-v-podvige-prosijavshih')
+    # saints_slugs: list[str] = collect_saints_cathedral_saints('sobor-vseh-prepodobnyh-otcov-v-podvige-prosijavshih')
 
 
-    for saint_title_en in saints_titles_en:
-        saint: models.Saint | None = crud.get_saint(db, saint_title_en)
+    for saint_slug in saints_slugs:
+        saint: models.Saint | None = crud.get_saint(db, saint_slug)
 
         if saint is None:
-            print('-' * 10, saint_title_en)
+            print('-' * 10, saint_slug)
         else:
-            print(saint.name_en)
+            print(saint.slug)
 
 
-    print(len(saints_titles_en))
+    print(len(saints_slugs))
 
 
 if __name__ == '__main__':

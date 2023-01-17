@@ -1,12 +1,11 @@
-from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, conint, Field
 
-from app.schemas.saint.cathedral_saints import CathedralSaints
-from app.schemas.saint.saint import Saint
+from app.schemas.day import Day
+from app.schemas.movable_date.movable_day import MovableDay
 
 
 class DateBase(BaseModel):
-    date: date
+    offset_year: conint(strict=True, ge=2000, le=3000) = Field(..., alias='_offset_year')
 
 
 class DateCreate(DateBase):
@@ -16,9 +15,8 @@ class DateCreate(DateBase):
 class Date(DateBase):
     id: int
 
-    cathedrals_saints: list[CathedralSaints] = []
-
-    saints: list[Saint] = []
+    day: Day
+    movable_day: MovableDay
 
     class Config:
         orm_mode = True

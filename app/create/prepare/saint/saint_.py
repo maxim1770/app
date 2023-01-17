@@ -96,7 +96,7 @@ def find_year_in_saint_title(saint_title: str) -> str | None:
     # '''
 
     REGEX_FIND_YEAR: Pattern[str] = re.compile(
-        r'''(?x)
+        r'''
         (?<=\()
         (ок\.|после|до)?
         \s?
@@ -105,7 +105,8 @@ def find_year_in_saint_title(saint_title: str) -> str | None:
         (года|г{1,2}\.|в\.)?
         (\sдо\sР\.\sХ\.)?
         (?=\))
-        '''
+        ''',
+        re.VERBOSE
     )
 
     match: Match[str] | None = REGEX_FIND_YEAR.search(saint_title)
@@ -229,7 +230,7 @@ def year2int(year_title: str) -> tuple[str, int] | None:
 
 # def collect_saint(
 #         saint_title: str,
-#         name_en: str
+#         slug: str
 # ) -> None:  # TODO: можно потом будет сделать SaintScheme с полями title, link, ...
 
 
@@ -239,7 +240,7 @@ def year2int(year_title: str) -> tuple[str, int] | None:
 def prepare_saints_data_in_day(collected_saints_data: list[Tag]) -> list[SaintData]:
     saints_data: list[SaintData] = []
 
-    with open('all_cathedrals_saints.json', encoding='utf-8') as file_:
+    with open('../../../../data/all_cathedrals_saints.json', encoding='utf-8') as file_:
         all_cathedrals_saints: list[str] = json.load(file_)
 
     for collected_saint_data in collected_saints_data:
@@ -247,17 +248,17 @@ def prepare_saints_data_in_day(collected_saints_data: list[Tag]) -> list[SaintDa
         # TODO: не забыть добавить проверку на year_title == "... до РХ ..."
         #  и таких Святых точно добавлять, а потом уже добавлять дату самостоятельно, скорее всего
 
-        name_en: str = collected_saint_data['href'].replace('https://azbyka.ru/days/sv-', '').strip()
+        slug: str = collected_saint_data['href'].replace('https://azbyka.ru/days/sv-', '').strip()
 
         # TODO: тут добавить проверку на RemembranceDateType
         #  Так же важно в какой год было обретение мощей, т.к могло быть >16 в.s
 
-        # TODO: Возможно было бы не плохо сразу проверять есть ли уже Святой в бд, через name_en
+        # TODO: Возможно было бы не плохо сразу проверять есть ли уже Святой в бд, через slug
         #  И если есть, то добалвять дату с Перенесение мощей например,
         #  т.к при Перенесение мощей я видел что дату успения Святого не писалось на сайте
 
-        if name_en in all_cathedrals_saints:
-            logging.info(f'{name_en} in all_cathedrals_saints')
+        if slug in all_cathedrals_saints:
+            logging.info(f'{slug} in all_cathedrals_saints')
             continue
 
         year_title: str | None = find_year_in_saint_title(collected_saint_data.text)
@@ -295,7 +296,7 @@ def prepare_saints_data_in_day(collected_saints_data: list[Tag]) -> list[SaintDa
 
         saints_data.append(
             SaintData(
-                saint=schemas.SaintCreate(name_en=name_en),
+                saint=schemas.SaintCreate(slug=slug),
                 year_death=year_death
             )
         )
@@ -320,7 +321,7 @@ def create_saints_data_in_day(db: Session, saints_data: list[SaintData], day_dat
                     year_death: models.Year = crud.create_year(db, year=saint_data.year_death)
                     logging.info(f"Create year_death {saint_data.year_death}")
 
-            saint: models.Saint | None = crud.get_saint(db, name_en=saint_data.saint.name_en)
+            saint: models.Saint | None = crud.get_saint(db, slug=saint_data.saint.slug)
 
             if saint is None:
                 saint: models.Saint = crud.create_saint(db, saint=saint_data.saint)
@@ -367,17 +368,17 @@ def create_saints_data(db: Session):
 def main(db: Session):
     create_saints_data(db)
 
-    # saints_data: list[SaintData] = [SaintData(saint=schemas.SaintCreate(name_en='test', name='тест'),
+    # saints_data: list[SaintData] = [SaintData(saint=schemas.SaintCreate(slug='test', name='тест'),
     #                                           year_death=schemas.YearCreate(title='test', _year='0')
     #                                           )]
     # create_saints_data_in_day(db, saints_data, date_type(2022, 3, 25))
 
 
-if __name__ == '__main__':
-    db: Session = deps.get_db().__next__()
-    Base.metadata.create_all(bind=engine)
-
-    main(db)
+# if __name__ == '__main__':
+#     db: Session = deps.get_db().__next__()
+#     Base.metadata.create_all(bind=engine)
+#
+#     main(db)
 
     # print(find_year_in_saint_title(
     #     'преставление (1783), второе обре́тение мощей (1991) свт. Ти́хона, епископа Воронежского, Задонского чудотворца не нашло year'))

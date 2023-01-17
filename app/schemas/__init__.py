@@ -5,7 +5,7 @@ from .book import Book, BookCreate
 from .book import SaintLive, SaintLiveCreate
 from .date import Date, DateCreate
 from .day import Day, DayCreate
-from .holiday import Holiday, HolidayCreate
+from .holiday import Holiday, HolidayCreate, HolidayUpdate
 from .holiday import HolidayCategory, HolidayCategoryCreate
 from .movable_date import Cycle, CycleCreate
 from .movable_date import DivineService, DivineServiceCreate
@@ -16,5 +16,5 @@ from .reading import Reading, ReadingCreate
 from .saint import CathedralSaints, CathedralSaintsCreate, CathedralSaintsTitle
 from .saint import Dignity, DignityCreate
 from .saint import FaceSanctity, FaceSanctityCreate
-from .saint import Saint, SaintCreate
+from .saint import Saint, SaintCreate, SaintUpdate
 from .year import Year, YearCreate

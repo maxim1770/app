@@ -18,3 +18,6 @@ class MovableDay(Base):
     week: Mapped['Week'] = relationship(back_populates='movable_days')
 
     movable_dates: Mapped[list['MovableDate']] = relationship(back_populates='movable_day')
+    holidays: Mapped[list['Holiday']] = relationship(back_populates='movable_day')
+
+    days: Mapped[list['Date']] = relationship(back_populates='movable_day')

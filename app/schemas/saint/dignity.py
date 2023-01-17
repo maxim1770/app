@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
 from app import enums
-from app.schemas.saint.saint import Saint
 
 
 class DignityBase(BaseModel):
@@ -21,7 +20,7 @@ class DignityCreate(DignityBase):
 class Dignity(DignityBase):
     id: int
 
-    saints: list[Saint] = []
+    # saints: list[Saint] = []
 
     class Config:
         orm_mode = True

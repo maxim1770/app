@@ -22,8 +22,8 @@ class UpdateSaintData(BaseModel):
     dignity_title: enums.DignityTitle | None
 
 
-def collect_saint_data(saint_name_en: str) -> Tag:
-    req = requests.get(f'{const.AZBYKA_NETLOC}/days/sv-{saint_name_en}')
+def collect_saint_data(saint_slug: str) -> Tag:
+    req = requests.get(f'{const.AZBYKA_NETLOC}/days/sv-{saint_slug}')
 
     saint_data: Tag = BeautifulSoup(req.text, "lxml").find('div', {'id': 'main'})
 
@@ -69,7 +69,7 @@ def main(db: Session):
     saints: list[models.Saint] = crud.get_saints(db, skip=200, limit=2000)
 
     for saint in saints:
-        collected_saint_data: Tag = collect_saint_data(saint.name_en)
+        collected_saint_data: Tag = collect_saint_data(saint.slug)
         updated_saint_data: UpdateSaintData = prepare_saint_data(collected_saint_data)
 
         # TODO: тут возможно стоит поменять логику и сначала,

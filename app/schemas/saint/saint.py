@@ -1,24 +1,40 @@
 from pydantic import BaseModel, constr
 
 from app.create import const
-from app.schemas.holiday.holiday import Holiday
+from app.schemas.saint.dignity import Dignity
+from app.schemas.saint.face_sanctity import FaceSanctity
 
 
-class SaintCreate(BaseModel):
-    name_en: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
+class SaintBase(BaseModel):
+    name: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG) | None = None
 
 
-class SaintBase(SaintCreate):
-    name: constr(strip_whitespace=True, strict=True, max_length=100)
+class SaintCreate(SaintBase):
+    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
 
 
-class Saint(SaintBase):
+class SaintUpdate(SaintBase):
+    pass
+
+
+class SaintInDBBase(SaintBase):
     id: int
 
-    dignity_id: int | None
-    face_sanctity_id: int | None
+    slug: str
 
-    holidays: list[Holiday] = []
+    dignity: Dignity | None
+    face_sanctity: FaceSanctity | None
+
+    # holidays: list[Holiday] = []
 
     class Config:
         orm_mode = True
+
+
+class Saint(SaintInDBBase):
+    pass
+
+
+class SaintInDB(SaintInDBBase):
+    pass

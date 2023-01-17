@@ -11,7 +11,6 @@ from .movable_date import MovableDate
 from .movable_date import MovableDay
 from .movable_date import Week
 from .reading import Reading
-from .saint import CathedralSaints
 from .saint import Dignity
 from .saint import FaceSanctity
 from .saint import Saint

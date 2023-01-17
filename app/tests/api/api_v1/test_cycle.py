@@ -1,16 +1,16 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app import schemas
+from app.tests.test_utils.cycle import create_random_cycle_in
 
 
-def test_create_cycle(client: TestClient, db: Session, cycle_in: schemas.CycleCreate) -> None:
+def test_create_cycle(client: TestClient, db: Session) -> None:
+    cycle_in = create_random_cycle_in()
     r = client.post(
-        '/movable-dates/',
+        '/movable-dates',
         json=cycle_in.dict(),
     )
     assert 200 <= r.status_code < 300
-
     created_cycle = r.json()
     assert created_cycle['num'] == cycle_in.num
     assert 'id' in created_cycle

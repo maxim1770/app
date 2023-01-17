@@ -12,3 +12,5 @@ class Day(Base):
     day: Mapped[int] = mapped_column(sa.SmallInteger)
 
     holidays: Mapped[list['Holiday']] = relationship(back_populates='day')
+
+    movable_days: Mapped[list['Date']] = relationship(back_populates='day')

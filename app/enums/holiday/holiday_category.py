@@ -1,5 +1,6 @@
-from enum import StrEnum
+from enum import StrEnum, auto
 
 
 class HolidayCategoryTitle(StrEnum):
-    pass
+    foo = auto()
+    bar = auto()
