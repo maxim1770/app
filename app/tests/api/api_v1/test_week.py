@@ -1,14 +1,14 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app import models
+from app.tests.test_utils.week import create_random_week
 
 
 # def test_create_week(
 #         client: TestClient, db: Session, cycle: models.Cycle, week_in: schemas.WeekCreate
 # ) -> None:
 #     r = client.post(
-#         f'/movable-dates/cycle-{cycle.num}/', json=week_in.dict(),
+#         f'/movable-dates/cycle-{cycle.num}', json=week_in.dict(),
 #     )
 #     assert 200 <= r.status_code < 300
 #
@@ -17,14 +17,12 @@ from app import models
 #     assert 'id' in created_week
 
 
-def test_read_week(
-        client: TestClient, db: Session, week: models.Week
-) -> None:
+def test_read_week(client: TestClient, db: Session) -> None:
+    week = create_random_week(db)
     r = client.get(
         f'/movable-dates/cycle-{week.cycle.num}/sunday-{week.sunday_num}'
     )
     assert r.status_code == 200
-
     api_week = r.json()
     assert api_week['num'] == week.num
     assert 'id' in api_week

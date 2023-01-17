@@ -16,7 +16,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
         self.model = model
 
-    def get_by_slug(self, db: Session, slug: str) -> ModelType | None:
+    def get_by_slug(self, db: Session, *, slug: str) -> ModelType | None:
         return db.execute(sa.select(self.model).filter_by(slug=slug)).scalar_one_or_none()
 
     def get_multi(

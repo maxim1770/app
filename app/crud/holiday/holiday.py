@@ -1,24 +1,21 @@
-from app import models, schemas
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-
-def get_holidays(db: Session, skip: int = 0, limit: int = 100) -> list[models.Holiday]:
-    return db.query(models.Holiday).offset(skip).limit(limit).all()
-
-
-def get_holiday(db: Session, slug: str) -> models.Holiday | None:
-    return db.query(models.Holiday).filter(models.Holiday.slug == slug).first()
+from app.crud.base import CRUDBase
+from app.models.holiday import Holiday
+from app.schemas.holiday import HolidayCreate, HolidayUpdate
 
 
-def create_holiday(
-        db: Session,
-        holiday: schemas.HolidayCreate,
-        holiday_category_id: int
-) -> models.Holiday:
-    db_holiday: models.Holiday = models.Holiday(
-        **holiday.dict(), holiday_category_id=holiday_category_id
-    )
-    db.add(db_holiday)
-    db.commit()
-    db.refresh(db_holiday)
-    return db_holiday
+class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate]):
+    def create_with_category(
+            self, db: Session, *, obj_in: HolidayCreate, holiday_category_id: int
+    ) -> Holiday:
+        obj_in_data = jsonable_encoder(obj_in)
+        db_obj = self.model(**obj_in_data, holiday_category_id=holiday_category_id)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
+
+holiday = CRUDHoliday(Holiday)

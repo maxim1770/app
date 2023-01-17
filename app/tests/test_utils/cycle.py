@@ -1,18 +1,20 @@
-import pytest
 from pydantic_factories import ModelFactory
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas
+from app import crud
+from app.models.movable_date import Cycle
+from app.schemas.movable_date import CycleCreate
 
 
-@pytest.fixture
-def cycle_in() -> schemas.CycleCreate:
-    class CycleFactory(ModelFactory):
-        __model__ = schemas.CycleCreate
-
-    yield CycleFactory.build()
+class CycleFactory(ModelFactory):
+    __model__ = CycleCreate
 
 
-@pytest.fixture
-def cycle(db: Session, cycle_in: schemas.CycleCreate) -> models.Cycle:
-    yield crud.create_cycle(db, cycle=cycle_in)
+def create_random_cycle_in() -> CycleCreate:
+    return CycleFactory.build()
+
+
+def create_random_cycle(db: Session) -> Cycle:
+    cycle_in = create_random_cycle_in()
+    cycle = crud.create_cycle(db, cycle=cycle_in)
+    return cycle
