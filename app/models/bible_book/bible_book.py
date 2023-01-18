@@ -1,8 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
 from app.db.session import Base
+
+if TYPE_CHECKING:
+    from app.schemas.bible_book.zachalo import Zachalo
 
 
 class BibleBook(Base):
@@ -19,4 +26,4 @@ class BibleBook(Base):
     abbr: Mapped[enums.BibleBookAbbr] = mapped_column(unique=True)
     abbr_ru: Mapped[enums.BibleBookAbbrRu] = mapped_column(unique=True)
 
-    zachalos: Mapped[list['Zachalo']] = relationship(back_populates='bible_book')
+    zachalos: Mapped[list[Zachalo]] = relationship(back_populates='bible_book')

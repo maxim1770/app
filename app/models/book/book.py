@@ -1,7 +1,14 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
+
+if TYPE_CHECKING:
+    from app.models.book.saint_live import SaintLive
 
 
 class Book(Base):
@@ -10,4 +17,4 @@ class Book(Base):
 
     title: Mapped[str] = mapped_column(sa.String(100), unique=True)
 
-    saint_live: Mapped['SaintLive'] = relationship(back_populates='book', uselist=False)
+    saint_live: Mapped[SaintLive | None] = relationship(back_populates='book')

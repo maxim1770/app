@@ -1,7 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
+
+if TYPE_CHECKING:
+    from app.models.movable_date.cycle import Cycle
+    from app.models.movable_date.movable_day import MovableDay
 
 
 class Week(Base):
@@ -13,8 +21,8 @@ class Week(Base):
     sunday_title: Mapped[str | None] = mapped_column(sa.String(50), unique=True)
     sunday_num: Mapped[int] = mapped_column(sa.SmallInteger)
 
-    cycle_id = mapped_column(sa.ForeignKey('cycles.id'))
+    cycle_id: Mapped[int] = mapped_column(sa.ForeignKey('cycles.id'))
 
-    cycle: Mapped['Cycle'] = relationship(back_populates='weeks')
+    cycle: Mapped[Cycle] = relationship(back_populates='weeks')
 
-    movable_days: Mapped[list['MovableDay']] = relationship(back_populates='week')
+    movable_days: Mapped[list[MovableDay]] = relationship(back_populates='week')
