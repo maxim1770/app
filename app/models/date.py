@@ -1,7 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.session import Base
+
+if TYPE_CHECKING:
+    from app.models.day import Day
+    from app.models.movable_date.movable_day import MovableDay
 
 
 class Date(Base):
@@ -12,5 +20,5 @@ class Date(Base):
 
     _offset_year: Mapped[int] = mapped_column(sa.SmallInteger)
 
-    day: Mapped['Day'] = relationship(back_populates='movable_days')
-    movable_day: Mapped['MovableDay'] = relationship(back_populates='days')
+    day: Mapped[Day] = relationship(back_populates='movable_days')
+    movable_day: Mapped[MovableDay] = relationship(back_populates='days')
