@@ -2,8 +2,8 @@ import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums
-from app.crud.movable_date.divine_service import get_divine_service
-from app.crud.movable_date.movable_day import get_movable_day
+from app.crud.movable_date.crud_divine_service import get_divine_service
+from app.crud.movable_date.crud_movable_day import get_movable_day
 
 
 def get_movable_dates(db: Session, cycle_id: int, divine_service_id: int) -> list[models.MovableDate]:
