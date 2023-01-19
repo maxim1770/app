@@ -36,7 +36,7 @@ url_object = URL.create(
     username=os.getenv('POSTGRES_USER', 'postgres'),
     password=os.getenv('POSTGRES_PASSWORD', ''),
     host=os.getenv('POSTGRES_SERVER', 'localhost'),
-    database=os.getenv('POSTGRES_DB', 'app-db')
+    database=os.getenv('POSTGRES_DB', 'app')
 )
 
 
@@ -54,7 +54,7 @@ def run_migrations_offline() -> None:
     """
     url = url_object
     context.configure(
-        url=str(url),
+        url=url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -72,7 +72,7 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration['sqlalchemy.url'] = str(url_object)
+    configuration['sqlalchemy.url'] = url_object
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",
