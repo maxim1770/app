@@ -17,16 +17,11 @@ def test_create_week(db: Session) -> None:
 
 
 def test_create_week_cycle_id_is_none_bad(db: Session) -> None:
-    """
-    ЭТОТ ТЕСТ РАБОТАТЕ, НО САМА ЛОГИКА ПРИЛОЖЕНИЯ НЕПРАВИЛЬНО (я так думаю)
-    Т.К МЫ НЕ ДОЛЖНЫ ИМЕТЬ ВОЗМОЖНОСТЬ СОЗДАВАТЬ Week БЕЗ cycle_id
-    ТО ЕСТЬ СВЯЗТЬ Cycle -> Week должно всегда быть, сразу при создании модели Week
-    """
     week_in = create_random_week_in()
     with pytest.raises(IntegrityError) as e:
         week = crud.create_week(db, cycle_id=None, week=week_in)
     assert e.type is IntegrityError
-    assert e.value.args[0] == '(sqlite3.IntegrityError) NOT NULL constraint failed: weeks.cycle_id'
+    assert e.value.args[0] == '(sqlite3.IntegrityError) NOT NULL constraint failed: week.cycle_id'
 
 
 def test_create_week_unique_bad(db: Session) -> None:
@@ -37,7 +32,7 @@ def test_create_week_unique_bad(db: Session) -> None:
     with pytest.raises(IntegrityError) as e:
         week_2 = crud.create_week(db, cycle_id=cycle.id, week=week_in)
     assert e.type is IntegrityError
-    assert '(sqlite3.IntegrityError) UNIQUE constraint failed: weeks.' in e.value.args[0]
+    assert '(sqlite3.IntegrityError) UNIQUE constraint failed' in e.value.args[0]
 
 
 def test_get_week(db: Session) -> None:

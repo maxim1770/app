@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.db.session import Base
+from app.db.base_class import Base
 from app.main import app
 
 

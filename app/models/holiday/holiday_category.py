@@ -5,15 +5,14 @@ from typing import TYPE_CHECKING
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.holiday.holiday import Holiday
 
 
 class HolidayCategory(Base):
-    __tablename__ = 'holidays_categories'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
     title: Mapped[enums.HolidayCategoryTitle] = mapped_column(unique=True)
 

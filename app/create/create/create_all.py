@@ -2,12 +2,11 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from app import schemas, crud
+from app import crud
 from app.api import deps
 from app.create import const
 from app.create.create.bible_book.create_all import create_all_c1_zachalos
 from app.create.create.reading import CreateReading
-from app.db.session import engine, Base
 
 
 # TODO (тут что тот написали для теста)
@@ -72,5 +71,4 @@ def create_c1_readings(db: Session, zachalos_id: list[int]):
 
 if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
-    Base.metadata.create_all(bind=engine)
     create_all(db)

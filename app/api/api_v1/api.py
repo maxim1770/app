@@ -9,9 +9,6 @@ from app.api.api_v1.endpoints.book import api as books
 from app.api.api_v1.endpoints.holiday import api as holidays
 from app.api.api_v1.endpoints.movable_date import api as movable_dates
 from app.api.api_v1.endpoints.saint import api as saints
-from app.db.session import engine, Base
-
-Base.metadata.create_all(bind=engine)
 
 
 class RouterTag(StrEnum):

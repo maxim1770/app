@@ -10,7 +10,6 @@ from app.create.create.movable_date.divine_service import create_divine_services
 from app.create.create.movable_date.movable_date import CreateMovableDate
 from app.create.create.movable_date.movable_day import CreateMovableDay
 from app.create.create.movable_date.week import CreateWeek
-from app.db.session import engine, Base
 
 
 # TODO подумать над тем чтобы начинать использовать tuple там где это можно делать
@@ -85,5 +84,4 @@ def create_all_c3_movable_dates(db: Session):
 
 if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
-    Base.metadata.create_all(bind=engine)
     create_all_movable_dates(db)

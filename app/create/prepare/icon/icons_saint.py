@@ -1,29 +1,14 @@
-import json
 import logging
 import re
-import time
-from datetime import date as date_type, timedelta
-from enum import Enum
-from typing import Match, Pattern, Final
-
-from difflib import SequenceMatcher
+from typing import Match, Pattern
 
 import requests
-import roman
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from pydantic import BaseModel
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-import jellyfish
-
-from app import schemas, crud, models
 from app.api import deps
 from app.create import const
-from app.create.create.base_cls import FatalCreateError
-from app.create.prepare.saint.saint_ import find_year_in_saint_title
-from app.db.session import engine, Base
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -76,6 +61,4 @@ def main(db: Session):
 
 if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
-    # Base.metadata.create_all(bind=engine)
-    #
     main(db)

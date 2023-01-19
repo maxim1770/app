@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.movable_date.week import Week
@@ -16,14 +16,13 @@ if TYPE_CHECKING:
 
 
 class MovableDay(Base):
-    __tablename__ = 'movable_days'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
     abbr: Mapped[enums.MovableDayAbbr]
     abbr_ru: Mapped[enums.MovableDayAbbrRu]
-    title: Mapped[str | None] = mapped_column(sa.String(30), unique=True)
+    title: Mapped[str | None] = mapped_column(String(30), unique=True)
 
-    week_id: Mapped[int] = mapped_column(sa.ForeignKey('weeks.id'))
+    week_id: Mapped[int] = mapped_column(ForeignKey('week.id'))
 
     week: Mapped[Week] = relationship(back_populates='movable_days')
 

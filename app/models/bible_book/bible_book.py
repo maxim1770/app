@@ -2,19 +2,18 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.schemas.bible_book.zachalo import Zachalo
 
 
 class BibleBook(Base):
-    __tablename__ = 'bible_books'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
     testament: Mapped[enums.BibleBookTestament]
     testament_ru: Mapped[enums.BibleBookTestamentRu]
@@ -22,7 +21,7 @@ class BibleBook(Base):
     part: Mapped[enums.BibleBookPart]
     part_ru: Mapped[enums.BibleBookPartRu]
 
-    title: Mapped[str] = mapped_column(sa.String(50), unique=True)
+    title: Mapped[str] = mapped_column(String(50), unique=True)
     abbr: Mapped[enums.BibleBookAbbr] = mapped_column(unique=True)
     abbr_ru: Mapped[enums.BibleBookAbbrRu] = mapped_column(unique=True)
 
