@@ -5,15 +5,15 @@ from typing import TYPE_CHECKING
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.saint.saint import Saint
 
 
 class FaceSanctity(Base):
-    __tablename__ = 'faces_sanctity'
-    id: Mapped[int] = mapped_column(primary_key=True)
+
+    id: Mapped[intpk]
 
     title: Mapped[enums.FaceSanctityTitle] = mapped_column(unique=True)
 

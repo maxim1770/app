@@ -18,7 +18,6 @@ from app import schemas, crud, models
 from app.api import deps
 from app.create import const
 from app.create.create.base_cls import FatalCreateError
-from app.db.session import engine, Base
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -376,7 +375,6 @@ def main(db: Session):
 
 # if __name__ == '__main__':
 #     db: Session = deps.get_db().__next__()
-#     Base.metadata.create_all(bind=engine)
 #
 #     main(db)
 

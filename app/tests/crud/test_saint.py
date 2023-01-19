@@ -22,7 +22,7 @@ def test_create_saint_bad_unique(db: Session) -> None:
     with pytest.raises(IntegrityError) as e:
         saint_2 = crud.saint.create(db, obj_in=saint_in)
     assert e.type is IntegrityError
-    assert '(sqlite3.IntegrityError) UNIQUE constraint failed: saints.' in e.value.args[0]
+    assert '(sqlite3.IntegrityError) UNIQUE constraint failed' in e.value.args[0]
 
 
 def test_get_saints(db: Session) -> None:

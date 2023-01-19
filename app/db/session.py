@@ -1,18 +1,7 @@
 from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
 
-url_object = URL.create(
-    'postgresql',
-    username='postgres',
-    password='kopkop99',
-    host='localhost',
-    database='app-db',
-)
+from app.core.config import settings
 
-engine = create_engine(url_object)
+engine = create_engine(settings.SQLALCHEMY_DATABASE_URI)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, expire_on_commit=False, bind=engine)
-
-Base = declarative_base()
-
-Base.metadata.create_all(bind=engine)

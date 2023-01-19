@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import ForeignKey, SmallInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.day import Day
@@ -13,12 +13,10 @@ if TYPE_CHECKING:
 
 
 class Date(Base):
-    __tablename__ = 'dates'
+    day_id: Mapped[intpk] = mapped_column(ForeignKey('day.id'))
+    movable_day_id: Mapped[intpk] = mapped_column(ForeignKey('movable_day.id'))
 
-    day_id: Mapped[int] = mapped_column(sa.ForeignKey('days.id'), primary_key=True)
-    movable_day_id: Mapped[int] = mapped_column(sa.ForeignKey('movable_days.id'), primary_key=True)
-
-    _offset_year: Mapped[int] = mapped_column(sa.SmallInteger)
+    _offset_year: Mapped[int] = mapped_column(SmallInteger)
 
     day: Mapped[Day] = relationship(back_populates='movable_days')
     movable_day: Mapped[MovableDay] = relationship(back_populates='days')

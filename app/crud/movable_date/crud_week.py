@@ -2,7 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums
-from app.crud.movable_date.cycle import get_cycle
+from app.crud.movable_date.crud_cycle import get_cycle
 
 
 def get_weeks(db: Session, cycle_id: int) -> list[models.Week]:

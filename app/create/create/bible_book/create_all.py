@@ -6,7 +6,6 @@ from app.api import deps
 from app.create import prepare
 from app.create.create.bible_book.bible_book import create_bible_books
 from app.create.create.bible_book.zachalo import CreateZachalo
-from app.db.session import engine, Base
 
 
 def create_all_zachalos(db: Session):
@@ -36,5 +35,4 @@ def create_all_c2_zachalos(db: Session) -> list[int]:
 
 if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
-    Base.metadata.create_all(bind=engine)
     create_all_zachalos(db)

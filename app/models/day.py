@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import SmallInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.holiday.holiday import Holiday
@@ -13,11 +13,10 @@ if TYPE_CHECKING:
 
 
 class Day(Base):
-    __tablename__ = 'days'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
-    month: Mapped[int] = mapped_column(sa.SmallInteger)
-    day: Mapped[int] = mapped_column(sa.SmallInteger)
+    month: Mapped[int] = mapped_column(SmallInteger)
+    day: Mapped[int] = mapped_column(SmallInteger)
 
     holidays: Mapped[list[Holiday]] = relationship(back_populates='day')
 

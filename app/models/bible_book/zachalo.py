@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import ForeignKey, String, SmallInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.schemas.reading import Reading
@@ -13,13 +13,12 @@ if TYPE_CHECKING:
 
 
 class Zachalo(Base):
-    __tablename__ = 'zachalos'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
-    num: Mapped[int] = mapped_column(sa.SmallInteger)
-    title: Mapped[str | None] = mapped_column(sa.String(30), unique=True)
+    num: Mapped[int] = mapped_column(SmallInteger)
+    title: Mapped[str | None] = mapped_column(String(30), unique=True)
 
-    bible_book_id: Mapped[int] = mapped_column(sa.ForeignKey('bible_books.id'))
+    bible_book_id: Mapped[int] = mapped_column(ForeignKey('bible_book.id'))
 
     bible_book: Mapped[BibleBook] = relationship(back_populates='zachalos')
 

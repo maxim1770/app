@@ -6,12 +6,9 @@ from bs4.element import Tag
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app import schemas, crud, models, enums
+from app import crud, models, enums
 from app.api import deps
 from app.create import const
-from app.create.create.saint.dignity import create_dignities
-from app.create.create.saint.face_sanctity import create_faces_sanctity
-from app.db.session import engine, Base
 
 logging.basicConfig(level=logging.INFO)
 
@@ -80,7 +77,6 @@ def main(db: Session):
 
 if __name__ == '__main__':
     db: Session = deps.get_db().__next__()
-    Base.metadata.create_all(bind=engine)
 
     # create_dignities(db)
     # create_faces_sanctity(db)

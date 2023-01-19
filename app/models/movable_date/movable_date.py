@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.movable_date.movable_day import MovableDay
@@ -14,11 +14,10 @@ if TYPE_CHECKING:
 
 
 class MovableDate(Base):
-    __tablename__ = 'movable_dates'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
-    movable_day_id: Mapped[int] = mapped_column(sa.ForeignKey('movable_days.id'))
-    divine_service_id: Mapped[int] = mapped_column(sa.ForeignKey('divine_services.id'))
+    movable_day_id: Mapped[int] = mapped_column(ForeignKey('movable_day.id'))
+    divine_service_id: Mapped[int] = mapped_column(ForeignKey('divine_service.id'))
 
     movable_day: Mapped[MovableDay] = relationship(back_populates='movable_dates')
     divine_service: Mapped[DivineService] = relationship(back_populates='movable_dates')

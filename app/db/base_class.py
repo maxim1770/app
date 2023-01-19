@@ -1,13 +1,23 @@
-# from typing import Any
-#
-# from sqlalchemy.ext.declarative import as_declarative, declared_attr
-#
-#
-# @as_declarative()
-# class Base:
-#     id: Any
-#     __name__: str
-#     # Generate __tablename__ automatically
-#     @declared_attr
-#     def __tablename__(cls) -> str:
-#         return cls.__name__.lower()
+import re
+from typing import Pattern
+
+from sqlalchemy import MetaData, String
+from sqlalchemy.orm import DeclarativeBase, declared_attr
+from sqlalchemy.orm import mapped_column
+from typing_extensions import Annotated
+
+REGEX_CAMEL_TO_SNAKE: Pattern[str] = re.compile(r'(?<!^)(?=[A-Z])')
+
+intpk = Annotated[int, mapped_column(primary_key=True)]
+unique_slug = Annotated[str, mapped_column(String(70), unique=True)]
+
+metadata_obj = MetaData()
+
+
+class Base(DeclarativeBase):
+    metadata = metadata_obj
+
+    @declared_attr.directive
+    @classmethod
+    def __tablename__(cls) -> str:
+        return REGEX_CAMEL_TO_SNAKE.sub('_', cls.__name__).lower()

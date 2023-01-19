@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import sqlalchemy as sa
+from sqlalchemy import ForeignKey, String, SmallInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.movable_date.cycle import Cycle
@@ -13,15 +13,14 @@ if TYPE_CHECKING:
 
 
 class Week(Base):
-    __tablename__ = 'weeks'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
-    title: Mapped[str | None] = mapped_column(sa.String(100), unique=True)
-    num: Mapped[int | None] = mapped_column(sa.SmallInteger)
-    sunday_title: Mapped[str | None] = mapped_column(sa.String(50), unique=True)
-    sunday_num: Mapped[int] = mapped_column(sa.SmallInteger)
+    title: Mapped[str | None] = mapped_column(String(100), unique=True)
+    num: Mapped[int | None] = mapped_column(SmallInteger)
+    sunday_title: Mapped[str | None] = mapped_column(String(50), unique=True)
+    sunday_num: Mapped[int] = mapped_column(SmallInteger)
 
-    cycle_id: Mapped[int] = mapped_column(sa.ForeignKey('cycles.id'))
+    cycle_id: Mapped[int] = mapped_column(ForeignKey('cycle.id'))
 
     cycle: Mapped[Cycle] = relationship(back_populates='weeks')
 

@@ -5,15 +5,14 @@ from typing import TYPE_CHECKING
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
-from app.db.session import Base
+from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from app.models.movable_date.movable_date import MovableDate
 
 
 class DivineService(Base):
-    __tablename__ = 'divine_services'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[intpk]
 
     title: Mapped[enums.DivineServiceTitle] = mapped_column(unique=True)
 
