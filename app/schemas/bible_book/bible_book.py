@@ -18,7 +18,7 @@ class BibleBookCreate(BibleBookBase):
     abbr_ru: enums.BibleBookAbbrRu = None
 
     @validator('abbr_ru', pre=True, always=True)
-    def set_abbr_ru(cls, v, values):
+    def set_abbr_ru(cls, v: None, values):
         v: enums.BibleBookAbbrRu = enums.BibleBookAbbrRu[values['abbr'].name]
         return v
 
