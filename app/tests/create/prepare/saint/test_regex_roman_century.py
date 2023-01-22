@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.saint.prepare_saint_data import REGEX_ROMAN_CENTURY
+from app.const import REGEX_ROMAN_CENTURY
 
 
 @pytest.mark.parametrize('roman_century', [
@@ -15,12 +15,10 @@ def test_regex_roman_century_good(roman_century: str):
 @pytest.mark.parametrize('roman_century', [
     ' XVI',
     'XVI ',
-
     'XIIV',
     'IVI',
     'IVII'
     'XVIIII',
-
     'no num',
 ])
 def test_regex_roman_century_bad(roman_century: str):

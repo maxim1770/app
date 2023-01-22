@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.saint.prepare_saint_data import REGEX_YEAR
+from app.const import REGEX_YEAR
 
 
 @pytest.mark.parametrize('year', [
@@ -14,10 +14,8 @@ def test_regex_year_good(year: str):
 
 @pytest.mark.parametrize('year', [
     ' 123', '123 ',
-
     '4', '9',
     '12345', '00100',
-
     'no year'
 ])
 def test_regex_year_bad(year: str):

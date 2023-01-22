@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.saint.prepare_saint_data import REGEX_YEAR_TITLE
+from app.const import REGEX_YEAR_TITLE
 
 
 @pytest.mark.parametrize('year_title', [
@@ -34,7 +34,7 @@ def test_regex_year_title_text_with_roman(year_title: str) -> None:
 
 
 @pytest.mark.parametrize('year_title', [
-    '123-124', '1559-1598', '997-1003'
+    '123-124', '1559-1599', '997-1003'
 ])
 def test_regex_year_title_int_dash_int(year_title: str) -> None:
     assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
@@ -55,11 +55,17 @@ def test_regex_year_title_text_with_int_dash_int(year_title: str) -> None:
 
 
 @pytest.mark.parametrize('year_title', [
+    '1634', '1756', '2011',
+    '1597-1613', '1599-1600',
+    '16566', '0', '9',
+    'IIII', 'XVII', 'XVIII',
+    'XVI-XVII', 'XVII-XVIII',
+    '-1234', '-XVI', '-I',
     '',
     '4', '9',
     'ок 1234', 'около 1234', 'после не дата',
     '1234 другой текст', 'другой текст 1234',
     'no year_title'
 ])
-def test_regex_year_title_text_with_roman(year_title: str) -> None:
+def test_regex_year_title_bad(year_title: str) -> None:
     assert REGEX_YEAR_TITLE.match(year_title) is None or REGEX_YEAR_TITLE.match(year_title)[0] != year_title

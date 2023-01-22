@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.saint.prepare_saint_data import REGEX_ROMAN_CENTURY_BEFORE_16
+from app.const import REGEX_ROMAN_CENTURY_BEFORE_16
 
 
 @pytest.mark.parametrize('roman_century', [
@@ -21,12 +21,10 @@ def test_regex_roman_century_before_16_bad_century(roman_century: str):
 @pytest.mark.parametrize('roman_century', [
     ' XVI',
     'XVI ',
-
     'XIIV',
     'IVI',
     'IVII'
     'XVIIII',
-
     'no num',
 ])
 def test_regex_roman_century_before_16_bad(roman_century: str):
