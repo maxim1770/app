@@ -13,7 +13,7 @@ from app.create import const
 from app.create.create.bible_book.zachalo import CreateZachalo
 from app.create.prepare.base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
     convert_to_schemas
-from app.create.prepare.base_collect import collect_table
+from app.create.prepare.base_collect import get_readings
 
 
 # TODO подумать над тем не объединить ли сразу Evangel и Apostle вместе
@@ -134,7 +134,7 @@ class PrepareEvangelZachalo(PrepareTableBase):
 
     @staticmethod
     def factory():
-        table: Tag = collect_table()
+        table: Tag = get_readings()
         return PrepareEvangelZachalo(table=table)
 
 
@@ -197,7 +197,7 @@ class PrepareApostleZachalo(PrepareTableBase):
 
     @staticmethod
     def factory():
-        table: Tag = collect_table()
+        table: Tag = get_readings()
         return PrepareApostleZachalo(table=table)
 
 

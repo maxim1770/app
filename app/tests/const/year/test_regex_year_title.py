@@ -68,4 +68,4 @@ def test_regex_year_title_text_with_int_dash_int(year_title: str) -> None:
     'no year_title'
 ])
 def test_regex_year_title_bad(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title) is None or REGEX_YEAR_TITLE.match(year_title)[0] != year_title
+    assert REGEX_YEAR_TITLE.match(year_title) is None

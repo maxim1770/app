@@ -1,6 +1,6 @@
 from pydantic import BaseModel, constr
 
-from app.create import const
+from app import const
 from app.schemas.day import Day
 from app.schemas.holiday.holiday_category import HolidayCategory
 from app.schemas.movable_date.movable_day import MovableDay

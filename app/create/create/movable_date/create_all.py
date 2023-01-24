@@ -15,11 +15,11 @@ from app.create.create.movable_date.week import CreateWeek
 # TODO подумать над тем чтобы начинать использовать tuple там где это можно делать
 
 def create_all_movable_dates(db: Session):
-    create_cycles(db)
-    logging.info("Create cycles")
+    # create_cycles(db)
+    # logging.info("Create cycles")
 
-    create_divine_services(db)
-    logging.info("Create divine services")
+    # create_divine_services(db)
+    # logging.info("Create divine services")
 
     create_all_c1_movable_dates(db)
 

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, constr
 
-from app.create import const
+from app import const
 from app.schemas.saint.dignity import Dignity
 from app.schemas.saint.face_sanctity import FaceSanctity
 

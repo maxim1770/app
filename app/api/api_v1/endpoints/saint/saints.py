@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, schemas
 from app.api import deps
-from app.create import const
+from app import const
 
 router = APIRouter()
 

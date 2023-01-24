@@ -1,6 +1,8 @@
-from enum import StrEnum, auto
+from enum import StrEnum
 
 
 class HolidayCategoryTitle(StrEnum):
-    foo = auto()
-    bar = auto()
+    den_pamjati = 'День памяти'
+    obretenie_moschej = 'Обретение мощей'
+    perenesenie_moschej = 'Перенесение мощей'
+    vtoroe_perenesenie_moschej = 'Второе перенесение мощей'

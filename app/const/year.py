@@ -13,5 +13,18 @@ REGEX_YEAR: Pattern[str] = re.compile(REGEX_YEAR_STR)
 REGEX_YEAR_BEFORE_1600_STR: str = r'((((1[0-5]|[1-9])\d)|[1-9])\d)'
 REGEX_YEAR_BEFORE_1600: Pattern[str] = re.compile(REGEX_YEAR_BEFORE_1600_STR)
 
-REGEX_YEAR_TITLE_STR: str = '((ок\.|после|до)\s)?' + '(' + REGEX_YEAR_BEFORE_1600_STR + '|' + REGEX_ROMAN_CENTURY_BEFORE_16_STR + ')(-(' + REGEX_YEAR_BEFORE_1600_STR + '|' + REGEX_ROMAN_CENTURY_BEFORE_16_STR + '))?'
+REGEX_YEAR_TITLE_STR: str = '^((ок\.|после|до)\s)?' + '(' + REGEX_YEAR_BEFORE_1600_STR + '|' + REGEX_ROMAN_CENTURY_BEFORE_16_STR + ')(-(' + REGEX_YEAR_BEFORE_1600_STR + '|' + REGEX_ROMAN_CENTURY_BEFORE_16_STR + '))?$'
 REGEX_YEAR_TITLE: Pattern[str] = re.compile(REGEX_YEAR_TITLE_STR, re.VERBOSE)
+
+REGEX_FIND_YEAR: Pattern[str] = re.compile(
+    r'''
+    (?<=\()
+    (ок\.|после|до)?
+    \s?
+    (?:\s?(\d+|[XVI]+)\s?(-|–)?){1,2}
+    \s?
+    (года|г{1,2}\.|в\.)?
+    (?=\))
+    ''',
+    re.VERBOSE
+)
