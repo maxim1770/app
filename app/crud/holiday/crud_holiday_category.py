@@ -10,8 +10,8 @@ def get_holiday_category(db: Session, title: enums.HolidayCategoryTitle) -> mode
     return db.query(models.HolidayCategory).filter(models.HolidayCategory.title == title).first()
 
 
-def create_holiday_category(db: Session, holiday_category: schemas.HolidayCategoryCreate) -> models.HolidayCategory:
-    db_holiday_category: models.HolidayCategory = models.HolidayCategory(**holiday_category.dict())
+def create_holiday_category(db: Session, holiday_category_in: schemas.HolidayCategoryCreate) -> models.HolidayCategory:
+    db_holiday_category: models.HolidayCategory = models.HolidayCategory(**holiday_category_in.dict())
     db.add(db_holiday_category)
     db.commit()
     db.refresh(db_holiday_category)

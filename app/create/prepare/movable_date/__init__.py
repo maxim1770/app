@@ -1,5 +1,5 @@
-from .movable_day import CreateMovableDayFactory
 from .divine_service import CreateMovableDateFactory
+from .movable_day import CreateMovableDayFactory
 from .week import CreateWeekFactory
 
 # TODO убрать ненужные импорты если classes не используются из вне

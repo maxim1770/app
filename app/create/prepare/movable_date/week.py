@@ -10,7 +10,7 @@ from app.create import const
 from app.create.create.movable_date.week import CreateWeek
 from app.create.prepare.base_classes import PrepareTableBase, PrepareParentDataSliceBase, \
     PrepareParentNoCopyBase, convert_to_schemas
-from app.create.prepare.base_collect import collect_table
+from app.create.prepare.base_collect import get_readings
 
 
 def _replace_dash_with_space(v: str) -> str:
@@ -39,7 +39,7 @@ class PrepareSunday(PrepareTableBase):
 
     @staticmethod
     def factory():
-        table: Tag = collect_table()
+        table: Tag = get_readings()
         return PrepareSunday(table=table)
 
 
@@ -105,7 +105,7 @@ class PrepareC3Sunday(PrepareTableBase):
 
     @staticmethod
     def factory():
-        table: Tag = collect_table()
+        table: Tag = get_readings()
         return PrepareC3Sunday(table=table)
 
 
@@ -226,7 +226,7 @@ class PrepareWeek(PrepareTableBase):
 
     @staticmethod
     def factory():
-        table: Tag = collect_table()
+        table: Tag = get_readings()
         return PrepareWeek(table=table)
 
 

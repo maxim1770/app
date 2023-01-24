@@ -3,9 +3,11 @@ from typing import Any
 from fastapi import Depends, APIRouter, status, Path, HTTPException, Body
 from sqlalchemy.orm import Session
 
-from app import crud, schemas
+from app import crud, schemas, const
 from app.api import deps
-from app.create import const
+from app.create.create.base_cls import FatalCreateError
+from app.create.create.holiday.holiday import create_saint_holiday
+from app.create.prepare.holiday.saint_holiday import SaintHolidayCreate
 
 router = APIRouter()
 
@@ -34,6 +36,22 @@ def create_holiday(
             detail='The Holiday with this slug already exists'
         )
     holiday = crud.holiday.create_with_category(db, obj_in=holiday_in, holiday_category_id=holiday_category_id)
+    return holiday
+
+
+@router.post('/saint', response_model=schemas.Holiday)
+def create_one_saint_holiday(
+        *,
+        db: Session = Depends(deps.get_db),
+        saint_holiday_in: SaintHolidayCreate
+) -> Any:
+    try:
+        holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
+    except FatalCreateError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='The Holiday with this slug already exists'
+        )
     return holiday
 
 
