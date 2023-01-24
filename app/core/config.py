@@ -39,7 +39,7 @@ class Settings(BaseSettings):
             path=f"/{values.get('POSTGRES_DB') or ''}",
         )
 
-    # EMAIL_TEMPLATES_DIR: str = '/app/app/email-templates/build'
+    DATA_CREATE_DIR: str = './app/create/data'
 
     class Config:
         case_sensitive = True
