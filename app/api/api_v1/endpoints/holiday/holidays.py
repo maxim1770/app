@@ -26,7 +26,7 @@ def create_holiday(
         *,
         db: Session = Depends(deps.get_db),
         holiday_in: schemas.HolidayCreate,
-        holiday_category_id: int = Body()
+        holiday_category_id: int = Body(...)
 ) -> Any:
     holiday = crud.holiday.get_by_slug(db, slug=holiday_in.slug)
     if holiday:
