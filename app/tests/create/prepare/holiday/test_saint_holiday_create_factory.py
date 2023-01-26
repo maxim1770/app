@@ -31,3 +31,29 @@ def test_offset_years_in_year_title(full_title: str, year_title: str) -> None:
     assert SaintHolidayCreateFactory(
         SaintHolidayCollect(day=date(2023, 3, 25), saint_slug='foo', full_title=full_title)
     )._offset_years_in_year_title() == year_title
+
+
+@pytest.mark.parametrize('full_title, holiday_title', [
+    ('holiday_title (1234)', 'Holiday_title'),
+    ('holiday_title (1234);', 'Holiday_title'),
+    ('holiday_title (1234), text;', 'Holiday_title, text'),
+    ('holiday_title  text (1234)', 'Holiday_title text'),
+    ('holiday_title (text) (1234).; ', 'Holiday_title (text)'),
+    ('holiday_title (1234) (переходящее text)', 'Holiday_title'),
+    ('holiday_title (1234) (переходящее text);', 'Holiday_title'),
+    ('holiday_title (1234) (Серб.)', 'Holiday_title'),
+    ('holiday_title (1234) (Румын.)', 'Holiday_title'),
+    ('holiday_title (1234) (Болг.)', 'Holiday_title'),
+    ('holiday_title (1234) (Груз.)', 'Holiday_title'),
+    ('holiday_title (text) holiday_title (1234)', 'Holiday_title (text) holiday_title'),
+    ('holiday_title (text) (1234)', 'Holiday_title (text)'),
+    ('holiday_title (text) (1234);', 'Holiday_title (text)'),
+    ('holiday_title (text) (1234) (Серб.);', 'Holiday_title (text)'),
+    ('holiday_title (1234) (Серб.)', 'Holiday_title'),
+    ('holiday_title (1234) (переходящее text);', 'Holiday_title'),
+    ('holiday_title (1234) (Серб.) (переходящее text);', 'Holiday_title'),
+])
+def test_clean_holiday_title(full_title: str, holiday_title: str) -> None:
+    assert SaintHolidayCreateFactory(
+        SaintHolidayCollect(day=date(2023, 3, 25), saint_slug='foo', full_title=full_title)
+    )._clean_holiday_title() == holiday_title

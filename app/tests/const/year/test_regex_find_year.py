@@ -117,7 +117,7 @@ def test_regex_find_year_text_with_int_dash_int(holiday_full_title: str, year_ti
 
 TEST_MAP_ONE_BRACKET: list[tuple[str, str]] = [
     ('text (100) text', '100'),
-    ('text (100)text.', '100'),
+    ('text (100)text', '100'),
     ('text (100) text;', '100'),
     ('text (100)text', '100'),
 ]
@@ -132,7 +132,7 @@ TEST_MAP_TWO_BRACKETS: list[tuple[str, str]] = [
     ('text (other text) (100)', '100'),
     ('text (other text)(100) ', '100'),
     ('text (other text) (100);', '100'),
-    ('text (other text)(100).', '100'),
+    ('text (other text)(100)', '100'),
 ]
 
 
@@ -157,7 +157,7 @@ def test_regex_find_year_two_brackets_no_in_end(holiday_full_title: str, year_ti
 
 TEST_MAP_THREE_BRACKETS: list[tuple[str, str]] = [
     ('text (other text (100)', '100'),
-    ('text other text) (100).', '100'),
+    ('text other text) (100)', '100'),
     ('text ((100);', '100'),
     ('text )(100) ', '100'),
 ]

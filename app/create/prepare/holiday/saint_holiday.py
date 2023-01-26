@@ -30,7 +30,8 @@ class SaintHolidayCollectFactory(object):
 
     @property
     def saint_slug(self) -> str:
-        saint_slug: str = self.saint_holiday_data['href'].replace(f'{create_const.AZBYKA_NETLOC}/days/sv-', '').strip()
+        saint_slug: str = self.saint_holiday_data['href'].replace(f'{create_const.AZBYKA_NETLOC}/days/sv-',
+                                                                  '').lower().strip()
         self._check_saint_slug_in_cathedrals_saints(saint_slug)
         return saint_slug
 
@@ -40,14 +41,6 @@ class SaintHolidayCollectFactory(object):
             full_title=self.saint_holiday_data.text,
             saint_slug=self.saint_slug
         )
-
-
-class SaintHolidayCreate(BaseModel):
-    holiday_in: schemas.HolidayCreate
-    holiday_category_title: enums.HolidayCategoryTitle
-    saint_in: schemas.SaintCreate
-    year_in: schemas.YearCreate
-    day_in: schemas.DayCreate
 
 
 class SaintHolidayCreateFactory(object):
@@ -113,12 +106,20 @@ class SaintHolidayCreateFactory(object):
         return enums.HolidayCategoryTitle.den_pamjati
 
     def _clean_holiday_title(self) -> str:
-        # holiday_title = const.REGEX_CLEAN_BRACKETS.sub('', self.saint_holiday_collect.full_title)
+        holiday_title = self.saint_holiday_collect.full_title.strip()
 
-        # REGEX_CLEAN_SPACES: Pattern[str] = re.compile(r'(,|\s)?\s(\s|[;\.]?)')
-        # holiday_title = REGEX_CLEAN_SPACES.sub('', self.saint_holiday_collect.full_title)
+        holiday_title = holiday_title[0].upper() + holiday_title[1:]
 
-        return self.saint_holiday_collect.full_title.strip()
+        if holiday_title[-1] == ';':
+            holiday_title = holiday_title[:-1]
+
+        holiday_title = re.sub(r'\(переходящее[^()]*\)', '', holiday_title)
+        holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
+        holiday_title = holiday_title.replace(f'({self._find_year_in_full_title()})', '')
+
+        holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
+        holiday_title = holiday_title.strip()
+        return holiday_title
 
     @property
     def holiday_in(self) -> schemas.HolidayCreate:
@@ -127,8 +128,8 @@ class SaintHolidayCreateFactory(object):
             slug=self.holiday_category_title.name.replace('_', '-') + '-' + self.saint_in.slug
         )
 
-    def get(self) -> SaintHolidayCreate:
-        return SaintHolidayCreate(
+    def get(self) -> schemas.SaintHolidayCreate:
+        return schemas.SaintHolidayCreate(
             holiday_in=self.holiday_in,
             holiday_category_title=self.holiday_category_title,
             saint_in=self.saint_in,
@@ -137,7 +138,7 @@ class SaintHolidayCreateFactory(object):
         )
 
 
-def saint_holiday_in_factory(day: date, saint_holiday_data: Tag) -> SaintHolidayCreate | None:
+def saint_holiday_in_factory(day: date, saint_holiday_data: Tag) -> schemas.SaintHolidayCreate | None:
     try:
         saint_holiday_collect = SaintHolidayCollectFactory(day=day, saint_holiday_data=saint_holiday_data).get()
         saint_holiday_in = SaintHolidayCreateFactory(saint_holiday_collect).get()
@@ -147,7 +148,7 @@ def saint_holiday_in_factory(day: date, saint_holiday_data: Tag) -> SaintHoliday
     return saint_holiday_in
 
 
-def saints_holidays_in_factory(day: date) -> list[SaintHolidayCreate]:
+def saints_holidays_in_factory(day: date) -> list[schemas.SaintHolidayCreate]:
     saints_holidays_data: list[Tag] = get_saints_holidays_in_day(day=day)
     return [saint_holiday_in_factory(day, saint_holiday_data) for saint_holiday_data in saints_holidays_data
             if saint_holiday_in_factory(day, saint_holiday_data)
