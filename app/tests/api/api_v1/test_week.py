@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.tests.test_utils.week import create_random_week
+
+from app.tests import test_utils
 
 
 # def test_create_week(
@@ -18,7 +19,7 @@ from app.tests.test_utils.week import create_random_week
 
 
 def test_read_week(client: TestClient, db: Session) -> None:
-    week = create_random_week(db)
+    week = test_utils.create_random_week(db)
     r = client.get(
         f'/movable-dates/cycle-{week.cycle.num}/sunday-{week.sunday_num}'
     )

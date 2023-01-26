@@ -1,5 +1,5 @@
 import json
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Generator
 
@@ -9,7 +9,7 @@ from bs4.element import Tag
 from requests import Session
 
 from app.core.config import settings
-from app.create import const
+from app.create import const as create_const
 
 
 def get_session_requests() -> Generator:
@@ -22,7 +22,7 @@ def get_session_requests() -> Generator:
 
 def _collect_readings() -> str:
     req = requests.get(
-        f'{const.AZBYKA_NETLOC}/days/p-ukazatel-evangelskih-i-apostolskih-chtenij-na-kazhdyj-den-goda'
+        f'{create_const.AZBYKA_NETLOC}/days/p-ukazatel-evangelskih-i-apostolskih-chtenij-na-kazhdyj-den-goda'
     )
     soup: BeautifulSoup = BeautifulSoup(req.text, "lxml")
     readings: Tag = soup.find("table", class_="adaptive").find("tbody")
@@ -39,7 +39,7 @@ def get_readings() -> BeautifulSoup:
 
 
 def _collect_all_cathedrals_saints() -> list[str]:
-    req = requests.get(f'{const.AZBYKA_NETLOC}/days/sobory-svjatyh')
+    req = requests.get(f'{create_const.AZBYKA_NETLOC}/days/sobory-svjatyh')
 
     table: Tag = BeautifulSoup(req.text, "lxml").find('table', class_="menology")
     cathedrals_saints_data: list[Tag] = table.find_all('tr')
@@ -47,7 +47,7 @@ def _collect_all_cathedrals_saints() -> list[str]:
     cathedrals_saints: list[str] = []
     for cathedral_saints in cathedrals_saints_data:
         cathedrals_saints.append(
-            cathedral_saints.find('a')['href'].replace('/days/sv-', '').strip()
+            cathedral_saints.find('a')['href'].replace('/days/sv-', '').lower().strip()
         )
     # Добавил вручную т.к теперь на странице sobory-svjatyh этих данных нет
     cathedrals_saints.append('pervyj-vselenskij-sobor')
@@ -64,8 +64,9 @@ def get_all_cathedrals_saints() -> list[str]:
 
 
 def _collect_holidays_in_day(session: Session, *, day: date) -> str:
+    day = day + create_const.NUM_OFFSET_DAYS
     holidays: dict[str, str | list] = session.get(
-        f'{const.AZBYKA_NETLOC}/days/widgets/presentations.json?date={day}'
+        f'{create_const.AZBYKA_NETLOC}/days/widgets/presentations.json?date={day}'
     ).json()
     return holidays['presentations']
 
@@ -74,7 +75,7 @@ def get_holidays_in_day(day: date) -> BeautifulSoup:
     path = Path(settings.DATA_CREATE_DIR) / f'holiday/holidays/{day}.html'
     if not path.exists():
         session: Session = next(get_session_requests())
-        for current_day in const.all_days_in_year():
+        for current_day in create_const.all_days_in_year():
             holidays: str = _collect_holidays_in_day(session, day=current_day)
             current_path = path.with_stem(str(current_day))
             current_path.write_text(holidays, encoding="utf-8")

@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app import crud
 from app.create.create.base_cls import FatalCreateError
 from app.create.create.day import create_all_days
-from app.tests.test_utils.day import create_random_day
+from app.tests import test_utils
 
 
 def test_create_all_days(db: Session) -> None:
@@ -20,7 +20,7 @@ def test_create_all_days(db: Session) -> None:
 
 
 def test_create_all_days_already_exists_bad(db: Session) -> None:
-    create_random_day(db)
+    test_utils.create_random_day(db)
     with pytest.raises(FatalCreateError) as e:
         create_all_days(db)
     assert e.type is FatalCreateError

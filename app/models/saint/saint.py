@@ -24,7 +24,7 @@ class SaintsHolidays(Base):
 class Saint(Base):
     id: Mapped[intpk]
 
-    name: Mapped[str | None] = mapped_column(String(100), unique=True)
+    name: Mapped[str | None] = mapped_column(String(150), unique=True)
     slug: Mapped[unique_slug]
 
     dignity_id: Mapped[int | None] = mapped_column(ForeignKey('dignity.id'))
