@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.book.book import Book
+    from .book import Book
 
 
 class SaintLive(Base):

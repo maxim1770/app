@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.holiday.holiday import Holiday
+    from .holiday import Holiday
 
 
 class Year(Base):

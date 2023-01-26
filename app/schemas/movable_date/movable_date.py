@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from app.schemas.movable_date.divine_service import DivineService
-from app.schemas.reading import Reading
+from .divine_service import DivineService
+from ..reading import Reading
 
 
 class MovableDateBase(BaseModel):

@@ -1,8 +1,8 @@
 from pydantic import BaseModel, constr
 
 from app import const
-from app.schemas.saint.dignity import Dignity
-from app.schemas.saint.face_sanctity import FaceSanctity
+from .dignity import Dignity
+from .face_sanctity import FaceSanctity
 
 
 class SaintBase(BaseModel):

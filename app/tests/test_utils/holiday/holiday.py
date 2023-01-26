@@ -2,7 +2,7 @@ from pydantic_factories import ModelFactory
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
-from app.tests.test_utils.holiday.holiday_category import create_random_holiday_category
+from .holiday_category import create_random_holiday_category
 
 
 class HolidayFactory(ModelFactory):

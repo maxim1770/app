@@ -1,7 +1,7 @@
 from pydantic import BaseModel, constr
 
 from app import enums
-from app.schemas.movable_date.week import Week
+from .week import Week
 
 
 class CycleBase(BaseModel):

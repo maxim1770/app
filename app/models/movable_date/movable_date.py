@@ -8,9 +8,9 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.movable_date.movable_day import MovableDay
-    from app.models.movable_date.divine_service import DivineService
-    from app.models.reading import Reading
+    from .movable_day import MovableDay
+    from .divine_service import DivineService
+    from ..reading import Reading
 
 
 class MovableDate(Base):

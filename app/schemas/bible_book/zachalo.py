@@ -1,6 +1,6 @@
 from pydantic import BaseModel, conint, constr
 
-from app.schemas.reading import Reading
+from ..reading import Reading
 
 
 class ZachaloBase(BaseModel):

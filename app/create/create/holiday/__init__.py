@@ -1,0 +1,1 @@
+from .holiday_category import create_all_holidays_categories

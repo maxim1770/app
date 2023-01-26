@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
 from app import models, enums
-from app.crud.bible_book.crud_zachalo import get_zachalo
-from app.crud.movable_date.crud_movable_date import get_movable_date
+from .bible_book import get_zachalo
+from .movable_date import get_movable_date
 
 
 def get_readings(db: Session, skip: int = 0, limit: int = 100) -> list[models.Reading]:

@@ -8,9 +8,9 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk, unique_slug
 
 if TYPE_CHECKING:
-    from app.models.saint.dignity import Dignity
-    from app.models.saint.face_sanctity import FaceSanctity
-    from app.models.holiday.holiday import Holiday
+    from .dignity import Dignity
+    from .face_sanctity import FaceSanctity
+    from ..holiday import Holiday
 
 
 class SaintsHolidays(Base):

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app import schemas, enums
 from app.create import const
 from app.create.create.movable_date.movable_day import CreateMovableDay
-from app.create.prepare.base_classes import PrepareMethodsBase, convert_to_schemas
+from ..base_classes import PrepareMethodsBase, convert_to_schemas
 
 
 def _get_days_abbrs_in_weeks(num_weeks: int) -> list[enums.MovableDayAbbr]:
@@ -45,7 +45,7 @@ class PrepareC2MovableDayAbbr(PrepareMethodsBase):
 
     def _fill_gaps(self):
         self.data: list[enums.MovableDayAbbr] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_2) \
-                                               + [enums.MovableDayAbbr.sun]
+                                                + [enums.MovableDayAbbr.sun]
 
     def _clean(self): pass
 

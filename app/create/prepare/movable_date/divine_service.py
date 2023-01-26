@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.create import const
 from app.create.create.movable_date.movable_date import CreateMovableDate
-from app.create.prepare.base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareMethodsBase
-from app.create.prepare.base_collect import get_readings
+from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareMethodsBase
+from ..base_collect import get_readings
 
 
 class PrepareSundayMatins(PrepareTableBase):

@@ -9,10 +9,10 @@ from app import enums
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.movable_date.week import Week
-    from app.models.movable_date.movable_date import MovableDate
-    from app.models.date import Date
-    from app.models.holiday.holiday import Holiday
+    from .week import Week
+    from .movable_date import MovableDate
+    from ..date import Date
+    from ..holiday import Holiday
 
 
 class MovableDay(Base):

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, constr, validator
 
 from app import enums
-from app.schemas.bible_book.zachalo import Zachalo
+from .zachalo import Zachalo
 
 
 class BibleBookBase(BaseModel):

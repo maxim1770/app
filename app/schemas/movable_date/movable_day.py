@@ -1,7 +1,7 @@
 from pydantic import BaseModel, validator, constr
 
 from app import enums
-from app.schemas.movable_date.movable_date import MovableDate
+from .movable_date import MovableDate
 
 
 class MovableDayBase(BaseModel):

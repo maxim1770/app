@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.api import deps
 from app.create import const, prepare
-from app.create.create.base_cls import FatalCreateError
-from app.create.create.holiday.holiday import create_saint_holiday
+from ..base_cls import FatalCreateError
+from .holiday import create_saint_holiday
 
 
 def create_all_saints_holidays(db: Session):

@@ -2,7 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums
-from app.crud.bible_book.crud_bible_book import get_bible_book
+from .crud_bible_book import get_bible_book
 
 
 # def get_zachalos(db: Session, bible_book_abbr: enums.BibleBookAbbr) -> list[models.Zachalo]:

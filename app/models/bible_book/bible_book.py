@@ -9,7 +9,7 @@ from app import enums
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.schemas.bible_book.zachalo import Zachalo
+    from .zachalo import Zachalo
 
 
 class BibleBook(Base):

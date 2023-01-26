@@ -2,7 +2,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from app.schemas.saint.saint import Saint
+from .saint import Saint
 
 
 class CathedralSaintsTitle(str, Enum):

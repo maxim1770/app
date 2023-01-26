@@ -8,9 +8,9 @@ from sqlalchemy.orm import Session
 from app import schemas
 from app.create import const
 from app.create.create.movable_date.week import CreateWeek
-from app.create.prepare.base_classes import PrepareTableBase, PrepareParentDataSliceBase, \
+from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, \
     PrepareParentNoCopyBase, convert_to_schemas
-from app.create.prepare.base_collect import get_readings
+from ..base_collect import get_readings
 
 
 def _replace_dash_with_space(v: str) -> str:

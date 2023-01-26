@@ -8,7 +8,7 @@ from pydantic import BaseModel, constr, ValidationError
 
 from app import schemas, enums, const
 from app.create import const as create_const
-from app.create.prepare.base_collect import get_all_cathedrals_saints, get_saints_holidays_in_day
+from ..base_collect import get_all_cathedrals_saints, get_saints_holidays_in_day
 
 
 class SaintHolidayCollect(BaseModel):

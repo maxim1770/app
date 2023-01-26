@@ -8,8 +8,8 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.day import Day
-    from app.models.movable_date.movable_day import MovableDay
+    from .day import Day
+    from .movable_date import MovableDay
 
 
 class Date(Base):

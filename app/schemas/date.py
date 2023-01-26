@@ -1,7 +1,7 @@
 from pydantic import BaseModel, conint, Field
 
-from app.schemas.day import Day
-from app.schemas.movable_date.movable_day import MovableDay
+from .day import Day
+from .movable_date import MovableDay
 
 
 class DateBase(BaseModel):

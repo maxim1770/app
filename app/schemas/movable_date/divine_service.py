@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from app import enums
 
 
-# from app.schemas.movable_date import MovableDate
+# from .movable_date import MovableDate
 
 
 class DivineServiceBase(BaseModel):

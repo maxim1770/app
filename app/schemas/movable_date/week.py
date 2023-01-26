@@ -1,6 +1,6 @@
 from pydantic import BaseModel, conint, constr
 
-from app.schemas.movable_date.movable_day import MovableDay
+from .movable_day import MovableDay
 
 
 class WeekBase(BaseModel):
