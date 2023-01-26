@@ -6,12 +6,12 @@ from app.schemas.saint.face_sanctity import FaceSanctity
 
 
 class SaintBase(BaseModel):
-    name: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
-    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG) | None = None
+    name: constr(strip_whitespace=True, strict=True, max_length=150) | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG) | None = None
 
 
 class SaintCreate(SaintBase):
-    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)
 
 
 class SaintUpdate(SaintBase):
