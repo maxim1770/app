@@ -5,11 +5,10 @@ from sqlalchemy.orm import Session
 
 from app import crud
 from app.schemas.saint.saint import SaintUpdate
-from app.tests.test_utils.saint import create_random_saint_in
-
+from app.tests import test_utils
 
 def test_create_saint(db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     assert saint.name == saint_in.name
     assert saint.slug == saint_in.slug
@@ -17,7 +16,7 @@ def test_create_saint(db: Session) -> None:
 
 
 def test_create_saint_bad_unique(db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     with pytest.raises(IntegrityError) as e:
         saint_2 = crud.saint.create(db, obj_in=saint_in)
@@ -26,9 +25,9 @@ def test_create_saint_bad_unique(db: Session) -> None:
 
 
 def test_get_saints(db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
-    saint_in_2 = create_random_saint_in()
+    saint_in_2 = test_utils.create_random_saint_in()
     saint_2 = crud.saint.create(db, obj_in=saint_in_2)
     saints = crud.saint.get_multi(db)
     assert saints
@@ -36,7 +35,7 @@ def test_get_saints(db: Session) -> None:
 
 
 def test_get_saint(db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     saint_2 = crud.saint.get_by_slug(db, slug=saint.slug)
     assert saint_2
@@ -46,9 +45,9 @@ def test_get_saint(db: Session) -> None:
 
 
 def test_update_saint(db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
-    name_2 = create_random_saint_in().name
+    name_2 = test_utils.create_random_saint_in().name
     saint_in_update = SaintUpdate(name=name_2)
     crud.saint.update(db, db_obj=saint, obj_in=saint_in_update)
     saint_2 = crud.saint.get_by_slug(db, slug=saint.slug)
@@ -58,7 +57,7 @@ def test_update_saint(db: Session) -> None:
 
 
 def test_delete_saint(db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     saint_2 = crud.saint.remove(db, slug=saint.slug)
     saint_3 = crud.saint.get_by_slug(db, slug=saint.slug)

@@ -2,11 +2,10 @@ from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.tests.test_utils.saint import create_random_saint_in, create_random_saint
-
+from app.tests import test_utils
 
 def test_create_saint(client: TestClient, db: Session) -> None:
-    saint_in = create_random_saint_in()
+    saint_in = test_utils.create_random_saint_in()
     r = client.post('/saints', json=saint_in.dict())
     assert 200 <= r.status_code < 300
     created_saint = r.json()
@@ -15,8 +14,8 @@ def test_create_saint(client: TestClient, db: Session) -> None:
 
 
 def test_create_saint_bad(client: TestClient, db: Session) -> None:
-    saint = create_random_saint(db)
-    saint_in = create_random_saint_in()
+    saint = test_utils.create_random_saint(db)
+    saint_in = test_utils.create_random_saint_in()
     saint_in.slug = saint.slug
     r = client.post('/saints', json=saint_in.dict())
     assert r.status_code == status.HTTP_400_BAD_REQUEST

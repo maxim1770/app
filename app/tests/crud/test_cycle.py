@@ -4,18 +4,18 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app import crud
-from app.tests.test_utils.cycle import create_random_cycle_in
+from app.tests import test_utils
 
 
 def test_create_cycle(db: Session) -> None:
-    cycle_in = create_random_cycle_in()
+    cycle_in = test_utils.create_random_cycle_in()
     cycle = crud.create_cycle(db, cycle=cycle_in)
     assert cycle.num == cycle_in.num
     assert hasattr(cycle, 'title')
 
 
 def test_create_cycle_bad_unique(db: Session) -> None:
-    cycle_in = create_random_cycle_in()
+    cycle_in = test_utils.create_random_cycle_in()
     cycle = crud.create_cycle(db, cycle=cycle_in)
     with pytest.raises(IntegrityError) as e:
         cycle_2 = crud.create_cycle(db, cycle=cycle_in)
@@ -24,7 +24,7 @@ def test_create_cycle_bad_unique(db: Session) -> None:
 
 
 def test_get_cycle(db: Session) -> None:
-    cycle_in = create_random_cycle_in()
+    cycle_in = test_utils.create_random_cycle_in()
     cycle = crud.create_cycle(db, cycle=cycle_in)
     cycle_2 = crud.get_cycle(db, num=cycle.num)
     assert cycle_2

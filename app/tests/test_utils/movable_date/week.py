@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app import crud
 from app.models.movable_date import Week
 from app.schemas.movable_date import WeekCreate
-from app.tests.test_utils.cycle import create_random_cycle
+from test_utils.movable_date.cycle import create_random_cycle
 
 
 class WeekFactory(ModelFactory):
@@ -15,7 +15,7 @@ def create_random_week_in() -> WeekCreate:
     return WeekFactory.build()
 
 
-def create_random_week(db: Session, *, cycle_id: int | None = None) -> Week:
+def create_random_week(db: Session, *, cycle_id: int = None) -> Week:
     if cycle_id is None:
         cycle = create_random_cycle(db)
         cycle_id = cycle.id

@@ -1,11 +1,10 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.tests.test_utils.cycle import create_random_cycle_in
-
+from app.tests import test_utils
 
 def test_create_cycle(client: TestClient, db: Session) -> None:
-    cycle_in = create_random_cycle_in()
+    cycle_in = test_utils.create_random_cycle_in()
     r = client.post(
         '/movable-dates',
         json=cycle_in.dict(),

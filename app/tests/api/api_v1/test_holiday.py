@@ -1,42 +1,45 @@
-import random
-
+from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, enums
-from app.tests.test_utils.day import create_random_day_in
-from app.tests.test_utils.holiday import create_random_holiday_in
-from app.tests.test_utils.saint import create_random_saint_in
-from app.tests.test_utils.year import create_random_year_in
+from app import crud, schemas
+from app.tests import test_utils
 
 
 def test_create_one_saint_holiday(client: TestClient, db: Session) -> None:
-    holiday_in = create_random_holiday_in()
-    saint_in = create_random_saint_in()
-    year_in = create_random_year_in()
-    day_in = create_random_day_in()
-    holiday_category_title = random.choice(list(enums.HolidayCategoryTitle))
-
-    day = crud.create_day(db, day_in=day_in)
+    saint_holiday_in = test_utils.create_random_saint_holiday_in()
+    day = crud.create_day(db, day_in=saint_holiday_in.day_in)
     holiday_category = crud.create_holiday_category(
         db,
-        holiday_category_in=schemas.HolidayCategoryCreate(title=holiday_category_title)
+        holiday_category_in=schemas.HolidayCategoryCreate(title=saint_holiday_in.holiday_category_title)
     )
-
     r = client.post(
         '/holidays/saint',
-        json={
-            'holiday_in': holiday_in.dict(),
-            'holiday_category_title': holiday_category_title,
-            'saint_in': saint_in.dict(),
-            'year_in': year_in.dict(by_alias=True),
-            'day_in': day_in.dict(),
-        }
+        json=saint_holiday_in.dict()
     )
     assert 200 <= r.status_code < 300
     created_holiday = r.json()
-    assert created_holiday['slug'] == holiday_in.slug
+    assert created_holiday['slug'] == saint_holiday_in.holiday_in.slug
     assert 'id' in created_holiday
+    assert created_holiday['year']['_year'] == saint_holiday_in.year_in.year
+    assert created_holiday['holiday_category']['title'] == saint_holiday_in.holiday_category_title
+    # assert created_holiday['saints']
 
 
+def test_create_one_saint_holiday_already_exists_bad(client: TestClient, db: Session) -> None:
+    holiday = test_utils.create_random_holiday(db)
+    saint_holiday_in = test_utils.create_random_saint_holiday_in()
+    saint_holiday_in.holiday_in.slug = holiday.slug
+    r = client.post(
+        '/holidays/saint',
+        json=saint_holiday_in.dict()
+    )
+    assert r.status_code == status.HTTP_400_BAD_REQUEST
 
+
+def test_create_one_saint_holiday_no_data_in_bad(client: TestClient) -> None:
+    r = client.post(
+        '/holidays/saint',
+        json={}
+    )
+    assert r.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
