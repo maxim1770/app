@@ -8,8 +8,8 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.movable_date.movable_day import MovableDate
-    from app.models.bible_book.zachalo import Zachalo
+    from .movable_date import MovableDate
+    from .bible_book import Zachalo
 
 
 class Reading(Base):

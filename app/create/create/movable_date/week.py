@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app import schemas, crud
-from app.create.create.base_cls import CreateBase, FatalCreateError
+from ..base_cls import CreateBase, FatalCreateError
 
 
 class CreateWeek(CreateBase):

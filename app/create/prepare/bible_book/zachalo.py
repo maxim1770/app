@@ -11,9 +11,9 @@ from sqlalchemy.orm import Session
 from app import schemas, enums
 from app.create import const
 from app.create.create.bible_book.zachalo import CreateZachalo
-from app.create.prepare.base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
+from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
     convert_to_schemas
-from app.create.prepare.base_collect import get_readings
+from ..base_collect import get_readings
 
 
 # TODO подумать над тем не объединить ли сразу Evangel и Apostle вместе

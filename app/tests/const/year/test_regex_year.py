@@ -8,7 +8,7 @@ from app.const import REGEX_YEAR
     '100', '168',
     '1356', '1630',
 ])
-def test_regex_year_good(year: str):
+def test_regex_year(year: str):
     assert REGEX_YEAR.match(year)[0] == year
 
 

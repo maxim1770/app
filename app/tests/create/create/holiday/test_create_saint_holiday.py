@@ -29,7 +29,7 @@ def test_create_saint_holiday(db: Session) -> None:
     assert holiday.holiday_category.title == holiday_category.title
 
 
-def test_create_saint_holiday_was_year(db: Session) -> None:
+def test_create_saint_holiday_year_already_exists(db: Session) -> None:
     saint_holiday_in = test_utils.create_random_saint_holiday_in()
     day = crud.create_day(db, day_in=saint_holiday_in.day_in)
     holiday_category = crud.create_holiday_category(

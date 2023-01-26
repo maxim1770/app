@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from app import schemas, crud
 from app.create import const
-from app.create.create.base_cls import FatalCreateError
+from .base_cls import FatalCreateError
 
 
 def create_all_days(db: Session) -> None:

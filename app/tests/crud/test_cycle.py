@@ -14,7 +14,7 @@ def test_create_cycle(db: Session) -> None:
     assert hasattr(cycle, 'title')
 
 
-def test_create_cycle_bad_unique(db: Session) -> None:
+def test_create_cycle_unique_bad(db: Session) -> None:
     cycle_in = test_utils.create_random_cycle_in()
     cycle = crud.create_cycle(db, cycle=cycle_in)
     with pytest.raises(IntegrityError) as e:

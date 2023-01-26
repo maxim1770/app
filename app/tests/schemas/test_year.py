@@ -11,7 +11,7 @@ from app.schemas.year import YearCreate
     'ок 1234', 'после1234',
 
 ])
-def test_schema_year_create_title_bad(year_title: str):
+def test_schema_year_create_title_bad(year_title: str) -> None:
     with pytest.raises(ValidationError) as e:
         YearCreate(title=year_title)
     assert e.type is ValidationError
@@ -24,7 +24,7 @@ def test_schema_year_create_title_bad(year_title: str):
     ('после 123', 5500 + 123 + 15), ('после 1574', 5500 + 1574 + 15),
     ('120-130', 5500 + 125), ('120-129', 5500 + 125),
 ])
-def test_schema_year_create_set_year_int(year_title: str, _year: int):
+def test_schema_year_create_compute_year_from_year(year_title: str, _year: int) -> None:
     assert YearCreate(title=year_title).year == _year
 
 
@@ -34,7 +34,7 @@ def test_schema_year_create_set_year_int(year_title: str, _year: int):
     ('XIV-XVI', 5500 + 8 + 1450), ('XV-XVI', 5500 + 8 + 1500), ('V-VI', 5500 + 8 + 500),
     ('до XV-XVI', 5500 + 8 + 1450), ('ок. XV-XVI', 5500 + 8 + 1500), ('после XV-XVI', 5500 + 8 + 1550),
 ])
-def test_schema_year_create_set_year_roman(year_title: str, _year: int):
+def test_schema_year_create_compute_year_from_century(year_title: str, _year: int) -> None:
     assert YearCreate(title=year_title).year == _year
 
 
@@ -43,7 +43,7 @@ def test_schema_year_create_set_year_roman(year_title: str, _year: int):
     'ок. 1585',
     'после XVI',
 ])
-def test_schema_year_create_set_year_bad(year_title: str):
+def test_schema_year_create_compute_year_bad(year_title: str) -> None:
     with pytest.raises(ValidationError) as e:
         YearCreate(title=year_title)
     assert e.type is ValidationError

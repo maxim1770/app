@@ -3,7 +3,7 @@ from typing import Final
 from sqlalchemy.orm import Session
 
 from app import crud
-from app.create.create.base_cls import CreateBase, FatalCreateError
+from .base_cls import CreateBase, FatalCreateError
 
 
 #

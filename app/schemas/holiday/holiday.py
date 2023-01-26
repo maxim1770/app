@@ -1,16 +1,16 @@
 from pydantic import BaseModel, constr
 
 from app import const, enums
-from app.schemas.day import Day, DayCreate
-from app.schemas.holiday.holiday_category import HolidayCategory
-from app.schemas.movable_date.movable_day import MovableDay
-from app.schemas.saint.saint import Saint, SaintCreate
-from app.schemas.year import Year, YearCreate
+from .holiday_category import HolidayCategory
+from ..day import Day, DayCreate
+from ..movable_date import MovableDay
+from ..saint import Saint, SaintCreate
+from ..year import Year, YearCreate
 
 
 class HolidayBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, max_length=150) | None = None
-    slug: str | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG) | None = None
 
 
 class HolidayCreate(HolidayBase):

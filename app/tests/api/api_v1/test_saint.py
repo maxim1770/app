@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.tests import test_utils
 
+
 def test_create_saint(client: TestClient, db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     r = client.post('/saints', json=saint_in.dict())
@@ -27,6 +28,6 @@ def test_get_saint_bad(client: TestClient, db: Session) -> None:
     assert r.json() == {'detail': 'Saint not found'}
 
 
-def test_get_saint_bad_by_slug(client: TestClient, db: Session) -> None:
+def test_get_saint_by_slug_bad(client: TestClient, db: Session) -> None:
     r = client.get('/saints/no slug')
     assert r.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY

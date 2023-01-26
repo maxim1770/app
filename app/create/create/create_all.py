@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from app import crud
 from app.api import deps
 from app.create import const
-from app.create.create.bible_book.create_all import create_all_c1_zachalos
-from app.create.create.reading import CreateReading
+from .bible_book.create_all import create_all_c1_zachalos
+from .reading import CreateReading
 
 
 # TODO (тут что тот написали для теста)

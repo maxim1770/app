@@ -1,7 +1,7 @@
 from pydantic import BaseModel, constr, validator
 
 from app import enums
-from app.schemas.bible_book.zachalo import Zachalo
+from .zachalo import Zachalo
 
 
 class BibleBookBase(BaseModel):
@@ -11,11 +11,10 @@ class BibleBookBase(BaseModel):
     part_ru: enums.BibleBookPartRu
     title: constr(strip_whitespace=True, strict=True, max_length=50)
     abbr: enums.BibleBookAbbr
-    abbr_ru: enums.BibleBookAbbrRu
+    abbr_ru: enums.BibleBookAbbrRu | None  = None
 
 
 class BibleBookCreate(BibleBookBase):
-    abbr_ru: enums.BibleBookAbbrRu = None
 
     @validator('abbr_ru', pre=True, always=True)
     def set_abbr_ru(cls, v: None, values):
@@ -40,6 +39,8 @@ class BibleBookApostleCreate(BibleBookNewTestamentCreate):
 
 class BibleBook(BibleBookBase):
     zachalos: list[Zachalo] = []
+
+    abbr_ru: enums.BibleBookAbbrRu
 
     class Config:
         orm_mode = True

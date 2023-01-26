@@ -1,9 +1,9 @@
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-from app.crud.base import CRUDBase
 from app.models.holiday.holiday import Holiday
 from app.schemas.holiday import HolidayCreate, HolidayUpdate
+from ..base import CRUDBase
 
 
 class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate]):

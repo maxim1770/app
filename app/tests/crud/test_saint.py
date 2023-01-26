@@ -7,6 +7,7 @@ from app import crud
 from app.schemas.saint.saint import SaintUpdate
 from app.tests import test_utils
 
+
 def test_create_saint(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
@@ -15,7 +16,7 @@ def test_create_saint(db: Session) -> None:
     assert hasattr(saint, 'holidays')
 
 
-def test_create_saint_bad_unique(db: Session) -> None:
+def test_create_saint_unique_bad(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     with pytest.raises(IntegrityError) as e:

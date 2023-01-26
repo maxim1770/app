@@ -1,5 +1,8 @@
 import logging
 
+from .day import create_all_days
+from .holiday import create_all_holidays_categories
+
 logging.basicConfig(  # filename="create.log", filemode="w", encoding='utf-8',
     format='%(asctime)s - %(threadName)s - %(name)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S', level=logging.INFO)

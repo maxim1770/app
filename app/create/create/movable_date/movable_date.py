@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app import schemas, crud, enums
-from app.create.create.base_cls import CreateBase, FatalCreateError
+from ..base_cls import CreateBase, FatalCreateError
 
 
 # TODO Тут возможно стоит разделить создания записей и создания pydantic моделей, для того чтобы в разы уменьшить кол. кода

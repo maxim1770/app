@@ -1,21 +1,19 @@
 from pydantic_factories import ModelFactory
 from sqlalchemy.orm import Session
 
-from app import crud
-from app.models.movable_date import Week
-from app.schemas.movable_date import WeekCreate
-from test_utils.movable_date.cycle import create_random_cycle
+from app import crud, models, schemas
+from .cycle import create_random_cycle
 
 
 class WeekFactory(ModelFactory):
-    __model__ = WeekCreate
+    __model__ = schemas.WeekCreate
 
 
-def create_random_week_in() -> WeekCreate:
+def create_random_week_in() -> schemas.WeekCreate:
     return WeekFactory.build()
 
 
-def create_random_week(db: Session, *, cycle_id: int = None) -> Week:
+def create_random_week(db: Session, *, cycle_id: int = None) -> models.Week:
     if cycle_id is None:
         cycle = create_random_cycle(db)
         cycle_id = cycle.id

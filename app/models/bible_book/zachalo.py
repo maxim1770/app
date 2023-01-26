@@ -8,8 +8,8 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.schemas.reading import Reading
-    from app.schemas.bible_book.bible_book import BibleBook
+    from .bible_book import BibleBook
+    from ..reading import Reading
 
 
 class Zachalo(Base):

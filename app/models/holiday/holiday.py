@@ -8,11 +8,11 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.db.base_class import Base, intpk, unique_slug
 
 if TYPE_CHECKING:
-    from app.models.day import Day
-    from app.models.holiday.holiday_category import HolidayCategory
-    from app.models.movable_date.movable_day import MovableDay
-    from app.models.saint.saint import Saint, SaintsHolidays
-    from app.models.year import Year
+    from .holiday_category import HolidayCategory
+    from ..day import Day
+    from ..year import Year
+    from ..movable_date import MovableDay
+    from ..saint.saint import Saint, SaintsHolidays
 
 
 class Holiday(Base):

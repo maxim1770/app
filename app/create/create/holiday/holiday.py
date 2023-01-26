@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
-from app.create.create.base_cls import FatalCreateError
+from ..base_cls import FatalCreateError
 
 
 def create_saint_holiday(db: Session, *, saint_holiday_in: schemas.SaintHolidayCreate) -> models.Holiday:

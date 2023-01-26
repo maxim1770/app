@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app import schemas, crud, enums
-from app.create.create.base_cls import FatalCreateError
+from ..base_cls import FatalCreateError
 
 
 def create_all_holidays_categories(db: Session) -> None:

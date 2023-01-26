@@ -9,7 +9,7 @@ from app import enums
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.movable_date.week import Week
+    from .week import Week
 
 
 class Cycle(Base):

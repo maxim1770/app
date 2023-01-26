@@ -1,6 +1,6 @@
 from pydantic import BaseModel, constr
 
-from app.schemas.book.saint_live import SaintLive
+from .saint_live import SaintLive
 
 
 class BookBase(BaseModel):

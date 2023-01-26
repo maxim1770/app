@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.api import deps
 from app.create import prepare
-from app.create.create.bible_book.bible_book import create_bible_books
-from app.create.create.bible_book.zachalo import CreateZachalo
+from .bible_book import create_bible_books
+from .zachalo import CreateZachalo
 
 
 def create_all_zachalos(db: Session):

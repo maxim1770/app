@@ -8,7 +8,7 @@ from app import enums
 from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
-    from app.models.movable_date.movable_date import MovableDate
+    from .movable_date import MovableDate
 
 
 class DivineService(Base):
