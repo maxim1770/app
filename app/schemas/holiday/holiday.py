@@ -1,21 +1,21 @@
 from pydantic import BaseModel, constr
 
-from app import const
-from app.schemas.day import Day
+from app import const, enums
+from app.schemas.day import Day, DayCreate
 from app.schemas.holiday.holiday_category import HolidayCategory
 from app.schemas.movable_date.movable_day import MovableDay
-from app.schemas.saint.saint import Saint
-from app.schemas.year import Year
+from app.schemas.saint.saint import Saint, SaintCreate
+from app.schemas.year import Year, YearCreate
 
 
 class HolidayBase(BaseModel):
-    title: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
+    title: constr(strip_whitespace=True, strict=True, max_length=150) | None = None
     slug: str | None = None
 
 
 class HolidayCreate(HolidayBase):
-    title: constr(strip_whitespace=True, strict=True, max_length=100)
-    slug: constr(strip_whitespace=True, strict=True, max_length=70, regex=const.REGEX_SLUG)
+    title: constr(strip_whitespace=True, strict=True, max_length=150)
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)
 
 
 class HolidayUpdate(HolidayBase):
@@ -46,3 +46,11 @@ class Holiday(HolidayInDBBase):
 
 class HolidayInDB(HolidayInDBBase):
     pass
+
+
+class SaintHolidayCreate(BaseModel):
+    holiday_in: HolidayCreate
+    holiday_category_title: enums.HolidayCategoryTitle
+    saint_in: SaintCreate
+    year_in: YearCreate
+    day_in: DayCreate

@@ -7,7 +7,6 @@ from app import crud, schemas, const
 from app.api import deps
 from app.create.create.base_cls import FatalCreateError
 from app.create.create.holiday.holiday import create_saint_holiday
-from app.create.prepare.holiday.saint_holiday import SaintHolidayCreate
 
 router = APIRouter()
 
@@ -43,7 +42,7 @@ def create_holiday(
 def create_one_saint_holiday(
         *,
         db: Session = Depends(deps.get_db),
-        saint_holiday_in: SaintHolidayCreate
+        saint_holiday_in: schemas.SaintHolidayCreate
 ) -> Any:
     try:
         holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
@@ -94,7 +93,7 @@ def read_holiday(
 def delete_holiday(
         *,
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=70, regex=const.REGEX_SLUG)
+        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
 ) -> Any:
     holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
     if not holiday:
