@@ -16,7 +16,7 @@ class YearBase(BaseModel):
 class YearCreate(YearBase):
 
     @root_validator
-    def root_validator(cls, values):
+    def compute_year(cls, values):
         title: str = values['title']
         if const.REGEX_YEAR_TITLE.match(title) is None:
             raise ValueError(f'year_title >16: {title}')
