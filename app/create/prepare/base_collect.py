@@ -47,7 +47,7 @@ def _collect_all_cathedrals_saints() -> list[str]:
     cathedrals_saints: list[str] = []
     for cathedral_saints in cathedrals_saints_data:
         cathedrals_saints.append(
-            cathedral_saints.find('a')['href'].replace('/days/sv-', '').strip()
+            cathedral_saints.find('a')['href'].replace('/days/sv-', '').lower().strip()
         )
     # Добавил вручную т.к теперь на странице sobory-svjatyh этих данных нет
     cathedrals_saints.append('pervyj-vselenskij-sobor')

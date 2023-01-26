@@ -10,6 +10,7 @@ from app.create.create.holiday.holiday import create_saint_holiday
 
 def create_all_saints_holidays(db: Session):
     for day in const.all_days_in_year():
+        logging.info(day)
         saints_holidays_in = prepare.saints_holidays_in_factory(day)
         for saint_holiday_in in saints_holidays_in:
             try:
