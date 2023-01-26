@@ -3,9 +3,9 @@ from pydantic import BaseModel, constr
 from app import const, enums
 from .holiday_category import HolidayCategory
 from ..day import Day, DayCreate
-from ..year import Year, YearCreate
 from ..movable_date import MovableDay
 from ..saint import Saint, SaintCreate
+from ..year import Year, YearCreate
 
 
 class HolidayBase(BaseModel):

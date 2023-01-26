@@ -6,12 +6,11 @@ from .movable_date import MovableDate
 
 class MovableDayBase(BaseModel):
     abbr: enums.MovableDayAbbr
-    abbr_ru: enums.MovableDayAbbrRu
-    title: constr(strip_whitespace=True, strict=True, max_length=30) | None
+    abbr_ru: enums.MovableDayAbbrRu | None = None
+    title: constr(strip_whitespace=True, strict=True, max_length=30) | None = None
 
 
 class MovableDayCreate(MovableDayBase):
-    abbr_ru: enums.MovableDayAbbrRu = None
 
     @validator('abbr_ru', pre=True, always=True)
     def set_abbr_ru(cls, v: None, values):
@@ -21,6 +20,8 @@ class MovableDayCreate(MovableDayBase):
 
 class MovableDay(MovableDayBase):
     id: int
+
+    abbr_ru: enums.MovableDayAbbrRu
 
     week_id: int
     movable_dates: list[MovableDate] = []

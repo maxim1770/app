@@ -13,7 +13,6 @@ from .movable_date import MovableDate, MovableDateCreate
 from .movable_date import MovableDay, MovableDayCreate
 from .movable_date import Week, WeekCreate
 from .reading import Reading, ReadingCreate
-from .saint import CathedralSaints, CathedralSaintsCreate, CathedralSaintsTitle
 from .saint import Dignity, DignityCreate
 from .saint import FaceSanctity, FaceSanctityCreate
 from .saint import Saint, SaintCreate, SaintUpdate

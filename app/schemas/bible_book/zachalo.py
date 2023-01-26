@@ -5,7 +5,7 @@ from ..reading import Reading
 
 class ZachaloBase(BaseModel):
     num: conint(strict=True, ge=1, le=335)
-    title: constr(strip_whitespace=True, strict=True, max_length=30) | None
+    title: constr(strip_whitespace=True, strict=True, max_length=30) | None  = None
 
 
 class ZachaloCreate(ZachaloBase):
