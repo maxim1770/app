@@ -10,7 +10,7 @@ from ..year import Year, YearCreate
 
 class HolidayBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, max_length=150) | None = None
-    slug: str | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG) | None = None
 
 
 class HolidayCreate(HolidayBase):
