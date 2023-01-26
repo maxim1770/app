@@ -14,15 +14,15 @@ from app import schemas
 
 
 @given(st.builds(schemas.CycleCreate))
-def test_property(instance):
+def test_property(instance) -> None:
     assert 0 < instance.num
 
 
 @given(st.builds(schemas.CycleCreate, num=st.integers(1, 3)))
-def test_with_discount(instance):
+def test_with_discount(instance) -> None:
     assert 1 <= instance.num <= 3
 
 
 @given(st.from_type(schemas.CycleCreate))
-def test_me(cycle: schemas.CycleCreate):
+def test_me(cycle: schemas.CycleCreate) -> None:
     assert isinstance(cycle, schemas.CycleCreate)

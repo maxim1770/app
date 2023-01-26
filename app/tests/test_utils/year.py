@@ -10,7 +10,7 @@ class YearFactory(ModelFactory):
 
 def create_random_year_in() -> schemas.YearCreate:
     # return YearFactory.build()
-    return schemas.YearCreate(title='1599')
+    return schemas.YearCreate(title='1234')
 
 
 def create_random_year(db: Session) -> models.Year:

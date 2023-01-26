@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.tests import test_utils
 
+
 def test_create_cycle(client: TestClient, db: Session) -> None:
     cycle_in = test_utils.create_random_cycle_in()
     r = client.post(
@@ -15,7 +16,7 @@ def test_create_cycle(client: TestClient, db: Session) -> None:
     assert 'id' in created_cycle
 
 
-# def test_get_cycle_bad_by_cycle_num_in_enum(
+# def test_get_cycle_by_cycle_num_in_enum_bad(
 #         client: TestClient, db: Session
 # ) -> None:
 #     '''По идее должно работать есть правильно написать функцию read_cycle
@@ -32,7 +33,7 @@ def test_create_cycle(client: TestClient, db: Session) -> None:
 #     print(r.json())
 
 
-def test_get_cycle_bad_by_cycle_num(
+def test_get_cycle_by_cycle_num_bad(
         client: TestClient, db: Session
 ) -> None:
     r = client.get(
