@@ -21,6 +21,8 @@ pylint = "*"
 hypothesis = "*"
 hypothesis-jsonschema = "*"
 pydantic-factories = "*"
+pytest-sugar = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.11"
