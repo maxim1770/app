@@ -1,1 +1,2 @@
+from .holiday import create_saint_holiday
 from .holiday_category import create_all_holidays_categories

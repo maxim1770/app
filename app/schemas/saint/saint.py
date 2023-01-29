@@ -1,6 +1,6 @@
 from pydantic import BaseModel, constr
 
-from app import const
+from app import const, enums
 from .dignity import Dignity
 from .face_sanctity import FaceSanctity
 
@@ -38,3 +38,9 @@ class Saint(SaintInDBBase):
 
 class SaintInDB(SaintInDBBase):
     pass
+
+
+class SaintDataUpdate(BaseModel):
+    saint_in: SaintUpdate | None = None
+    face_sanctity_title: enums.FaceSanctityTitle | None = None
+    dignity_title: enums.DignityTitle | None = None

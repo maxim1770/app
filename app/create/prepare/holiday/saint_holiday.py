@@ -74,7 +74,7 @@ class SaintHolidayCreateFactory(object):
     def _offset_years_in_year_title(self) -> str:
         year_title = self._clean_year_title()
         for year in map(int, re.findall(r'\d+', year_title)):
-            year_title = year_title.replace(f'{year}', f'{year + create_const.NUM_OFFSET_YEARS}')
+            year_title = year_title.replace(f'{year}', f'{year + const.NUM_OFFSET_YEARS}')
         return year_title
 
     @property

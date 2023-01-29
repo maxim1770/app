@@ -2,7 +2,6 @@ import pytest
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
-from app.create.create.base_cls import FatalCreateError
 from app.create.create.holiday.holiday import create_saint_holiday
 from app.tests import test_utils
 
@@ -47,14 +46,6 @@ def test_create_saint_holiday_no_holiday_category_bad(db: Session) -> None:
     saint_holiday_in = test_utils.create_random_saint_holiday_in()
     day = crud.create_day(db, day_in=saint_holiday_in.day_in)
     with pytest.raises(AttributeError) as e:
-        holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
-
-
-def test_create_saint_holiday_already_exists_bad(db: Session) -> None:
-    holiday = test_utils.create_random_holiday(db)
-    saint_holiday_in = test_utils.create_random_saint_holiday_in()
-    saint_holiday_in.holiday_in.slug = holiday.slug
-    with pytest.raises(FatalCreateError) as e:
         holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
 
 

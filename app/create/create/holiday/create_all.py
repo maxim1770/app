@@ -2,10 +2,9 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from app.api import deps
-from app.create import const, prepare
-from ..base_cls import FatalCreateError
+import crud
 from .holiday import create_saint_holiday
+from ....create import const, prepare
 
 
 def create_all_saints_holidays(db: Session):
@@ -13,12 +12,8 @@ def create_all_saints_holidays(db: Session):
         logging.info(day)
         saints_holidays_in = prepare.saints_holidays_in_factory(day)
         for saint_holiday_in in saints_holidays_in:
-            try:
-                holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
-            except FatalCreateError:
+            holiday = crud.holiday.get_by_slug(db, slug=saint_holiday_in.holiday_in.slug)
+            if holiday:
                 logging.warning(f'The Holiday with this slug already exists, {saint_holiday_in.holiday_in.slug}')
-
-
-if __name__ == '__main__':
-    db: Session = deps.get_db().__next__()
-    create_all_saints_holidays(db)
+                continue
+            holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)

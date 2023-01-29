@@ -6,7 +6,7 @@ from app import schemas, crud, enums
 from ..base_cls import FatalCreateError
 
 
-def create_faces_sanctity(db: Session) -> bool:
+def create_all_faces_sanctity(db: Session) -> bool:
     number_faces_sanctity: Final[int] = 31
 
     num_creatures: int = 0

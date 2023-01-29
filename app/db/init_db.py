@@ -10,3 +10,5 @@ def init_db(db: Session) -> None:
     Base.metadata.create_all(bind=engine)
     create.create_all_days(db)
     create.create_all_holidays_categories(db)
+    create.create_all_dignities(db)
+    create.create_all_faces_sanctity(db)

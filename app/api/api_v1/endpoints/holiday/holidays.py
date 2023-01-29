@@ -3,10 +3,8 @@ from typing import Any
 from fastapi import Depends, APIRouter, status, Path, HTTPException, Body
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, const
+from app import crud, schemas, const, create
 from app.api import deps
-from app.create.create.base_cls import FatalCreateError
-from app.create.create.holiday.holiday import create_saint_holiday
 
 router = APIRouter()
 
@@ -39,18 +37,18 @@ def create_holiday(
 
 
 @router.post('/saint', response_model=schemas.Holiday)
-def create_one_saint_holiday(
+def create_saint_holiday(
         *,
         db: Session = Depends(deps.get_db),
         saint_holiday_in: schemas.SaintHolidayCreate
 ) -> Any:
-    try:
-        holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
-    except FatalCreateError:
+    holiday = crud.holiday.get_by_slug(db, slug=saint_holiday_in.holiday_in.slug)
+    if holiday:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='The Holiday with this slug already exists'
         )
+    holiday = create.create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
     return holiday
 
 
@@ -58,7 +56,7 @@ def create_one_saint_holiday(
 def update_holiday(
         *,
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=70, regex=const.REGEX_SLUG),
+        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG),
         holiday_in: schemas.HolidayUpdate = Body(None),
         holiday_category_id: int = Body(None)
 ) -> Any:
@@ -81,7 +79,7 @@ def update_holiday(
 def read_holiday(
         *,
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=70, regex=const.REGEX_SLUG)
+        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
 ) -> Any:
     holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
     if holiday is None:
