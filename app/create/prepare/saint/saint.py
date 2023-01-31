@@ -1,5 +1,5 @@
+import requests
 from bs4 import Tag
-from requests import Session
 
 from app import enums, schemas
 from ..base_collect import collect_saint_data
@@ -7,7 +7,7 @@ from ..base_collect import collect_saint_data
 
 class SaintDataUpdateFactory(object):
 
-    def __init__(self, session: Session, *, saint_slug: str):
+    def __init__(self, session: requests.Session, *, saint_slug: str):
         self.saint_data_collect: Tag = collect_saint_data(session, saint_slug=saint_slug)
 
     @property
@@ -24,18 +24,22 @@ class SaintDataUpdateFactory(object):
         face_sanctity_text: str = self._name_data.find(
             lambda tag: tag.name == 'a' and 'p-tip-svjatosti' in tag['href']
         ).text
-        face_sanctity_title: enums.FaceSanctityTitle = enums.FaceSanctityTitle(
+        face_sanctity_title = enums.FaceSanctityTitle(
             face_sanctity_text.lower().strip()
         )
         return face_sanctity_title
 
     @property
     def dignity_title(self) -> enums.DignityTitle | None:
-        dignity_tag: Tag | None = self._name_data.find(lambda tag: tag.name == 'a' and 'p-san' in tag['href'])
+        dignity_tag: Tag | None = self._name_data.find(
+            lambda tag: tag.name == 'a' and 'p-san' in tag['href']
+        )
         dignity_text: str | None = dignity_tag.text if dignity_tag else None
-        dignity_title: enums.DignityTitle | None = enums.DignityTitle(
+        if not dignity_text:
+            return None
+        dignity_title = enums.DignityTitle(
             dignity_text.replace(',', '').strip()
-        ) if dignity_text else None
+        )
         return dignity_title
 
     def get(self) -> schemas.SaintDataUpdate:

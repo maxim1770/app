@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.tests import test_utils
 
 
-def test_create_cycle(client: TestClient, db: Session) -> None:
+def test_create_cycle(client: TestClient) -> None:
     cycle_in = test_utils.create_random_cycle_in()
     r = client.post(
         '/movable-dates',

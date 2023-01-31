@@ -23,6 +23,7 @@ hypothesis-jsonschema = "*"
 pydantic-factories = "*"
 pytest-sugar = "*"
 pytest-cov = "*"
+requests-mock = "*"
 
 [requires]
 python_version = "3.11"

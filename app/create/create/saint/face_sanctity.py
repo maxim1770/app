@@ -16,7 +16,7 @@ def create_all_faces_sanctity(db: Session) -> bool:
             raise FatalCreateError(f'FaceSanctity: title={face_sanctity_title} уже была создана')
 
         crud.create_face_sanctity(db,
-                                  face_sanctity=schemas.FaceSanctityCreate(
+                                  face_sanctity_in=schemas.FaceSanctityCreate(
                                       title=face_sanctity_title
                                   )
                                   )

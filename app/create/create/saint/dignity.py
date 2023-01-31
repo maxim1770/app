@@ -16,7 +16,7 @@ def create_all_dignities(db: Session) -> bool:
             raise FatalCreateError(f'Dignity: title={dignity_title} уже была создана')
 
         crud.create_dignity(db,
-                            dignity=schemas.DignityCreate(
+                            dignity_in=schemas.DignityCreate(
                                 title=dignity_title
                             )
                             )

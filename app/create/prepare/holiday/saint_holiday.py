@@ -27,12 +27,21 @@ class SaintHolidayCollectFactory(object):
         if saint_slug in self.ALL_CATHEDRALS_SAINTS:
             raise ValueError(f'{saint_slug} in ALL_CATHEDRALS_SAINTS')
 
+    @staticmethod
+    def _check_saint_slug(saint_slug: str) -> None:
+        if saint_slug in [
+            'javlenie-chestnago-i-zhivotvorjashhego-kresta-gospodnja-bliz-grada-rostova-velikogo-na-sahotskom-bolote',
+            '440-italijskih-muchenikov'
+        ]:
+            raise ValueError(f'{saint_slug} not is one saint')
+
     @property
     def saint_slug(self) -> str:
         saint_slug: str = self.saint_holiday_data['href'].replace(
             f'{create_const.AZBYKA_NETLOC}/days/sv-', ''
         ).lower().strip()
         self._check_saint_slug_in_cathedrals_saints(saint_slug)
+        self._check_saint_slug(saint_slug)
         return saint_slug
 
     def get(self) -> SaintHolidayCollect:

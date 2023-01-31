@@ -16,7 +16,7 @@ def update_saint(
 ) -> models.Saint:
     obj_in: dict[str, Any] = {}
     if saint_data_in.saint_in:
-        obj_in |= saint_data_in.saint_in.dict(exclude_unset=True)
+        obj_in |= saint_data_in.saint_in.dict(exclude_none=True)
     if saint_data_in.face_sanctity_title:
         face_sanctity = crud.get_face_sanctity(db, title=saint_data_in.face_sanctity_title)
         obj_in |= {'face_sanctity_id': face_sanctity.id}
@@ -29,7 +29,7 @@ def update_saint(
 
 def update_saint_from_azbyka(db: Session, *, session: requests.Session, saint: models.Saint) -> models.Saint:
     if saint.name:
-        raise FatalCreateError('Saint name already exists')
+        raise FatalCreateError(f'Saint name already exists, saint.slug = {saint.slug}')
     saint_data_in = SaintDataUpdateFactory(session=session, saint_slug=saint.slug).get()
     saint = update_saint(db, saint=saint, saint_data_in=saint_data_in)
     return saint

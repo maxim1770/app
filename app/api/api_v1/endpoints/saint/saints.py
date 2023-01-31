@@ -68,10 +68,10 @@ def update_saint_from_azbyka(
         )
     try:
         saint = create.update_saint_from_azbyka(db, session=session, saint=saint)
-    except create.FatalCreateError:
+    except create.FatalCreateError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail='Saint name already exists'
+            detail=e.args[0]
         )
     return saint
 

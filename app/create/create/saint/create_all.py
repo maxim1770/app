@@ -16,4 +16,4 @@ def update_saints(db: Session) -> None:
         try:
             saint = update_saint_from_azbyka(db, session=session, saint=saint)
         except FatalCreateError as e:
-            logging.warning('Saint name already exists')
+            logging.warning(e.args[0])
