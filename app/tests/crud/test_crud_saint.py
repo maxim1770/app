@@ -8,7 +8,7 @@ from app.schemas.saint.saint import SaintUpdate
 from app.tests import test_utils
 
 
-def test_create_saint(db: Session) -> None:
+def test_crud_create_saint(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     assert saint.name == saint_in.name
@@ -16,7 +16,7 @@ def test_create_saint(db: Session) -> None:
     assert hasattr(saint, 'holidays')
 
 
-def test_create_saint_unique_bad(db: Session) -> None:
+def test_crud_create_saint_unique_bad(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     with pytest.raises(IntegrityError) as e:
@@ -25,7 +25,7 @@ def test_create_saint_unique_bad(db: Session) -> None:
     assert '(sqlite3.IntegrityError) UNIQUE constraint failed' in e.value.args[0]
 
 
-def test_get_saints(db: Session) -> None:
+def test_crud_get_saints(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     saint_in_2 = test_utils.create_random_saint_in()
@@ -35,7 +35,7 @@ def test_get_saints(db: Session) -> None:
     assert len(saints) == 2
 
 
-def test_get_saint(db: Session) -> None:
+def test_crud_get_saint(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     saint_2 = crud.saint.get_by_slug(db, slug=saint.slug)
@@ -45,7 +45,7 @@ def test_get_saint(db: Session) -> None:
     assert jsonable_encoder(saint) == jsonable_encoder(saint_2)
 
 
-def test_update_saint(db: Session) -> None:
+def test_crud_update_saint(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     name_2 = test_utils.create_random_saint_in().name
@@ -57,7 +57,7 @@ def test_update_saint(db: Session) -> None:
     assert saint_2.name == name_2
 
 
-def test_delete_saint(db: Session) -> None:
+def test_crud_delete_saint(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
     saint_2 = crud.saint.remove(db, slug=saint.slug)

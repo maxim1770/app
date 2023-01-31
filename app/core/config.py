@@ -40,6 +40,7 @@ class Settings(BaseSettings):
         )
 
     DATA_CREATE_DIR: str = './app/create/data'
+    TEST_DATA_DIR: str = './app/tests/data'
 
     class Config:
         case_sensitive = True

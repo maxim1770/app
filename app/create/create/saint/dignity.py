@@ -6,8 +6,8 @@ from app import schemas, crud, enums
 from ..base_cls import FatalCreateError
 
 
-def create_dignities(db: Session) -> bool:
-    number_dignities: Final[int] = 20
+def create_all_dignities(db: Session) -> bool:
+    number_dignities: Final[int] = 21
 
     num_creatures: int = 0
 
@@ -16,7 +16,7 @@ def create_dignities(db: Session) -> bool:
             raise FatalCreateError(f'Dignity: title={dignity_title} уже была создана')
 
         crud.create_dignity(db,
-                            dignity=schemas.DignityCreate(
+                            dignity_in=schemas.DignityCreate(
                                 title=dignity_title
                             )
                             )

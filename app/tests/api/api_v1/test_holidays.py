@@ -6,7 +6,7 @@ from app import crud, schemas
 from app.tests import test_utils
 
 
-def test_create_one_saint_holiday(client: TestClient, db: Session) -> None:
+def test_create_saint_holiday(client: TestClient, db: Session) -> None:
     saint_holiday_in = test_utils.create_random_saint_holiday_in()
     day = crud.create_day(db, day_in=saint_holiday_in.day_in)
     holiday_category = crud.create_holiday_category(
@@ -26,7 +26,7 @@ def test_create_one_saint_holiday(client: TestClient, db: Session) -> None:
     # assert created_holiday['saints']
 
 
-def test_create_one_saint_holiday_already_exists_bad(client: TestClient, db: Session) -> None:
+def test_create_saint_holiday_already_exists_bad(client: TestClient, db: Session) -> None:
     holiday = test_utils.create_random_holiday(db)
     saint_holiday_in = test_utils.create_random_saint_holiday_in()
     saint_holiday_in.holiday_in.slug = holiday.slug
@@ -37,7 +37,7 @@ def test_create_one_saint_holiday_already_exists_bad(client: TestClient, db: Ses
     assert r.status_code == status.HTTP_400_BAD_REQUEST
 
 
-def test_create_one_saint_holiday_no_data_in_bad(client: TestClient) -> None:
+def test_create_saint_holiday_no_data_in_bad(client: TestClient) -> None:
     r = client.post(
         '/holidays/saint',
         json={}

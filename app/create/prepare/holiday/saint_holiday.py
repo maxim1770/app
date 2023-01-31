@@ -1,4 +1,3 @@
-import logging
 import re
 from datetime import date
 from typing import Match, Final
@@ -28,11 +27,21 @@ class SaintHolidayCollectFactory(object):
         if saint_slug in self.ALL_CATHEDRALS_SAINTS:
             raise ValueError(f'{saint_slug} in ALL_CATHEDRALS_SAINTS')
 
+    @staticmethod
+    def _check_saint_slug(saint_slug: str) -> None:
+        if saint_slug in [
+            'javlenie-chestnago-i-zhivotvorjashhego-kresta-gospodnja-bliz-grada-rostova-velikogo-na-sahotskom-bolote',
+            '440-italijskih-muchenikov'
+        ]:
+            raise ValueError(f'{saint_slug} not is one saint')
+
     @property
     def saint_slug(self) -> str:
-        saint_slug: str = self.saint_holiday_data['href'].replace(f'{create_const.AZBYKA_NETLOC}/days/sv-',
-                                                                  '').lower().strip()
+        saint_slug: str = self.saint_holiday_data['href'].replace(
+            f'{create_const.AZBYKA_NETLOC}/days/sv-', ''
+        ).lower().strip()
         self._check_saint_slug_in_cathedrals_saints(saint_slug)
+        self._check_saint_slug(saint_slug)
         return saint_slug
 
     def get(self) -> SaintHolidayCollect:
@@ -58,29 +67,23 @@ class SaintHolidayCreateFactory(object):
 
     def _find_year_in_full_title(self) -> str:
         match: Match[str] | None = const.REGEX_FIND_YEAR.search(self.saint_holiday_collect.full_title)
-
         if match is None:
             raise ValueError(f'not year: {self.saint_holiday_collect.full_title}')
-
         return match[0]
 
     def _clean_year_title(self) -> str:
         year_title = self._find_year_in_full_title()
         year_title = year_title.replace('–', '-').replace(' -', '-').replace('- ', '-')
         year_title = year_title.replace('года', '').replace('г.', '').strip()
-
         match: Match[str] | None = re.compile(r'(ок\.|после|до)(?!\s)').search(year_title)
         if match:
             year_title = year_title.replace(match[0], match[0] + ' ')
-
         return year_title.strip()
 
     def _offset_years_in_year_title(self) -> str:
         year_title = self._clean_year_title()
-
         for year in map(int, re.findall(r'\d+', year_title)):
-            year_title = year_title.replace(f'{year}', f'{year + create_const.NUM_OFFSET_YEARS}')
-
+            year_title = year_title.replace(f'{year}', f'{year + const.NUM_OFFSET_YEARS}')
         return year_title
 
     @property
@@ -107,16 +110,12 @@ class SaintHolidayCreateFactory(object):
 
     def _clean_holiday_title(self) -> str:
         holiday_title = self.saint_holiday_collect.full_title.strip()
-
         holiday_title = holiday_title[0].upper() + holiday_title[1:]
-
         if holiday_title[-1] == ';':
             holiday_title = holiday_title[:-1]
-
         holiday_title = re.sub(r'\(переходящее[^()]*\)', '', holiday_title)
         holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
         holiday_title = holiday_title.replace(f'({self._find_year_in_full_title()})', '')
-
         holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
         holiday_title = holiday_title.strip()
         return holiday_title
@@ -143,7 +142,7 @@ def saint_holiday_in_factory(day: date, saint_holiday_data: Tag) -> schemas.Sain
         saint_holiday_collect = SaintHolidayCollectFactory(day=day, saint_holiday_data=saint_holiday_data).get()
         saint_holiday_in = SaintHolidayCreateFactory(saint_holiday_collect).get()
     except (ValidationError, ValueError) as e:
-        logging.error(e)
+        # logging.error(e)
         return None
     return saint_holiday_in
 

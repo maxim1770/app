@@ -1,23 +1,14 @@
 import json
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
-from typing import Generator
 
 import requests
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from requests import Session
 
+from app.api import deps
 from app.core.config import settings
 from app.create import const as create_const
-
-
-def get_session_requests() -> Generator:
-    session = requests.Session()
-    try:
-        yield session
-    finally:
-        session.close()
 
 
 def _collect_readings() -> str:
@@ -63,7 +54,7 @@ def get_all_cathedrals_saints() -> list[str]:
     return all_cathedrals_saints
 
 
-def _collect_holidays_in_day(session: Session, *, day: date) -> str:
+def _collect_holidays_in_day(session: requests.Session, *, day: date) -> str:
     day = day + create_const.NUM_OFFSET_DAYS
     holidays: dict[str, str | list] = session.get(
         f'{create_const.AZBYKA_NETLOC}/days/widgets/presentations.json?date={day}'
@@ -74,7 +65,7 @@ def _collect_holidays_in_day(session: Session, *, day: date) -> str:
 def get_holidays_in_day(day: date) -> BeautifulSoup:
     path = Path(settings.DATA_CREATE_DIR) / f'holiday/holidays/{day}.html'
     if not path.exists():
-        session: Session = next(get_session_requests())
+        session: requests.Session = next(deps.get_session())
         for current_day in create_const.all_days_in_year():
             holidays: str = _collect_holidays_in_day(session, day=current_day)
             current_path = path.with_stem(str(current_day))
@@ -87,3 +78,11 @@ def get_saints_holidays_in_day(day: date) -> list[Tag]:
     holidays: BeautifulSoup = get_holidays_in_day(day=day)
     saints_holidays: list[Tag] = holidays.find_all('a', class_='saint-href')
     return saints_holidays
+
+
+def collect_saint_data(session: requests.Session, *, saint_slug: str) -> Tag:
+    req = session.get(
+        f'{create_const.AZBYKA_NETLOC}/days/sv-{saint_slug}'
+    )
+    saint_data: Tag = BeautifulSoup(req.text, "lxml").find('div', {'id': 'main'})
+    return saint_data

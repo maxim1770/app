@@ -1,5 +1,10 @@
 import re
-from typing import Pattern
+from typing import Final, Pattern
+
+NUM_OFFSET_YEARS: Final[int] = 8
+NUM_YEARS_IN_CENTURY: Final[int] = 100
+YEAR_HERESY: Final[int] = 1600
+YEAR_CHRISTMAS: Final[int] = 5500
 
 REGEX_ROMAN_CENTURY_STR: str = r'(X{0,2})(I[XV]|V?I{0,3})'
 REGEX_ROMAN_CENTURY: Pattern[str] = re.compile(REGEX_ROMAN_CENTURY_STR)

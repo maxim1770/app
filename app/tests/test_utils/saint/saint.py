@@ -8,8 +8,16 @@ class SaintFactory(ModelFactory):
     __model__ = schemas.SaintCreate
 
 
+class SaintDataFactory(ModelFactory):
+    __model__ = schemas.SaintDataUpdate
+
+
 def create_random_saint_in() -> schemas.SaintCreate:
     return SaintFactory.build()
+
+
+def create_random_saint_data_in() -> schemas.SaintDataUpdate:
+    return SaintDataFactory.build()
 
 
 def create_random_saint(db: Session) -> models.Saint:

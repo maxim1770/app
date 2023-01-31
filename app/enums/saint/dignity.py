@@ -65,6 +65,7 @@ class DignityTitle(StrEnum):
     arhidiakon = 'архидиакон'
     ierodiakon = 'иеродиакон'
     diakon = 'диакон'
+    diakonisa = 'диакониса'
     # TODO: возможно стоит добавить 'диакониса', т.к есть Святые Напр: https://azbyka.ru/days/sv-nonna-nazianzskaja
     chtets = 'чтец'
 
