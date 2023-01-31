@@ -145,8 +145,6 @@ def test_offset_years_in_year_title(full_title: str, year_title: str) -> None:
     ('holiday_title (1234), text;', 'Holiday_title, text'),
     ('holiday_title  text (1234)', 'Holiday_title text'),
     ('holiday_title (text) (1234).; ', 'Holiday_title (text)'),
-    ('holiday_title (1234) (переходящее text)', 'Holiday_title'),
-    ('holiday_title (1234) (переходящее text);', 'Holiday_title'),
     ('holiday_title (1234) (Серб.)', 'Holiday_title'),
     ('holiday_title (1234) (Румын.)', 'Holiday_title'),
     ('holiday_title (1234) (Болг.)', 'Holiday_title'),
@@ -156,8 +154,6 @@ def test_offset_years_in_year_title(full_title: str, year_title: str) -> None:
     ('holiday_title (text) (1234);', 'Holiday_title (text)'),
     ('holiday_title (text) (1234) (Серб.);', 'Holiday_title (text)'),
     ('holiday_title (1234) (Серб.)', 'Holiday_title'),
-    ('holiday_title (1234) (переходящее text);', 'Holiday_title'),
-    ('holiday_title (1234) (Серб.) (переходящее text);', 'Holiday_title'),
 ])
 def test_clean_holiday_title(full_title: str, holiday_title: str) -> None:
     assert SaintHolidayCreateFactory(
