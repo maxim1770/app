@@ -9,7 +9,7 @@ def create_saint_holiday(db: Session, *, saint_holiday_in: schemas.SaintHolidayC
     day = crud.get_day(db, month=saint_holiday_in.day_in.month, day=saint_holiday_in.day_in.day)
 
     saint = crud.saint.get_by_slug(db, slug=saint_holiday_in.saint_in.slug)
-    if saint is None:
+    if not saint:
         saint = crud.saint.create(db, obj_in=saint_holiday_in.saint_in)
 
     holiday = crud.holiday.create_with_any(

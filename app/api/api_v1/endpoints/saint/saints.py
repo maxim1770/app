@@ -83,7 +83,7 @@ def read_saint(
         saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
 ) -> Any:
     saint = crud.saint.get_by_slug(db, slug=saint_slug)
-    if saint is None:
+    if not saint:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Saint not found')
     return saint
 

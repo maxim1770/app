@@ -67,7 +67,7 @@ class SaintHolidayCreateFactory(object):
 
     def _find_year_in_full_title(self) -> str:
         match: Match[str] | None = const.REGEX_FIND_YEAR.search(self.saint_holiday_collect.full_title)
-        if match is None:
+        if not match:
             raise ValueError(f'not year: {self.saint_holiday_collect.full_title}')
         return match[0]
 

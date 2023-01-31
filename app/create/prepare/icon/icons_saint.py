@@ -52,7 +52,7 @@ def main(db: Session):
 
         match: Match[str] | None = REGEX_FIND_YEAR_.search(icon_desc_saint)
 
-        if match is None:
+        if not match:
             print(None)
             continue
         print(match[0].strip())

@@ -17,7 +17,7 @@ class YearCreate(YearBase):
     @root_validator
     def compute_year(cls, values):
         title: str = values['title']
-        if const.REGEX_YEAR_TITLE.match(title) is None:
+        if not const.REGEX_YEAR_TITLE.match(title):
             raise ValueError(f'year_title >16: {title}')
 
         years: list[int] = list(map(lambda groups: int(groups[0]), const.REGEX_YEAR_BEFORE_1600.findall(title)))

@@ -28,6 +28,6 @@ def read_date(
 ) -> Any:
     day = crud.get_day(db, month=date.month, day=date.day)
     date = crud.get_date(db, _offset_year=date.year - const.NUM_OFFSET_YEARS, day_id=day.id)
-    if date is None:
+    if not date:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Date not found')
     return date

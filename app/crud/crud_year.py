@@ -20,6 +20,6 @@ def create_year(db: Session, *, year_in: schemas.YearCreate) -> models.Year:
 
 def get_or_create_year(db: Session, *, year_in: schemas.YearCreate) -> models.Year:
     year = get_year(db, title=year_in.title, _year=year_in.year)
-    if year is None:
+    if not year:
         year = create_year(db, year_in=year_in)
     return year
