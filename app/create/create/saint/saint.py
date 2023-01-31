@@ -8,6 +8,22 @@ from ..base_cls import FatalCreateError
 from ...prepare import SaintDataUpdateFactory
 
 
+def create_saint(db: Session, *, saint_data_in: schemas.SaintDataCreate) -> models.Saint:
+    foreign_keys: dict[str, int] = {}
+    if saint_data_in.face_sanctity_title:
+        face_sanctity = crud.get_face_sanctity(db, title=saint_data_in.face_sanctity_title)
+        foreign_keys |= {'face_sanctity_id': face_sanctity.id}
+    if saint_data_in.dignity_title:
+        dignity = crud.get_dignity(db, title=saint_data_in.dignity_title)
+        foreign_keys |= {'dignity_id': dignity.id}
+    saint = crud.saint.create_with_any(
+        db,
+        obj_in=saint_data_in.saint_in,
+        **foreign_keys
+    )
+    return saint
+
+
 def update_saint(
         db: Session,
         *,

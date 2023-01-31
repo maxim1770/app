@@ -15,5 +15,5 @@ from .movable_date import Week, WeekCreate
 from .reading import Reading, ReadingCreate
 from .saint import Dignity, DignityCreate
 from .saint import FaceSanctity, FaceSanctityCreate
-from .saint import Saint, SaintCreate, SaintUpdate, SaintDataUpdate
+from .saint import Saint, SaintCreate, SaintUpdate, SaintDataCreate, SaintDataUpdate
 from .year import Year, YearCreate

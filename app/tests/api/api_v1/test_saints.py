@@ -10,26 +10,46 @@ from app.tests import test_utils
 
 
 def test_create_saint(client: TestClient, db: Session) -> None:
-    saint_in = test_utils.create_random_saint_in()
-    r = client.post('/saints', json=saint_in.dict())
+    saint_data_in = test_utils.create_random_saint_data_in()
+    dignity = crud.create_dignity(
+        db,
+        dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
+    ) if saint_data_in.dignity_title else None
+    face_sanctity = crud.create_face_sanctity(
+        db,
+        face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
+    ) if saint_data_in.face_sanctity_title else None
+    r = client.post('/saints', json=saint_data_in.dict())
     assert 200 <= r.status_code < 300
     created_saint = r.json()
-    assert created_saint['slug'] == saint_in.slug
     assert 'id' in created_saint
+    assert created_saint['slug'] == saint_data_in.saint_in.slug
+    if created_saint['dignity']:
+        assert created_saint['dignity']['id'] == dignity.id
+    else:
+        assert not saint_data_in.dignity_title
+    if created_saint['face_sanctity']:
+        assert created_saint['face_sanctity']['title'] == face_sanctity.title
+    else:
+        assert not saint_data_in.face_sanctity_title
+    if created_saint['name']:
+        assert created_saint['name'] == saint_data_in.saint_in.name
+    else:
+        assert not saint_data_in.saint_in.name
 
 
 def test_create_saint_bad(client: TestClient, db: Session) -> None:
     saint = test_utils.create_random_saint(db)
-    saint_in = test_utils.create_random_saint_in()
-    saint_in.slug = saint.slug
-    r = client.post('/saints', json=saint_in.dict())
+    saint_data_in = test_utils.create_random_saint_data_in()
+    saint_data_in.saint_in.slug = saint.slug
+    r = client.post('/saints', json=saint_data_in.dict())
     assert r.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_update_saint(client: TestClient, db: Session) -> None:
     saint = test_utils.create_random_saint(db)
     saint_name: str | None = saint.name
-    saint_data_in = test_utils.create_random_saint_data_in()
+    saint_data_in = test_utils.create_random_saint_data_update_in()
     dignity = crud.create_dignity(
         db,
         dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
