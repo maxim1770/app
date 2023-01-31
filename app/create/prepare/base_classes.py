@@ -3,7 +3,7 @@ from copy import deepcopy
 from functools import wraps
 from typing import Final, Any
 
-from bs4.element import Tag
+from bs4 import Tag
 from pydantic import BaseModel, parse_obj_as
 
 # FIXME: баги с data, т.к у класса PrepareParentNoCopyBase остается инфо о дате, нужно это сделать как то

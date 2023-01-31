@@ -4,8 +4,7 @@ from difflib import SequenceMatcher
 from typing import Pattern
 
 import requests
-from bs4 import BeautifulSoup
-from bs4.element import Tag
+from bs4 import BeautifulSoup, Tag
 from sqlalchemy.orm import Session
 
 from app import crud, models

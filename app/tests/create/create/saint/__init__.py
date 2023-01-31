@@ -1,6 +1,6 @@
 # import logging
 #
-# from bs4.element import Tag
+# from bs4 import Tag
 # from sqlalchemy.orm import Session
 #
 # from app import crud

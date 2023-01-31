@@ -2,7 +2,7 @@ import re
 from abc import ABC, abstractmethod
 from typing import Final, Match
 
-from bs4.element import Tag
+from bs4 import Tag
 from sqlalchemy.orm import Session
 
 from app import schemas

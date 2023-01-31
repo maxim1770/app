@@ -1,6 +1,6 @@
 from typing import Final
 
-from bs4.element import Tag
+from bs4 import Tag
 from sqlalchemy.orm import Session
 
 from app.create import const

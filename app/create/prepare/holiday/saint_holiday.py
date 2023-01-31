@@ -2,7 +2,7 @@ import re
 from datetime import date
 from typing import Match, Final
 
-from bs4.element import Tag
+from bs4 import Tag
 from pydantic import BaseModel, constr, ValidationError
 
 from app import schemas, enums, const

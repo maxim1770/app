@@ -3,8 +3,7 @@ from datetime import date
 from pathlib import Path
 
 import requests
-from bs4 import BeautifulSoup
-from bs4.element import Tag
+from bs4 import BeautifulSoup, Tag
 
 from app.api import deps
 from app.core.config import settings
