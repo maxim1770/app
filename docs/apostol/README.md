@@ -1,24 +1,34 @@
-## Апостол
+## Апостолы
 
-### С толкованиями
+| book                                                                                                     | пк                                                                                                                                  | neb                                                                                                     | title                                                                   | handwriting | date                     | Месяцеслов | Описание       |
+|----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|:-----------:|--------------------------|:----------:|----------------|
+| **Tolkovyy**                                                                                             |                                                                                                                                     |                                                                                                         |                                                                         |             |                          |            |                |
+| [f_98_30](../books/rsl/rsl98/f_98_30.md)                                                                 |                                                                                                                                     |                                                                                                         | Апостол толковый, с переводом-восполнением преп. Максима Грека и Власия |      8      | Сер. XVI в.              |     ✅      |                |
+| [apostol_tolkovyy](../books/neb/from_nlr/apostol_tolkovyy.md)                                            |                                                                                                                                     |                                                                                                         | Апостол толковый                                                        |      7      | 1485                     |     ❌      |                |
+| [f-304i-118](https://lib-fond.ru/lib-rgb/304-i/f-304i-118)                                               | [пк](../../../../pravoslavie/bibliya/novyj_zavet/apostol/tolkovyy/f_304i_118.pdf)                                                   |                                                                                                         | Апостол толковый                                                        |      8      | XVI в.                   |     ✅      |                |
+| **Без толкований**                                                                                       |                                                                                                                                     |                                                                                                         |                                                                         |             |                          |            |                |
+| [f-173i-5](https://lib-fond.ru/lib-rgb/173-i/f-173i-5)                                                   | [пк с большим кол. закладок](../../../../pravoslavie/bibliya/novyj_zavet/apostol/f_173i_5.pdf)                                      |                                                                                                         | Апостол                                                                 |     10      | Середина XVI в.          |     ✅      | Много закладок | 
+| [f-173i-4](https://lib-fond.ru/lib-rgb/173-i/f-173i-4)                                                   | [пк с большим кол. закладок](../../../../pravoslavie/bibliya/novyj_zavet/apostol/f_173i_4.pdf)                                      |                                                                                                         | Апостол                                                                 |     10      | Последней четверти XV в. |     ✅      | Много закладок |
+| **Aprakos**                                                                                              |                                                                                                                                     |                                                                                                         |                                                                         |             |                          |            |                |                
+| [f-173i-6](https://lib-fond.ru/lib-rgb/173-i/f-173i-6)                                                   | [пк с большим кол. закладок](../../../../pravoslavie/bibliya/novyj_zavet/apostol/aprakos/f_173i_6.pdf)                              |                                                                                                         | Апостол-апракос                                                         |     10      | Вторая четв. XVI в.      |     ✅      | Много закладок | 
+| [F.I.60](https://nlr.ru/manuscripts/RA1527/elektronnyiy-katalog?ab=EEA307AE-85DA-440A-80C2-46BD1D262ECE) | [пк с закладками для Месяцеслова](../../../../pravoslavie/bibliya/novyj_zavet/apostol/aprakos/apostol_aprakos_licevaya_rukopis.pdf) | [apostol-aprakos-licevaya-rukopis](https://kp.rusneb.ru/item/material/apostol-aprakos-licevaya-rukopis) | Апостол апракос: Лицевая рукопись                                       |     10      | Кон. XV - нач. XVI вв.   |     ✅      |                |
 
-| book                                 | title                                                                   | handwriting | date        |
-|--------------------------------------|-------------------------------------------------------------------------|:-----------:|-------------|
-| [f_98_30][f_98_30]                   | Апостол толковый, с переводом-восполнением преп. Максима Грека и Власия |      8      | Сер. XVI в. |
-| [apostol_tolkovyy][apostol_tolkovyy] | Апостол толковый                                                        |      7      | 1485        |
+- **Эти рукописи в одном фонде, все Апостолы**
+    - [304-i/f-304i-75](https://lib-fond.ru/lib-rgb/304-i/f-304i-75)
+    - [304-i/f-304i-76](https://lib-fond.ru/lib-rgb/304-i/f-304i-76)
+        - в конце Месяцеслов (самый полный из этих Апостолов в этом фонде (f-304i-71-82) - как написано в описание к
+          рукописи f-304i-78)
+        - [пк с закладками для Месяцеслова](../../../../pravoslavie/bibliya/novyj_zavet/apostol/f_304i_76.pdf)
+        - **Рукописи рядом тоже все Апостол**
+    - `304-i/f-304i-71 - 304-i/f-304i-82` (**11 Апостолов!**)
+    - [304-i/f-304i-78](https://lib-fond.ru/lib-rgb/304-i/f-304i-78)
+        - **В описание рассказывается про некоторые эти Рукописи**
+        - **Нет Месяцеслова**
 
-### Без толкований
+### Красивая Рукопись [Толкование деяниям св. апостолов Иоанна Златоуста и иных многих святых](https://kp.rusneb.ru/item/material/tolkovanie-deyaniem-sv-apostol-ioanna-zlatoustago-i-ineh-mnogyh-svyatyh)
 
-### Рукописи (еще не добавленные с хорошим содержанием/почерком)
+## Добавить
 
-- [304-i/f-304i-75](https://lib-fond.ru/lib-rgb/304-i/f-304i-75)
-- [304-i/f-304i-76](https://lib-fond.ru/lib-rgb/304-i/f-304i-76) + в конце Месяцеслов (самый полный из этих Апостолов в
-  этом фонде (f-304i-71-82) - как написано в описание к рукописи f-304i-78)  
-  **Рукописи рядом тоже все Апостол**  
-  `304-i/f-304i-71 - 304-i/f-304i-82` (**11 Апостолов!**)
-- [304-i/f-304i-78](https://lib-fond.ru/lib-rgb/304-i/f-304i-78) **В описание рассказывается про некоторые эти
-  Рукописи**
-
-[f_98_30]: ../books/rsl/rsl98/f_98_30.md
-
-[apostol_tolkovyy]: ../books/neb/from_nlr/apostol_tolkovyy.md
+- [apostol-tolkovyy-1](https://kp.rusneb.ru/item/material/apostol-tolkovyy-1)
+- [apostol-tolkovyy-2](https://kp.rusneb.ru/item/material/apostol-tolkovyy-2)
+- [apostol-tolkovyy-pisec-guriy-tushin-monah-kirillo-belozerskogo-monastyrya](https://kp.rusneb.ru/item/material/apostol-tolkovyy-pisec-guriy-tushin-monah-kirillo-belozerskogo-monastyrya)
