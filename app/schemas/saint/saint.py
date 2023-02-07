@@ -40,7 +40,15 @@ class SaintInDB(SaintInDBBase):
     pass
 
 
-class SaintDataUpdate(BaseModel):
+class SaintDataBase(BaseModel):
     saint_in: SaintUpdate | None = None
     face_sanctity_title: enums.FaceSanctityTitle | None = None
     dignity_title: enums.DignityTitle | None = None
+
+
+class SaintDataCreate(SaintDataBase):
+    saint_in: SaintCreate
+
+
+class SaintDataUpdate(SaintDataBase):
+    pass

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, constr
+from pydantic import BaseModel, validator, constr, conint
 
 from app import enums
 from .movable_date import MovableDate
@@ -30,3 +30,9 @@ class MovableDay(MovableDayBase):
 
     class Config:
         orm_mode = True
+
+
+class MovableDayGet(BaseModel):
+    cycle_num: enums.CycleNum
+    sunday_num: conint(strict=True, ge=1, le=36)
+    abbr: enums.MovableDayAbbr

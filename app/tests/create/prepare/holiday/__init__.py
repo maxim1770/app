@@ -1,10 +1,8 @@
-import logging
 from datetime import date
 
-from bs4.element import Tag
+from bs4 import Tag
 from pydantic import ValidationError
 
-from app import const
 from app.create import prepare, const as create_const
 from app.create.prepare.base_collect import get_saints_holidays_in_day
 from app.create.prepare.holiday.saint_holiday import SaintHolidayCollectFactory, SaintHolidayCollect

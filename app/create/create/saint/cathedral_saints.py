@@ -1,8 +1,7 @@
 import logging
 
 import requests
-from bs4 import BeautifulSoup
-from bs4.element import Tag
+from bs4 import BeautifulSoup, Tag
 from sqlalchemy.orm import Session
 
 from app import crud, models
@@ -36,7 +35,7 @@ def main(db: Session):
     for saint_slug in saints_slugs:
         saint: models.Saint | None = crud.get_saint(db, saint_slug)
 
-        if saint is None:
+        if not saint:
             print('-' * 10, saint_slug)
         else:
             print(saint.slug)

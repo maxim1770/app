@@ -24,15 +24,15 @@ def read_saints(
 def create_saint(
         *,
         db: Session = Depends(get_db),
-        saint_in: schemas.SaintCreate
+        saint_data_in: schemas.SaintDataCreate
 ) -> Any:
-    saint = crud.saint.get_by_slug(db, slug=saint_in.slug)
+    saint = crud.saint.get_by_slug(db, slug=saint_data_in.saint_in.slug)
     if saint:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='The Saint with this slug already exists'
         )
-    saint = crud.saint.create(db, obj_in=saint_in)
+    saint = create.create_saint(db, saint_data_in=saint_data_in)
     return saint
 
 
@@ -83,7 +83,7 @@ def read_saint(
         saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
 ) -> Any:
     saint = crud.saint.get_by_slug(db, slug=saint_slug)
-    if saint is None:
+    if not saint:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Saint not found')
     return saint
 

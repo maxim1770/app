@@ -3,8 +3,7 @@ import re
 from typing import Match, Pattern
 
 import requests
-from bs4 import BeautifulSoup
-from bs4.element import Tag
+from bs4 import BeautifulSoup, Tag
 from sqlalchemy.orm import Session
 
 from app.api import deps
@@ -53,7 +52,7 @@ def main(db: Session):
 
         match: Match[str] | None = REGEX_FIND_YEAR_.search(icon_desc_saint)
 
-        if match is None:
+        if not match:
             print(None)
             continue
         print(match[0].strip())

@@ -1,7 +1,7 @@
 from fastapi import Depends, APIRouter, status
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas, enums
+from app import crud, schemas, enums
 from app.api import deps
 
 router = APIRouter()
@@ -14,8 +14,14 @@ def read_movable_day(
         movable_day_abbr: enums.MovableDayAbbr,
         db: Session = Depends(deps.get_db)
 ):
-    movable_day: models.MovableDay = crud.get_movable_day(db, cycle_num=cycle_num, sunday_num=sunday_num,
-                                                          abbr=movable_day_abbr)
+    movable_day = crud.get_movable_day_(
+        db,
+        movable_day_get=schemas.MovableDayGet(
+            cycle_num=cycle_num,
+            sunday_num=sunday_num,
+            abbr=movable_day_abbr
+        )
+    )
     return movable_day
 
 

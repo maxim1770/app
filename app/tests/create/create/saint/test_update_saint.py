@@ -8,7 +8,7 @@ def test_update_saint(db: Session) -> None:
     saint = test_utils.create_random_saint(db)
     print(saint.__dict__)
     saint_slug: str | None = saint.slug
-    saint_data_in = test_utils.create_random_saint_data_in()
+    saint_data_in = test_utils.create_random_saint_data_update_in()
     dignity = crud.create_dignity(
         db,
         dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)

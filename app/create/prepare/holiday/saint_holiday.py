@@ -2,7 +2,7 @@ import re
 from datetime import date
 from typing import Match, Final
 
-from bs4.element import Tag
+from bs4 import Tag
 from pydantic import BaseModel, constr, ValidationError
 
 from app import schemas, enums, const
@@ -28,7 +28,7 @@ class SaintHolidayCollectFactory(object):
             raise ValueError(f'{saint_slug} in ALL_CATHEDRALS_SAINTS')
 
     @staticmethod
-    def _check_saint_slug(saint_slug: str) -> None:
+    def _check_saint_slug_not_is_one_saint(saint_slug: str) -> None:
         if saint_slug in [
             'javlenie-chestnago-i-zhivotvorjashhego-kresta-gospodnja-bliz-grada-rostova-velikogo-na-sahotskom-bolote',
             '440-italijskih-muchenikov'
@@ -41,13 +41,24 @@ class SaintHolidayCollectFactory(object):
             f'{create_const.AZBYKA_NETLOC}/days/sv-', ''
         ).lower().strip()
         self._check_saint_slug_in_cathedrals_saints(saint_slug)
-        self._check_saint_slug(saint_slug)
+        self._check_saint_slug_not_is_one_saint(saint_slug)
         return saint_slug
+
+    @staticmethod
+    def _check_holiday_has_movable_date(full_title: str) -> None:
+        if re.search(r'\(переходящее[^()]*\)', full_title):
+            raise ValueError(f'Holiday {full_title} has "переходящее" дату')
+
+    @property
+    def full_title(self) -> str:
+        full_title: str = self.saint_holiday_data.text
+        self._check_holiday_has_movable_date(full_title)
+        return full_title
 
     def get(self) -> SaintHolidayCollect:
         return SaintHolidayCollect(
             day=self.day,
-            full_title=self.saint_holiday_data.text,
+            full_title=self.full_title,
             saint_slug=self.saint_slug
         )
 
@@ -67,7 +78,7 @@ class SaintHolidayCreateFactory(object):
 
     def _find_year_in_full_title(self) -> str:
         match: Match[str] | None = const.REGEX_FIND_YEAR.search(self.saint_holiday_collect.full_title)
-        if match is None:
+        if not match:
             raise ValueError(f'not year: {self.saint_holiday_collect.full_title}')
         return match[0]
 
@@ -113,7 +124,6 @@ class SaintHolidayCreateFactory(object):
         holiday_title = holiday_title[0].upper() + holiday_title[1:]
         if holiday_title[-1] == ';':
             holiday_title = holiday_title[:-1]
-        holiday_title = re.sub(r'\(переходящее[^()]*\)', '', holiday_title)
         holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
         holiday_title = holiday_title.replace(f'({self._find_year_in_full_title()})', '')
         holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')

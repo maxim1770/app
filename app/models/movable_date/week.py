@@ -18,7 +18,7 @@ class Week(Base):
     title: Mapped[str | None] = mapped_column(String(100), unique=True)
     num: Mapped[int | None] = mapped_column(SmallInteger)
     sunday_title: Mapped[str | None] = mapped_column(String(50), unique=True)
-    sunday_num: Mapped[int] = mapped_column(SmallInteger)
+    sunday_num: Mapped[int | None] = mapped_column(SmallInteger)
 
     cycle_id: Mapped[int] = mapped_column(ForeignKey('cycle.id'))
 

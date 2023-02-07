@@ -82,7 +82,7 @@ def read_holiday(
         holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
 ) -> Any:
     holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
-    if holiday is None:
+    if not holiday:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Holiday not found')
     return holiday
 
