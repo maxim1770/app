@@ -37,4 +37,7 @@ if __name__ == '__main__':
         'Святые мученики 1003, в Никомидии пострадавшие', 'Собор всех преподобных отцов, в подвиге просиявших',
     ]
 
-    meta_create_enum(l)
+    # meta_create_enum(l)
+
+    print(translit('Собор Архистратига Михаила и прочих бесплотных', language_code='ru', reversed=True).replace(' ', '-').lower())
+
