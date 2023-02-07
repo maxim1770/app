@@ -12,8 +12,14 @@ def get_movable_days(db: Session, cycle_id: int) -> list[models.MovableDay]:
 def get_movable_day(db: Session, cycle_num: enums.CycleNum, sunday_num: int,
                     abbr: enums.MovableDayAbbr) -> models.MovableDay | None:
     week_id: int = get_week(db, cycle_num=cycle_num, sunday_num=sunday_num).id
-
     return db.execute(sa.select(models.MovableDay).filter_by(week_id=week_id).filter_by(abbr=abbr)).scalar_one_or_none()
+
+
+def get_movable_day_(db: Session, *, movable_day_get: schemas.MovableDayGet) -> models.MovableDay | None:
+    week_id: int = get_week(db, cycle_num=movable_day_get.cycle_num, sunday_num=movable_day_get.sunday_num).id
+    return db.execute(
+        sa.select(models.MovableDay).filter_by(week_id=week_id).filter_by(abbr=movable_day_get.abbr)
+    ).scalar_one_or_none()
 
 
 def get_movable_day_by_id(db: Session, week_id: int, abbr: enums.MovableDayAbbr) -> models.MovableDay | None:

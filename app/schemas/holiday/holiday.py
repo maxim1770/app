@@ -3,7 +3,7 @@ from pydantic import BaseModel, constr
 from app import const, enums
 from .holiday_category import HolidayCategory
 from ..day import Day, DayCreate
-from ..movable_date import MovableDay
+from ..movable_date import MovableDay, MovableDayGet
 from ..saint import Saint, SaintCreate
 from ..year import Year, YearCreate
 
@@ -14,7 +14,7 @@ class HolidayBase(BaseModel):
 
 
 class HolidayCreate(HolidayBase):
-    title: constr(strip_whitespace=True, strict=True, max_length=150)
+    title: constr(strip_whitespace=True, strict=True, max_length=170)
     slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)
 
 
@@ -48,9 +48,37 @@ class HolidayInDB(HolidayInDBBase):
     pass
 
 
-class SaintHolidayCreate(BaseModel):
+class HolidayCreateBase(BaseModel):
     holiday_in: HolidayCreate
     holiday_category_title: enums.HolidayCategoryTitle
-    saint_in: SaintCreate
     year_in: YearCreate
+
+
+class HolidayDataCreate(HolidayCreateBase):
     day_in: DayCreate
+
+
+class SaintsHolidayCreateBase(HolidayCreateBase):
+    saints_in: list[SaintCreate]
+
+
+class SaintHolidayCreateBase(HolidayCreateBase):
+    saint_in: SaintCreate
+
+
+class SaintHolidayCreate(SaintHolidayCreateBase):
+    day_in: DayCreate
+
+
+class SaintsHolidayCreate(SaintsHolidayCreateBase):
+    day_in: DayCreate
+    year_in: YearCreate | None = None
+
+
+class MovableSaintHolidayCreate(SaintHolidayCreateBase):
+    movable_day_get: MovableDayGet
+
+
+class MovableSaintHolidayCreateWithoutData(BaseModel):
+    movable_day_get: MovableDayGet
+    saint_slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)

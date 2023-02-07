@@ -15,8 +15,13 @@ class YearBase(BaseModel):
 class YearCreate(YearBase):
 
     @root_validator
-    def compute_year(cls, values):
+    def check_and_compute_year(cls, values):
         title: str = values['title']
+
+        if 'от Адама' in title:
+            values['year'] = int(const.REGEX_YEAR.search(title)[0])
+            return values
+
         if not const.REGEX_YEAR_TITLE.match(title):
             raise ValueError(f'year_title >16: {title}')
 

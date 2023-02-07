@@ -2,22 +2,21 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from app import crud, enums
-from app.api import deps
+from app import crud, schemas, enums
 from app.create import prepare
+from .cycle import create_cycles
+from .divine_service import create_divine_services
 from .movable_date import CreateMovableDate
 from .movable_day import CreateMovableDay
 from .week import CreateWeek
 
 
-# TODO подумать над тем чтобы начинать использовать tuple там где это можно делать
-
 def create_all_movable_dates(db: Session):
-    # create_cycles(db)
-    # logging.info("Create cycles")
+    create_cycles(db)
+    logging.info("Create cycles")
 
-    # create_divine_services(db)
-    # logging.info("Create divine services")
+    create_divine_services(db)
+    logging.info("Create divine services")
 
     create_all_c1_movable_dates(db)
 
@@ -37,12 +36,19 @@ def create_all_c1_movable_dates(db: Session):
     days_id: list[int] = create_day.create()
     logging.info("Create c1 days")
 
-    # crud.create_movable_date(
-    #     db,
-    #     movable_day_id=1, # TODO: тут заменить  1 на запрос crud.get_movable_date(...)
-    #     divine_service_title=enums.DivineServiceTitle.vespers,
-    #     movable_date=schemas.MovableDateCreate()
-    # )
+    crud.create_movable_date(
+        db,
+        movable_day_id=crud.get_movable_day_(
+            db,
+            movable_day_get=schemas.MovableDayGet(
+                cycle_num=enums.CycleNum.cycle_1,
+                sunday_num=1,
+                abbr=enums.MovableDayAbbr.sun
+            )
+        ).id,
+        divine_service_title=enums.DivineServiceTitle.vespers,
+        movable_date=schemas.MovableDateCreate()
+    )
     create_movable_date: CreateMovableDate = prepare.CreateMovableDateFactory.get_c1_movable_date(db, days_id=days_id)
     movable_dates_id: list[int] = create_movable_date.create()
     logging.info("Create c1 movable dates")
@@ -75,11 +81,29 @@ def create_all_c3_movable_dates(db: Session):
     days_id: list[int] = create_day.create()
     logging.info("Create c3 days")
 
+    create_strastnaja_sedmitsa(db)
+    logging.info("Create  strastnaja_sedmitsa week")
+    logging.info("Create strastnaja_sedmitsa days")
+
     # create_movable_date: CreateMovableDate = prepare.CreateMovableDateFactory.get_c3_movable_date(db, days_id=days_id)
     # movable_dates_id: list[int] = create_movable_date.create()
     # logging.info("Create c3 movable dates")
 
 
-if __name__ == '__main__':
-    db: Session = deps.get_db().__next__()
-    create_all_movable_dates(db)
+def create_strastnaja_sedmitsa(db: Session):
+    week_in = schemas.WeekCreate(
+        title='Страстная седмица',
+    )
+    week = crud.create_week(db, cycle_id=enums.CycleNum.cycle_3, week=week_in)
+    week_id: int = week.id
+
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.mon))
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.tue))
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.wed))
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.thu))
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
+        abbr=enums.MovableDayAbbr.fri,
+        title='Святая и Великая Пятница'
+    )
+                            )
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.sun))

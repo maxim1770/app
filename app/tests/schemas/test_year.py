@@ -18,6 +18,14 @@ def test_schema_year_create_title_bad(year_title: str) -> None:
 
 
 @pytest.mark.parametrize('year_title, _year', [
+    ('5500 от Адама', 5500),
+    ('931 от Адама', 931),
+])
+def test_schema_year_create_compute_year_from_year_from_Adam(year_title: str, _year: int) -> None:
+    assert YearCreate(title=year_title).year == _year
+
+
+@pytest.mark.parametrize('year_title, _year', [
     ('70', 5500 + 70), ('123', 5500 + 123), ('1599', 5500 + 1599),
     ('до 123', 5500 + 123 - 15), ('до 1599', 5500 + 1599 - 15),
     ('ок. 123', 5500 + 123), ('ок. 1584', 5500 + 1584),
