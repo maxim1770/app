@@ -1,7 +1,7 @@
 ## Source
 
-* neb: [sbornik_agiograficheskiy_2.md][neb]
-* nlr: [f_113_641][nlr]
+* neb: [sbornik_agiograficheskiy_2][neb]
+* nlr: [Сол. 518/537][nlr]
     - [x] Содержание  
       *по листам рукописи*  
       *с заглавием*  
