@@ -6,10 +6,10 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.base_class import Base, intpk, unique_slug
+from .dignity import Dignity
+from .face_sanctity import FaceSanctity
 
 if TYPE_CHECKING:
-    from .dignity import Dignity
-    from .face_sanctity import FaceSanctity
     from ..holiday import Holiday
 
 
@@ -27,8 +27,8 @@ class Saint(Base):
     name: Mapped[str | None] = mapped_column(String(150))
     slug: Mapped[unique_slug]
 
-    dignity_id: Mapped[int | None] = mapped_column(ForeignKey('dignity.id'))
-    face_sanctity_id: Mapped[int | None] = mapped_column(ForeignKey('face_sanctity.id'))
+    dignity_id: Mapped[int | None] = mapped_column(ForeignKey(Dignity.id))
+    face_sanctity_id: Mapped[int | None] = mapped_column(ForeignKey(FaceSanctity.id))
 
     dignity: Mapped[Dignity | None] = relationship(back_populates='saints')
     face_sanctity: Mapped[FaceSanctity | None] = relationship(back_populates='saints')
