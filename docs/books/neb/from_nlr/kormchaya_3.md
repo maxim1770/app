@@ -20,7 +20,7 @@
       и как у [рукописи kormchaya_4 Вторая половина XVI в.][kormchaya_4]**
 
 [neb]: https://kp.rusneb.ru/item/material/kormchaya-3
-а
+
 [nlr]: https://nlr.ru/manuscripts/RA1527/elektronnyiy-katalog?ab=E40B1692-8A78-4543-8495-3AA0C4E1DEEE
 
 [pk]: ../../../../../../pravoslavie/canons/kormchij/kormchaya_3.pdf
