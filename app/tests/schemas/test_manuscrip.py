@@ -1,3 +1,5 @@
+from uuid import UUID
+
 import pytest
 from pydantic import ValidationError
 
@@ -5,9 +7,9 @@ from app.schemas.manuscript.manuscript import ManuscriptCreateAny, ManuscriptBas
 
 
 @pytest.mark.parametrize('manuscript_code, manuscript_neb_slug', [
-    ('foo', 'foo'),
-    ('foo', None),
-    (None, 'foo')
+    ('f-1-1', 'f-1-1'),
+    ('f-1-1', None),
+    (None, 'f-1-1')
 ])
 def test_schema_manuscript_create_any(manuscript_code: str | None, manuscript_neb_slug: str | None) -> None:
     manuscript_in = ManuscriptCreateAny(code=manuscript_code, neb_slug=manuscript_neb_slug)
@@ -21,9 +23,9 @@ def test_schema_manuscript_create_any_bad() -> None:
 
 
 @pytest.mark.parametrize('manuscript_code', [
-    'EEA307AE-85DA-440A-80C2-46BD1D262ECE'
-    '14CB689B-8344-49F0-9DD6-0AAE09460BE0'
-    '59014138-46CC-4335-9E3C-9F903FD854A3',
+    UUID('EEA307AE-85DA-440A-80C2-46BD1D262ECE'),
+    UUID('14CB689B-8344-49F0-9DD6-0AAE09460BE0'),
+    UUID('59014138-46CC-4335-9E3C-9F903FD854A3'),
     'f-37-187',
     'f-304iii-21'
 ])
