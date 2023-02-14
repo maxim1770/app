@@ -102,8 +102,8 @@ def test_update_saint_from_azbyka(
         face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
     path = Path(settings.TEST_DATA_DIR) / f'saint/{saint_slug}.html'
-    requests_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_text)
+    requests_mock_text: str = path.read_text(encoding="utf-8")
+    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_mock_text)
     r = client.put(f'saints/from_azbyka/{saint_slug}')
     assert 200 <= r.status_code < 300
     updated_saint = r.json()

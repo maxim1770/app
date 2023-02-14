@@ -9,6 +9,7 @@ from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from .holiday import Holiday
+    from .manuscript import Manuscript
 
 
 class Year(Base):
@@ -18,3 +19,4 @@ class Year(Base):
     _year: Mapped[int] = mapped_column(SmallInteger)
 
     holidays: Mapped[list[Holiday]] = relationship(back_populates='year')
+    manuscripts: Mapped[list[Manuscript]] = relationship(back_populates='year')

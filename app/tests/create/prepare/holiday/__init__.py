@@ -26,12 +26,21 @@ def saints_holidays_collect_factory(day: date) -> list[SaintHolidayCollect]:
 
 def preview_all_saints_holidays_collect():
     s = set()
+    num: int = 0
     for day in create_const.all_days_in_year():
 
         saints_holidays_collect = saints_holidays_collect_factory(day)
         for saint_holiday_collect in saints_holidays_collect:
-            # if 'переходящее' in saint_holiday_collect.full_title:
-            #     logging.info(f'{saint_holiday_collect.full_title} | {saint_holiday_collect.saint_slug}')
+            # print(num, saint_holiday_collect.full_title)
+            if 'переходящее' in saint_holiday_collect.full_title:
+                num += 1
+                print(f'{num} | {saint_holiday_collect.full_title} | {saint_holiday_collect.saint_slug}')
+            elif 'Неделя' in saint_holiday_collect.full_title:
+                num += 1
+                print(f'{num} | {saint_holiday_collect.full_title} | {saint_holiday_collect.saint_slug}')
+
+            # if 'пост' in saint_holiday_collect.full_title:
+            #     print(f'{saint_holiday_collect.full_title} | {saint_holiday_collect.saint_slug}')
 
             # match = re.search('\([а-яА-ЯёЁ]*\)$', saint_holiday_collect.full_title)
             # if match:
@@ -56,8 +65,9 @@ def preview_all_saints_holidays():
                 print(f'is equal: {d[saint_holiday_in.holiday_in.slug] == saint_holiday_in.holiday_in.title}' + ' | '+ saint_holiday_in.holiday_in.title + ' | ' + d[saint_holiday_in.holiday_in.slug])
             else:
                 d[saint_holiday_in.holiday_in.slug] = saint_holiday_in.holiday_in.title
+            pass
+
 
 if __name__ == '__main__':
-    # preview_all_saints_holidays_collect()
-    preview_all_saints_holidays()
-    # pass
+    preview_all_saints_holidays_collect()
+    # preview_all_saints_holidays()

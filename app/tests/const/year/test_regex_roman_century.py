@@ -8,7 +8,7 @@ from app.const import REGEX_ROMAN_CENTURY
     'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX',
     'XXI'
 ])
-def test_regex_roman_century(roman_century: str):
+def test_regex_roman_century(roman_century: str) -> None:
     assert REGEX_ROMAN_CENTURY.match(roman_century)[0] == roman_century
 
 
@@ -21,5 +21,5 @@ def test_regex_roman_century(roman_century: str):
     'XVIIII',
     'no num',
 ])
-def test_regex_roman_century_bad(roman_century: str):
+def test_regex_roman_century_bad(roman_century: str) -> None:
     assert REGEX_ROMAN_CENTURY.match(roman_century)[0] != roman_century
