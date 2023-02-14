@@ -5,11 +5,9 @@ name = "pypi"
 
 [packages]
 fastapi = { extras = ["all"], version = "*" }
-sqlalchemy = "==2.0.0"
+sqlalchemy = "*"
 alembic = "*"
 psycopg2 = "*"
-selenium = "*"
-webdriver-manager = "*"
 
 [dev-packages]
 pytest = "*"
