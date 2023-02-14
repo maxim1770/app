@@ -13,3 +13,4 @@ def init_db(db: Session) -> None:
     create.create_all_dignities(db)
     create.create_all_faces_sanctity(db)
     create.create_all_movable_dates(db)
+    create.create_all_funds(db)

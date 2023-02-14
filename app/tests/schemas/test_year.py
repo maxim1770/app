@@ -9,7 +9,6 @@ from app.schemas.year import YearCreate
     '1234 - 1235', '1234 г.',
     'XVII', 'XVIII', 'XIX',
     'ок 1234', 'после1234',
-
 ])
 def test_schema_year_create_title_bad(year_title: str) -> None:
     with pytest.raises(ValidationError) as e:

@@ -8,7 +8,7 @@ from app.const import REGEX_YEAR_BEFORE_1600
     '100', '999', '599',
     '1099', '1356', '1599'
 ])
-def test_regex_year_before_1600(year: str):
+def test_regex_year_before_1600(year: str) -> None:
     assert REGEX_YEAR_BEFORE_1600.match(year)[0] == year
 
 
@@ -16,7 +16,7 @@ def test_regex_year_before_1600(year: str):
     '1600', '1630',
     '1750'
 ])
-def test_regex_year_before_1600_bad(year: str):
+def test_regex_year_before_1600_bad(year: str) -> None:
     assert REGEX_YEAR_BEFORE_1600.match(year) is None or \
            REGEX_YEAR_BEFORE_1600.match(year)[0] != year
 
@@ -28,6 +28,6 @@ def test_regex_year_before_1600_bad(year: str):
     '12345', '00100',
     'no year'
 ])
-def test_regex_year_before_1600_no_year_bad(year: str):
+def test_regex_year_before_1600_no_year_bad(year: str) -> None:
     assert REGEX_YEAR_BEFORE_1600.match(year) is None or \
            REGEX_YEAR_BEFORE_1600.match(year)[0] != year

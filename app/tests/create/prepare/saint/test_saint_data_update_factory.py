@@ -8,7 +8,7 @@ from app.core.config import settings
 from app.create import prepare
 
 
-@pytest.mark.parametrize("saint_slug, saint_data_in", [
+@pytest.mark.parametrize('saint_slug, saint_data_in', [
     (
             'ioann-zlatoust',
             schemas.SaintDataUpdate(
@@ -46,7 +46,7 @@ def test_saint_data_update_factory(
         saint_data_in: schemas.SaintDataUpdate
 ) -> None:
     path = Path(settings.TEST_DATA_DIR) / f'saint/{saint_slug}.html'
-    requests_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_text)
-    saint_data_in_2 = prepare.SaintDataUpdateFactory(session=session, saint_slug=saint_slug).get()
+    requests_mock_text: str = path.read_text(encoding="utf-8")
+    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_mock_text)
+    saint_data_in_2 = prepare.SaintDataUpdateFactory(session, saint_slug=saint_slug).get()
     assert saint_data_in_2 == saint_data_in

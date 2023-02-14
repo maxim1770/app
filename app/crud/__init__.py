@@ -8,6 +8,8 @@ from .crud_reading import get_readings, get_reading, get_reading_by_id, create_r
 from .crud_year import get_year, create_year, get_or_create_year
 from .holiday import get_holidays_categories, get_holiday_category, create_holiday_category
 from .holiday import holiday
+from .manuscript import get_funds, get_fund, create_fund
+from .manuscript import manuscript
 from .movable_date import get_cycles, get_cycle, create_cycle
 from .movable_date import get_divine_services, get_divine_service, create_divine_service
 from .movable_date import get_movable_dates, get_movable_date, get_movable_date_by_id, create_movable_date

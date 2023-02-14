@@ -133,3 +133,11 @@ def convert_to_schemas(schema: [BaseModel]):
         return wrapper
 
     return convert
+
+
+class PrepareError(Exception):
+    def __init__(self, *args):
+        self.message = args[0]
+
+    def __str__(self):
+        return self.message
