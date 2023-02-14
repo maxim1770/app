@@ -4,7 +4,7 @@ import requests
 from fastapi import Depends, APIRouter, status, Path, HTTPException
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, const, create
+from app import crud, models, schemas, const, create
 from ....deps import get_db, get_session
 
 router = APIRouter()
@@ -36,19 +36,23 @@ def create_saint(
     return saint
 
 
+def get_valid_saint(
+        db: Session = Depends(get_db),
+        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+) -> models.Saint:
+    saint = crud.saint.get_by_slug(db, slug=saint_slug)
+    if not saint:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Saint not found')
+    return saint
+
+
 @router.put("/{saint_slug}", response_model=schemas.Saint)
 def update_saint(
         *,
         db: Session = Depends(get_db),
-        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG),
+        saint: models.Saint = Depends(get_valid_saint),
         saint_data_in: schemas.SaintDataUpdate
 ) -> Any:
-    saint = crud.saint.get_by_slug(db, slug=saint_slug)
-    if not saint:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='Saint not found'
-        )
     saint = create.update_saint(db, saint=saint, saint_data_in=saint_data_in)
     return saint
 
@@ -58,14 +62,8 @@ def update_saint_from_azbyka(
         *,
         db: Session = Depends(get_db),
         session: requests.Session = Depends(get_session),
-        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        saint: models.Saint = Depends(get_valid_saint),
 ) -> Any:
-    saint = crud.saint.get_by_slug(db, slug=saint_slug)
-    if not saint:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='Saint not found'
-        )
     try:
         saint = create.update_saint_from_azbyka(db, session=session, saint=saint)
     except create.FatalCreateError as e:
@@ -79,12 +77,8 @@ def update_saint_from_azbyka(
 @router.get('/{saint_slug}', response_model=schemas.Saint)
 def read_saint(
         *,
-        db: Session = Depends(get_db),
-        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        saint: models.Saint = Depends(get_valid_saint)
 ) -> Any:
-    saint = crud.saint.get_by_slug(db, slug=saint_slug)
-    if not saint:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Saint not found')
     return saint
 
 
@@ -92,10 +86,7 @@ def read_saint(
 def delete_saint(
         *,
         db: Session = Depends(get_db),
-        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        saint: models.Saint = Depends(get_valid_saint)
 ) -> Any:
-    saint = crud.saint.get_by_slug(db, slug=saint_slug)
-    if not saint:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Saint not found')
-    saint = crud.saint.remove(db, slug=saint_slug)
+    saint = crud.saint.remove(db, slug=saint.slug)
     return saint

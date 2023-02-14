@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import Depends, APIRouter, status, Path, HTTPException, Body
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, const, create
+from app import crud, models, schemas, const, create
 from app.api import deps
 
 router = APIRouter()
@@ -52,20 +52,24 @@ def create_saint_holiday(
     return holiday
 
 
+def get_valid_holiday(
+        db: Session = Depends(deps.get_db),
+        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+) -> models.Holiday:
+    holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
+    if not holiday:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Holiday not found')
+    return holiday
+
+
 @router.put("/{holiday_slug}", response_model=schemas.Holiday)
 def update_holiday(
         *,
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG),
+        holiday: models.Holiday = Depends(get_valid_holiday),
         holiday_in: schemas.HolidayUpdate = Body(None),
         holiday_category_id: int = Body(None)
 ) -> Any:
-    holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
-    if not holiday:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail='Holiday not found'
-        )
     obj_in = {}
     if holiday_in:
         obj_in |= holiday_in.dict(exclude_unset=True)
@@ -77,13 +81,8 @@ def update_holiday(
 
 @router.get('/{holiday_slug}', response_model=schemas.Holiday)
 def read_holiday(
-        *,
-        db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        holiday: models.Holiday = Depends(get_valid_holiday)
 ) -> Any:
-    holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
-    if not holiday:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Holiday not found')
     return holiday
 
 
@@ -91,10 +90,7 @@ def read_holiday(
 def delete_holiday(
         *,
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        holiday: models.Holiday = Depends(get_valid_holiday)
 ) -> Any:
-    holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
-    if not holiday:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Holiday not found')
-    holiday = crud.holiday.remove(db, slug=holiday_slug)
+    holiday = crud.holiday.remove(db, slug=holiday.slug)
     return holiday
