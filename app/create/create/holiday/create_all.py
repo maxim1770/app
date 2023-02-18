@@ -148,7 +148,7 @@ def create_all_great_holidays(db: Session):
                     ),
                     holiday_category_title=HolidayCategoryTitle.prazdniki_hristovy,
                     saint_in=SaintCreate(slug='gospod-bog-i-spas-nash-isus-hristos'),
-                    year_in=YearCreate(title='32'),  # НЕ ЗНАЮ КОГДА
+                    year_in=YearCreate(title='33'),
                     day_in=DayCreate(month=8, day=6),
                 ),
             ]
