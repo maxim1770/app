@@ -9,8 +9,10 @@ from app.models.date import Date  # noqa
 from app.models.day import Day  # noqa
 from app.models.holiday import Holiday  # noqa
 from app.models.holiday import HolidayCategory  # noqa
+from app.models.manuscript import Bookmark  # noqa
 from app.models.manuscript import Fund  # noqa
 from app.models.manuscript import Manuscript  # noqa
+from app.models.manuscript import Page  # noqa
 from app.models.movable_date import Cycle  # noqa
 from app.models.movable_date import DivineService  # noqa
 from app.models.movable_date import MovableDate  # noqa

@@ -46,7 +46,7 @@ def get_valid_saint(
     return saint
 
 
-@router.put("/{saint_slug}", response_model=schemas.Saint)
+@router.put('/{saint_slug}', response_model=schemas.Saint)
 def update_saint(
         *,
         db: Session = Depends(get_db),
@@ -57,7 +57,7 @@ def update_saint(
     return saint
 
 
-@router.put("/from_azbyka/{saint_slug}", response_model=schemas.Saint)
+@router.put('/from_azbyka/{saint_slug}', response_model=schemas.Saint)
 def update_saint_from_azbyka(
         *,
         db: Session = Depends(get_db),

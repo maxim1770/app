@@ -1,13 +1,10 @@
-import json
-from pathlib import Path
 from uuid import UUID
 
 import pytest
 import requests
 
-import const
 from app.create.prepare.manuscript.search_manuscript import SearchManuscriptInNlr
-from core.config import settings
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('manuscript_code_title, manuscript_code', [
@@ -21,11 +18,6 @@ def test_search_manuscript_in_nlr(
         manuscript_code_title: str,
         manuscript_code: UUID
 ) -> None:
-    path = Path(settings.TEST_DATA_DIR) / f'manuscript/search/nlr/{manuscript_code}.json'
-    requests_mock_json: dict = json.load(path.open(encoding="utf-8"))
-    requests_mock.post(
-        const.NlrUrl.SEARCH_MANUSCRIPT_API,
-        json=requests_mock_json
-    )
+    test_utils.requests_mock_search_manuscript_in_nlr(requests_mock, manuscript_code=manuscript_code)
     search_manuscript = SearchManuscriptInNlr(session, manuscript_code_title=manuscript_code_title)
     assert search_manuscript.manuscript_code == manuscript_code

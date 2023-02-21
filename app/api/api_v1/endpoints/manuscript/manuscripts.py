@@ -53,6 +53,7 @@ def create_manuscript(
 
 
 def get_valid_manuscript(
+        *,
         db: Session = Depends(get_db),
         manuscript_code: UUID | str = Path(regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
 ) -> models.Manuscript:
@@ -60,6 +61,17 @@ def get_valid_manuscript(
     if not manuscript:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Manuscript not found')
     return manuscript
+
+
+def get_valid_book(
+        *,
+        db: Session = Depends(get_db),
+        book_id: int
+) -> models.Book:
+    book = crud.get_book_by_id(db, id=book_id)
+    if not book:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Book not found')
+    return book
 
 
 @router.get('/{manuscript_code}', response_model=schemas.Manuscript)
@@ -70,11 +82,34 @@ def read_manuscript(
     return manuscript
 
 
+@router.put('/{manuscript_code}', response_model=schemas.Manuscript)
+def update_manuscript(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        manuscript_data_in: schemas.ManuscriptDataUpdate
+) -> Any:
+    manuscript = create.update_manuscript(db, manuscript=manuscript, manuscript_data_in=manuscript_data_in)
+    return manuscript
+
+
+@router.patch('/{manuscript_code}/books/{book_id}', response_model=schemas.Manuscript)
+def update_manuscript_bookmark(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        book: models.Book = Depends(get_valid_book),
+        pages_in: schemas.PagesCreate
+) -> Any:
+    manuscript = create.update_manuscript_bookmark(db, manuscript=manuscript, book=book, pages_in=pages_in)
+    return manuscript
+
+
 @router.delete('/{manuscript_code}', response_model=schemas.Manuscript)
 def delete_manuscript(
         *,
         db: Session = Depends(get_db),
         manuscript: models.Manuscript = Depends(get_valid_manuscript)
 ) -> Any:
-    manuscript = crud.manuscript.remove(db, code=manuscript.code)
+    manuscript = crud.manuscript.remove_by_id(db, id=manuscript.id)
     return manuscript

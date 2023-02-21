@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pytest
 import requests
 
 from app import schemas, enums
-from app.core.config import settings
 from app.create import prepare
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('saint_slug, saint_data_in', [
@@ -45,8 +43,6 @@ def test_saint_data_update_factory(
         saint_slug: str,
         saint_data_in: schemas.SaintDataUpdate
 ) -> None:
-    path = Path(settings.TEST_DATA_DIR) / f'saint/{saint_slug}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_mock_text)
+    test_utils.requests_mock_get_saint_data(requests_mock, saint_slug=saint_slug)
     saint_data_in_2 = prepare.SaintDataUpdateFactory(session, saint_slug=saint_slug).get()
     assert saint_data_in_2 == saint_data_in

@@ -106,4 +106,4 @@ def create_strastnaja_sedmitsa(db: Session):
         title='Святая и Великая Пятница'
     )
                             )
-    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.sun))
+    crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(abbr=enums.MovableDayAbbr.sat))

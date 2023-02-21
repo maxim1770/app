@@ -1,11 +1,8 @@
-from pathlib import Path
-
 import pytest
 import requests
 
-from app import const, utils
-from app.core.config import settings
 from app.create.prepare.manuscript.search_manuscript import SearchManuscriptInRsl
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('manuscript_code_title, manuscript_code', [
@@ -20,13 +17,7 @@ def test_search_manuscript_in_rsl(
         manuscript_code_title: str,
         manuscript_code: str
 ):
-    path = Path(settings.TEST_DATA_DIR) / f'manuscript/get/rsl/{manuscript_code}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    d1 = f'{const.RslUrl.GET_MANUSCRIPT}/{utils.combine_fund_with_manuscript_code(manuscript_code)}'
-    requests_mock.get(
-        f'{const.RslUrl.GET_MANUSCRIPT}/{utils.combine_fund_with_manuscript_code(manuscript_code)}',
-        text=requests_mock_text
-    )
+    test_utils.requests_mock_search_manuscript_in_rsl(requests_mock, manuscript_code=manuscript_code)
     search_manuscript = SearchManuscriptInRsl(session, manuscript_code_title=manuscript_code_title)
     assert search_manuscript.manuscript_code == manuscript_code
 

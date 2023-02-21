@@ -11,15 +11,15 @@ class BibleBookBase(BaseModel):
     part_ru: enums.BibleBookPartRu
     title: constr(strip_whitespace=True, strict=True, max_length=50)
     abbr: enums.BibleBookAbbr
-    abbr_ru: enums.BibleBookAbbrRu | None  = None
+    abbr_ru: enums.BibleBookAbbrRu | None = None
 
 
 class BibleBookCreate(BibleBookBase):
 
     @validator('abbr_ru', pre=True, always=True)
-    def set_abbr_ru(cls, v: None, values):
-        v: enums.BibleBookAbbrRu = enums.BibleBookAbbrRu[values['abbr'].name]
-        return v
+    def set_abbr_ru(cls, abbr_ru: None, values):
+        abbr_ru: enums.BibleBookAbbrRu = enums.BibleBookAbbrRu[values['abbr'].name]
+        return abbr_ru
 
 
 class BibleBookNewTestamentCreate(BibleBookCreate):

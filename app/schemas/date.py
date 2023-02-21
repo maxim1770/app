@@ -1,11 +1,11 @@
-from pydantic import BaseModel, conint, Field
+from pydantic import BaseModel, conint
 
-from .day import Day
-from .movable_date import MovableDay
+from .day import DayInDB
+from .movable_date import MovableDayInDB
 
 
 class DateBase(BaseModel):
-    offset_year: conint(strict=True, ge=2000, le=3000) = Field(..., alias='_offset_year')
+    year: conint(strict=True, ge=2000, le=3000)
 
 
 class DateCreate(DateBase):
@@ -13,10 +13,8 @@ class DateCreate(DateBase):
 
 
 class Date(DateBase):
-    id: int
-
-    day: Day
-    movable_day: MovableDay
+    day: DayInDB
+    movable_day: MovableDayInDB
 
     class Config:
         orm_mode = True

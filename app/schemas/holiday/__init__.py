@@ -1,4 +1,4 @@
-from .holiday import Holiday, HolidayCreate, HolidayUpdate, HolidayDataCreate
+from .holiday import Holiday, HolidayInDB, HolidayCreate, HolidayUpdate, HolidayDataCreate
 from .holiday import MovableSaintHolidayCreateWithoutData
 from .holiday import SaintHolidayCreate, MovableSaintHolidayCreate
 from .holiday import SaintsHolidayCreate

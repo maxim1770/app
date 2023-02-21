@@ -9,6 +9,7 @@ from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from .saint_live import SaintLive
+    from ..manuscript import Bookmark
 
 
 class Book(Base):
@@ -17,3 +18,5 @@ class Book(Base):
     title: Mapped[str] = mapped_column(String(100), unique=True)
 
     saint_live: Mapped[SaintLive | None] = relationship(back_populates='book')
+
+    manuscripts: Mapped[list[Bookmark]] = relationship(back_populates='book')

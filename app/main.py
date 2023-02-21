@@ -6,6 +6,14 @@ from app.api.api_v1.api import api_router
 from app.core.config import settings
 
 app = FastAPI(title=settings.PROJECT_NAME)
+# admin = Admin(app, engine)
+#
+#
+# class SaintAdmin(ModelView, model=Saint):
+#     column_list = [Saint.id, Saint.name]
+#
+#
+# admin.add_view(SaintAdmin)
 
 if settings.BACKEND_CORS_ORIGINS:
     app.add_middleware(

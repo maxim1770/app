@@ -12,14 +12,27 @@ from ..base_classes import PrepareMethodsBase, convert_to_schemas
 def _get_days_abbrs_in_weeks(num_weeks: int) -> list[enums.MovableDayAbbr]:
     # хотя этот код плох тем, что если изменить порядок в MovableDayAbbr, тот ту тоже изменится, а это ошибка
     # return [*enums.MovableDayAbbr] * num_weeks
-    return [enums.MovableDayAbbr.sun,
-            enums.MovableDayAbbr.mon,
-            enums.MovableDayAbbr.tue,
-            enums.MovableDayAbbr.wed,
-            enums.MovableDayAbbr.thu,
-            enums.MovableDayAbbr.fri,
-            enums.MovableDayAbbr.sat,
-            ] * num_weeks
+    return [
+               enums.MovableDayAbbr.sun,
+               enums.MovableDayAbbr.mon,
+               enums.MovableDayAbbr.tue,
+               enums.MovableDayAbbr.wed,
+               enums.MovableDayAbbr.thu,
+               enums.MovableDayAbbr.fri,
+               enums.MovableDayAbbr.sat,
+           ] * num_weeks
+
+
+def _get_days_abbrs_in_weeks_first_mon(num_weeks: int) -> list[enums.MovableDayAbbr]:
+    return [
+               enums.MovableDayAbbr.mon,
+               enums.MovableDayAbbr.tue,
+               enums.MovableDayAbbr.wed,
+               enums.MovableDayAbbr.thu,
+               enums.MovableDayAbbr.fri,
+               enums.MovableDayAbbr.sat,
+               enums.MovableDayAbbr.sun,
+           ] * num_weeks
 
 
 class PrepareC1MovableDayAbbr(PrepareMethodsBase):
@@ -59,7 +72,7 @@ class PrepareC3MovableDayAbbr(PrepareMethodsBase):
         super().__init__()
 
     def _fill_gaps(self):
-        self.data: list[enums.MovableDayAbbr] = _get_days_abbrs_in_weeks(num_weeks=const.NumWeek.IN_CYCLE_3)
+        self.data: list[enums.MovableDayAbbr] = _get_days_abbrs_in_weeks_first_mon(num_weeks=const.NumWeek.IN_CYCLE_3)
 
     def _clean(self): pass
 
@@ -103,8 +116,8 @@ class PrepareC3MovableDayTitle(PrepareMethodsBase):
         super().__init__()
 
     def _fill_gaps(self):
-        self.data[-1 - const.NUM_DAYS_IN_WEEK]: Final[str] = 'Похвала Богородицы'
-        self.data[-1]: Final[str] = 'Лазарева'
+        self.data[-2 - const.NUM_DAYS_IN_WEEK]: Final[str] = 'Похвала Богородицы'
+        self.data[-2]: Final[str] = 'Лазарева'
 
     def _clean(self): pass
 

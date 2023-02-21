@@ -1,4 +1,5 @@
 import re
+from enum import StrEnum
 from typing import Final, Pattern
 
 NUM_OFFSET_YEARS: Final[int] = 8
@@ -19,7 +20,7 @@ REGEX_YEAR_BEFORE_1600_STR: str = r'((((1[0-5]|[1-9])\d)|[1-9])\d)'
 REGEX_YEAR_BEFORE_1600: Pattern[str] = re.compile(REGEX_YEAR_BEFORE_1600_STR)
 
 REGEX_YEAR_TITLE_STR: str = '^((ок\.|после|до)\s)?' + '(' + REGEX_YEAR_BEFORE_1600_STR + '|' + REGEX_ROMAN_CENTURY_BEFORE_16_STR + ')(-(' + REGEX_YEAR_BEFORE_1600_STR + '|' + REGEX_ROMAN_CENTURY_BEFORE_16_STR + '))?$'
-REGEX_YEAR_TITLE: Pattern[str] = re.compile(REGEX_YEAR_TITLE_STR, re.VERBOSE)
+REGEX_YEAR_TITLE: Pattern[str] = re.compile(REGEX_YEAR_TITLE_STR)
 
 REGEX_FIND_YEAR: Pattern[str] = re.compile(
     r'''
@@ -33,3 +34,32 @@ REGEX_FIND_YEAR: Pattern[str] = re.compile(
     ''',
     re.VERBOSE
 )
+
+
+class YearСlarification(StrEnum):
+    okolo = 'Около'
+    posle = 'После'
+    do = 'До'
+    nachalo = 'Начало'
+    konets = 'Конец'
+    okolo_serediny = f'{okolo} середины'
+    seredina = 'Середина'
+
+    pervaja_chetvert = 'Первая четверть'
+    vtoraja_chetvert = 'Вторая четверть'
+    tretja_chetvert = 'Третья четверть'
+    poslednjaja_chetvert = 'Последняя четверть'
+
+    pervaja_tret = 'Первая треть'
+    vtoraja_tret = 'Вторая треть'
+    poslednjaja_tret = 'Последняя треть'
+
+    pervaja_polovina = 'Первая половина'
+    vtoraja_polovina = 'Вторая половина'
+
+
+ROMAN_YEAR_СLARIFICATIONS_STR: str = '(' + '|'.join([i.replace(' ', '\s') for i in YearСlarification]) + ')'
+ROMAN_YEAR_СLARIFICATIONS: Pattern[str] = re.compile(ROMAN_YEAR_СLARIFICATIONS_STR)
+
+REGEX_YEAR_TITLE_STR_: str = f'^({ROMAN_YEAR_СLARIFICATIONS_STR}\s)?({REGEX_YEAR_BEFORE_1600_STR}|{REGEX_ROMAN_CENTURY_BEFORE_16_STR})(-({REGEX_YEAR_BEFORE_1600_STR}|{REGEX_ROMAN_CENTURY_BEFORE_16_STR}))?(-е)?$'
+REGEX_YEAR_TITLE_: Pattern[str] = re.compile(REGEX_YEAR_TITLE_STR_)

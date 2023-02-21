@@ -2,8 +2,8 @@ from pydantic import BaseModel, constr
 
 from app import const, enums
 from .holiday_category import HolidayCategory
-from ..day import Day, DayCreate
-from ..movable_date import MovableDay, MovableDayGet
+from ..day import DayInDB, DayCreate
+from ..movable_date import MovableDayInDB, MovableDayGet
 from ..saint import Saint, SaintCreate
 from ..year import Year, YearCreate
 
@@ -30,10 +30,6 @@ class HolidayInDBBase(HolidayBase):
 
     holiday_category: HolidayCategory
     year: Year | None
-
-    day: Day | None
-    movable_day: MovableDay | None
-
     saints: list[Saint] = []
 
     class Config:
@@ -41,7 +37,8 @@ class HolidayInDBBase(HolidayBase):
 
 
 class Holiday(HolidayInDBBase):
-    pass
+    day: DayInDB | None
+    movable_day: MovableDayInDB | None
 
 
 class HolidayInDB(HolidayInDBBase):

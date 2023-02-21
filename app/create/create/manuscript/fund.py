@@ -8,8 +8,13 @@ def create_all_funds(db: Session) -> None:
     if crud.get_funds(db):
         raise FatalCreateError(f'Fund: funds уже были созданы')
 
-    funds_in = [schemas.FundCreate(title=fund_title, library=enums.LibraryTitle.nlr)
-                for fund_title in enums.FundTitle]
+    funds_in: list[schemas.FundCreate] = []
+    for fund_title in enums.FundTitle:
+        if fund_title[:2] == 'Ф.':
+            library = enums.LibraryTitle.rsl
+        else:
+            library = enums.LibraryTitle.nlr
+        funds_in.append(schemas.FundCreate(title=fund_title, library=library))
 
     for fund_in in funds_in:
         crud.create_fund(db, fund_in=fund_in)
