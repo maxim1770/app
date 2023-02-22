@@ -14,13 +14,22 @@ class NotNumberedPage(BaseModel):
     count: conint(strict=True, ge=1, le=30)
 
 
+class NotNumberedPages(BaseModel):
+    __root__: list[NotNumberedPage]
+
+    @validator('__root__')
+    def sort_not_numbered_pages(cls, not_numbered_pages: list[NotNumberedPage]):
+        not_numbered_pages.sort(key=lambda not_numbered_page: not_numbered_page.page.num)
+        return not_numbered_pages
+
+
 class ManuscriptBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, min_length=1, max_length=150) | None = None
     neb_slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG) | None = None
     code_title: constr(strip_whitespace=True, strict=True, min_length=1, max_length=20) | None = None
     code: UUID | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR) | None = None
     handwriting: conint(strict=True, ge=1, le=12) | None = None
-    not_numbered_pages: list[NotNumberedPage] = []
+    not_numbered_pages: NotNumberedPages = []
 
 
 class ManuscriptCreateAny(ManuscriptBase):

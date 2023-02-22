@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, schemas, models, const, create
 from app.create.prepare import ManuscriptDataCreateFactory, PrepareError
+from app.schemas.manuscript.manuscript import NotNumberedPages
 from ....deps import get_db, get_session
 
 router = APIRouter()
@@ -90,6 +91,22 @@ def update_manuscript(
         manuscript_data_in: schemas.ManuscriptDataUpdate
 ) -> Any:
     manuscript = create.update_manuscript(db, manuscript=manuscript, manuscript_data_in=manuscript_data_in)
+    return manuscript
+
+
+@router.post('/{manuscript_code}', response_model=schemas.Manuscript)
+def create_manuscript_not_numbered_pages(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        not_numbered_pages_in: NotNumberedPages
+) -> Any:
+    not_numbered_pages = manuscript.not_numbered_pages + not_numbered_pages_in.dict()['__root__']
+    not_numbered_pages.sort(key=lambda not_numbered_page: not_numbered_page['page']['num'])
+    manuscript.not_numbered_pages = not_numbered_pages
+    db.add(manuscript)
+    db.commit()
+    db.refresh(manuscript)
     return manuscript
 
 
