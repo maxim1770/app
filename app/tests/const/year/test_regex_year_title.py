@@ -18,16 +18,16 @@ def test_regex_year_title_century(year_title: str) -> None:
 
 
 @pytest.mark.parametrize('year_title', [
-    'ок. 1234', 'ок. 123',
-    'после 123', 'до 450'
+    'Около 1234', 'Около 123',
+    'После 123', 'До 450'
 ])
 def test_regex_year_title_text_with_year(year_title: str) -> None:
     assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
-    'ок. XVI', 'ок. I',
-    'после XVI', 'до IV'
+    'Около XVI', 'Около I',
+    'После XVI', 'До IV'
 ])
 def test_regex_year_title_text_with_century(year_title: str) -> None:
     assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
@@ -48,7 +48,7 @@ def test_regex_year_title_century_dash_century(year_title: str) -> None:
 
 
 @pytest.mark.parametrize('year_title', [
-    'ок. 123-124', 'после 123-124', 'до 123-124',
+    'Около 123-124', 'После 123-124', 'До 123-124',
 ])
 def test_regex_year_title_text_with_year_dash_year(year_title: str) -> None:
     assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
@@ -63,7 +63,7 @@ def test_regex_year_title_text_with_year_dash_year(year_title: str) -> None:
     '-1234', '-XVI', '-I',
     '',
     '4', '9',
-    'ок 1234', 'около 1234', 'после не дата',
+    'ок 1234', 'около 1234', 'После не дата',
     '1234 другой текст', 'другой текст 1234',
     'no year_title'
 ])

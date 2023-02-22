@@ -18,7 +18,7 @@ class PrepareYearTitle(object):
 
     @year_title.setter
     def year_title(self, year_title: str):
-        if not const.REGEX_YEAR_TITLE_.match(year_title):
+        if not const.REGEX_YEAR_TITLE.match(year_title):
             raise ValueError(f'{year_title} not valid year')
         self.__year_title = year_title
 
@@ -31,41 +31,45 @@ class PrepareYearTitle(object):
     @classmethod
     def _prepare_сlarification_year(cls, year_title: str) -> str:
         year_title = year_title[0].upper() + year_title[1:]
-        year_title = cls.__replace_to_one_text(year_title, ['Ок.'], const.YearСlarification.okolo)
-        year_title = cls.__replace_to_one_text(year_title, ['Нач.'], const.YearСlarification.nachalo)
-        year_title = cls.__replace_to_one_text(year_title, ['Кон.'], const.YearСlarification.konets)
-        year_title = cls.__replace_to_one_text(year_title, ['Серед.', 'Серед', 'Сер'], const.YearСlarification.seredina)
-        year_title = cls.__replace_to_one_text(year_title, ['Пер'], 'Первая')
+        year_title = cls.__replace_to_one_text(year_title, ['Ок.'], const.CenturyCorrection.okolo)
+        year_title = cls.__replace_to_one_text(year_title, ['Нач.'], const.CenturyCorrection.nachalo)
+        year_title = cls.__replace_to_one_text(year_title, ['Кон.'], const.CenturyCorrection.konets)
+        year_title = cls.__replace_to_one_text(year_title, ['Серед.', 'Серед', 'Сер'],
+                                               const.CenturyCorrection.seredina
+                                               )
         year_title = cls.__replace_to_one_text(year_title, ['Посл.'], 'Последняя')
-        year_title = cls.__replace_to_one_text(year_title, ['Перв', 'Пер'], 'Первая')
+        year_title = cls.__replace_to_one_text(year_title, ['Перв.', 'Перв', 'Пер'], 'Первая')
         year_title = cls.__replace_to_one_text(year_title, ['Втор.'], 'Вторая')
         year_title = cls.__replace_to_one_text(year_title, ['пол.', 'пол'], 'половина')
+        year_title = cls.__replace_to_one_text(year_title, ['четв.'], 'четверть')
         return year_title
 
     @classmethod
     def _remove_abbrs_from_end(cls, year_title: str) -> str:
         for abbr in [
             'года',
-            'гг.', 'гг', 'г.', ' ' + 'г',
-            'вв.', 'вв', 'в.', ' ' + 'в',
+            'гг.', 'гг', 'г.', 'г',
+            'вв.', 'вв', 'в.', 'в',
         ]:
-            if abbr in year_title and year_title[-len(abbr):] == abbr:
-                year_title = year_title.replace(abbr, '')
-        year_title = year_title.strip()
+            if year_title.endswith(abbr):
+                year_title = year_title.replace(' ' + abbr, '')
+                year_title = year_title.strip()
+                break
         return year_title
 
     @classmethod
     def _clean_spaces(cls, year_title: str) -> str:
         year_title = year_title.replace('  ', '')
+        year_title = year_title.replace('–', '-').replace(' -', '-').replace('- ', '-')
         year_title = year_title.strip()
         return year_title
 
     @staticmethod
-    def __replace_to_one_text(year_title: str, texts: list[str], prepare_text: const.YearСlarification | str) -> str:
-        if prepare_text in year_title:
+    def __replace_to_one_text(year_title: str, texts: list[str], prepared_text: const.CenturyCorrection | str) -> str:
+        if prepared_text in year_title:
             return year_title
-        for clarification in texts:
-            if clarification in year_title:
-                year_title = year_title.replace(clarification, prepare_text)
+        for correction in texts:
+            if correction + ' ' in year_title:
+                year_title = year_title.replace(correction, prepared_text)
                 break
         return year_title

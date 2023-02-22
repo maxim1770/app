@@ -402,7 +402,7 @@ def create_all_cathedrals_saints(db: Session):
                 title='Поем службу Святых трех Святителей Васи́лия Великого, Григо́рия Богослова и Иоа́нна Златоустого, сотворенную от Святейшего Митрополита Евхаитскаго Кир Иоанн',
             ),
             holiday_category_title=HolidayCategoryTitle.cathedral_saints,
-            year_in=YearCreate(title='после 1089'),  # НЕТОЧНО, ДАТУ ВЗЯЛ с azbyka
+            year_in=YearCreate(title='После 1089'),  # НЕТОЧНО, ДАТУ ВЗЯЛ с azbyka
             day_in=DayCreate(month=1, day=30),
             saints_in=[
                 SaintCreate(slug='vasilij-velikij'),

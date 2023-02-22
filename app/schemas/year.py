@@ -23,20 +23,20 @@ class YearCreate(YearBase):
             return values
 
         if not const.REGEX_YEAR_TITLE.match(title):
-            raise ValueError(f'year_title >16: {title}')
+            raise ValueError(f'{title} not valid year')
 
         years: list[int] = list(map(lambda groups: int(groups[0]), const.REGEX_YEAR_BEFORE_1600.findall(title)))
         if years:
             _year = ceil(mean(years))
             _year_max = max(years)
 
-            if 'до' in title:
-                _year -= 15
-            if 'ок.' in title:
-                _year_max += 15
-            if 'после' in title:
-                _year_max += 25
-                _year += 15
+            if title.startswith(const.YearCorrection.do):
+                _year += const.NumYearCorrection.do
+            elif title.startswith(const.YearCorrection.okolo):
+                _year_max += const.NumYearCorrection.okolo
+            elif title.startswith(const.YearCorrection.posle):
+                _year_max += const.NumYearCorrection.posle
+                _year += const.NumYearCorrection.posle - 10
 
             if _year_max >= const.YEAR_HERESY:
                 raise ValueError(f'year > {const.YEAR_HERESY}')
@@ -44,10 +44,10 @@ class YearCreate(YearBase):
             roman_centuries: list[int] = list(map(fromRoman, const.REGEX_ROMAN_CENTURY_BEFORE_16.findall(title)))
             _year = int(mean(roman_centuries) * const.NUM_YEARS_IN_CENTURY) - 50
 
-            if 'до' in title:
-                _year -= 50
-            if 'после' in title:
-                _year += 50
+            for century_correction in const.CenturyCorrection:
+                if title.startswith(century_correction + ' '):
+                    _year += const.NumCenturyCorrection[century_correction.name]
+                    break
 
             _year += const.NUM_OFFSET_YEARS
 

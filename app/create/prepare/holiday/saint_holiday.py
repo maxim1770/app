@@ -68,38 +68,39 @@ class SaintHolidayCreateFactory(object):
     def __init__(self, saint_holiday_collect: SaintHolidayCollect):
         self.saint_holiday_collect = saint_holiday_collect
 
-    @property
-    def saint_holiday_collect(self) -> SaintHolidayCollect:
-        return self.__saint_holiday_collect
-
-    @saint_holiday_collect.setter
-    def saint_holiday_collect(self, saint_holiday_collect: SaintHolidayCollect) -> None:
-        self.__saint_holiday_collect = saint_holiday_collect
-
-    def _find_year_in_full_title(self) -> str:
-        match: Match[str] | None = const.REGEX_FIND_YEAR.search(self.saint_holiday_collect.full_title)
+    @classmethod
+    def _find_year_title_full_title(cls, full_title: str) -> str:
+        match: Match[str] | None = const.REGEX_FIND_YEAR.search(full_title)
         if not match:
-            raise ValueError(f'not year: {self.saint_holiday_collect.full_title}')
-        return match[0]
+            raise ValueError(f'not year: {full_title}')
+        year_title: str = match[0]
+        return year_title
 
-    def _clean_year_title(self) -> str:
-        year_title = self._find_year_in_full_title()
+    @classmethod
+    def _clean_year_title(cls, year_title: str) -> str:
         year_title = year_title.replace('–', '-').replace(' -', '-').replace('- ', '-')
         year_title = year_title.replace('года', '').replace('г.', '').strip()
         match: Match[str] | None = re.compile(r'(ок\.|после|до)(?!\s)').search(year_title)
         if match:
             year_title = year_title.replace(match[0], match[0] + ' ')
-        return year_title.strip()
+        year_title = year_title.replace('ок.', const.CenturyCorrection.okolo)
+        year_title = year_title.replace('после', const.CenturyCorrection.posle)
+        year_title = year_title.replace('до', const.CenturyCorrection.do)
+        year_title = year_title.strip()
+        return year_title
 
-    def _offset_years_in_year_title(self) -> str:
-        year_title = self._clean_year_title()
+    @classmethod
+    def _offset_years_in_year_title(cls, year_title: str) -> str:
         for year in map(int, re.findall(r'\d+', year_title)):
             year_title = year_title.replace(f'{year}', f'{year + const.NUM_OFFSET_YEARS}')
         return year_title
 
     @property
     def year_in(self) -> schemas.YearCreate:
-        return schemas.YearCreate(title=self._offset_years_in_year_title())
+        year_title = self._find_year_title_full_title(self.saint_holiday_collect.full_title)
+        year_title = self._clean_year_title(year_title)
+        year_title = self._offset_years_in_year_title(year_title)
+        return schemas.YearCreate(title=year_title)
 
     @property
     def day_in(self) -> schemas.DayCreate:
@@ -119,13 +120,14 @@ class SaintHolidayCreateFactory(object):
                 return holiday_category_title
         return enums.HolidayCategoryTitle.den_pamjati
 
-    def _clean_holiday_title(self) -> str:
-        holiday_title = self.saint_holiday_collect.full_title.strip()
+    @classmethod
+    def _clean_holiday_title(cls, full_title: str) -> str:
+        holiday_title = full_title.strip()
         holiday_title = holiday_title[0].upper() + holiday_title[1:]
         if holiday_title[-1] == ';':
             holiday_title = holiday_title[:-1]
         holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
-        holiday_title = holiday_title.replace(f'({self._find_year_in_full_title()})', '')
+        holiday_title = holiday_title.replace(f'({cls._find_year_title_full_title(full_title)})', '')
         holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
         holiday_title = holiday_title.strip()
         return holiday_title
@@ -133,7 +135,7 @@ class SaintHolidayCreateFactory(object):
     @property
     def holiday_in(self) -> schemas.HolidayCreate:
         return schemas.HolidayCreate(
-            title=self._clean_holiday_title(),
+            title=self._clean_holiday_title(self.saint_holiday_collect.full_title),
             slug=self.holiday_category_title.name.replace('_', '-') + '-' + self.saint_in.slug
         )
 
