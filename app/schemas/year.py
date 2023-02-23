@@ -30,7 +30,12 @@ class YearCreate(YearBase):
             _year = ceil(mean(years))
             _year_max = max(years)
 
-            if title.startswith(const.YearCorrection.do):
+            if title.isdigit():
+                pass
+            elif title.endswith('-е'):
+                _year += 5
+                _year_max += 9
+            elif title.startswith(const.YearCorrection.do):
                 _year += const.NumYearCorrection.do
             elif title.startswith(const.YearCorrection.okolo):
                 _year_max += const.NumYearCorrection.okolo

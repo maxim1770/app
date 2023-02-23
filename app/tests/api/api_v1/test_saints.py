@@ -1,11 +1,8 @@
-from pathlib import Path
-
 from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app import crud, schemas, enums
-from app.core.config import settings
 from app.tests import test_utils
 
 
@@ -88,7 +85,7 @@ def test_update_saint_from_azbyka(
     saint = crud.saint.create(db, obj_in=schemas.SaintCreate(slug=saint_slug))
     saint_data_in = schemas.SaintDataUpdate(
         saint_in=schemas.SaintUpdate(
-            name='Святитель Иоа́нн Златоуст, архиепископ Константинопольский'
+            name='Святитель Иоа́нн Златоуст, Архиепископ Константинопольский'
         ),
         face_sanctity_title=enums.FaceSanctityTitle.svjatitel,
         dignity_title=enums.DignityTitle.arhiepiskop,
@@ -101,9 +98,7 @@ def test_update_saint_from_azbyka(
         db,
         face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
-    path = Path(settings.TEST_DATA_DIR) / f'saint/{saint_slug}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_mock_text)
+    test_utils.requests_mock_get_saint_data(requests_mock, saint_slug=saint_slug)
     r = client.put(f'saints/from_azbyka/{saint_slug}')
     assert 200 <= r.status_code < 300
     updated_saint = r.json()

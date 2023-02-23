@@ -31,9 +31,10 @@ class SaintHolidayCollectFactory(object):
     def _check_saint_slug_not_is_one_saint(saint_slug: str) -> None:
         if saint_slug in [
             'javlenie-chestnago-i-zhivotvorjashhego-kresta-gospodnja-bliz-grada-rostova-velikogo-na-sahotskom-bolote',
-            '440-italijskih-muchenikov'
+            '440-italijskih-muchenikov',
+            'vi-vselenskij-sobor'
         ]:
-            raise ValueError(f'{saint_slug} not is one saint')
+            raise ValueError(f'{saint_slug} is not a one saint')
 
     @property
     def saint_slug(self) -> str:

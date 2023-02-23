@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pytest
 import requests
 from sqlalchemy.orm import Session
 
 from app import crud, schemas, enums, create
-from app.core.config import settings
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize("saint_slug, saint_data_in", [
@@ -13,7 +11,7 @@ from app.core.config import settings
             'ioann-zlatoust',
             schemas.SaintDataUpdate(
                 saint_in=schemas.SaintUpdate(
-                    name='Святитель Иоа́нн Златоуст, архиепископ Константинопольский'
+                    name='Святитель Иоа́нн Златоуст, Архиепископ Константинопольский'
                 ),
                 face_sanctity_title=enums.FaceSanctityTitle.svjatitel,
                 dignity_title=enums.DignityTitle.arhiepiskop,
@@ -32,7 +30,7 @@ from app.core.config import settings
             'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij',
             schemas.SaintDataUpdate(
                 saint_in=schemas.SaintUpdate(
-                    name='Благоверный князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
+                    name='Благоверный Князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
                 ),
                 face_sanctity_title=enums.FaceSanctityTitle.blagovernyj_knjaz
             )
@@ -41,8 +39,8 @@ from app.core.config import settings
 ])
 def test_update_saint_from_azbyka(
         db: Session,
-        requests_mock,
         session: requests.Session,
+        requests_mock,
         saint_slug: str,
         saint_data_in: schemas.SaintDataUpdate
 ) -> None:
@@ -55,9 +53,7 @@ def test_update_saint_from_azbyka(
         db,
         face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
-    path = Path(settings.TEST_DATA_DIR) / f'saint/{saint_slug}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_mock_text)
+    test_utils.requests_mock_get_saint_data(requests_mock, saint_slug=saint_slug)
     saint_2 = create.update_saint_from_azbyka(db, session=session, saint=saint)
     assert saint_2.id == saint.id
     assert saint_2.slug == saint_slug

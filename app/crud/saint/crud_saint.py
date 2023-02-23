@@ -27,5 +27,11 @@ class CRUDSaint(CRUDBase[Saint, SaintCreate, SaintUpdate]):
         db.refresh(db_obj)
         return db_obj
 
+    def get_or_create_saint(self, db: Session, *, obj_in: SaintCreate) -> Saint:
+        db_obj = self.get_by_slug(db, slug=obj_in.slug)
+        if not db_obj:
+            db_obj = self.create(db, obj_in=obj_in)
+        return db_obj
+
 
 saint = CRUDSaint(Saint)

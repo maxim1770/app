@@ -1,6 +1,6 @@
 import pytest
 
-from utils.manuscript import combine_fund_with_manuscript_code
+from app.utils.manuscript import combine_fund_with_manuscript_code
 
 
 @pytest.mark.parametrize('manuscript_code, fond_with_manuscript_code', [

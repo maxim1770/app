@@ -31,7 +31,13 @@ def create_get_saints_data(session: requests.Session):
     for saint_slug in [
         'ioann-zlatoust',
         'marija-egipetskaja',
-        'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij'
+        'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij',
+        'luka-evangelist',
+        'kliment-rimskij',
+        'andrej-konstantinopolskij',
+        'avraam',
+        'ioann-bogoslov',
+        'anna-novgorodskaja'
     ]:
         current_path = path.with_stem(saint_slug)
         if not current_path.exists():

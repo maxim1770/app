@@ -22,5 +22,5 @@ from app.models.reading import Reading  # noqa
 from app.models.saint import Dignity  # noqa
 from app.models.saint import FaceSanctity  # noqa
 from app.models.saint import Saint  # noqa
-from app.models.saint.saint import SaintsHolidays  # noqa
+from app.models.saint import SaintsHolidays  # noqa
 from app.models.year import Year  # noqa

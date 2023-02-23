@@ -18,5 +18,5 @@ from .movable_date import Week
 from .reading import Reading
 from .saint import Dignity
 from .saint import FaceSanctity
-from .saint import Saint
+from .saint import Saint, SaintsHolidays
 from .year import Year

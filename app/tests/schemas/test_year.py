@@ -26,6 +26,15 @@ def test_schema_year_create_compute_year_from_year_from_Adam(year_title: str, _y
 
 
 @pytest.mark.parametrize('year_title, _year', [
+    ('1470-е', 5500 + 1475),
+    ('1550-е', 5500 + 1555),
+    ('1570-1580-е', 5500 + 1580),
+])
+def test_schema_year_create_compute_year_from_year_with_e(year_title: str, _year: int) -> None:
+    assert YearCreate(title=year_title).year == _year
+
+
+@pytest.mark.parametrize('year_title, _year', [
     ('70', 5500 + 70), ('123', 5500 + 123), ('1596', 5500 + 1596),
     ('До 123', 5500 + 123 - 15), ('До 1596', 5500 + 1596 - 15),
     ('Около 123', 5500 + 123), ('Около 1581', 5500 + 1581),
@@ -56,7 +65,8 @@ def test_schema_year_create_compute_year_from_century(year_title: str, _year: in
     'После XVI',
     'Около XVI',
     'Последняя четверть XVI',
-    'Конец XVI'
+    'Конец XVI',
+    '1590-е',
 ])
 def test_schema_year_create_compute_year_bad(year_title: str) -> None:
     with pytest.raises(ValidationError) as e:

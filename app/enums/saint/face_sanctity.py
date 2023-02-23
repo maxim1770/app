@@ -21,46 +21,46 @@ class FaceSanctityTitle(StrEnum):
     ]
 
     """
-    apostol = 'апостол'
-    apostol_ot_70_ti = 'апостол от 70-ти'
-    ravnoapostolnyj = 'равноапостольный'
-    ravnoapostolnaja = 'равноапостольная'
+    apostol = 'Апостол'
+    apostol_ot_70_ti = 'Апостол от 70-ти'
+    ravnoapostolnyj = 'Равноапостольный'
+    ravnoapostolnaja = 'Равноапостольная'
 
-    vethozavetnyj_patriarh = 'ветхозаветный патриарх'
+    vethozavetnyj_patriarh = 'Ветхозаветный Патриарх'
 
-    prorok = 'пророк'
-    prorochitsa = 'пророчица'
+    prorok = 'Пророк'
+    prorochitsa = 'Пророчица'
 
-    Hrista_radi_jurodivyj = 'Христа ради юродивый'
+    Hrista_radi_jurodivyj = 'Христа ради Юродивый'
 
-    velikomuchenitsa = 'великомученица'
-    velikomuchenik = 'великомученик'
-    muchenitsa = 'мученица'
-    muchenik = 'мученик'
-    prepodobnomuchenitsa = 'преподобномученица'
-    prepodobnomuchenik = 'преподобномученик'
-    svjaschennomuchenik = 'священномученик'
+    velikomuchenitsa = 'Великомученица'
+    velikomuchenik = 'Великомученик'
+    muchenitsa = 'Мученица'
+    muchenik = 'Мученик'
+    prepodobnomuchenitsa = 'Преподобномученица'
+    prepodobnomuchenik = 'Преподобномученик'
+    svjaschennomuchenik = 'Священномученик'
 
-    ispovednik = 'исповедник'
-    ispovednitsa = 'исповедница'
+    ispovednik = 'Исповедник'
+    ispovednitsa = 'Исповедница'
 
-    bessrebrenik = 'бессребреник'
+    bessrebrenik = 'Бессребреник'
 
-    blazhennyj = 'блаженный'
-    blazhennaja = 'блаженная'
+    blazhennyj = 'Блаженный'
+    blazhennaja = 'Блаженная'
 
-    blagovernyj = 'благоверный'
-    blagovernaja = 'благоверная'
-    blagovernyj_knjaz = 'благоверный князь'
-    blagovernaja_knjaginja = 'благоверная княгиня'
+    blagovernyj = 'Благоверный'
+    blagovernaja = 'Благоверная'
+    blagovernyj_knjaz = 'Благоверный Князь'
+    blagovernaja_knjaginja = 'Благоверная Княгиня'
 
-    pravednyj = 'праведный'
-    pravednaja = 'праведная'
+    pravednyj = 'Праведный'
+    pravednaja = 'Праведная'
 
-    prepodobnyj = 'преподобный'
-    prepodobnaja = 'преподобная'
+    prepodobnyj = 'Преподобный'
+    prepodobnaja = 'Преподобная'
 
-    svjatoj = 'святой'
-    svjataja = 'святая'
+    svjatoj = 'Святой'
+    svjataja = 'Святая'
 
-    svjatitel = 'святитель'
+    svjatitel = 'Святитель'

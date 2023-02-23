@@ -11,7 +11,7 @@ from app.tests import test_utils
             'ioann-zlatoust',
             schemas.SaintDataUpdate(
                 saint_in=schemas.SaintUpdate(
-                    name='Святитель Иоа́нн Златоуст, архиепископ Константинопольский'
+                    name='Святитель Иоа́нн Златоуст, Архиепископ Константинопольский'
                 ),
                 face_sanctity_title=enums.FaceSanctityTitle.svjatitel,
                 dignity_title=enums.DignityTitle.arhiepiskop,
@@ -30,9 +30,64 @@ from app.tests import test_utils
             'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij',
             schemas.SaintDataUpdate(
                 saint_in=schemas.SaintUpdate(
-                    name='Благоверный князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
+                    name='Благоверный Князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
                 ),
                 face_sanctity_title=enums.FaceSanctityTitle.blagovernyj_knjaz
+            )
+    ),
+    (
+            'luka-evangelist',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Апостол от 70-ти Лука́ Евангелист, иконописец'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.apostol_ot_70_ti
+            )
+    ),
+    (
+            'kliment-rimskij',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Священномученик Кли́мент Римский, Папа Римский'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.svjaschennomuchenik,
+                dignity_title=enums.DignityTitle.papa_rimskij
+            )
+    ),
+    (
+            'andrej-konstantinopolskij',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Блаженный Андре́й Константинопольский, Христа ради Юродивый'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.blazhennyj,
+            )
+    ),
+    (
+            'avraam',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Ветхозаветный Патриарх Авраа́м'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.vethozavetnyj_patriarh,
+            )
+    ),
+    (
+            'ioann-bogoslov',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Апостол Иоа́нн Богослов, евангелист'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.apostol,
+            )
+    ),
+    (
+            'anna-novgorodskaja',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Благоверная Княгиня А́нна Новгородская'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.blagovernaja_knjaginja,
             )
     )
 

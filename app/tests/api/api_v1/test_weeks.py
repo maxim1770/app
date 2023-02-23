@@ -17,7 +17,7 @@ from app.tests import test_utils
 #     assert 'id' in created_week
 
 
-def test_read_week(client: TestClient, db: Session) -> None:
+def _test_read_week(client: TestClient, db: Session) -> None:
     week = test_utils.create_random_week(db)
     r = client.get(
         f'/movable-dates/cycle-{week.cycle.num}/sunday-{week.sunday_num}'

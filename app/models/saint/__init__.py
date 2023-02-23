@@ -1,3 +1,3 @@
 from .dignity import Dignity
 from .face_sanctity import FaceSanctity
-from .saint import Saint
+from .saint import Saint, SaintsHolidays

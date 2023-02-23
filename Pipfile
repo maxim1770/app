@@ -9,6 +9,7 @@ sqlalchemy = "*"
 alembic = "*"
 psycopg2 = "*"
 sqladmin = "*"
+pypdf = "*"
 
 [dev-packages]
 pytest = "*"

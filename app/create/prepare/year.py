@@ -24,8 +24,9 @@ class PrepareYearTitle(object):
 
     @classmethod
     def _offset_years(cls, year_title: str) -> str:
+        to_ten: int = 2 if year_title.endswith('-е') else 0
         for year in map(int, re.findall(r'\d+', year_title)):
-            year_title = year_title.replace(f'{year}', f'{year + const.NUM_OFFSET_YEARS}')
+            year_title = year_title.replace(f'{year}', f'{year + const.NUM_OFFSET_YEARS + to_ten}')
         return year_title
 
     @classmethod
