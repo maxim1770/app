@@ -5,7 +5,7 @@ import pytest
 from app import schemas, enums
 from app.create.prepare.holiday.saint_holiday import SaintHolidayCollect, SaintHolidayCreateFactory
 
-some_day: date = date(2023, 3, 25)
+some_day: date = date(2031, 9, 1)
 some_saint_slug: str = 'foo-bar'
 
 
