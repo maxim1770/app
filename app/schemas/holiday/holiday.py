@@ -9,13 +9,13 @@ from ..year import Year, YearCreate
 
 
 class HolidayBase(BaseModel):
-    title: constr(strip_whitespace=True, strict=True, max_length=150) | None = None
-    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG) | None = None
+    title: constr(strip_whitespace=True, strict=True, max_length=200) | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG) | None = None
 
 
 class HolidayCreate(HolidayBase):
-    title: constr(strip_whitespace=True, strict=True, max_length=170)
-    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)
+    title: constr(strip_whitespace=True, strict=True, max_length=200)
+    slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG)
 
 
 class HolidayUpdate(HolidayBase):
@@ -64,6 +64,11 @@ class SaintHolidayCreateBase(HolidayCreateBase):
 
 
 class SaintHolidayCreate(SaintHolidayCreateBase):
+    day_in: DayCreate
+
+
+class SaintHolidayCreateWithoutYear(SaintHolidayCreateBase):
+    year_in: YearCreate | None = None
     day_in: DayCreate
 
 

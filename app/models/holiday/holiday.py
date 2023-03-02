@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 class Holiday(Base):
     id: Mapped[intpk]
 
-    title: Mapped[str | None] = mapped_column(String(170))
+    title: Mapped[str | None] = mapped_column(String(200))
     slug: Mapped[unique_slug]
 
     holiday_category_id: Mapped[int] = mapped_column(ForeignKey(HolidayCategory.id))

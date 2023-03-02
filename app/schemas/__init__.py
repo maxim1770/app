@@ -8,7 +8,7 @@ from .day import Day, DayCreate
 from .holiday import Holiday, HolidayCreate, HolidayUpdate, HolidayDataCreate
 from .holiday import HolidayCategory, HolidayCategoryCreate
 from .holiday import MovableSaintHolidayCreateWithoutData
-from .holiday import SaintHolidayCreate, MovableSaintHolidayCreate
+from .holiday import SaintHolidayCreate, SaintHolidayCreateWithoutYear, MovableSaintHolidayCreate
 from .holiday import SaintsHolidayCreate
 from .manuscript import Fund, FundCreate
 from .manuscript import Manuscript, ManuscriptCreateAny, ManuscriptCreate, ManuscriptUpdate

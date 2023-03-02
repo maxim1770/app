@@ -20,7 +20,7 @@ def create_holiday(
 
 
 def create_saint_holiday(
-        db: Session, *, saint_holiday_in: schemas.SaintHolidayCreate
+        db: Session, saint_holiday_in: schemas.SaintHolidayCreate
 ) -> models.Holiday:
     holiday_category = crud.get_holiday_category(db, title=saint_holiday_in.holiday_category_title)
     year = crud.get_or_create_year(db, year_in=saint_holiday_in.year_in)
@@ -37,8 +37,24 @@ def create_saint_holiday(
     return holiday
 
 
+def create_saint_holiday_without_year(
+        db: Session, *, saint_holiday_in: schemas.SaintHolidayCreateWithoutYear
+) -> models.Holiday:
+    holiday_category = crud.get_holiday_category(db, title=saint_holiday_in.holiday_category_title)
+    day = crud.get_day(db, month=saint_holiday_in.day_in.month, day=saint_holiday_in.day_in.day)
+    holiday = crud.holiday.create_with_any(
+        db,
+        obj_in=saint_holiday_in.holiday_in,
+        holiday_category_id=holiday_category.id,
+        day_id=day.id
+    )
+    saint = crud.saint.get_or_create_saint(db, obj_in=saint_holiday_in.saint_in)
+    holiday = crud.holiday.create_saint_association(db, db_obj=holiday, saint=saint)
+    return holiday
+
+
 def create_saints_holiday(
-        db: Session, *, saints_holiday_in: schemas.SaintsHolidayCreate
+        db: Session, saints_holiday_in: schemas.SaintsHolidayCreate
 ) -> models.Holiday:
     holiday_category = crud.get_holiday_category(db, title=saints_holiday_in.holiday_category_title)
     year_id: int | None = crud.get_or_create_year(

@@ -13,6 +13,7 @@ from app.create.create.bible_book.zachalo import CreateZachalo
 from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
     convert_to_schemas
 from ..base_collect import get_readings
+from ...const import AzbykaUrl
 
 
 # TODO подумать над тем не объединить ли сразу Evangel и Apostle вместе
@@ -21,19 +22,14 @@ from ..base_collect import get_readings
 
 # для утренних не надо даже парсить отдельно, там просто номер указывающий на ЕВАНГЕЛИЯ УТРЕННИЕ ВОСКРЕСНЫЕ
 
-def _collect_zachalo_num(zachalo: Tag,
-                         headers: dict[str, str] = {
-                             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 Safari/537.36"
-                         },
-                         DOMIN_AZBYKA: str = 'https://azbyka.ru'
-                         ) -> int:
+def _collect_zachalo_num(zachalo: Tag) -> int:
     try:
         num: int = int(re.search(r'(?<=\[)\d*(?=\])', zachalo.text)[0])
 
         logging.info(f"{zachalo.text} | {num} | Когда zachalo на странице всех чтений")
 
     except TypeError:
-        req = requests.get(url=DOMIN_AZBYKA + zachalo.find('a', {'target': "BibleAV"})['href'], headers=headers)
+        req = requests.get(url=AzbykaUrl.DOMAIN + zachalo.find('a', {'target': "BibleAV"})['href'])
         soup = BeautifulSoup(req.text, "lxml")
 
         num_text: str | None = None
@@ -88,10 +84,10 @@ def _collect_zachalo_num(zachalo: Tag,
                         except AttributeError:
 
                             req = requests.get(
-                                url=DOMIN_AZBYKA + soup.find('span',
-                                                             class_="title-nav").find('a',
-                                                                                      class_="icon-arrow-left")['href'],
-                                headers=headers
+                                url=AzbykaUrl.DOMAIN + soup.find('span',
+                                                                 class_="title-nav").find('a',
+                                                                                          class_="icon-arrow-left")[
+                                    'href']
                             )
                             soup = BeautifulSoup(req.text, "lxml")
 

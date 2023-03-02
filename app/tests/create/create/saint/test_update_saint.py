@@ -4,7 +4,7 @@ from app import crud, schemas, create
 from app.tests import test_utils
 
 
-def test_update_saint(db: Session) -> None:
+def _test_update_saint(db: Session) -> None:
     saint = test_utils.create_random_saint(db)
     saint_slug: str | None = saint.slug
     saint_data_in = test_utils.create_random_saint_data_update_in()

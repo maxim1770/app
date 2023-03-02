@@ -6,13 +6,13 @@ from sqlalchemy.orm import Session
 
 from app import crud, models
 from app.api import deps
-from app.create import const
+from ...const import AzbykaUrl
 
 logging.basicConfig(level=logging.WARNING)
 
 
 def collect_saints_cathedral_saints(cathedral_saints_title: str) -> list[str]:
-    req = requests.get(f'{const.AZBYKA_NETLOC}/days/sv-{cathedral_saints_title}')
+    req = requests.get(AzbykaUrl.GET_SAINT_BY_SLUG + cathedral_saints_title)
 
     saints_data: Tag = BeautifulSoup(req.text, "lxml").find(
         lambda tag: tag.name == 'h2'

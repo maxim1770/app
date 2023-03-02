@@ -8,15 +8,16 @@ from ..base_collect import collect_saint_data
 class SaintDataUpdateFactory(object):
 
     def __init__(self, session: requests.Session, *, saint_slug: str):
-        self.saint_data_collect: Tag = collect_saint_data(session, saint_slug=saint_slug)
+        self._saint_data_collect: Tag = collect_saint_data(session, saint_slug=saint_slug)
+        self._saint_slug = saint_slug
 
     @property
     def _name_data(self) -> Tag:
-        return self.saint_data_collect.find('h1')
+        return self._saint_data_collect.find('h1')
 
     @property
     def saint_in(self) -> schemas.SaintUpdate:
-        name: str = ' '.join(self._name_data.text.split())
+        name: str = ' '.join(self._name_data.text.split()).strip()
         name = name.replace(' и и евангелист', '')
         name = name.replace(' и евангелист', '')
         name = name.replace('юродивый', 'Юродивый')

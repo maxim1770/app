@@ -3,7 +3,8 @@ from datetime import date
 import pytest
 
 from app import schemas, enums
-from app.create.prepare.holiday.saint_holiday import SaintHolidayCollect, SaintHolidayCreateFactory
+from app.create.prepare.holiday.holiday_collect import SaintHolidayCollect
+from app.create.prepare.holiday.holiday_create import SaintHolidayCreateFactory
 
 some_day: date = date(2031, 9, 1)
 some_saint_slug: str = 'foo-bar'

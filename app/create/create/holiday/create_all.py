@@ -1,5 +1,6 @@
 import logging
 
+import requests
 from sqlalchemy.orm import Session
 
 from app import crud
@@ -7,23 +8,65 @@ from app.enums import CycleNum, MovableDayAbbr
 from app.enums import FaceSanctityTitle, HolidayCategoryTitle
 from app.schemas import MovableSaintHolidayCreate, MovableSaintHolidayCreateWithoutData, MovableDayGet
 from app.schemas import SaintDataCreate, SaintCreate, HolidayCreate, YearCreate, HolidayDataCreate
-from app.schemas import SaintHolidayCreate, DayCreate
+from app.schemas import SaintHolidayCreate, SaintHolidayCreateWithoutYear, DayCreate
 from app.schemas import SaintsHolidayCreate
-from .holiday import create_holiday, create_saint_holiday, create_saints_holiday, create_movable_saint_holiday
+from .holiday import create_holiday, create_saint_holiday, create_saints_holiday, create_movable_saint_holiday, \
+    create_saint_holiday_without_year
 from ..saint import create_saint
 from ....create import const, prepare
 
 
-def create_all_saints_holidays(db: Session):
+def _create_all_holidays_base(
+        db: Session,
+        session: requests.Session | None = None,
+        *,
+        fun_holidays_in_factory,
+        fun_create_holiday_data
+):
     for day in const.all_days_in_year():
         logging.info(day)
-        saints_holidays_in = prepare.saints_holidays_in_factory(day)
-        for saint_holiday_in in saints_holidays_in:
-            holiday = crud.holiday.get_by_slug(db, slug=saint_holiday_in.holiday_in.slug)
+        holidays_data_in = fun_holidays_in_factory(session=session, day=day)
+        for holiday_data_in in holidays_data_in:
+            holiday = crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug)
             if holiday:
-                logging.warning(f'The Holiday with this slug already exists, {saint_holiday_in.holiday_in.slug}')
-                continue
-            holiday = create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
+                if holiday_data_in.day_in.month == holiday.day.month and holiday_data_in.day_in.day == holiday.day.day:
+                    logging.error(
+                        f'The Holiday with this slug and day already exists, {holiday_data_in.holiday_in.slug}'
+                    )
+                    continue
+                if holiday_data_in.holiday_category_title == HolidayCategoryTitle.den_pamjati:
+                    holiday_data_in.holiday_in.slug = holiday_data_in.holiday_in.slug.replace(
+                        'den-pamjati',
+                        'den-pamjati-drugoj',
+                    )
+                    logging.info(
+                        f'The Holiday with this slug already exists, New slug: {holiday_data_in.holiday_in.slug}'
+                    )
+                    holiday = crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug)
+                    if holiday:
+                        logging.warning(
+                            f'The Holiday with this slug den-pamjati-drugoj already exists, {holiday_data_in.holiday_in.slug}'
+                        )
+                        continue
+            holiday = fun_create_holiday_data(db, holiday_data_in)
+    logging.info('Holidays data created')
+
+
+def create_all_saints_holidays(db: Session):
+    return _create_all_holidays_base(
+        db,
+        fun_holidays_in_factory=prepare.saints_holidays_in_factory,
+        fun_create_holiday_data=create_saint_holiday
+    )
+
+
+def create_all_saints_groups_holidays(db: Session, session: requests.Session):
+    return _create_all_holidays_base(
+        db,
+        session,
+        fun_holidays_in_factory=prepare.saints_groups_holidays_in_factory,
+        fun_create_holiday_data=create_saints_holiday
+    )
 
 
 def create_all_great_holidays(db: Session):
@@ -277,7 +320,7 @@ def create_all_movable_saints_holidays(db: Session):
         MovableSaintHolidayCreate(
             holiday_in=HolidayCreate(
                 slug='movable-den-pamjati-lazar-chetverodnevnyj',
-                title='Воскрешение прав. Ла́заря',
+                title='Воскрешение Прав. Ла́заря',
             ),
             holiday_category_title=HolidayCategoryTitle.den_pamjati,
             saint_in=SaintCreate(slug='lazar-chetverodnevnyj'),
@@ -490,3 +533,388 @@ def create_any_holidays(db: Session):
             holiday = create_saint_holiday(db, saint_holiday_in=holiday_data_in)
         else:
             holiday = create_holiday(db, holiday_data_in=holiday_data_in)
+
+
+def create_all_proroks_and_any_pravednyjs(db: Session):
+    holidays_data_in: list[SaintHolidayCreateWithoutYear | SaintsHolidayCreate] = [
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=9, day=1),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'iisus-navin',
+                title='Прав. Ису́са Навина',
+            ),
+            saint_in=SaintCreate(
+                slug='iisus-navin'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=9, day=22),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-iona',
+                title='Прор. Ио́ны',
+            ),
+            saint_in=SaintCreate(
+                slug='iona'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=9, day=26),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'gedeon-sudija-izrailskij',
+                title='Прав. Гедео́на, судии Израильского',
+            ),
+            saint_in=SaintCreate(
+                slug='gedeon-sudija-izrailskij'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=9, day=28),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'varuh-prorok',
+                title='Прор. Вару́ха',
+            ),
+            saint_in=SaintCreate(
+                slug='varuh-prorok'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=11, day=12),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'ahija-silomljanin',
+                title='Прор. Ахи́и Силомлянина',
+            ),
+            saint_in=SaintCreate(
+                slug='ahija-silomljanin'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=12, day=1),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'naum',
+                title='Прор. Нау́ма',
+            ),
+            saint_in=SaintCreate(
+                slug='naum'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=12, day=2),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'avvakum',
+                title='Прор. Авваку́ма',
+            ),
+            saint_in=SaintCreate(
+                slug='avvakum'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=12, day=3),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'sofonija',
+                title='Прор. Софо́нии',
+            ),
+            saint_in=SaintCreate(
+                slug='sofonija'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=12, day=9),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'anna-prorochica-mat-proroka-samuila',
+                title='Пророчц. Анны, матери Прор. Самуи́ла',
+            ),
+            saint_in=SaintCreate(
+                slug='anna-prorochica-mat-proroka-samuila'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=12, day=16),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'aggej',
+                title='Прор. Агге́я',
+            ),
+            saint_in=SaintCreate(
+                slug='aggej'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=1, day=5),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'mihej',
+                title='Прор. Михе́я',
+            ),
+            saint_in=SaintCreate(
+                slug='mihej'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=1, day=9),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'samej',
+                title='Прор. Саме́я',
+            ),
+            saint_in=SaintCreate(
+                slug='samej'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=2, day=3),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'azarija',
+                title='Прор. Аза́рии',
+            ),
+            saint_in=SaintCreate(
+                slug='azarija'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=3, day=12),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'finees-pervosvjashchennik-izrailskij',
+                title='Прав. Финее́са, первосвященника Израильского',
+            ),
+            saint_in=SaintCreate(
+                slug='finees-pervosvjashchennik-izrailskij'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=3, day=30),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'ioad-chelovek-bozhij',
+                title='Прор. Иоа́да, человека Божия',
+            ),
+            saint_in=SaintCreate(
+                slug='ioad-chelovek-bozhij'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=5, day=1),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'ieremija-prorok',
+                title='Прор. Иереми́и',
+            ),
+            saint_in=SaintCreate(
+                slug='ieremija-prorok'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=5, day=6),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'iov-mnogostradalnyj',
+                title='Прав. И́ова Многострадального',
+            ),
+            saint_in=SaintCreate(
+                slug='iov-mnogostradalnyj'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=6, day=15),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'amos',
+                title='Прор. Амо́са',
+            ),
+            saint_in=SaintCreate(
+                slug='amos'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=7, day=20),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'ilija-fesvitjanin',
+                title='Прор. Илии́',
+            ),
+            saint_in=SaintCreate(
+                slug='ilija-fesvitjanin'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=8, day=14),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'mihej-morasfitjanin',
+                title='Прор. Михе́я (из 12-ти Пророков)',
+            ),
+            saint_in=SaintCreate(
+                slug='mihej-morasfitjanin'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=8, day=20),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'samuil-prorok',
+                title='Прор. Самуи́ла',
+            ),
+            saint_in=SaintCreate(
+                slug='samuil-prorok'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=9, day=4),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'moisej-bogovidec',
+                title='Прор. Моисе́я Боговидца',
+            ),
+            saint_in=SaintCreate(
+                slug='moisej-bogovidec'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=10, day=17),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'osija',
+                title='Прор. Оси́и',
+            ),
+            saint_in=SaintCreate(
+                slug='osija'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=10, day=19),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'ioil',
+                title='Прор. Иои́ля',
+            ),
+            saint_in=SaintCreate(
+                slug='ioil'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=11, day=19),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'avdij',
+                title='Прор. А́вдия (из 12-ти Пророков)',
+            ),
+            saint_in=SaintCreate(
+                slug='avdij'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=1, day=3),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'malahija',
+                title='Прор. Малахи́и',
+            ),
+            saint_in=SaintCreate(
+                slug='malahija'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=2, day=8),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'zaharija-serpovidec',
+                title='Прор. Заха́рии Серповидца (из 12-ти Пророков)',
+            ),
+            saint_in=SaintCreate(
+                slug='zaharija-serpovidec'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=5, day=9),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'isaija-prorok',
+                title='Прор. Иса́ии',
+            ),
+            saint_in=SaintCreate(
+                slug='isaija-prorok'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=6, day=14),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'elisej',
+                title='Прор. Елисе́я',
+            ),
+            saint_in=SaintCreate(
+                slug='elisej'
+            ),
+        ),
+        SaintHolidayCreateWithoutYear(
+            day_in=DayCreate(month=7, day=21),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'iezekiil',
+                title='Прор. Иезекии́ля',
+            ),
+            saint_in=SaintCreate(
+                slug='iezekiil'
+            ),
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'daniil-prorok-i-ananija-vavilonskij-i-azarija-vavilonskij-i-misail-vavilonskij',
+                title='Святых Мучеников трех отрок: Ана́нии, Аза́рии, Мисаи́ла и Дании́ла Пророка',
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            day_in=DayCreate(month=12, day=17),
+            saints_in=[
+                SaintCreate(slug='daniil-prorok'),
+                SaintCreate(slug='ananija-vavilonskij'),
+                SaintCreate(slug='azarija-vavilonskij'),
+                SaintCreate(slug='misail-vavilonskij')
+            ]
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'avraam-i-lot',
+                title='Правв. Авраа́ма Праотца и племянника его Лота',
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            day_in=DayCreate(month=10, day=9),
+            saints_in=[
+                SaintCreate(slug='avraam'),
+                SaintCreate(slug='lot')
+            ]
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-' + 'avim-makkavej-i-antonin-makkavej-i-gurij-makkavej-i-eleazar-makkavej-i-evsevon-makkavej-i-alim-makkavej-i-markell-makkavej-i-solomonija-salomija-makkavej-i-eleazar-ierusalimskij',
+                title='Святых Мучеников, семи братьев по плоти, Маккавеев: Ави́ма, Антони́на, Гу́рия, Елеаза́ра, Евсево́на, Али́ма и Марке́лла, и учителя их Елеаза́ра, и матери их Соломо́нии',
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            day_in=DayCreate(month=8, day=1),
+            saints_in=[
+                SaintCreate(slug='avim-makkavej'),
+                SaintCreate(slug='antonin-makkavej'),
+                SaintCreate(slug='gurij-makkavej'),
+                SaintCreate(slug='eleazar-makkavej'),
+                SaintCreate(slug='evsevon-makkavej'),
+                SaintCreate(slug='alim-makkavej'),
+                SaintCreate(slug='markell-makkavej'),
+                SaintCreate(slug='solomonija-salomija-makkavej'),
+                SaintCreate(slug='eleazar-ierusalimskij'),
+            ]
+        ),
+    ]
+    for holiday_data_in in holidays_data_in:
+        if isinstance(holiday_data_in, SaintsHolidayCreate):
+            holiday = create_saints_holiday(db, saints_holiday_in=holiday_data_in)
+        else:
+            holiday = create_saint_holiday_without_year(db, saint_holiday_in=holiday_data_in)

@@ -9,7 +9,7 @@ from typing_extensions import Annotated
 REGEX_CAMEL_TO_SNAKE: Pattern[str] = re.compile(r'(?<!^)(?=[A-Z])')
 
 intpk = Annotated[int, mapped_column(primary_key=True)]
-unique_slug = Annotated[str, mapped_column(String(150), unique=True)]
+unique_slug = Annotated[str, mapped_column(String(200), unique=True)]
 
 POSTGRES_INDEXES_NAMING_CONVENTION = {
     "ix": "%(column_0_label)s_idx",
