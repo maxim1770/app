@@ -3,12 +3,13 @@ from uuid import UUID
 
 import requests
 from fastapi import Depends, APIRouter, status, Path, HTTPException
+from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
 from app import crud, schemas, models, const, create
 from app.create.prepare import ManuscriptDataCreateFactory, PrepareError
 from app.schemas.manuscript.manuscript import NotNumberedPages
-from ....deps import get_db, get_session
+from ....deps import get_db, get_session, get_driver
 
 router = APIRouter()
 
@@ -107,6 +108,25 @@ def create_manuscript_not_numbered_pages(
     db.add(manuscript)
     db.commit()
     db.refresh(manuscript)
+    return manuscript
+
+
+@router.post('/{manuscript_code}/data', response_model=schemas.Manuscript)
+def create_manuscript_data(
+        *,
+        session: requests.Session = Depends(get_session),
+        driver: WebDriver = Depends(get_driver),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+) -> Any:
+    collect_manuscript = create.CollectManuscriptFactory(
+        session,
+        driver,
+        fund_title=manuscript.fund.title,
+        library_title=manuscript.fund.library,
+        code=manuscript.code,
+        neb_slug=manuscript.neb_slug,
+    ).get()
+    collect_manuscript.save_imgs()
     return manuscript
 
 
