@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pytest
 import requests
 
 from app import schemas, enums
-from app.core.config import settings
 from app.create import prepare
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('saint_slug, saint_data_in', [
@@ -13,7 +11,7 @@ from app.create import prepare
             'ioann-zlatoust',
             schemas.SaintDataUpdate(
                 saint_in=schemas.SaintUpdate(
-                    name='Святитель Иоа́нн Златоуст, архиепископ Константинопольский'
+                    name='Святитель Иоа́нн Златоуст, Архиепископ Константинопольский'
                 ),
                 face_sanctity_title=enums.FaceSanctityTitle.svjatitel,
                 dignity_title=enums.DignityTitle.arhiepiskop,
@@ -32,9 +30,64 @@ from app.create import prepare
             'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij',
             schemas.SaintDataUpdate(
                 saint_in=schemas.SaintUpdate(
-                    name='Благоверный князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
+                    name='Благоверный Князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
                 ),
                 face_sanctity_title=enums.FaceSanctityTitle.blagovernyj_knjaz
+            )
+    ),
+    (
+            'luka-evangelist',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Апостол от 70-ти Лука́ Евангелист, иконописец'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.apostol_ot_70_ti
+            )
+    ),
+    (
+            'kliment-rimskij',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Священномученик Кли́мент Римский, Папа Римский'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.svjaschennomuchenik,
+                dignity_title=enums.DignityTitle.papa_rimskij
+            )
+    ),
+    (
+            'andrej-konstantinopolskij',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Блаженный Андре́й Константинопольский, Христа ради Юродивый'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.blazhennyj,
+            )
+    ),
+    (
+            'avraam',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Ветхозаветный Патриарх Авраа́м'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.vethozavetnyj_patriarh,
+            )
+    ),
+    (
+            'ioann-bogoslov',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Апостол Иоа́нн Богослов, евангелист'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.apostol,
+            )
+    ),
+    (
+            'anna-novgorodskaja',
+            schemas.SaintDataUpdate(
+                saint_in=schemas.SaintUpdate(
+                    name='Благоверная Княгиня А́нна Новгородская'
+                ),
+                face_sanctity_title=enums.FaceSanctityTitle.blagovernaja_knjaginja,
             )
     )
 
@@ -45,8 +98,6 @@ def test_saint_data_update_factory(
         saint_slug: str,
         saint_data_in: schemas.SaintDataUpdate
 ) -> None:
-    path = Path(settings.TEST_DATA_DIR) / f'saint/{saint_slug}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(f'https://azbyka.ru/days/sv-{saint_slug}', text=requests_mock_text)
+    test_utils.requests_mock_get_saint_data(requests_mock, saint_slug=saint_slug)
     saint_data_in_2 = prepare.SaintDataUpdateFactory(session, saint_slug=saint_slug).get()
     assert saint_data_in_2 == saint_data_in

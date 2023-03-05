@@ -1,6 +1,7 @@
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
+from app import models
 from app.models.holiday.holiday import Holiday
 from app.schemas.holiday import HolidayCreate, HolidayUpdate
 from ..base import CRUDBase
@@ -35,6 +36,19 @@ class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate]):
             day_id=day_id,
             movable_day_id=movable_day_id
         )
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
+    @staticmethod
+    def create_saint_association(
+            db: Session,
+            *,
+            db_obj: Holiday,
+            saint: models.Saint,
+    ) -> Holiday:
+        db_obj.saint_associations.append(models.SaintsHolidays(saint=saint))
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

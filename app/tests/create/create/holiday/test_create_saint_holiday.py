@@ -48,7 +48,7 @@ def test_create_saint_holiday_no_holiday_category_bad(db: Session) -> None:
         holiday = create.create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
 
 
-def test_create_saint_holiday_(db: Session) -> None:
+def test_create_saint_holiday_saint_association(db: Session) -> None:
     saint_holiday_in = test_utils.create_random_saint_holiday_in()
     day = crud.create_day(db, day_in=saint_holiday_in.day_in)
     holiday_category = crud.create_holiday_category(

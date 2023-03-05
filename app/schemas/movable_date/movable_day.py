@@ -1,7 +1,14 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, validator, constr, conint
 
 from app import enums
 from .movable_date import MovableDate
+
+if TYPE_CHECKING:
+    from ..holiday import HolidayInDB
 
 
 class MovableDayBase(BaseModel):
@@ -13,12 +20,12 @@ class MovableDayBase(BaseModel):
 class MovableDayCreate(MovableDayBase):
 
     @validator('abbr_ru', pre=True, always=True)
-    def set_abbr_ru(cls, v: None, values):
-        v: enums.MovableDayAbbrRu = enums.MovableDayAbbrRu[values['abbr'].name]
-        return v
+    def set_abbr_ru(cls, abbr_ru: None, values):
+        abbr_ru: enums.MovableDayAbbrRu = enums.MovableDayAbbrRu[values['abbr'].name]
+        return abbr_ru
 
 
-class MovableDay(MovableDayBase):
+class MovableDayInDBBase(MovableDayBase):
     id: int
 
     abbr_ru: enums.MovableDayAbbrRu
@@ -26,10 +33,16 @@ class MovableDay(MovableDayBase):
     week_id: int
     movable_dates: list[MovableDate] = []
 
-    # holidays: list[Holiday] = []
-
     class Config:
         orm_mode = True
+
+
+class MovableDay(MovableDayInDBBase):
+    holidays: list[HolidayInDB] = []
+
+
+class MovableDayInDB(MovableDayInDBBase):
+    pass
 
 
 class MovableDayGet(BaseModel):

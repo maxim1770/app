@@ -5,6 +5,10 @@ from app import models, schemas, enums
 from .crud_week import get_week
 
 
+def get_all_movable_days(db: Session) -> list[models.MovableDay]:
+    return list(db.execute(sa.select(models.MovableDay)).scalars())
+
+
 def get_movable_days(db: Session, cycle_id: int) -> list[models.MovableDay]:
     return list(db.execute(sa.select(models.MovableDay).join(models.Week).filter_by(cycle_id=cycle_id)).scalars())
 

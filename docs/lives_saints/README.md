@@ -127,13 +127,19 @@
 ### https://kp.rusneb.ru/item/search?
 - q=Месяцеслов, с фильтром до 1600 - 1 рукопись с почерком хуже https://kp.rusneb.ru/item/reader/mesyaceslov-1
 - q=Святцы, с фильтром до 1600
-  - **ничего для добавления нет**
-  - кроме https://kp.rusneb.ru/item/material/svyatcy, но тут 4 листа, из рукописи, только есть у нэб
+    - **ничего для добавления нет**
+    - кроме https://kp.rusneb.ru/item/material/svyatcy, но тут 4 листа, из рукописи, только есть у нэб
 - q=Псалтырь с восследованием
     - **ЕЩЕ НЕ СМОТРЕЛ, ОБЯЗАТЕЛЬНО ПОСМОТРЕТЬ**
 
-
 ### Очень красивый Псалтирь с возследаванием [f-173i-11](https://lib-fond.ru/lib-rgb/173-i/f-173i-11/#image-203)
+
+### Житие Андрея Юродивого [zhitie-andreya-yurodivogo-1](https://kp.rusneb.ru/item/material/zhitie-andreya-yurodivogo-1)
+
+### Сборник смешанного содержания [sbornik-smeshannogo-soderzhaniya-12](https://kp.rusneb.ru/item/material/sbornik-smeshannogo-soderzhaniya-12)
+
+- XV в.
+- красивый почерк
 
 [f_98_33]: ../books/rsl/rsl98/f_98_33.md
 

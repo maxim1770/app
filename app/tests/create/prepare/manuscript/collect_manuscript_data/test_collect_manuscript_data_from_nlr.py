@@ -1,13 +1,11 @@
-import json
-from pathlib import Path
 from uuid import UUID
 
 import pytest
 import requests
 
-from app import schemas, const, enums
-from app.core.config import settings
+from app import schemas, enums
 from app.create.prepare.manuscript.collect_manuscript_data import CollectManuscriptDataFromNlr
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('manuscript_code, manuscript_data_any', [
@@ -46,12 +44,7 @@ def test_collect_manuscript_data_from_nlr(
         manuscript_code: UUID,
         manuscript_data_any: dict[str, str | schemas.YearCreate | enums.FundTitle | None]
 ) -> None:
-    path = Path(settings.TEST_DATA_DIR) / f'manuscript/get/nlr/{manuscript_code}.json'
-    requests_mock_json: dict = json.load(path.open(encoding="utf-8"))
-    requests_mock.post(
-        const.NlrUrl.GET_MANUSCRIPT_DATA_API,
-        json=requests_mock_json
-    )
+    test_utils.requests_mock_get_manuscript_data_nlr(requests_mock, manuscript_code=manuscript_code)
     collect_manuscript_data = CollectManuscriptDataFromNlr(session, manuscript_code=manuscript_code)
     assert manuscript_data_any['manuscript_code_title'] == collect_manuscript_data.manuscript_code_title
     assert manuscript_data_any['manuscript_title'] == collect_manuscript_data.manuscript_title
@@ -61,8 +54,9 @@ def test_collect_manuscript_data_from_nlr(
 @pytest.mark.parametrize('manuscript_code_title, fund_title', [
     ('F.I.60', enums.FundTitle.f_i),
     ('F.IV.225', enums.FundTitle.f_i),
-    ('Q.п.I.54', enums.FundTitle.f_i),
     ('O.I.279', enums.FundTitle.f_i),
+    ('Q.I.1138', enums.FundTitle.f_i),
+    ('Q.п.I.54', enums.FundTitle.f_i),
     ('Кир.-Бел. 2/1079', enums.FundTitle.kir_bel),
     ('Сол. 1128/1237', enums.FundTitle.sol),
     ('Сол. 24/24', enums.FundTitle.sol),

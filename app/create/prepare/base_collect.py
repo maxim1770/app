@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import date
 from pathlib import Path
 
@@ -12,7 +13,7 @@ from app.create import const as create_const
 
 def _collect_readings() -> str:
     req = requests.get(
-        f'{create_const.AZBYKA_NETLOC}/days/p-ukazatel-evangelskih-i-apostolskih-chtenij-na-kazhdyj-den-goda'
+        f'{create_const.AzbykaUrl.DAYS}/p-ukazatel-evangelskih-i-apostolskih-chtenij-na-kazhdyj-den-goda'
     )
     soup: BeautifulSoup = BeautifulSoup(req.text, "lxml")
     readings: Tag = soup.find("table", class_="adaptive").find("tbody")
@@ -30,7 +31,7 @@ def get_readings() -> BeautifulSoup:
 
 
 def _collect_all_cathedrals_saints() -> list[str]:
-    req = requests.get(f'{create_const.AZBYKA_NETLOC}/days/sobory-svjatyh')
+    req = requests.get(f'{create_const.AzbykaUrl.DAYS}/sobory-svjatyh')
 
     table: Tag = BeautifulSoup(req.text, "lxml").find('table', class_="menology")
     cathedrals_saints_data: list[Tag] = table.find_all('tr')
@@ -57,9 +58,7 @@ def get_all_cathedrals_saints() -> list[str]:
 
 def _collect_holidays_in_day(session: requests.Session, *, day: date) -> str:
     day = day + create_const.NUM_OFFSET_DAYS
-    holidays: dict[str, str | list] = session.get(
-        f'{create_const.AZBYKA_NETLOC}/days/widgets/presentations.json?date={day}'
-    ).json()
+    holidays: dict[str, str | list] = session.get(f'{create_const.AzbykaUrl.GET_HOLIDAYS_IN_DAY_API}{day}').json()
     return holidays['presentations']
 
 
@@ -82,9 +81,25 @@ def get_saints_holidays_in_day(day: date) -> list[Tag]:
     return saints_holidays
 
 
+def get_saints_groups_holidays_in_day(day: date) -> list[Tag]:
+    holidays: BeautifulSoup = get_holidays_in_day(day=day)
+    saints_groups_holidays: list[Tag] = holidays.find_all('a', class_='saints-group-href')
+    return saints_groups_holidays
+
+
 def collect_saint_data(session: requests.Session, *, saint_slug: str) -> Tag:
-    req = session.get(
-        f'{create_const.AZBYKA_NETLOC}/days/sv-{saint_slug}'
-    )
+    req = session.get(create_const.AzbykaUrl.GET_SAINT_BY_SLUG + saint_slug)
     saint_data: Tag = BeautifulSoup(req.text, "lxml").find('div', {'id': 'main'})
     return saint_data
+
+
+def collect_saint_slug_by_saint_id_from_azbyka(session: requests.Session, *, saint_id_from_azbyka: int) -> str | None:
+    try:
+        r = session.get(f'{create_const.AzbykaUrl.GET_SAINT_BY_ID}/{saint_id_from_azbyka}')
+    except requests.exceptions.TooManyRedirects:
+        logging.error(f'TooManyRedirects, saint_id_from_azbyka: {saint_id_from_azbyka}')
+        return None
+    if r.status_code == 404:
+        return None
+    saint_slug: str = r.url.replace(create_const.AzbykaUrl.GET_SAINT_BY_SLUG, '')
+    return saint_slug

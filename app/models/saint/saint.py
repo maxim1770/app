@@ -1,24 +1,10 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.base_class import Base, intpk, unique_slug
 from .dignity import Dignity
 from .face_sanctity import FaceSanctity
-
-if TYPE_CHECKING:
-    from ..holiday import Holiday
-
-
-class SaintsHolidays(Base):
-    saint_id: Mapped[intpk] = mapped_column(ForeignKey('saint.id'))
-    holiday_id: Mapped[intpk] = mapped_column(ForeignKey('holiday.id'))
-
-    saint: Mapped['Saint'] = relationship(back_populates='holiday_associations')
-    holiday: Mapped[Holiday] = relationship(back_populates='saint_associations')
+from ..holiday import Holiday
 
 
 class Saint(Base):
@@ -38,4 +24,12 @@ class Saint(Base):
         back_populates='saints',
         viewonly=True
     )
-    holiday_associations: Mapped[list[SaintsHolidays]] = relationship(back_populates='saint')
+    holiday_associations: Mapped[list['SaintsHolidays']] = relationship(back_populates='saint')
+
+
+class SaintsHolidays(Base):
+    saint_id: Mapped[intpk] = mapped_column(ForeignKey(Saint.id))
+    holiday_id: Mapped[intpk] = mapped_column(ForeignKey(Holiday.id))
+
+    saint: Mapped[Saint] = relationship(back_populates='holiday_associations')
+    holiday: Mapped[Holiday] = relationship(back_populates='saint_associations')

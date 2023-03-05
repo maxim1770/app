@@ -3,11 +3,13 @@ from uuid import UUID
 
 import requests
 from fastapi import Depends, APIRouter, status, Path, HTTPException
+from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
 from app import crud, schemas, models, const, create
 from app.create.prepare import ManuscriptDataCreateFactory, PrepareError
-from ....deps import get_db, get_session
+from app.schemas.manuscript.manuscript import NotNumberedPages
+from ....deps import get_db, get_session, get_driver
 
 router = APIRouter()
 
@@ -53,6 +55,7 @@ def create_manuscript(
 
 
 def get_valid_manuscript(
+        *,
         db: Session = Depends(get_db),
         manuscript_code: UUID | str = Path(regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
 ) -> models.Manuscript:
@@ -60,6 +63,17 @@ def get_valid_manuscript(
     if not manuscript:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Manuscript not found')
     return manuscript
+
+
+def get_valid_book(
+        *,
+        db: Session = Depends(get_db),
+        book_id: int
+) -> models.Book:
+    book = crud.get_book_by_id(db, id=book_id)
+    if not book:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Book not found')
+    return book
 
 
 @router.get('/{manuscript_code}', response_model=schemas.Manuscript)
@@ -70,11 +84,69 @@ def read_manuscript(
     return manuscript
 
 
+@router.put('/{manuscript_code}', response_model=schemas.Manuscript)
+def update_manuscript(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        manuscript_data_in: schemas.ManuscriptDataUpdate
+) -> Any:
+    manuscript = create.update_manuscript(db, manuscript=manuscript, manuscript_data_in=manuscript_data_in)
+    return manuscript
+
+
+@router.post('/{manuscript_code}', response_model=schemas.Manuscript)
+def create_manuscript_not_numbered_pages(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        not_numbered_pages_in: NotNumberedPages
+) -> Any:
+    not_numbered_pages = manuscript.not_numbered_pages + not_numbered_pages_in.dict()['__root__']
+    not_numbered_pages.sort(key=lambda not_numbered_page: not_numbered_page['page']['num'])
+    manuscript.not_numbered_pages = not_numbered_pages
+    db.add(manuscript)
+    db.commit()
+    db.refresh(manuscript)
+    return manuscript
+
+
+@router.post('/{manuscript_code}/data', response_model=schemas.Manuscript)
+def create_manuscript_data(
+        *,
+        session: requests.Session = Depends(get_session),
+        driver: WebDriver = Depends(get_driver),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+) -> Any:
+    collect_manuscript = create.CollectManuscriptFactory(
+        session,
+        driver,
+        fund_title=manuscript.fund.title,
+        library_title=manuscript.fund.library,
+        code=manuscript.code,
+        neb_slug=manuscript.neb_slug,
+    ).get()
+    collect_manuscript.save_imgs()
+    return manuscript
+
+
+@router.patch('/{manuscript_code}/books/{book_id}', response_model=schemas.Manuscript)
+def update_manuscript_bookmark(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        book: models.Book = Depends(get_valid_book),
+        pages_in: schemas.PagesCreate
+) -> Any:
+    manuscript = create.update_manuscript_bookmark(db, manuscript=manuscript, book=book, pages_in=pages_in)
+    return manuscript
+
+
 @router.delete('/{manuscript_code}', response_model=schemas.Manuscript)
 def delete_manuscript(
         *,
         db: Session = Depends(get_db),
         manuscript: models.Manuscript = Depends(get_valid_manuscript)
 ) -> Any:
-    manuscript = crud.manuscript.remove(db, code=manuscript.code)
+    manuscript = crud.manuscript.remove_by_id(db, id=manuscript.id)
     return manuscript

@@ -8,6 +8,9 @@ fastapi = { extras = ["all"], version = "*" }
 sqlalchemy = "*"
 alembic = "*"
 psycopg2 = "*"
+sqladmin = "*"
+pypdf = "*"
+pillow = "*"
 
 [dev-packages]
 pytest = "*"

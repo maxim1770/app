@@ -12,7 +12,7 @@ from ..base import CRUDBase
 class CRUDManuscript(CRUDBase[Manuscript, ManuscriptCreate, ManuscriptUpdate]):
 
     def get_by_code(self, db: Session, *, code: UUID | str) -> Manuscript | None:
-        return db.execute(sa.select(self.model).filter_by(code=code)).scalar_one_or_none()
+        return db.execute(sa.select(self.model).filter_by(code=str(code))).scalar_one_or_none()
 
     def get_by_neb_slug(self, db: Session, *, neb_slug: str) -> Manuscript | None:
         return db.execute(sa.select(self.model).filter_by(neb_slug=neb_slug)).scalar_one_or_none()

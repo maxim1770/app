@@ -1,4 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, conint
+
+if TYPE_CHECKING:
+    from .holiday import HolidayInDB
 
 
 class DayBase(BaseModel):
@@ -10,10 +17,16 @@ class DayCreate(DayBase):
     pass
 
 
-class Day(DayBase):
+class DayInDBBase(DayBase):
     id: int
-
-    # holidays: list[Holiday] = []
 
     class Config:
         orm_mode = True
+
+
+class Day(DayInDBBase):
+    holidays: list[HolidayInDB] = []
+
+
+class DayInDB(DayInDBBase):
+    pass

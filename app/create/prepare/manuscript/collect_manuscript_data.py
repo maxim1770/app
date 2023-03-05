@@ -8,6 +8,7 @@ from roman import toRoman
 
 from app import const, enums, utils
 from app.schemas import YearCreate
+from ..year import PrepareYearTitle
 
 
 class CollectManuscriptDataBase(ABC):
@@ -35,6 +36,11 @@ class CollectManuscriptDataBase(ABC):
     @property
     @abstractmethod
     def fund_title(self) -> enums.FundTitle: ...
+
+    @classmethod
+    def _prepare_year_in(cls, year_title: str) -> str:
+        year_title: str = PrepareYearTitle(year_title).year_title
+        return year_title
 
 
 class CollectManuscriptDataFromRsl(CollectManuscriptDataBase):
@@ -68,7 +74,9 @@ class CollectManuscriptDataFromRsl(CollectManuscriptDataBase):
         year_title: str = self._soup.find(
             lambda tag: tag.name == 'span' and 'Дата:' in tag.text
         ).next_element.next_element.strip()
-        return YearCreate(title=year_title)
+        year_title: str = self._prepare_year_in(year_title)
+        year_in = YearCreate(title=year_title)
+        return year_in
 
     @property
     def fund_title(self) -> enums.FundTitle:
@@ -106,7 +114,9 @@ class CollectManuscriptDataFromNlr(CollectManuscriptDataBase):
     @property
     def year_in(self) -> YearCreate:
         year_title: str = self._soup.find_all('br')[2].next_element.next_element.strip()
-        return YearCreate(title=year_title)
+        year_title: str = self._prepare_year_in(year_title)
+        year_in = YearCreate(title=year_title)
+        return year_in
 
     @property
     def fund_title(self) -> enums.FundTitle:
@@ -116,7 +126,7 @@ class CollectManuscriptDataFromNlr(CollectManuscriptDataBase):
     @staticmethod
     def prepare_fund_title(manuscript_code_title: str) -> enums.FundTitle:
         fond_title_text: str = manuscript_code_title[:manuscript_code_title.rfind('.')]
-        if fond_title_text in ['F.IV', 'O.I', 'Q.п.I']:
+        if fond_title_text in ['F.IV', 'O.I', 'Q.I', 'Q.п.I']:
             fond_title_text: str = 'F.I'
         fund_title = enums.FundTitle(fond_title_text)
         return fund_title
@@ -136,8 +146,11 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
     def manuscript_title(self) -> str:
         manuscript_title: str = self._soup.find(
             'div', class_='book-info'
-        ).find(lambda tag: tag.name == 'div' and 'Заглавие' == tag.text).next_sibling.text.strip()
+        ).find(lambda tag: tag.name == 'div' and 'Заглавие' == tag.text).next_sibling.text
         manuscript_title = manuscript_title.replace(' :', ':')
+        if '=' in manuscript_title:
+            manuscript_title = manuscript_title.split('=')[1]
+        manuscript_title = manuscript_title.strip()
         return manuscript_title
 
     @staticmethod
@@ -159,8 +172,10 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
 
     @property
     def year_in(self) -> YearCreate:
-        year_title: str = self._soup.find('div', class_='annotation-sections-date').find('h4').text.strip()
-        return YearCreate(title=year_title)
+        year_title: str = self._soup.find('div', class_='annotation-sections-date').find('h4').text
+        year_title: str = self._prepare_year_in(year_title)
+        year_in = YearCreate(title=year_title)
+        return year_in
 
     @property
     def fund_title(self) -> enums.FundTitle:

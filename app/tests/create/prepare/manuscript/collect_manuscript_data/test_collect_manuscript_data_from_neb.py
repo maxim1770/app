@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pytest
 import requests
 
-from app import schemas, const, enums
-from app.core.config import settings
+from app import schemas, enums
 from app.create.prepare.manuscript.collect_manuscript_data import CollectManuscriptDataFromNeb
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('manuscript_neb_slug, manuscript_data_any', [
@@ -44,12 +42,7 @@ def test_collect_manuscript_data_from_neb(
         manuscript_neb_slug: str,
         manuscript_data_any: dict[str, str | schemas.YearCreate | enums.FundTitle | None]
 ) -> None:
-    path = Path(settings.TEST_DATA_DIR) / f'manuscript/get/neb/{manuscript_neb_slug}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(
-        f'{const.NebUrl.GET_MANUSCRIPT_DATA}/{manuscript_neb_slug}',
-        text=requests_mock_text
-    )
+    test_utils.requests_mock_get_manuscript_data_neb(requests_mock, manuscript_neb_slug=manuscript_neb_slug)
     collect_manuscript_data = CollectManuscriptDataFromNeb(session, manuscript_code=manuscript_neb_slug)
     assert manuscript_data_any['manuscript_code_title'] == collect_manuscript_data.manuscript_code_title
     assert manuscript_data_any['manuscript_title'] == collect_manuscript_data.manuscript_title

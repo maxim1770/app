@@ -16,7 +16,7 @@ class Date(Base):
     day_id: Mapped[intpk] = mapped_column(ForeignKey('day.id'))
     movable_day_id: Mapped[intpk] = mapped_column(ForeignKey('movable_day.id'))
 
-    _offset_year: Mapped[int] = mapped_column(SmallInteger)
+    year: Mapped[intpk] = mapped_column(SmallInteger)
 
     day: Mapped[Day] = relationship(back_populates='movable_days')
     movable_day: Mapped[MovableDay] = relationship(back_populates='days')

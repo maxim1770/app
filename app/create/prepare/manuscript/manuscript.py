@@ -1,6 +1,7 @@
 from uuid import UUID
 
 import requests
+from pydantic import ValidationError
 
 from app import enums
 from app.schemas import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptCreate, YearCreate
@@ -34,20 +35,9 @@ class CollectManuscriptDataFactory(object):
             manuscript_code=search_manuscript_in_neb.manuscript_neb_slug
         )
         if collect_manuscript_data.manuscript_code_title != collect_manuscript_data_from_neb.manuscript_code_title:
-            raise PrepareError('Manuscript_code_title in libs !=')
-        return collect_manuscript_data_from_neb
-
-    @classmethod
-    def get_by_manuscript_neb_slug(
-            self,
-            session: requests.Session,
-            *,
-            manuscript_neb_slug: str
-    ) -> CollectManuscriptDataFromNeb:
-        collect_manuscript_data_from_neb = CollectManuscriptDataFromNeb(
-            session,
-            manuscript_code=manuscript_neb_slug
-        )
+            raise PrepareError(
+                f'Manuscript_code_title in libs не равны {collect_manuscript_data.manuscript_code_title} != {collect_manuscript_data_from_neb.manuscript_code_title}'
+            )
         return collect_manuscript_data_from_neb
 
 
@@ -59,32 +49,34 @@ class ManuscriptDataCreateFactory(object):
             *,
             manuscript_data_in_any: ManuscriptDataCreateAny
     ):
-        self._manuscript_data_in_any = manuscript_data_in_any
-
-        if self._manuscript_data_in_any.manuscript_in.neb_slug:
+        if manuscript_data_in_any.manuscript_in.neb_slug:
             self.collect_manuscript_data = CollectManuscriptDataFromNeb(
                 session,
-                manuscript_code=self._manuscript_data_in_any.manuscript_in.neb_slug
+                manuscript_code=manuscript_data_in_any.manuscript_in.neb_slug
             )
             search_manuscript = SearchManuscriptFactory.get(
                 session,
                 manuscript_code_title=self.collect_manuscript_data.manuscript_code_title
             )
             manuscript_code: UUID | str = search_manuscript.manuscript_code
-            self._manuscript_data_in_any.manuscript_in.code = manuscript_code
-        elif self._manuscript_data_in_any.manuscript_in.code:
+            manuscript_data_in_any.manuscript_in.code = manuscript_code
+        elif manuscript_data_in_any.manuscript_in.code:
             self.collect_manuscript_data = CollectManuscriptDataFactory.get_by_manuscript_code(
                 session,
-                manuscript_code=self._manuscript_data_in_any.manuscript_in.code
+                manuscript_code=manuscript_data_in_any.manuscript_in.code
             )
             if isinstance(self.collect_manuscript_data, CollectManuscriptDataFromNeb):
                 manuscript_neb_slug: str = self.collect_manuscript_data._manuscript_code
-                self._manuscript_data_in_any.manuscript_in.neb_slug = manuscript_neb_slug
+                manuscript_data_in_any.manuscript_in.neb_slug = manuscript_neb_slug
+        self._manuscript_data_in_any = manuscript_data_in_any
 
     @property
     def _year_in(self) -> YearCreate:
         if not self._manuscript_data_in_any.year_in:
-            return self.collect_manuscript_data.year_in
+            try:
+                return self.collect_manuscript_data.year_in
+            except (ValidationError, ValueError) as e:
+                raise PrepareError(e.args[0])
         return self._manuscript_data_in_any.year_in
 
     @property

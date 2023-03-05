@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from ..saint import Saint
 
 
 class SaintLiveBase(BaseModel):
@@ -11,7 +10,7 @@ class SaintLiveCreate(SaintLiveBase):
 
 
 class SaintLive(SaintLiveBase):
-    # book_id: int
+    book_id: int
 
     # saint: Saint | None = None
 

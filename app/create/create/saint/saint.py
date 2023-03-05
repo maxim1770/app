@@ -46,6 +46,11 @@ def update_saint(
 def update_saint_from_azbyka(db: Session, *, session: requests.Session, saint: models.Saint) -> models.Saint:
     if saint.name:
         raise FatalCreateError(f'Saint name already exists, saint.slug = {saint.slug}')
-    saint_data_in = SaintDataUpdateFactory(session=session, saint_slug=saint.slug).get()
+    if saint.slug == 'kallisfenija-efesskaja':
+        saint_data_in = schemas.SaintDataUpdate(saint_in=schemas.SaintUpdate(name='Каллисфе́ния Ефесская'))
+    elif saint.slug == 'markellin-ispanskij':
+        saint_data_in = schemas.SaintDataUpdate(saint_in=schemas.SaintUpdate(name='Маркелли́н Испанский'))
+    else:
+        saint_data_in = SaintDataUpdateFactory(session=session, saint_slug=saint.slug).get()
     saint = update_saint(db, saint=saint, saint_data_in=saint_data_in)
     return saint

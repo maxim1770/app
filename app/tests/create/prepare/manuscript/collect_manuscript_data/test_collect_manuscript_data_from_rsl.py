@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pytest
 import requests
 
-from app import schemas, const, enums, utils
-from app.core.config import settings
+from app import schemas, enums
 from app.create.prepare.manuscript.collect_manuscript_data import CollectManuscriptDataFromRsl
+from app.tests import test_utils
 
 
 @pytest.mark.parametrize('manuscript_code, manuscript_data_any', [
@@ -52,12 +50,7 @@ def test_collect_manuscript_data_from_rsl(
         manuscript_code: str,
         manuscript_data_any: dict[str, str | schemas.YearCreate | None]
 ) -> None:
-    path = Path(settings.TEST_DATA_DIR) / f'manuscript/get/rsl/{manuscript_code}.html'
-    requests_mock_text: str = path.read_text(encoding="utf-8")
-    requests_mock.get(
-        f'{const.RslUrl.GET_MANUSCRIPT}/{utils.combine_fund_with_manuscript_code(manuscript_code)}',
-        text=requests_mock_text
-    )
+    test_utils.requests_mock_get_manuscript_data_rsl(requests_mock, manuscript_code=manuscript_code)
     collect_manuscript_data = CollectManuscriptDataFromRsl(session, manuscript_code=manuscript_code)
     assert manuscript_data_any['manuscript_code_title'] == collect_manuscript_data.manuscript_code_title
     assert manuscript_data_any['manuscript_title'] == collect_manuscript_data.manuscript_title
