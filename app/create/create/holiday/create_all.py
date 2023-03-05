@@ -246,7 +246,7 @@ def create_all_great_holidays(db: Session):
                 SaintHolidayCreate(
                     holiday_in=HolidayCreate(
                         slug='rozhdestvo-chestnogo-slavnogo-proroka-predtechi-i-krestitelja-gospodnja-ioanna',
-                        title='Рождество честно́го славного Пророка, Предтечи и Крестителя Господня Иоанна',
+                        title='Рождество Честно́го и Славного Пророка, Предтечи и Крестителя Господня Иоа́нна',
                     ),
                     holiday_category_title=HolidayCategoryTitle.prazdniki_predtechevy,
                     saint_in=SaintCreate(slug='prorok-i-krestitel-ioann-predtecha'),
@@ -256,12 +256,23 @@ def create_all_great_holidays(db: Session):
                 SaintHolidayCreate(
                     holiday_in=HolidayCreate(
                         slug='useknovenie-glavy-proroka-predtechi-i-krestitelja-gospodnja-ioanna',
-                        title='Усекновение главы Пророка, Предтечи и Крестителя Господня Иоанна',
+                        title='Усекновение главы Пророка, Предтечи и Крестителя Господня Иоа́нна',
                     ),
                     holiday_category_title=HolidayCategoryTitle.prazdniki_predtechevy,
                     saint_in=SaintCreate(slug='prorok-i-krestitel-ioann-predtecha'),
                     year_in=YearCreate(title='30'),
                     day_in=DayCreate(month=8, day=29),
+                ),
+                SaintHolidayCreate(
+                    # Праздник помечен: 'три тычка', в некоторых Рукописях: 'Крест' (т.е. или Средний или Малый Праздник)
+                    holiday_in=HolidayCreate(
+                        slug='zachatie-chestnogo-i-slavnogo-proroka-predtechi-i-krestitelja-gospodnja-ioanna',
+                        title='Зачатие Честно́го и Славного Пророка, Предтечи и Крестителя Господня Иоа́нна',
+                    ),
+                    holiday_category_title=HolidayCategoryTitle.prazdniki_predtechevy,
+                    saint_in=SaintCreate(slug='prorok-i-krestitel-ioann-predtecha'),
+                    year_in=YearCreate(title='5499 от Адама'),
+                    day_in=DayCreate(month=9, day=23),
                 )
             ]
         )
@@ -444,7 +455,7 @@ def create_all_cathedrals_saints(db: Session):
                 slug='svjatyh-treh-svjatitelej-vasilija-velikogo-grigorija-bogoslova-i-ioanna-zlatoustogo',
                 title='Поем службу Святых трех Святителей Васи́лия Великого, Григо́рия Богослова и Иоа́нна Златоустого, сотворенную от Святейшего Митрополита Евхаитскаго Кир Иоанн',
             ),
-            holiday_category_title=HolidayCategoryTitle.cathedral_saints,
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
             year_in=YearCreate(title='После 1089'),  # НЕТОЧНО, ДАТУ ВЗЯЛ с azbyka
             day_in=DayCreate(month=1, day=30),
             saints_in=[
@@ -504,7 +515,7 @@ def create_all_cathedrals_saints(db: Session):
 
 
 def create_any_holidays(db: Session):
-    holidays_data_in: list[HolidayDataCreate | SaintHolidayCreate] = [
+    holidays_data_in: list[HolidayDataCreate | SaintHolidayCreate | SaintHolidayCreateWithoutYear] = [
         HolidayDataCreate(
             holiday_in=HolidayCreate(
                 slug='svjatyh-mladentsev-ische-hrista-radi-izbiennyh-ot-iroda-v-vifleeme-14-tysjach',
@@ -526,11 +537,24 @@ def create_any_holidays(db: Session):
             ),
             day_in=DayCreate(month=9, day=6),
             year_in=YearCreate(title='IV'),  # НЕТОЧНО, ДАТУ ВЗЯЛ с azbyka
+        ),
+        SaintHolidayCreateWithoutYear(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-drugoj-ioann-bogoslov',
+                title='Преставление Святого Славного и Всехвалного Апостола и Евангелиста Иоа́нна Богослова',
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            saint_in=SaintCreate(
+                slug='ioann-bogoslov'
+            ),
+            day_in=DayCreate(month=9, day=26)
         )
     ]
     for holiday_data_in in holidays_data_in:
         if isinstance(holiday_data_in, SaintHolidayCreate):
             holiday = create_saint_holiday(db, saint_holiday_in=holiday_data_in)
+        elif isinstance(holiday_data_in, SaintHolidayCreateWithoutYear):
+            holiday = create_saint_holiday_without_year(db, saint_holiday_in=holiday_data_in)
         else:
             holiday = create_holiday(db, holiday_data_in=holiday_data_in)
 
