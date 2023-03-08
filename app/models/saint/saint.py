@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
@@ -5,6 +9,9 @@ from app.db.base_class import Base, intpk, unique_slug
 from .dignity import Dignity
 from .face_sanctity import FaceSanctity
 from ..holiday import Holiday
+
+if TYPE_CHECKING:
+    from ..book import Book
 
 
 class Saint(Base):
@@ -18,6 +25,8 @@ class Saint(Base):
 
     dignity: Mapped[Dignity | None] = relationship(back_populates='saints')
     face_sanctity: Mapped[FaceSanctity | None] = relationship(back_populates='saints')
+
+    books: Mapped[list[Book]] = relationship(back_populates='author')
 
     holidays: Mapped[list[Holiday]] = relationship(
         secondary='saints_holidays',

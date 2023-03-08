@@ -11,6 +11,7 @@ from .holiday import create_saint_holiday, create_saint_holiday_without_year, cr
 from .manuscript import CollectManuscriptFactory
 from .manuscript import create_all_funds
 from .manuscript import create_manuscript, update_manuscript_bookmark, update_manuscript
+from .manuscript import create_manuscript_bookmarks
 from .movable_date import create_all_movable_dates
 from .saint import create_all_dignities, create_all_faces_sanctity
 from .saint import create_saint, update_saint, update_saint_from_azbyka, update_saints

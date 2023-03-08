@@ -11,5 +11,5 @@ from .create import create_all_saints_holidays, create_all_cathedrals_saints, cr
 from .create import create_dates_for_years
 from .create import create_holiday, create_saint_holiday, create_saint_holiday_without_year, create_saints_holiday, \
     create_movable_saint_holiday
-from .create import create_manuscript, update_manuscript_bookmark, update_manuscript
+from .create import create_manuscript, update_manuscript_bookmark, update_manuscript, create_manuscript_bookmarks
 from .create import create_saint, update_saint, update_saint_from_azbyka, update_saints

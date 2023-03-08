@@ -4,7 +4,7 @@ from app.db.base_class import Base  # noqa
 from app.models.bible_book import BibleBook  # noqa
 from app.models.bible_book import Zachalo  # noqa
 from app.models.book import Book  # noqa
-from app.models.book import SaintLive  # noqa
+from app.models.book import HolidayBook  # noqa
 from app.models.date import Date  # noqa
 from app.models.day import Day  # noqa
 from app.models.holiday import Holiday  # noqa

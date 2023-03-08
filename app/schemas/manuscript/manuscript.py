@@ -30,6 +30,7 @@ class ManuscriptBase(BaseModel):
     code: UUID | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR) | None = None
     handwriting: conint(strict=True, ge=1, le=12) | None = None
     not_numbered_pages: NotNumberedPages = []
+    first_page_position: enums.PagePosition | None = None
 
 
 class ManuscriptCreateAny(ManuscriptBase):

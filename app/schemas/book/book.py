@@ -1,10 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, constr
 
-from .saint_live import SaintLive
+if TYPE_CHECKING:
+    from .holiday_book import HolidayBook
 
 
 class BookBase(BaseModel):
-    title: constr(strip_whitespace=True, strict=True, max_length=100)
+    title: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
 
 
 class BookCreate(BookBase):
@@ -14,7 +19,7 @@ class BookCreate(BookBase):
 class Book(BookBase):
     id: int
 
-    saint_live: SaintLive | None = None
+    holiday_book: HolidayBook | None = None
 
     class Config:
         orm_mode = True

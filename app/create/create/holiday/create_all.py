@@ -516,6 +516,18 @@ def create_all_cathedrals_saints(db: Session):
 
 def create_any_holidays(db: Session):
     holidays_data_in: list[HolidayDataCreate | SaintHolidayCreate | SaintHolidayCreateWithoutYear] = [
+        SaintHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-tretij-georgij-pobedonosec',
+                title='Вмч. Гео́ргия Победоносца',
+            ),
+            saint_in=SaintCreate(
+                slug='georgij-pobedonosec'
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            year_in=YearCreate(title='311'),
+            day_in=DayCreate(month=4, day=23),
+        ),
         HolidayDataCreate(
             holiday_in=HolidayCreate(
                 slug='svjatyh-mladentsev-ische-hrista-radi-izbiennyh-ot-iroda-v-vifleeme-14-tysjach',

@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 from pydantic import BaseModel
 
-from .page import Page
-from ..book import Book
+from .page import Page, PagesCreate
+from ..book import Book, HolidayBookDataCreate
 
 if TYPE_CHECKING:
     from .manuscript import ManuscriptInDB
@@ -34,3 +34,13 @@ class Bookmark(BookmarkInDBBase):
 
 class BookmarkInDB(BookmarkInDBBase):
     pass
+
+
+class BookmarkDataBase(BaseModel):
+    pages_in: PagesCreate | None = None
+    book_data_in: HolidayBookDataCreate | None = None
+
+
+class BookmarkDataCreate(BookmarkDataBase):
+    book_data_in: HolidayBookDataCreate
+    pages_in: PagesCreate

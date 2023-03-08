@@ -2,7 +2,7 @@ from .bible_book import BibleBook, BibleBookCreate, BibleBookNewTestamentCreate,
     BibleBookApostleCreate
 from .bible_book import Zachalo, ZachaloCreate
 from .book import Book, BookCreate
-from .book import SaintLive, SaintLiveCreate
+from .book import HolidayBook, HolidayBookCreate, HolidayBookDataCreate
 from .date import Date, DateCreate
 from .day import Day, DayCreate
 from .holiday import Holiday, HolidayCreate, HolidayUpdate, HolidayDataCreate
@@ -10,10 +10,11 @@ from .holiday import HolidayCategory, HolidayCategoryCreate
 from .holiday import MovableSaintHolidayCreateWithoutData
 from .holiday import SaintHolidayCreate, SaintHolidayCreateWithoutYear, MovableSaintHolidayCreate
 from .holiday import SaintsHolidayCreate
+from .manuscript import BookmarkDataCreate
 from .manuscript import Fund, FundCreate
-from .manuscript import Manuscript, ManuscriptCreateAny, ManuscriptCreate, ManuscriptUpdate
+from .manuscript import Manuscript, ManuscriptCreateAny, ManuscriptCreate, ManuscriptUpdate, NotNumberedPages
 from .manuscript import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptDataUpdate
-from .manuscript import PagesCreate
+from .manuscript import PagesCreate, PageCreate
 from .movable_date import Cycle, CycleCreate
 from .movable_date import DivineService, DivineServiceCreate
 from .movable_date import MovableDate, MovableDateCreate

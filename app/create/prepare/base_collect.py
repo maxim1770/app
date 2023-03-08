@@ -24,7 +24,7 @@ def get_readings() -> BeautifulSoup:
     path = Path(settings.DATA_CREATE_DIR) / 'readings.html'
     if not path.exists():
         readings: str = _collect_readings()
-        path.parent.mkdir(parents=True, exist_ok=True)
+        path.parent.mkdir(parents=False, exist_ok=True)
         path.write_text(readings, encoding='utf-8')
     readings: str = path.read_text(encoding="utf-8")
     return BeautifulSoup(readings, "lxml")
@@ -50,7 +50,7 @@ def get_all_cathedrals_saints() -> list[str]:
     path = Path(settings.DATA_CREATE_DIR) / 'holiday/all_cathedrals_saints.json'
     if not path.exists():
         all_cathedrals_saints: list[str] = _collect_all_cathedrals_saints()
-        path.parent.mkdir(parents=True, exist_ok=True)
+        path.parent.mkdir(parents=False, exist_ok=True)
         path.write_text(json.dumps(all_cathedrals_saints), encoding='utf-8')
     all_cathedrals_saints: list[str] = json.load(path.open(encoding='utf-8'))
     return all_cathedrals_saints
@@ -65,7 +65,7 @@ def _collect_holidays_in_day(session: requests.Session, *, day: date) -> str:
 def get_holidays_in_day(day: date) -> BeautifulSoup:
     path = Path(settings.DATA_CREATE_DIR) / f'holiday/holidays/{day}.html'
     if not path.exists():
-        path.parent.mkdir(parents=True, exist_ok=True)
+        path.parent.mkdir(parents=False, exist_ok=True)
         session: requests.Session = next(deps.get_session())
         for current_day in create_const.all_days_in_year():
             holidays: str = _collect_holidays_in_day(session, day=current_day)

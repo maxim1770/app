@@ -3,6 +3,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
+from .bookmark import prepare_db_bookmark
 
 
 def create_manuscript(db: Session, *, manuscript_data_in: schemas.ManuscriptDataCreate) -> models.Manuscript:
@@ -43,13 +44,24 @@ def update_manuscript_bookmark(
         book: models.Book,
         pages_in: schemas.PagesCreate
 ) -> models.Manuscript:
-    bookmark = models.Bookmark(
+    db_bookmark = models.Bookmark(
         first_page=models.Page(**pages_in.first_page.dict()),
         end_page=models.Page(**pages_in.end_page.dict())
     )
-    bookmark.book = book
-    manuscript.books.append(bookmark)
+    db_bookmark.book = book
+    manuscript.books.append(db_bookmark)
     db.add(manuscript)
     db.commit()
     db.refresh(manuscript)
+    return manuscript
+
+
+def create_manuscript_bookmark(
+        db: Session,
+        *,
+        manuscript: models.Manuscript,
+        bookmark_data_in: schemas.BookmarkDataCreate
+) -> models.Manuscript:
+    db_bookmark = prepare_db_bookmark(db, bookmark_data_in=bookmark_data_in)
+    manuscript = crud.manuscript.create_book_association(db, db_obj=manuscript, db_bookmark=db_bookmark)
     return manuscript

@@ -1,3 +1,4 @@
+from .book import create_random_book_in, create_random_book
 from .day import create_random_day_in, create_random_day
 from .holiday import create_random_holiday_category_in, create_random_holiday_category
 from .holiday import create_random_holiday_in, create_random_saint_holiday_in, create_random_holiday

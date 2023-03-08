@@ -1,7 +1,6 @@
 from .bible_book import BibleBook
 from .bible_book import Zachalo
-from .book import Book
-from .book import SaintLive
+from .book import Book, HolidayBook
 from .date import Date
 from .day import Day
 from .holiday import Holiday

@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey, String, SmallInteger, JSON
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
+from app import enums
 from app.db.base_class import Base, intpk, unique_slug
 from .fund import Fund
 from ..year import Year
@@ -22,6 +23,7 @@ class Manuscript(Base):
     code: Mapped[str] = mapped_column(String(36), unique=True)
     handwriting: Mapped[int] = mapped_column(SmallInteger)
     not_numbered_pages: Mapped[list[dict[str, int]]] = mapped_column(JSON)
+    first_page_position: Mapped[enums.PagePosition]
 
     year_id: Mapped[int] = mapped_column(ForeignKey(Year.id))
     fund_id: Mapped[int] = mapped_column(ForeignKey(Fund.id))
