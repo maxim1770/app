@@ -1,20 +1,20 @@
 import pytest
 
-from app.const import REGEX_YEAR_TITLE
+from app.const import YearRegex
 
 
 @pytest.mark.parametrize('year_title', [
     '1234', '345', '64'
 ])
 def test_regex_year_title_year(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
     'II', 'XV', 'XVI'
 ])
 def test_regex_year_title_century(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
@@ -22,7 +22,7 @@ def test_regex_year_title_century(year_title: str) -> None:
     'После 123', 'До 450'
 ])
 def test_regex_year_title_text_with_year(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
@@ -30,28 +30,28 @@ def test_regex_year_title_text_with_year(year_title: str) -> None:
     'После XVI', 'До IV'
 ])
 def test_regex_year_title_text_with_century(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
     '123-124', '1559-1599', '997-1003'
 ])
 def test_regex_year_title_year_dash_year(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
     'XV-XVI', 'I-III', 'V-VIII'
 ])
 def test_regex_year_title_century_dash_century(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
     'Около 123-124', 'После 123-124', 'До 123-124',
 ])
 def test_regex_year_title_text_with_year_dash_year(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title)[0] == year_title
+    assert YearRegex.YEAR_TITLE.match(year_title)[0] == year_title
 
 
 @pytest.mark.parametrize('year_title', [
@@ -68,4 +68,4 @@ def test_regex_year_title_text_with_year_dash_year(year_title: str) -> None:
     'no year_title'
 ])
 def test_regex_year_title_bad(year_title: str) -> None:
-    assert REGEX_YEAR_TITLE.match(year_title) is None
+    assert YearRegex.YEAR_TITLE.match(year_title) is None

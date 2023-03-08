@@ -4,7 +4,7 @@ from typing import Pattern
 
 
 class NlrUrl(StrEnum):
-    DOMAIN: str = 'https://nlr.ru'
+    DOMAIN = 'https://nlr.ru'
     _MANUSCRIPT_BASE = f'{DOMAIN}/manuscripts'
     GET_MANUSCRIPT = f'{_MANUSCRIPT_BASE}/RA1527/elektronnyiy-katalog'
     __MANUSCRIPT_API_BASE = f'{_MANUSCRIPT_BASE}/1/1/ajax'
@@ -20,12 +20,12 @@ class RslUrl(StrEnum):
 
 
 class NebUrl(StrEnum):
-    DOMAIN: str = 'https://kp.rusneb.ru'
-    __GET_MANUSCRIPT_BASE: str = f'{DOMAIN}/item'
-    GET_MANUSCRIPT_DATA: str = f'{__GET_MANUSCRIPT_BASE}/material'
-    GET_MANUSCRIPT_PAGES: str = f'{__GET_MANUSCRIPT_BASE}/reader'
-    SEARCH_MANUSCRIPT_API: str = f'{DOMAIN}/search/2/facets'
+    DOMAIN = 'https://kp.rusneb.ru'
+    __GET_MANUSCRIPT_BASE = f'{DOMAIN}/item'
+    GET_MANUSCRIPT_DATA = f'{__GET_MANUSCRIPT_BASE}/material'
+    GET_MANUSCRIPT_PAGES = f'{__GET_MANUSCRIPT_BASE}/reader'
+    SEARCH_MANUSCRIPT_API = f'{DOMAIN}/search/2/facets'
 
 
 REGEX_RSL_MANUSCRIPT_CODE_STR: str = r'^f-\d{1,3}i{0,3}-\d{1,3}$'
-REGEX_RSL_MANUSCRIPT_CODE: Pattern[str] = re.compile(REGEX_RSL_MANUSCRIPT_CODE_STR)
+_REGEX_RSL_MANUSCRIPT_CODE: Pattern[str] = re.compile(REGEX_RSL_MANUSCRIPT_CODE_STR)

@@ -1,36 +1,14 @@
 import re
+from dataclasses import dataclass
 from enum import StrEnum, IntEnum
 from typing import Final, Pattern
 
+from app import utils
+
+YEAR_HERESY: Final[int] = 1597
 NUM_OFFSET_YEARS: Final[int] = 8
 NUM_YEARS_IN_CENTURY: Final[int] = 100
-YEAR_HERESY: Final[int] = 1597
 YEAR_CHRISTMAS: Final[int] = 5500
-
-REGEX_FIND_YEAR: Pattern[str] = re.compile(
-    r'''
-    (?<=\()
-    (ок\.|после|до)?
-    \s?
-    (?:\s?(\d+|[XVI]+)\s?(-|–)?){1,2}
-    \s?
-    (года|г{1,2}\.|в\.)?
-    (?=\))
-    ''',
-    re.VERBOSE
-)
-
-REGEX_ROMAN_CENTURY_STR: str = r'(X{0,2})(I[XV]|V?I{0,3})'
-REGEX_ROMAN_CENTURY: Pattern[str] = re.compile(REGEX_ROMAN_CENTURY_STR)
-
-REGEX_ROMAN_CENTURY_BEFORE_16_STR: str = r'(VIII|XIII|III|VII|XII|XIV|XVI|II|IV|VI|IX|XI|XV|I|V|X)'
-REGEX_ROMAN_CENTURY_BEFORE_16: Pattern[str] = re.compile(REGEX_ROMAN_CENTURY_BEFORE_16_STR)
-
-REGEX_YEAR_STR: str = r'(\d{2,4})'
-REGEX_YEAR: Pattern[str] = re.compile(REGEX_YEAR_STR)
-
-REGEX_YEAR_BEFORE_1600_STR: str = r'((((1[0-5]|[1-9])\d)|[1-9])\d)'
-REGEX_YEAR_BEFORE_1600: Pattern[str] = re.compile(REGEX_YEAR_BEFORE_1600_STR)
 
 
 class YearCorrection(StrEnum):
@@ -62,13 +40,6 @@ class CenturyCorrection(StrEnum):
     vtoraja_polovina = 'Вторая половина'
 
 
-_ROMAN_YEAR_СLARIFICATIONS_STR: str = '(' + '|'.join([i.replace(' ', '\s') for i in CenturyCorrection]) + ')'
-_ROMAN_YEAR_СLARIFICATIONS: Pattern[str] = re.compile(_ROMAN_YEAR_СLARIFICATIONS_STR)
-
-REGEX_YEAR_TITLE_STR: str = f'^({_ROMAN_YEAR_СLARIFICATIONS_STR}\s)?({REGEX_YEAR_BEFORE_1600_STR}|{REGEX_ROMAN_CENTURY_BEFORE_16_STR})(-({REGEX_YEAR_BEFORE_1600_STR}|{REGEX_ROMAN_CENTURY_BEFORE_16_STR}))?(-е)?$'
-REGEX_YEAR_TITLE: Pattern[str] = re.compile(REGEX_YEAR_TITLE_STR)
-
-
 class NumYearCorrection(IntEnum):
     okolo = 15
     posle = 25
@@ -96,3 +67,33 @@ class NumCenturyCorrection(IntEnum):
 
     pervaja_polovina = -25
     vtoraja_polovina = 25
+
+
+class _YearRegexStr(StrEnum):
+    _CENTURY = r'(X{0,2})(I[XV]|V?I{0,3})'
+    CENTURY_BEFORE_XVI = r'(VIII|XIII|III|VII|XII|XIV|XVI|II|IV|VI|IX|XI|XV|I|V|X)'
+    YEAR = r'(\d{2,4})'
+    YEAR_BEFORE_1600 = r'((((1[0-5]|[1-9])\d)|[1-9])\d)'
+    _CENTURY_CORRECTION = utils.enum2regex(CenturyCorrection)
+    YEAR_TITLE = f'^({_CENTURY_CORRECTION}\s)?({YEAR_BEFORE_1600}|{CENTURY_BEFORE_XVI})(-({YEAR_BEFORE_1600}|{CENTURY_BEFORE_XVI}))?(-е)?$'
+
+
+@dataclass(frozen=True)
+class YearRegex:
+    FIND_YEAR: Pattern[str] = re.compile(
+        r'''
+        (?<=\()
+        (ок\.|после|до)?
+        \s?
+        (?:\s?(\d+|[XVI]+)\s?(-|–)?){1,2}
+        \s?
+        (года|г{1,2}\.|в\.)?
+        (?=\))
+        ''',
+        re.VERBOSE
+    )
+    _CENTURY: Pattern[str] = re.compile(_YearRegexStr._CENTURY)
+    CENTURY_BEFORE_XVI: Pattern[str] = re.compile(_YearRegexStr.CENTURY_BEFORE_XVI)
+    YEAR: Pattern[str] = re.compile(_YearRegexStr.YEAR)
+    YEAR_BEFORE_1600: Pattern[str] = re.compile(_YearRegexStr.YEAR_BEFORE_1600)
+    YEAR_TITLE: Pattern[str] = re.compile(_YearRegexStr.YEAR_TITLE)

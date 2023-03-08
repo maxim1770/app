@@ -1,3 +1,5 @@
-from typing import Final
+from enum import StrEnum
 
-PRAVICON_NETLOC: Final[str] = 'http://pravicon.com'
+
+class PraviconUrl(StrEnum):
+    DOMAIN = 'http://pravicon.com'

@@ -1,6 +1,6 @@
 import pytest
 
-from app.const import REGEX_YEAR
+from app.const import YearRegex
 
 
 @pytest.mark.parametrize('year', [
@@ -9,7 +9,7 @@ from app.const import REGEX_YEAR
     '1356', '1630',
 ])
 def test_regex_year(year: str) -> None:
-    assert REGEX_YEAR.match(year)[0] == year
+    assert YearRegex.YEAR.match(year)[0] == year
 
 
 @pytest.mark.parametrize('year', [
@@ -19,5 +19,5 @@ def test_regex_year(year: str) -> None:
     'no year'
 ])
 def test_regex_year_bad(year: str) -> None:
-    assert REGEX_YEAR.match(year) is None or \
-           REGEX_YEAR.match(year)[0] != year
+    assert YearRegex.YEAR.match(year) is None or \
+           YearRegex.YEAR.match(year)[0] != year

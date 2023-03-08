@@ -1,6 +1,6 @@
 import pytest
 
-from app.const import REGEX_FIND_YEAR
+from app.const import YearRegex
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -14,7 +14,7 @@ from app.const import REGEX_FIND_YEAR
     ),
 ])
 def test_regex_find_year_warning(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -23,7 +23,7 @@ def test_regex_find_year_warning(holiday_full_title: str, year_title: str) -> No
     ('(64)', '64'),
 ])
 def test_regex_find_year_year(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -32,7 +32,7 @@ def test_regex_find_year_year(holiday_full_title: str, year_title: str) -> None:
     ('(II)', 'II')
 ])
 def test_regex_find_year_century(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -45,7 +45,7 @@ def test_regex_find_year_century(holiday_full_title: str, year_title: str) -> No
     ('(до450)', 'до450'),
 ])
 def test_regex_find_year_text_with_year(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -56,7 +56,7 @@ def test_regex_find_year_text_with_year(holiday_full_title: str, year_title: str
     ('(послеXVI)', 'послеXVI'),
 ])
 def test_regex_find_year_text_with_century(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -67,7 +67,7 @@ def test_regex_find_year_text_with_century(holiday_full_title: str, year_title: 
     ('(123 –1234)', '123 –1234'),
 ])
 def test_regex_find_year_year_dash_year(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -79,7 +79,7 @@ def test_regex_find_year_year_dash_year(holiday_full_title: str, year_title: str
 ]
                          )
 def test_regex_find_year_century_dash_century(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -90,7 +90,7 @@ def test_regex_find_year_century_dash_century(holiday_full_title: str, year_titl
     ('(ок.160– 170)', 'ок.160– 170'),
 ])
 def test_regex_find_year_text_with_year_dash_year(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -100,7 +100,7 @@ def test_regex_find_year_text_with_year_dash_year(holiday_full_title: str, year_
     ('text (100)text', '100'),
 ])
 def test_regex_find_year_one_bracket(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -110,7 +110,7 @@ def test_regex_find_year_one_bracket(holiday_full_title: str, year_title: str) -
     ('text (other text)(100)', '100'),
 ])
 def test_regex_find_year_two_brackets(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -122,7 +122,7 @@ def test_regex_find_year_two_brackets(holiday_full_title: str, year_title: str) 
 ]
                          )
 def test_regex_find_year_two_brackets_not_at_end(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title, year_title", [
@@ -132,7 +132,7 @@ def test_regex_find_year_two_brackets_not_at_end(holiday_full_title: str, year_t
     ('text )(100) ', '100'),
 ])
 def test_regex_find_year_three_brackets(holiday_full_title: str, year_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title)[0] == year_title
+    assert YearRegex.FIND_YEAR.search(holiday_full_title)[0] == year_title
 
 
 @pytest.mark.parametrize("holiday_full_title", [
@@ -153,4 +153,4 @@ def test_regex_find_year_three_brackets(holiday_full_title: str, year_title: str
     'text (Слова Слова) (Слово)',
 ])
 def test_regex_find_year_bad(holiday_full_title: str) -> None:
-    assert REGEX_FIND_YEAR.search(holiday_full_title) is None
+    assert YearRegex.FIND_YEAR.search(holiday_full_title) is None

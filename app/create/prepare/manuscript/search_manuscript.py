@@ -49,7 +49,7 @@ class SearchManuscriptInNeb(object):
 
     @staticmethod
     def prepare_rsl_manuscript_code_title(manuscript_code_title: str) -> str:
-        if match := const.REGEX_ROMAN_CENTURY_BEFORE_16.search(manuscript_code_title):
+        if match := const.YearRegex.CENTURY_BEFORE_XVI.search(manuscript_code_title):
             sub_roman_num: str = match[0]
             sub_num: int = fromRoman(sub_roman_num)
             manuscript_code_title = manuscript_code_title.replace(f'/{sub_roman_num}', f'.{sub_num}')
@@ -120,7 +120,7 @@ class SearchManuscriptInRsl(object):
         fond_num: int = int(REGEX_FIND_FOND_NUM.search(manuscript_code_title)[0])
         num: int = int(manuscript_code_title[manuscript_code_title.find('№') + 1:])
         if '/' in manuscript_code_title:
-            fond_sub_roman_num: str = const.REGEX_ROMAN_CENTURY_BEFORE_16.search(
+            fond_sub_roman_num: str = const.YearRegex.CENTURY_BEFORE_XVI.search(
                 manuscript_code_title
             )[0].lower()
             return f'f-{fond_num}{fond_sub_roman_num}-{num}'

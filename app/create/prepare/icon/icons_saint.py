@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.WARNING)
 
 
 def collect_icons_saint(pravicon_saint_id: int) -> list[Tag]:
-    req = requests.get(f'{const.PRAVICON_NETLOC}/icon-{pravicon_saint_id}-photo')
+    req = requests.get(f'{const.PraviconUrl.DOMAIN}/icon-{pravicon_saint_id}-photo')
 
     table: Tag = BeautifulSoup(req.text, "lxml").find('div', {'id': 'images'}).find('table')
 

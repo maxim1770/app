@@ -18,7 +18,7 @@ class PrepareYearTitle(object):
 
     @year_title.setter
     def year_title(self, year_title: str):
-        if not const.REGEX_YEAR_TITLE.match(year_title):
+        if not const.YearRegex.YEAR_TITLE.match(year_title):
             raise ValueError(f'{year_title} not valid year')
         self.__year_title = year_title
 

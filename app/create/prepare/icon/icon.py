@@ -23,7 +23,7 @@ REGEX_FIND_FACE_SANCTITY: Pattern[str] = re.compile(
 
 
 def collect_icons_saints() -> list[Tag]:
-    req = requests.get(f'{const.PRAVICON_NETLOC}/s')
+    req = requests.get(f'{const.PraviconUrl.DOMAIN}/s')
 
     table: Tag = BeautifulSoup(req.text, "lxml").find('table', {'border': '0'})
 

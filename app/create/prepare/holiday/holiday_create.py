@@ -22,10 +22,10 @@ class HolidayCreateFactoryBase(ABC):
 
     @classmethod
     def _find_year_title_full_title(cls, full_title: str) -> str:
-        years_titles: list[list[str]] = const.REGEX_FIND_YEAR.findall(full_title)
+        years_titles: list[list[str]] = const.YearRegex.FIND_YEAR.findall(full_title)
         if len(years_titles) > 1:
             raise ValueError(f'many years in {full_title}')
-        match: Match[str] | None = const.REGEX_FIND_YEAR.search(full_title)
+        match: Match[str] | None = const.YearRegex.FIND_YEAR.search(full_title)
         if not match:
             raise ValueError(f'not year: {full_title}')
         year_title: str = match[0]
