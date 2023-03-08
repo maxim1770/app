@@ -38,7 +38,7 @@ def create_saint(
 
 def get_valid_saint(
         db: Session = Depends(get_db),
-        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG_STR)
 ) -> models.Saint:
     saint = crud.saint.get_by_slug(db, slug=saint_slug)
     if not saint:

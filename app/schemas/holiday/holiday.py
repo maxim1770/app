@@ -10,12 +10,12 @@ from ..year import Year, YearCreate
 
 class HolidayBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, max_length=200) | None = None
-    slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG) | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG_STR) | None = None
 
 
 class HolidayCreate(HolidayBase):
     title: constr(strip_whitespace=True, strict=True, max_length=200)
-    slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG)
+    slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG_STR)
 
 
 class HolidayUpdate(HolidayBase):
@@ -83,4 +83,4 @@ class MovableSaintHolidayCreate(SaintHolidayCreateBase):
 
 class MovableSaintHolidayCreateWithoutData(BaseModel):
     movable_day_get: MovableDayGet
-    saint_slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)
+    saint_slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG_STR)

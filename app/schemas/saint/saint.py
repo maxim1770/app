@@ -1,4 +1,4 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, HttpUrl, validator
 
 from app import const, enums
 from .dignity import Dignity
@@ -7,11 +7,11 @@ from .face_sanctity import FaceSanctity
 
 class SaintBase(BaseModel):
     name: constr(strip_whitespace=True, strict=True, max_length=150) | None = None
-    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG) | None = None
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG_STR) | None = None
 
 
 class SaintCreate(SaintBase):
-    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG)
+    slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG_STR)
 
 
 class SaintUpdate(SaintBase):
@@ -25,8 +25,13 @@ class SaintInDBBase(SaintBase):
 
     dignity: Dignity | None
     face_sanctity: FaceSanctity | None
+    url: HttpUrl = None
 
     # holidays: list[Holiday] = []
+
+    @validator('url', pre=True, always=True)
+    def prepare_url(cls, url: None, values):
+        return 'https://azbyka.ru/days/sv-' + values['slug']
 
     class Config:
         orm_mode = True

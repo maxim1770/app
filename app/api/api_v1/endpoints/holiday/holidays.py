@@ -54,7 +54,7 @@ def create_saint_holiday(
 
 def get_valid_holiday(
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG)
+        holiday_slug: str = Path(max_length=150, regex=const.REGEX_SLUG_STR)
 ) -> models.Holiday:
     holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
     if not holiday:

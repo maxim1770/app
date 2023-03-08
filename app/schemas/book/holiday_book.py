@@ -24,4 +24,4 @@ class HolidayBook(HolidayBookBase):
 
 class HolidayBookDataCreate(BaseModel):
     book_in: BookCreate
-    holiday_slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG) | None = None
+    holiday_slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG_STR) | None = None

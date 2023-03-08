@@ -6,4 +6,4 @@ from .year import REGEX_YEAR, REGEX_YEAR_BEFORE_1600, REGEX_ROMAN_CENTURY, REGEX
 from .year import REGEX_YEAR_TITLE
 from .year import YearCorrection, CenturyCorrection, NumYearCorrection, NumCenturyCorrection
 
-REGEX_SLUG: str = r'^[a-z0-9]+(?:-[a-z0-9]+)*$'
+REGEX_SLUG_STR: str = r'^[a-z0-9]+(?:-[a-z0-9]+)*$'

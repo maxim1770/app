@@ -17,7 +17,7 @@ class HolidayCollectBase(BaseModel):
 
 
 class SaintHolidayCollect(HolidayCollectBase):
-    saint_slug: constr(strip_whitespace=True, strict=True, regex=const.REGEX_SLUG)
+    saint_slug: constr(strip_whitespace=True, strict=True, regex=const.REGEX_SLUG_STR)
 
 
 class SaintsHolidayCollect(HolidayCollectBase):
