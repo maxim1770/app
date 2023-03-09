@@ -2,14 +2,18 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, constr
+from pydantic import BaseModel
+
+from app import enums
 
 if TYPE_CHECKING:
     from .holiday_book import HolidayBook
+    from .topic_book import TopicBook
+    from ..saint import Saint
 
 
 class BookBase(BaseModel):
-    title: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
+    title: enums.BookTitle | None = None
 
 
 class BookCreate(BookBase):
@@ -19,7 +23,12 @@ class BookCreate(BookBase):
 class Book(BookBase):
     id: int
 
-    holiday_book: HolidayBook | None = None
+    holiday_book: HolidayBook | None
+    topic_book: TopicBook | None
+    author: Saint | None
+
+    parent: Book | None
+    children: list[Book] = []
 
     class Config:
         orm_mode = True

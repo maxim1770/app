@@ -3,6 +3,7 @@ from .bible_book import BibleBook, BibleBookCreate, BibleBookNewTestamentCreate,
 from .bible_book import Zachalo, ZachaloCreate
 from .book import Book, BookCreate
 from .book import HolidayBook, HolidayBookCreate, HolidayBookDataCreate
+from .book import TopicBook, TopicBookCreate, TopicBookDataCreate
 from .date import Date, DateCreate
 from .day import Day, DayCreate
 from .holiday import Holiday, HolidayCreate, HolidayUpdate, HolidayDataCreate
