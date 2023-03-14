@@ -1,7 +1,7 @@
 from .bible_book import BibleBook, BibleBookCreate, BibleBookNewTestamentCreate, BibleBookEvangelCreate, \
     BibleBookApostleCreate
 from .bible_book import Zachalo, ZachaloCreate
-from .book import Book, BookCreate
+from .book import Book, BookCreate, BookDataCreate
 from .book import HolidayBook, HolidayBookCreate, HolidayBookDataCreate
 from .book import TopicBook, TopicBookCreate, TopicBookDataCreate
 from .date import Date, DateCreate

@@ -1,18 +1,17 @@
 from pydantic import BaseModel
 
 from app import enums
-from .book import BookCreate
+from .book import BookDataCreate
 
 
 class TopicBookBase(BaseModel):
     type: enums.BookType | None = None
     source: enums.BookSource | None = None
-    topics: list[enums.BookTopic] | None = None
+    topics: list[enums.BookTopic] = []
 
 
 class TopicBookCreate(TopicBookBase):
     type: enums.BookType
-    topics: list[enums.BookTopic]
 
 
 class TopicBook(TopicBookBase):
@@ -23,5 +22,5 @@ class TopicBook(TopicBookBase):
 
 
 class TopicBookDataCreate(BaseModel):
-    book_in: BookCreate
-    TopicBook_in: TopicBookCreate
+    book_data_in: BookDataCreate
+    topic_book_in: TopicBookCreate

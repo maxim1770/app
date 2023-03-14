@@ -1,9 +1,13 @@
 from __future__ import annotations
 
-from pydantic import BaseModel
+from typing import TYPE_CHECKING
 
-from app import enums
-from ..manuscript.bookmark import Bookmark
+from pydantic import BaseModel, constr
+
+from app import enums, const
+
+if TYPE_CHECKING:
+    from ..manuscript.bookmark import Bookmark
 
 
 # if TYPE_CHECKING:
@@ -31,3 +35,8 @@ class Book(BookBase):
 
     class Config:
         orm_mode = True
+
+
+class BookDataCreate(BaseModel):
+    book_in: BookCreate
+    saint_slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG_STR) | None = None

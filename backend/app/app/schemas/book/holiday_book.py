@@ -1,7 +1,7 @@
 from pydantic import BaseModel, constr
 
 from app import const
-from .book import Book, BookCreate
+from .book import Book, BookDataCreate
 
 
 class HolidayBookBase(BaseModel):
@@ -23,5 +23,5 @@ class HolidayBook(HolidayBookBase):
 
 
 class HolidayBookDataCreate(BaseModel):
-    book_in: BookCreate
-    holiday_slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG_STR) | None = None
+    book_data_in: BookDataCreate
+    holiday_slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG_STR)

@@ -1,4 +1,6 @@
-from sqlalchemy import ForeignKey
+from enum import StrEnum
+
+from sqlalchemy import ForeignKey, JSON
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
@@ -11,5 +13,5 @@ class TopicBook(Base):
 
     book: Mapped[Book] = relationship(back_populates='topic_book')
     type: Mapped[enums.BookType]
-    source: Mapped[enums.BookSource]
-    topics: Mapped[enums.BookTopic]
+    source: Mapped[enums.BookSource | None]
+    topics: Mapped[list[StrEnum]] = mapped_column(JSON)

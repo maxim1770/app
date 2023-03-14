@@ -5,11 +5,11 @@ from pathlib import Path
 from pypdf import PdfReader
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, enums
+from app import crud, schemas, enums, const
 from app.api import deps
-from app.create.const import BookRegex
 from .convert_bookmark_to_schemas import convert_bookmark_to_schemas, PdfBookmark
 from .prepare_page import prepare_pages_in
+from ....const import BookRegex, BookRegexGroupName
 
 
 def _check_holiday_day(db: Session, slug: str, *, month: PdfBookmark, day: PdfBookmark) -> None:
@@ -23,8 +23,9 @@ class _BookDataCreateFactoryBase(ABC):
     def __init__(self, pdf_bookmark_title: str):
         self._pdf_bookmark_title: str = pdf_bookmark_title.strip()
 
+    @property
     @abstractmethod
-    def book_data_in(self): ...
+    def book_data_in(self) -> schemas.HolidayBookDataCreate | schemas.TopicBookDataCreate: ...
 
 
 class HolidayBookDataCreateFactory(_BookDataCreateFactoryBase):
@@ -34,20 +35,54 @@ class HolidayBookDataCreateFactory(_BookDataCreateFactoryBase):
 
     @property
     def book_data_in(self) -> schemas.HolidayBookDataCreate:
+        if not const.REGEX_SLUG.match(self._pdf_bookmark_title):
+            return None
         holiday_book_data_in = schemas.HolidayBookDataCreate(
-            book_in=schemas.BookCreate(title=None),
+            book_data_in=schemas.BookDataCreate(
+                book_in=schemas.BookCreate(title=None)
+            ),
             holiday_slug=self._pdf_bookmark_title,
         )
         # _check_holiday_day(db, holiday_book_data_in.holiday_slug, month=month, day=day)
         return holiday_book_data_in
 
 
+class TopicBookDataCreateFactory(_BookDataCreateFactoryBase):
+
+    def __init__(self, pdf_bookmark_title: str):
+        super().__init__(pdf_bookmark_title)
+
+    @property
+    def book_data_in(self) -> schemas.TopicBookDataCreate:
+        groups: dict[str, str] = BookRegex.TOPIC.match(self._pdf_bookmark_title).groupdict()
+        type_ = enums.BookType(groups[BookRegexGroupName.type])
+        source = enums.BookSource(groups[BookRegexGroupName.source]) if groups[BookRegexGroupName.source] else None
+        topics_str: str | None = groups[BookRegexGroupName.topics]
+        topics = [enums.BookTopic(topic) for topic in topics_str.split(', и ')] if topics_str else []
+        topic_book_in = schemas.TopicBookCreate(
+            type=type_,
+            source=source,
+            topics=topics
+        )
+        saint_slug: str = groups['slug']
+        topic_book_data_in = schemas.TopicBookDataCreate(
+            book_data_in=schemas.BookDataCreate(
+                book_in=schemas.BookCreate(),
+                saint_slug=saint_slug
+            ),
+            topic_book_in=topic_book_in
+        )
+        return topic_book_data_in
+
+
 class BookDataCreateFactoryFactory(object):
 
     @classmethod
-    def get(cls, pdf_bookmark_title: str) -> schemas.HolidayBookDataCreate | None:
+    def get(cls, pdf_bookmark_title: str) -> schemas.HolidayBookDataCreate | schemas.TopicBookDataCreate | None:
         if BookRegex.HOLIDAY.match(pdf_bookmark_title):
             return HolidayBookDataCreateFactory(pdf_bookmark_title).book_data_in
+        if BookRegex.TOPIC.match(pdf_bookmark_title):
+            return TopicBookDataCreateFactory(pdf_bookmark_title).book_data_in
         return None
 
 
@@ -69,6 +104,10 @@ def prepare_manuscript_bookmark(
             logging.warning(f'{day.title}, page={day.page}')
             for j, pdf_book in enumerate(day.children):
                 logging.info(f'{pdf_book.title}, page={pdf_book.page}')
+                if pdf_book.title.isdigit():
+                    continue
+                if pdf_book.title[0].isdigit():
+                    pdf_book.title = pdf_book.title[2:]
                 book_data_in = BookDataCreateFactoryFactory.get(pdf_book.title)
                 if not book_data_in:
                     continue
@@ -88,4 +127,5 @@ def prepare_manuscript_bookmark(
                     book_data_in=book_data_in
                 )
                 bookmarks_data_in.append(bookmark_data_in)
+    print(bookmarks_data_in)
     return bookmarks_data_in
