@@ -11,7 +11,7 @@ const vuetify = createVuetify({
     components,
     directives,
     display: {
-        mobileBreakpoint: 'sm',
+        mobileBreakpoint: "sm",
         thresholds: {
             xs: 0,
             sm: 340,

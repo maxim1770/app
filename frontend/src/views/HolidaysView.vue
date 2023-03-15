@@ -19,9 +19,7 @@ export default {
   },
 
   mounted() {
-    api
-        .getHolidays()
-        .then((response) => (this.holidays = response.data));
+    api.getHolidays().then((response) => (this.holidays = response.data));
   },
 };
 </script>

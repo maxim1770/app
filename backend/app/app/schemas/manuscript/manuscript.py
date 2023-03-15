@@ -59,6 +59,7 @@ class ManuscriptInDBBase(ManuscriptBase):
     code_title: str
     code: str
     handwriting: int
+    path: str = None
 
     url: HttpUrl = None
     neb_url: HttpUrl | None = None
@@ -79,6 +80,11 @@ class ManuscriptInDBBase(ManuscriptBase):
         if neb_slug := values['neb_slug']:
             neb_url: str = f'{const.NebUrl.GET_MANUSCRIPT_DATA}/{neb_slug}'
         return neb_url
+
+    @validator('path', pre=True, always=True)
+    def prepare_path(cls, path: None, values):
+        path = 'http://localhost:8000/files/manuscripts/nlr/sof/' + values['code']
+        return path
 
     class Config:
         orm_mode = True

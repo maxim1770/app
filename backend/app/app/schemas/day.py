@@ -1,14 +1,9 @@
-from __future__ import annotations
-
 from datetime import date
-from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, conint, validator
 
 from app import const
-
-if TYPE_CHECKING:
-    from .holiday import HolidayInDB
+from .holiday import HolidayInDB
 
 
 class DayBase(BaseModel):

@@ -34,9 +34,9 @@ target_metadata = Base.metadata
 url_object = URL.create(
     'postgresql',
     username=os.getenv('POSTGRES_USER', 'postgres'),
-    password=os.getenv('POSTGRES_PASSWORD', ''),
+    password=os.getenv('POSTGRES_PASSWORD', 'kopkop99'),
     host=os.getenv('POSTGRES_SERVER', 'localhost'),
-    database=os.getenv('POSTGRES_DB', 'app')
+    database=os.getenv('POSTGRES_DB', 'app_test')
 )
 
 

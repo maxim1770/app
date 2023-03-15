@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column mb-4 align-content-center" width="400px">
+  <div class="d-flex flex-column align-content-center">
     <div class="mb-2 pa-2">
       <p class="text-h4 font-weight-bold mr-1">
         {{ holiday.title }}
@@ -12,7 +12,9 @@
       </p>
     </div>
     <v-btn
-        @click="$router.push({ name: 'date', params: { date: holiday.day?.month_day } })"
+        @click="
+        $router.push({ name: 'date', params: { date: holiday.day?.month_day } })
+      "
     >
       {{ holidayDate }}
     </v-btn>
@@ -33,6 +35,15 @@
         </v-chip>
       </v-list-item>
     </v-list>
+    <v-carousel height="1200px">
+      <v-carousel-item
+          v-for="img in holiday.holiday_books?.[0].book.manuscripts?.[0].imgs"
+          :key="img"
+          :src="img"
+          cover
+      >
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
@@ -44,7 +55,6 @@ export default {
       required: true,
     },
   },
-
   computed: {
     holidayDate() {
       return `${this.holiday.day?.month}-${this.holiday.day?.day}`;

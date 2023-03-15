@@ -6,7 +6,7 @@
             v-for="item in items"
             :key="item.title"
             :title="item.title"
-            :to="{name: item.value}"
+            :to="{ name: item.value }"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -17,11 +17,7 @@
       </template>
 
       <v-app-bar-title>
-        <v-btn
-            :to="{name: 'home'}"
-            rounded="xl"
-        >Сайт
-        </v-btn>
+        <v-btn :to="{ name: 'home' }" rounded="xl">Сайт</v-btn>
       </v-app-bar-title>
 
       <template v-slot:append>
@@ -32,7 +28,7 @@
     <v-main>
       <v-container
           class="d-flex justify-center align-center"
-          style="min-height: 300px;"
+          style="min-height: 300px"
       >
         <router-view class="mx-md-16"></router-view>
         >

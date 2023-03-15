@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.manuscript.bookmark.prepare_page import prepare_pages_in
+from app.create.prepare.manuscript.bookmark.convert_page import pages_nums2pages_in
 from app.enums import PagePosition
 from app.schemas import PagesCreate, PageCreate, NotNumberedPages
 from app.schemas.manuscript.manuscript import NotNumberedPage
@@ -74,14 +74,7 @@ some_2_not_numbered_pages = NotNumberedPages(
             )
     ),
     (
-            7, 7, some_not_numbered_pages, PagePosition.left, True,
-            PagesCreate(
-                first_page=PageCreate(num=2, position=PagePosition.left),
-                end_page=PageCreate(num=2, position=PagePosition.left)
-            )
-    ),
-    (
-            14, 15, some_2_not_numbered_pages, PagePosition.left, True,
+            12, 15, some_2_not_numbered_pages, PagePosition.left, True,
             PagesCreate(
                 first_page=PageCreate(num=4, position=PagePosition.right),
                 end_page=PageCreate(num=5, position=PagePosition.left)
@@ -102,21 +95,35 @@ some_2_not_numbered_pages = NotNumberedPages(
             )
     ),
     (
-            6, 13, some_2_not_numbered_pages, PagePosition.left, True,
+            6, 11, some_2_not_numbered_pages, PagePosition.left, True,
             PagesCreate(
                 first_page=PageCreate(num=1, position=PagePosition.right),
                 end_page=PageCreate(num=4, position=PagePosition.left),
             )
     ),
     (
-            6, 14, some_2_not_numbered_pages, PagePosition.left, True,
+            6, 12, some_2_not_numbered_pages, PagePosition.left, True,
             PagesCreate(
                 first_page=PageCreate(num=1, position=PagePosition.right),
                 end_page=PageCreate(num=4, position=PagePosition.right),
             )
     ),
+    (
+            6, 16, some_2_not_numbered_pages, PagePosition.left, True,
+            PagesCreate(
+                first_page=PageCreate(num=1, position=PagePosition.right),
+                end_page=PageCreate(num=5, position=PagePosition.right),
+            )
+    ),
+    (
+            16, 16, some_2_not_numbered_pages, PagePosition.left, True,
+            PagesCreate(
+                first_page=PageCreate(num=5, position=PagePosition.right),
+                end_page=PageCreate(num=5, position=PagePosition.right),
+            )
+    )
 ])
-def test_prepare_pages_in(
+def test_pages_nums2pages_in(
         first_page_num: int,
         end_page_num: int,
         not_numbered_pages: NotNumberedPages,
@@ -124,7 +131,7 @@ def test_prepare_pages_in(
         from_neb: bool,
         pages_in: PagesCreate,
 ):
-    assert prepare_pages_in(
+    assert pages_nums2pages_in(
         first_page_num, end_page_num,
         not_numbered_pages=not_numbered_pages,
         first_page_position=first_page_position,
@@ -148,27 +155,34 @@ def test_prepare_pages_in(
             )
     ),
     (
-            6, 7, some_2_not_numbered_pages,
+            5, 6, some_2_not_numbered_pages,
             PagesCreate(
                 first_page=PageCreate(num=3, position=PagePosition.left),
                 end_page=PageCreate(num=4, position=PagePosition.left)
             )
     ),
     (
-            4, 7, some_2_not_numbered_pages,
+            4, 6, some_2_not_numbered_pages,
             PagesCreate(
                 first_page=PageCreate(num=2, position=PagePosition.left),
                 end_page=PageCreate(num=4, position=PagePosition.left)
             )
     ),
+    (
+            4, 8, some_2_not_numbered_pages,
+            PagesCreate(
+                first_page=PageCreate(num=2, position=PagePosition.left),
+                end_page=PageCreate(num=5, position=PagePosition.left)
+            )
+    )
 ])
-def test_prepare_pages_in_not_from_neb(
+def test_pages_nums2pages_in_not_from_neb(
         first_page_num: int,
         end_page_num: int,
         not_numbered_pages: NotNumberedPages,
         pages_in: PagesCreate,
 ):
-    assert prepare_pages_in(
+    assert pages_nums2pages_in(
         first_page_num, end_page_num,
         not_numbered_pages=not_numbered_pages,
         first_page_position=None,

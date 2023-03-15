@@ -15,7 +15,7 @@ from .manuscript import BookmarkDataCreate
 from .manuscript import Fund, FundCreate
 from .manuscript import Manuscript, ManuscriptCreateAny, ManuscriptCreate, ManuscriptUpdate, NotNumberedPages
 from .manuscript import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptDataUpdate
-from .manuscript import PagesCreate, PageCreate
+from .manuscript import Page, PagesCreate, PageCreate
 from .movable_date import Cycle, CycleCreate
 from .movable_date import DivineService, DivineServiceCreate
 from .movable_date import MovableDate, MovableDateCreate

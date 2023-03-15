@@ -14,4 +14,7 @@ export const api = {
     async getSaint(saintSlug) {
         return axios.get(`${apiUrl}/saints/${saintSlug}`);
     },
+    async getFile(filePath) {
+        return axios.get(`${apiUrl}/files/${filePath}`);
+    },
 };

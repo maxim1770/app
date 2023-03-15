@@ -1,12 +1,16 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, constr
 
 from app import const, enums
-from .holiday_category import HolidayCategory
-from ..book import HolidayBook
-from ..day import DayInDB, DayCreate
-from ..movable_date import MovableDayInDB, MovableDayGet
+from ..movable_date import MovableDayGet
 from ..saint import Saint, SaintCreate
 from ..year import Year, YearCreate
+
+if TYPE_CHECKING:
+    from ..day import DayCreate
 
 
 class HolidayBase(BaseModel):
@@ -29,7 +33,7 @@ class HolidayInDBBase(HolidayBase):
     title: str
     slug: str
 
-    holiday_category: HolidayCategory
+    # holiday_category: HolidayCategory
     year: Year | None
     saints: list[Saint] = []
 
@@ -38,10 +42,11 @@ class HolidayInDBBase(HolidayBase):
 
 
 class Holiday(HolidayInDBBase):
-    day: DayInDB | None
-    movable_day: MovableDayInDB | None
+    # day: DayInDB | None
+    # movable_day: MovableDayInDB | None
 
-    holiday_books: list[HolidayBook] = []
+    # holiday_books: list[HolidayBook] = []
+    pass
 
 
 class HolidayInDB(HolidayInDBBase):

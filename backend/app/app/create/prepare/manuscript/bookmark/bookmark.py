@@ -5,10 +5,11 @@ from pathlib import Path
 from pypdf import PdfReader
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, enums, const
+from app import crud, const
+from app import schemas, enums
 from app.api import deps
 from .convert_bookmark_to_schemas import convert_bookmark_to_schemas, PdfBookmark
-from .prepare_page import prepare_pages_in
+from .convert_page import pages_nums2pages_in
 from ....const import BookRegex, BookRegexGroupName
 
 
@@ -115,7 +116,7 @@ def prepare_manuscript_bookmark(
                     end_page_num: int = day.children[j + 1].page
                 elif i + 1 < len(month.children):
                     end_page_num: int = month.children[i + 1].page
-                pages_in: schemas.PagesCreate = prepare_pages_in(
+                pages_in: schemas.PagesCreate = pages_nums2pages_in(
                     pdf_book.page,
                     end_page_num,
                     not_numbered_pages=not_numbered_pages,

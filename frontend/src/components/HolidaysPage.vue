@@ -4,23 +4,26 @@
         v-for="holiday in holidays"
         :key="holiday.id"
         class="mb-2 pa-2"
-        :class="{'w-25 ma-5': xlAndUp}"
+        :class="{ 'w-25 ma-5': xlAndUp }"
     >
       <v-card-text>
         <p class="text-h6 text-center mb-2">{{ holiday.title }}</p>
-        <div
-            class="d-table"
-        >
-          <v-chip class='mx-2 my-1' color="green">
+        <div class="d-table">
+          <v-chip class="mx-2 my-1" color="green">
             {{ holiday.holiday_category?.title }}
           </v-chip>
-          <v-chip class='mx-2 my-1' color="cyan">
+          <v-chip class="mx-2 my-1" color="cyan">
             {{ holiday.year?.title }}
           </v-chip>
           <v-chip
-              class='mx-2 my-1'
+              class="mx-2 my-1"
               color="teal"
-              @click="$router.push({ name: 'date', params: { date: holiday.day?.month_day } })"
+              @click="
+              $router.push({
+                name: 'date',
+                params: { date: holiday.day?.month_day },
+              })
+            "
           >
             {{ holiday.day?.title }}
           </v-chip>
@@ -37,7 +40,12 @@
       </v-card-text>
       <v-card-actions class="justify-end">
         <v-btn
-            @click="$router.push({ name: 'holiday', params: { holidaySlug: holiday.slug } })"
+            @click="
+            $router.push({
+              name: 'holiday',
+              params: { holidaySlug: holiday.slug },
+            })
+          "
             variant="outlined"
             color="secondary"
             rounded="lg"
@@ -50,7 +58,7 @@
 </template>
 
 <script>
-import {useDisplay} from 'vuetify'
+import {useDisplay} from "vuetify";
 
 export default {
   props: {
@@ -60,9 +68,9 @@ export default {
     },
   },
   setup() {
-    const xlAndUp = useDisplay()
+    const xlAndUp = useDisplay();
 
-    return xlAndUp
+    return xlAndUp;
   },
 };
 </script>
