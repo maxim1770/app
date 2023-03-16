@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app import schemas, crud, enums
+from app import schemas, crud, enums, utils
 from ..base_cls import FatalCreateError
 
 
@@ -10,7 +10,7 @@ def create_all_funds(db: Session) -> None:
 
     funds_in: list[schemas.FundCreate] = []
     for fund_title in enums.FundTitle:
-        if fund_title[:2] == 'Ф.':
+        if utils.is_rsl_library(fund_title):
             library = enums.LibraryTitle.rsl
         else:
             library = enums.LibraryTitle.nlr

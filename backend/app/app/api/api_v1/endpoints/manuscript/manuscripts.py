@@ -1,8 +1,9 @@
+from pathlib import Path
 from typing import Any
 from uuid import UUID
 
 import requests
-from fastapi import Depends, APIRouter, status, Path, HTTPException
+from fastapi import Depends, APIRouter, status, HTTPException
 from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
@@ -26,6 +27,22 @@ def read_manuscripts(
 
 @router.post('/', response_model=schemas.Manuscript)
 def create_manuscript(
+        *,
+        db: Session = Depends(get_db),
+        manuscript_data_in: schemas.ManuscriptDataCreate
+) -> Any:
+    manuscript = crud.manuscript.get_by_code(db, code=manuscript_data_in.manuscript_in.code)
+    if manuscript:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='The Manuscript with this code already exists'
+        )
+    manuscript = create.create_manuscript(db, manuscript_data_in=manuscript_data_in)
+    return manuscript
+
+
+@router.post('/with-collect', response_model=schemas.Manuscript)
+def create_manuscript_with_collect(
         *,
         db: Session = Depends(get_db),
         session: requests.Session = Depends(get_session),
@@ -111,22 +128,48 @@ def create_manuscript_not_numbered_pages(
     return manuscript
 
 
-@router.post('/{manuscript_code}/data', response_model=schemas.Manuscript)
-def create_manuscript_data(
+@router.post('/{manuscript_code}/imgs', response_model=schemas.Manuscript)
+def create_manuscript_imgs(
         *,
         session: requests.Session = Depends(get_session),
         driver: WebDriver = Depends(get_driver),
         manuscript: models.Manuscript = Depends(get_valid_manuscript)
 ) -> Any:
-    collect_manuscript = create.CollectManuscriptFactory(
-        session,
-        driver,
-        fund_title=manuscript.fund.title,
-        library_title=manuscript.fund.library,
-        code=manuscript.code,
-        neb_slug=manuscript.neb_slug,
-    ).get()
+    try:
+        collect_manuscript = create.CollectManuscriptFactory.get(
+            session,
+            driver,
+            fund_title=manuscript.fund.title,
+            library_title=manuscript.fund.library,
+            code=manuscript.code,
+            neb_slug=manuscript.neb_slug,
+        )
+    except (FileNotFoundError, FileExistsError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=e.args[0]
+        )
     collect_manuscript.save_imgs()
+    collect_manuscript.create_pdf()
+    return manuscript
+
+
+@router.post('/{manuscript_code}/pdf', response_model=schemas.Manuscript)
+def create_manuscript_pdf(
+        *,
+        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+) -> Any:
+    try:
+        create.create_manuscript_pdf(
+            fund_title=manuscript.fund.title,
+            library_title=manuscript.fund.library,
+            code=manuscript.code,
+        )
+    except (FileNotFoundError, FileExistsError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=e.args[0]
+        )
     return manuscript
 
 

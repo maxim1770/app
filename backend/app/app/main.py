@@ -1,3 +1,5 @@
+import logging
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,6 +9,8 @@ from app import models
 from app.api.api_v1.api import api_router
 from app.core.config import settings
 from app.db.session import engine
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
 app = FastAPI(title=settings.PROJECT_NAME)
 admin = Admin(app, engine)

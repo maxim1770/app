@@ -31,10 +31,9 @@
           style="min-height: 300px"
       >
         <router-view class="mx-md-16"></router-view>
-        >
       </v-container>
 
-      <div class="h-100"></div>
+      <div class="h-75"></div>
       <v-footer class="bg-indigo-lighten-1 text-center d-flex flex-column">
         <div>{{ new Date().getFullYear() + 8 }} — <strong>Сайт</strong></div>
       </v-footer>

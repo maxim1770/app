@@ -1,6 +1,6 @@
 import pytest
 
-from app.const.manuscript import _REGEX_RSL_MANUSCRIPT_CODE
+from app.const.manuscript import REGEX_RSL_MANUSCRIPT_CODE
 
 
 @pytest.mark.parametrize('rsl_manuscript_code', [
@@ -12,7 +12,7 @@ from app.const.manuscript import _REGEX_RSL_MANUSCRIPT_CODE
     'f-7-26',
 ])
 def test_regex_rsl_manuscript_code(rsl_manuscript_code: str) -> None:
-    assert _REGEX_RSL_MANUSCRIPT_CODE.match(rsl_manuscript_code)[0] == rsl_manuscript_code
+    assert REGEX_RSL_MANUSCRIPT_CODE.match(rsl_manuscript_code)[0] == rsl_manuscript_code
 
 
 @pytest.mark.parametrize('rsl_manuscript_code', [
@@ -23,4 +23,4 @@ def test_regex_rsl_manuscript_code(rsl_manuscript_code: str) -> None:
     'no rsl_manuscript_code',
 ])
 def test_regex_rsl_manuscript_code_bad(rsl_manuscript_code: str) -> None:
-    assert _REGEX_RSL_MANUSCRIPT_CODE.match(rsl_manuscript_code) is None
+    assert REGEX_RSL_MANUSCRIPT_CODE.match(rsl_manuscript_code) is None

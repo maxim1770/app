@@ -1,4 +1,4 @@
-from .create import CollectManuscriptFactory
+from .create import CollectManuscriptFactory, create_manuscript_pdf
 from .create import FatalCreateError
 from .create import create_all_days
 from .create import create_all_dignities, create_all_faces_sanctity

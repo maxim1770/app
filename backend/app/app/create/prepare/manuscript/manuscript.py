@@ -3,7 +3,7 @@ from uuid import UUID
 import requests
 from pydantic import ValidationError
 
-from app import enums
+from app import enums, utils
 from app.schemas import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptCreate, YearCreate
 from .collect_manuscript_data import CollectManuscriptDataFromNeb, CollectManuscriptDataFromRsl, \
     CollectManuscriptDataFromNlr
@@ -20,10 +20,10 @@ class CollectManuscriptDataFactory(object):
             *,
             manuscript_code: UUID | str
     ) -> CollectManuscriptDataFromRsl | CollectManuscriptDataFromNlr | CollectManuscriptDataFromNeb:
-        if isinstance(manuscript_code, UUID):
-            collect_manuscript_data = CollectManuscriptDataFromNlr(session, manuscript_code=manuscript_code)
-        else:
+        if utils.is_rsl_manuscript_code(manuscript_code):
             collect_manuscript_data = CollectManuscriptDataFromRsl(session, manuscript_code=manuscript_code)
+        else:
+            collect_manuscript_data = CollectManuscriptDataFromNlr(session, manuscript_code=manuscript_code)
         search_manuscript_in_neb = SearchManuscriptInNeb(
             session,
             manuscript_code_title=collect_manuscript_data.manuscript_code_title

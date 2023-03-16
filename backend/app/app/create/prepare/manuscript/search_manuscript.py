@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from roman import fromRoman
 
-from app import const
+from app import const, utils
 from .collect_manuscript_data import CollectManuscriptDataFromRsl
 
 
@@ -31,7 +31,7 @@ class SearchManuscriptInNeb(object):
 
     @classmethod
     def prepare_neb_search_manuscript_api_url(cls, manuscript_code_title) -> str:
-        if manuscript_code_title[0] == 'Ф':
+        if utils.is_rsl_manuscript_code_title(manuscript_code_title):
             manuscript_code_title = cls.prepare_rsl_manuscript_code_title(manuscript_code_title)
         url: str = cls.get_base_neb_search_manuscript_api_url(manuscript_code_title)
         return url
@@ -136,6 +136,6 @@ class SearchManuscriptFactory(object):
             *,
             manuscript_code_title: str
     ) -> SearchManuscriptInRsl | SearchManuscriptInNlr:
-        if manuscript_code_title[0] == 'Ф':
+        if utils.is_rsl_manuscript_code_title(manuscript_code_title):
             return SearchManuscriptInRsl(session, manuscript_code_title=manuscript_code_title)
         return SearchManuscriptInNlr(session, manuscript_code_title=manuscript_code_title)

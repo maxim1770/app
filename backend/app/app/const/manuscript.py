@@ -28,4 +28,4 @@ class NebUrl(StrEnum):
 
 
 REGEX_RSL_MANUSCRIPT_CODE_STR: str = r'^f-\d{1,3}i{0,3}-\d{1,3}$'
-_REGEX_RSL_MANUSCRIPT_CODE: Pattern[str] = re.compile(REGEX_RSL_MANUSCRIPT_CODE_STR)
+REGEX_RSL_MANUSCRIPT_CODE: Pattern[str] = re.compile(REGEX_RSL_MANUSCRIPT_CODE_STR)

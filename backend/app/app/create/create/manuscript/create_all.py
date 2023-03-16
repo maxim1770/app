@@ -2,7 +2,7 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from app import models, schemas
+from app import models, schemas, utils
 from .manuscript import create_manuscript_bookmark
 from ...prepare import prepare_manuscript_bookmark
 
@@ -12,7 +12,14 @@ def create_manuscript_bookmarks(
         *,
         manuscript: models.Manuscript
 ) -> models.Manuscript:
-    pdf_path = Path(f'../../pravoslavie/lives_saints/prologs/{manuscript.neb_slug.replace("-", "_")}.pdf')
+    try:
+        pdf_path: Path = utils.PrepareManuscriptPath(
+            fund_title=manuscript.fund.title,
+            library_title=manuscript.fund.library,
+            code=manuscript.code,
+        ).created_pdf_path
+    except FileNotFoundError as e:
+        raise ValueError(e.args[0])
     bookmarks_data_in: list[schemas.BookmarkDataCreate] = prepare_manuscript_bookmark(
         pdf_path=pdf_path,
         not_numbered_pages=manuscript.not_numbered_pages,

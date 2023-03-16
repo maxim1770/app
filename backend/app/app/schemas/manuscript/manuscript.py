@@ -1,3 +1,4 @@
+from pathlib import Path
 from uuid import UUID
 
 from pydantic import BaseModel, constr, conint, HttpUrl, root_validator, validator
@@ -59,7 +60,7 @@ class ManuscriptInDBBase(ManuscriptBase):
     code_title: str
     code: str
     handwriting: int
-    path: str = None
+    path: Path = None
 
     url: HttpUrl = None
     neb_url: HttpUrl | None = None
@@ -69,22 +70,27 @@ class ManuscriptInDBBase(ManuscriptBase):
 
     @validator('url', pre=True, always=True)
     def prepare_url(cls, url: None, values):
-        if values['code'][:2] == 'f-':
-            url: str = f'{const.RslUrl.GET_MANUSCRIPT}/{utils.combine_fund_with_manuscript_code(values["code"])}'
-        else:
-            url: str = f'{const.NlrUrl.GET_MANUSCRIPT}?ab={str(values["code"])}'
+        url: str = utils.prepare_manuscript_url(values['code'])
         return url
 
     @validator('neb_url', pre=True, always=True)
     def prepare_neb_url(cls, neb_url: None, values):
-        if neb_slug := values['neb_slug']:
-            neb_url: str = f'{const.NebUrl.GET_MANUSCRIPT_DATA}/{neb_slug}'
+        if not values['neb_slug']:
+            return None
+        neb_url: str = utils.prepare_manuscript_neb_url(values['neb_slug'])
         return neb_url
 
-    @validator('path', pre=True, always=True)
-    def prepare_path(cls, path: None, values):
-        path = 'http://localhost:8000/files/manuscripts/nlr/sof/' + values['code']
-        return path
+    # @validator('path', pre=True, always=True)
+    # def prepare_path(cls, path: None, values):
+    #     try:
+    #         created_path: Path = utils.PrepareManuscriptPath(
+    #             fund_title=values['fund'].title,
+    #             library_title=values['fund'].library,
+    #             code=values['code']
+    #         ).created_path
+    #     except FileNotFoundError:
+    #         return None
+    #     return created_path
 
     class Config:
         orm_mode = True

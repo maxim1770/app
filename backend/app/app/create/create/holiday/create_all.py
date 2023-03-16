@@ -450,7 +450,7 @@ def create_all_cathedrals_saints(db: Session):
                 SaintCreate(slug='mark-apolloniadskij')
             ]
         ),
-        SaintsHolidayCreate(
+        SaintsHolidayCreate(  # Но в Рукописи f_173i_57 глав. 6, что 'Собор совершаем ...'
             holiday_in=HolidayCreate(
                 slug='svjatyh-treh-svjatitelej-vasilija-velikogo-grigorija-bogoslova-i-ioanna-zlatoustogo',
                 title='Поем службу Святых трех Святителей Васи́лия Великого, Григо́рия Богослова и Иоа́нна Златоустого, сотворенную от Святейшего Митрополита Евхаитскаго Кир Иоанн',

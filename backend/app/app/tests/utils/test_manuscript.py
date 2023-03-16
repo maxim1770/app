@@ -1,6 +1,6 @@
 import pytest
 
-from app.utils import combine_fund_with_manuscript_code
+from app.utils.manuscript.manuscript import _combine_fund_with_manuscript_code
 
 
 @pytest.mark.parametrize('manuscript_code, fond_with_manuscript_code', [
@@ -12,4 +12,4 @@ from app.utils import combine_fund_with_manuscript_code
     ('f-173i-1', '173-i/f-173i-1'),
 ])
 def test_combine_fund_with_manuscript_code(manuscript_code: str, fond_with_manuscript_code: str) -> None:
-    assert combine_fund_with_manuscript_code(manuscript_code) == fond_with_manuscript_code
+    assert _combine_fund_with_manuscript_code(manuscript_code) == fond_with_manuscript_code

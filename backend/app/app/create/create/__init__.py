@@ -8,7 +8,7 @@ from .holiday import create_all_saints_holidays, create_all_cathedrals_saints, c
     create_all_saints_groups_holidays
 from .holiday import create_saint_holiday, create_saint_holiday_without_year, create_holiday, create_saints_holiday, \
     create_movable_saint_holiday
-from .manuscript import CollectManuscriptFactory
+from .manuscript import CollectManuscriptFactory, create_manuscript_pdf
 from .manuscript import create_all_funds
 from .manuscript import create_manuscript, update_manuscript_bookmark, update_manuscript
 from .manuscript import create_manuscript_bookmarks

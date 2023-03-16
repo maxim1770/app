@@ -49,9 +49,7 @@ class CollectManuscriptDataFromRsl(CollectManuscriptDataBase):
         super().__init__(session, manuscript_code=manuscript_code)
 
     def _collect_manuscript(self) -> BeautifulSoup:
-        r = self._session.get(
-            f'{const.RslUrl.GET_MANUSCRIPT}/{utils.combine_fund_with_manuscript_code(self._manuscript_code)}'
-        )
+        r = self._session.get(utils.prepare_manuscript_url(self._manuscript_code))
         _soup = BeautifulSoup(r.text, 'lxml')
         return _soup
 
@@ -138,7 +136,7 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
         super().__init__(session, manuscript_code=manuscript_code)
 
     def _collect_manuscript(self) -> BeautifulSoup:
-        r = self._session.get(f'{const.NebUrl.GET_MANUSCRIPT_DATA}/{self._manuscript_code}')
+        r = self._session.get(utils.prepare_manuscript_neb_url(self._manuscript_code))
         _soup = BeautifulSoup(r.text, 'lxml')
         return _soup
 
@@ -166,7 +164,7 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
         manuscript_code_title: str = self._soup.find(
             'div', class_='book-info'
         ).find_all('div', class_='book-info-table')[-1].text.replace('Шифр хранения', '').strip()
-        if manuscript_code_title[0] == 'Ф':
+        if utils.is_rsl_manuscript_code_title(manuscript_code_title):
             manuscript_code_title: str = self._prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title)
         return manuscript_code_title
 
@@ -179,6 +177,6 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
 
     @property
     def fund_title(self) -> enums.FundTitle:
-        if self.manuscript_code_title[0] == 'Ф':
+        if utils.is_rsl_manuscript_code_title(self.manuscript_code_title):
             return CollectManuscriptDataFromRsl.prepare_fund_title(self.manuscript_code_title)
         return CollectManuscriptDataFromNlr.prepare_fund_title(self.manuscript_code_title)
