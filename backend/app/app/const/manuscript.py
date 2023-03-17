@@ -27,5 +27,5 @@ class NebUrl(StrEnum):
     SEARCH_MANUSCRIPT_API = f'{DOMAIN}/search/2/facets'
 
 
-REGEX_RSL_MANUSCRIPT_CODE_STR: str = r'^f-\d{1,3}i{0,3}-\d{1,3}$'
+REGEX_RSL_MANUSCRIPT_CODE_STR: str = r'^f-\d{1,3}i{0,3}-\d{1,4}$'
 REGEX_RSL_MANUSCRIPT_CODE: Pattern[str] = re.compile(REGEX_RSL_MANUSCRIPT_CODE_STR)
