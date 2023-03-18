@@ -244,6 +244,7 @@ def create_all_great_holidays(db: Session):
                 face_sanctity_title=FaceSanctityTitle.prorok
             ), [
                 SaintHolidayCreate(
+                    # В Рукописи f-304i-686 л. 283(cпг) написано, что Родился в 5500, от мирского творения без шести месяц (?)
                     holiday_in=HolidayCreate(
                         slug='rozhdestvo-chestnogo-slavnogo-proroka-predtechi-i-krestitelja-gospodnja-ioanna',
                         title='Рождество Честно́го и Славного Пророка, Предтечи и Крестителя Господня Иоа́нна',

@@ -10,6 +10,7 @@ class FundTitle(StrEnum):
     gilf = 'Гильф'
     pogod = 'Погод'
     kir_bel = 'Кир.-Бел'
+    georgij = 'Георгий'
 
     f_7 = 'Ф.7'
     f_37 = 'Ф.37'

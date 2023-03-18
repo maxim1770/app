@@ -1,13 +1,15 @@
 import logging
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageFile
 from requests import Session
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from app import enums, utils
 from app.core.config import settings
 from ....create import prepare
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 class CollectManuscript(object):
