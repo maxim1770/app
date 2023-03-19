@@ -1,0 +1,1 @@
+from .bookmark import prepare_manuscript_bookmark

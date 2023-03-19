@@ -1,1 +1,0 @@
-from .manuscript import combine_fund_with_manuscript_code

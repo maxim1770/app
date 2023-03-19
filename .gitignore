@@ -1,9 +1,2 @@
 .idea
 idea
-.mypy_cache
-app/create/data
-app/tests/data
-app/create/create/movable_date/compare
-alembic/versions
-app/tests/.hypothesis
-app/utils/meta_create_enum.py

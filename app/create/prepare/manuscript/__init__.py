@@ -1,3 +1,0 @@
-from .manuscript import ManuscriptDataCreateFactory
-
-
