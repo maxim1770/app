@@ -23,8 +23,8 @@ class CRUDManuscript(CRUDBase[Manuscript, ManuscriptCreate, ManuscriptUpdate]):
             db: Session,
             *,
             obj_in: ManuscriptCreate,
-            fund_id: int,
             year_id: int,
+            fund_id: int = None,
     ) -> Manuscript:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(

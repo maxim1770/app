@@ -13,8 +13,9 @@ from .holiday import SaintHolidayCreate, SaintHolidayCreateWithoutYear, MovableS
 from .holiday import SaintsHolidayCreate
 from .manuscript import BookmarkDataCreate
 from .manuscript import Fund, FundCreate
-from .manuscript import Manuscript, ManuscriptCreateAny, ManuscriptCreate, ManuscriptUpdate, NotNumberedPages
+from .manuscript import Manuscript, ManuscriptCreateAny, ManuscriptCreate, ManuscriptUpdate
 from .manuscript import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptDataUpdate
+from .manuscript import NotNumberedPages, NotNumberedPage
 from .manuscript import Page, PagesCreate, PageCreate
 from .movable_date import Cycle, CycleCreate
 from .movable_date import DivineService, DivineServiceCreate

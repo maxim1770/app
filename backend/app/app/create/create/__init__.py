@@ -8,10 +8,10 @@ from .holiday import create_all_saints_holidays, create_all_cathedrals_saints, c
     create_all_saints_groups_holidays
 from .holiday import create_saint_holiday, create_saint_holiday_without_year, create_holiday, create_saints_holiday, \
     create_movable_saint_holiday
-from .manuscript import CollectManuscriptFactory, create_manuscript_pdf
+from .manuscript import CollectManuscriptFactory, CollectManuscriptLLSFactory, create_manuscript_pdf
 from .manuscript import create_all_funds
 from .manuscript import create_manuscript, update_manuscript_bookmark, update_manuscript
-from .manuscript import create_manuscript_bookmarks
+from .manuscript import create_manuscript_bookmarks, create_all_manuscripts_lls
 from .movable_date import create_all_movable_dates
 from .saint import create_all_dignities, create_all_faces_sanctity
 from .saint import create_saint, update_saint, update_saint_from_azbyka, update_saints
