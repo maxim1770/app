@@ -17,11 +17,20 @@ export default {
       },
     };
   },
-
+  watch: {
+    $route(to, from) {
+      this.getDate()
+    }
+  },
   mounted() {
-    api
-        .getDate(this.$route.params.date)
-        .then((response) => (this.date = response.data));
+    this.getDate()
+  },
+  methods: {
+    getDate() {
+      api
+          .getDate(this.$route.params.date)
+          .then((response) => (this.date = response.data));
+    },
   },
 };
 </script>

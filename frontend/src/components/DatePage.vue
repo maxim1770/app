@@ -1,6 +1,20 @@
 <template>
   <div class="75">
-    <p class="text-h2 text-center w-100 mb-5">{{ date.day?.title }}</p>
+    <div class="d-flex justify-space-around mb-5 mt-2 align-center">
+      <v-btn
+          color="blue"
+          @click="$router.push({ name: 'date', params: { date: preDate } })"
+      >
+        <v-icon icon="mdi-arrow-left"></v-icon>
+      </v-btn>
+      <p class="text-h2">{{ date.day?.title }}</p>
+      <v-btn
+          color="blue"
+          @click="$router.push({ name: 'date', params: { date: nextDate } })"
+      >
+        <v-icon icon="mdi-arrow-right"></v-icon>
+      </v-btn>
+    </div>
     <v-table>
       <thead>
       <tr>
@@ -69,8 +83,22 @@ export default {
       required: true,
     },
   },
-
+  computed: {
+    preDate() {
+      let _preDate = new Date(this.date.day?.month_day)
+      _preDate.setDate(_preDate.getDate() - 1)
+      return this.date2str(_preDate)
+    },
+    nextDate() {
+      let _nextDate = new Date(this.date.day?.month_day)
+      _nextDate.setDate(_nextDate.getDate() + 1)
+      return this.date2str(_nextDate)
+    },
+  },
   methods: {
+    date2str(dateObject) {
+      return dateObject.toISOString().split('T')[0]
+    },
     copyText(text) {
       navigator.clipboard.writeText(text);
     },
