@@ -11,6 +11,7 @@ psycopg2 = "*"
 sqladmin = "*"
 pypdf = "*"
 pillow = "*"
+fastapi-filter = {extras = ["sqlalchemy"], version = "*"}
 
 [dev-packages]
 pytest = "*"
@@ -27,6 +28,8 @@ pydantic-factories = "*"
 pytest-sugar = "*"
 pytest-cov = "*"
 requests-mock = "*"
+selenium = "*"
+webdriver-manager = "*"
 
 [requires]
 python_version = "3.11"

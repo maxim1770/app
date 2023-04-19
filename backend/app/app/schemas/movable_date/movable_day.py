@@ -8,7 +8,7 @@ from app import enums
 from .movable_date import MovableDate
 
 if TYPE_CHECKING:
-    from ..holiday import HolidayInDB
+    pass
 
 
 class MovableDayBase(BaseModel):
@@ -38,7 +38,8 @@ class MovableDayInDBBase(MovableDayBase):
 
 
 class MovableDay(MovableDayInDBBase):
-    holidays: list[HolidayInDB] = []
+    # holidays: list[HolidayInDB] = []
+    pass
 
 
 class MovableDayInDB(MovableDayInDBBase):

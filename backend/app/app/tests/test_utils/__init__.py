@@ -12,3 +12,4 @@ from .requests_mock import requests_mock_search_manuscript_in_neb, requests_mock
 from .saint import create_random_saint_data_in, create_random_saint_data_update_in
 from .saint import create_random_saint_in, create_random_saint
 from .year import create_random_year_in, create_random_year
+from .requests_mock import requests_mock_get_zachalo_data

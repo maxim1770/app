@@ -1,4 +1,4 @@
-from .bible_book import get_all_zachalos, get_zachalo, create_zachalo
+from .bible_book import get_all_zachalos, get_zachalo, create_zachalo, create_zachalo_movable_date_association
 from .bible_book import get_bible_books, get_bible_books_by_testament, get_bible_books_by_part, get_bible_book, \
     create_bible_book
 from .book import create_holiday_book
@@ -6,7 +6,6 @@ from .book import create_topic_book
 from .book import get_books, get_book, get_book_by_id, create_book
 from .crud_date import get_dates, get_date, create_date, update_date_by_movable_day_id
 from .crud_day import get_days, get_day, create_day
-from .crud_reading import get_readings, get_reading, get_reading_by_id, create_reading
 from .crud_year import get_year, create_year, get_or_create_year
 from .holiday import get_holidays_categories, get_holiday_category, create_holiday_category
 from .holiday import holiday

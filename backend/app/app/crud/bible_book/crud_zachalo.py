@@ -32,3 +32,20 @@ def create_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, zachalo: s
     db.commit()
     db.refresh(db_zachalo)
     return db_zachalo
+
+
+def create_zachalo_movable_date_association(
+        db: Session,
+        *,
+        zachalo_id: int,
+        movable_date_id: int
+) -> models.Zachalo:
+    zachalo: models.Zachalo = db.execute(
+        sa.select(models.Zachalo).filter_by(id=zachalo_id)).scalar_one_or_none()
+    movable_date: models.MovableDate = db.execute(
+        sa.select(models.MovableDate).filter_by(id=movable_date_id)).scalar_one_or_none()
+    zachalo.movable_date_associations.append(models.ZachalosMovableDates(movable_date=movable_date))
+    db.add(zachalo)
+    db.commit()
+    db.refresh(zachalo)
+    return zachalo

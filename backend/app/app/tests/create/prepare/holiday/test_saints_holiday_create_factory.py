@@ -10,7 +10,7 @@ from app.create.prepare.holiday.holiday_create import SaintsHolidayCreateFactory
 some_day: date = date(2031, 9, 1)
 
 
-@pytest.mark.parametrize('saints_holiday_collect, saints_holiday_in, _year', [
+@pytest.mark.parametrize('saints_holiday_collect, saints_holiday_in, year', [
     (
             SaintsHolidayCollect(
                 day=some_day,
@@ -38,8 +38,8 @@ def test_saints_holiday_create_factory(
         session: requests.Session,
         saints_holiday_collect: SaintsHolidayCollect,
         saints_holiday_in: schemas.SaintsHolidayCreate,
-        _year: int
+        year: int
 ) -> None:
     created_saints_holiday_in = SaintsHolidayCreateFactory(session, holiday_collect=saints_holiday_collect).get()
     assert created_saints_holiday_in == saints_holiday_in
-    assert created_saints_holiday_in.year_in.year == _year
+    assert created_saints_holiday_in.year_in.year == year

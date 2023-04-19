@@ -44,5 +44,5 @@ def main(db: Session):
 
 
 if __name__ == '__main__':
-    db: Session = deps.get_db().__next__()
+    db: Session = next(deps.get_db())
     main(db)

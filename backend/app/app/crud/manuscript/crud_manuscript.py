@@ -5,12 +5,19 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from app import models
+from app.filters.manuscript import ManuscriptFilter
 from app.models.manuscript import Manuscript
 from app.schemas.manuscript import ManuscriptCreate, ManuscriptUpdate
 from ..base import CRUDBase
 
 
 class CRUDManuscript(CRUDBase[Manuscript, ManuscriptCreate, ManuscriptUpdate]):
+
+    def get_multi_by_filter(self, db: Session, *, manuscript_filter: ManuscriptFilter) -> list[Manuscript]:
+        query = manuscript_filter.filter(sa.select(self.model).outerjoin(models.Year).outerjoin(models.Fund))
+        query = manuscript_filter.sort(query)
+        result = db.execute(query)
+        return result.scalars().all()
 
     def get_by_code(self, db: Session, *, code: UUID | str) -> Manuscript | None:
         return db.execute(sa.select(self.model).filter_by(code=str(code))).scalar_one_or_none()

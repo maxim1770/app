@@ -1,2 +1,2 @@
 from .bible_book import BibleBook
-from .zachalo import Zachalo
+from .zachalo import Zachalo, ZachalosMovableDates

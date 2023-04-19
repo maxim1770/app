@@ -36,7 +36,7 @@ def _get_days_abbrs_in_weeks_first_mon(num_weeks: int) -> list[enums.MovableDayA
 
 
 class PrepareC1MovableDayAbbr(PrepareMethodsBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_1
 
     def __init__(self):
         super().__init__()
@@ -51,7 +51,7 @@ class PrepareC1MovableDayAbbr(PrepareMethodsBase):
 
 
 class PrepareC2MovableDayAbbr(PrepareMethodsBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_2
 
     def __init__(self):
         super().__init__()
@@ -66,7 +66,7 @@ class PrepareC2MovableDayAbbr(PrepareMethodsBase):
 
 
 class PrepareC3MovableDayAbbr(PrepareMethodsBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_3 * const.NUM_DAYS_IN_WEEK
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_3
 
     def __init__(self):
         super().__init__()
@@ -80,7 +80,7 @@ class PrepareC3MovableDayAbbr(PrepareMethodsBase):
 
 
 class PrepareC1MovableDayTitle(PrepareMethodsBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_1
 
     def __init__(self):
         super().__init__()
@@ -97,7 +97,7 @@ class PrepareC1MovableDayTitle(PrepareMethodsBase):
 
 
 class PrepareC2MovableDayTitle(PrepareMethodsBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_2
 
     def __init__(self):
         super().__init__()
@@ -110,7 +110,7 @@ class PrepareC2MovableDayTitle(PrepareMethodsBase):
 
 
 class PrepareC3MovableDayTitle(PrepareMethodsBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_3 * const.NUM_DAYS_IN_WEEK
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_3
 
     def __init__(self):
         super().__init__()
@@ -186,7 +186,7 @@ class CreateMovableDayFactory(object):
             db,
             items=PrepareC1MovableDayFactory.get_days(),
             parents_id=weeks_id,
-            num_creatures=const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK
+            num_creatures=const.NumMovableDay.IN_CYCLE_1
         )
 
     @staticmethod
@@ -196,7 +196,7 @@ class CreateMovableDayFactory(object):
             items=PrepareC2MovableDayFactory.get_days(),
             parents_id=weeks_id,
             # + 1 потому что в 36 недели есть только Воскресение
-            num_creatures=const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1
+            num_creatures=const.NumMovableDay.IN_CYCLE_2
         )
 
     @staticmethod
@@ -205,5 +205,5 @@ class CreateMovableDayFactory(object):
             db,
             items=PrepareC3MovableDayFactory.get_days(),
             parents_id=weeks_id,
-            num_creatures=const.NumWeek.IN_CYCLE_3 * const.NUM_DAYS_IN_WEEK
+            num_creatures=const.NumMovableDay.IN_CYCLE_3
         )

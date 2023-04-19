@@ -11,109 +11,71 @@ from app import schemas, enums
 from app.create import const
 from app.create.create.bible_book.zachalo import CreateZachalo
 from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
-    convert_to_schemas
+    convert_to_schemas, PrepareError
 from ..base_collect import get_readings
 from ...const import AzbykaUrl
 
 
-# TODO подумать над тем не объединить ли сразу Evangel и Apostle вместе
-#  добавлять в readings не так трудно, так же в цикле как и days
-
-
-# для утренних не надо даже парсить отдельно, там просто номер указывающий на ЕВАНГЕЛИЯ УТРЕННИЕ ВОСКРЕСНЫЕ
-
-def _collect_zachalo_num(zachalo: Tag) -> int:
+def _collect_zachalo_num(zachalo_abbr: str) -> int:
+    req = requests.get(url=AzbykaUrl.GET_ZACHALO + zachalo_abbr)
+    soup = BeautifulSoup(req.text, 'lxml')
+    num_text: str | None = None
+    first_highlighted_verse: Tag | None = soup.find('div', {'class': 'crossref-verse', 'data-lang': 'r'})
     try:
-        num: int = int(re.search(r'(?<=\[)\d*(?=\])', zachalo.text)[0])
-
-        logging.info(f"{zachalo.text} | {num} | Когда zachalo на странице всех чтений")
-
-    except TypeError:
-        req = requests.get(url=AzbykaUrl.DOMAIN + zachalo.find('a', {'target': "BibleAV"})['href'])
-        soup = BeautifulSoup(req.text, "lxml")
-
-        num_text: str | None = None
-
-        first_highlighted_verse: Tag | None = soup.find('div', {'class': 'crossref-verse', 'data-lang': 'r'})
+        num_text: str = first_highlighted_verse.find('span', class_='zachala').text
+        logging.info('Когда zachalo первый выделенный div')
+    except AttributeError:
         try:
-            num_text: str = first_highlighted_verse.find('span', class_='zachala').text
-
-            logging.info(f"{zachalo.text} | {num_text} | Когда zachalo первый выделенный div")
-
+            num_text: str = first_highlighted_verse.find_previous_sibling('div').find('span', class_='zachala').text
+            logging.warning('Когда zachalo выше на один первого выделенного div')
         except AttributeError:
             try:
-                num_text: str = first_highlighted_verse.find_previous_sibling('div').find('span', class_='zachala').text
-
-                logging.warning(f"{zachalo.text} | {num_text} | Когда zachalo выше на один первого выделенного div")
-
+                for highlighted_verse in first_highlighted_verse.find_next_siblings(
+                        'div', {'class': 'crossref-verse'}
+                ):
+                    num_tag: Tag | None = highlighted_verse.find('span', class_='zachala')
+                    if num_tag:
+                        num_text: str = num_tag.text
+                        break
+                if not num_text:
+                    raise AttributeError
+                logging.warning('Когда zachalo ниже (на 1 или больше)')
             except AttributeError:
                 try:
-                    for highlighted_verse in first_highlighted_verse.find_next_siblings('div',
-                                                                                        {'class': 'crossref-verse'}):
-                        num_tag: Tag | None = highlighted_verse.find('span', class_='zachala')
+                    for verse in first_highlighted_verse.find_previous_siblings(
+                            'div', {'data-lang': 'r'}
+                    ):
+                        num_tag: Tag | None = verse.find('span', class_='zachala')
                         if num_tag:
                             num_text: str = num_tag.text
                             break
-
                     if not num_text:
                         raise AttributeError
-
-                    logging.warning(f"{zachalo.text} | {num_text} | Когда zachalo ниже (на 1 или больше)")
-
+                    logging.error('Когда zachalo выше (на 2 или больше) первого выделенного div')
                 except AttributeError:
                     try:
-                        for verse in first_highlighted_verse.find_previous_siblings('div', {'data-lang': 'r'}):
-                            num_tag: Tag | None = verse.find('span', class_='zachala')
-                            if num_tag:
-                                num_text: str = num_tag.text
-                                break
-
-                        if not num_text:
-                            raise AttributeError
-
-                        logging.error(
-                            f"{zachalo.text} | {num_text} | Когда zachalo выше (на 2 или больше) первого выделенного div")
-
+                        num_text: str = soup.find('span', class_='zachala').text
+                        logging.error('Когда zachalo первое найденное на странице, стр. без выделения')
                     except AttributeError:
-                        try:
-                            num_text: str = soup.find('span', class_='zachala').text
+                        logging.error('Когда zachalo нет на странице и его стоит ввести вручную в api')
+                        raise PrepareError('Когда zachalo нет на странице и его стоит ввести вручную в api')
+    num: int = int(re.search(r'\d+', num_text)[0])
+    return num
 
-                            logging.error(
-                                f"{zachalo.text} | {num_text} | Когда zachala первое найденное на странице, стр. без выделения")
 
-                        except AttributeError:
-
-                            req = requests.get(
-                                url=AzbykaUrl.DOMAIN + soup.find('span',
-                                                                 class_="title-nav").find('a',
-                                                                                          class_="icon-arrow-left")[
-                                    'href']
-                            )
-                            soup = BeautifulSoup(req.text, "lxml")
-
-                            for verse in soup.find_all('div', {'data-lang': 'r'})[::-1]:
-                                num_tag: Tag = verse.find('span', class_='zachala')
-                                if num_tag:
-                                    num_text: str = num_tag.text
-                                    break
-
-                            if not num_text:
-                                raise AttributeError
-
-                            logging.error(
-                                f"{zachalo.text} | {num_text} | Когда zachalo самое нижнее на предыдущей стр")
-
-        num: int = int(re.search(
-            r'\d+',
-            num_text
-        )[0])
-
+def _prepare_zachalo_num(zachalo_tag: Tag) -> int:
+    try:
+        num: int = int(re.search(r'(?<=\[)\d*(?=\])', zachalo_tag.text)[0])
+        logging.info('Когда zachalo на странице всех чтений')
+    except TypeError:
+        zachalo_abbr: str = zachalo_tag.find('a', {'target': 'BibleAV'})['href'].replace('/biblia/?', '')
+        num: int = _collect_zachalo_num(zachalo_abbr)
     return num
 
 
 class PrepareEvangelZachalo(PrepareTableBase):
     final_len: Final[
-        int] = const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK + const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1 + const.NumWeek.IN_CYCLE_3 * 2
+        int] = const.NumMovableDay.IN_CYCLE_1 + const.NumMovableDay.IN_CYCLE_2 + const.NumWeek.IN_CYCLE_3 * 2
 
     def __init__(self, table: Tag):
         super().__init__(table=table)
@@ -134,7 +96,7 @@ class PrepareEvangelZachalo(PrepareTableBase):
 
 
 class PrepareC1EvangelZachalo(PrepareParentDataSliceBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_1
 
     def __init__(self, parent: PrepareEvangelZachalo):
         super().__init__(parent.data[:self.final_len])
@@ -147,11 +109,11 @@ class PrepareC1EvangelZachalo(PrepareParentDataSliceBase):
 
 
 class PrepareC2EvangelZachalo(PrepareParentDataSliceBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_2
 
     def __init__(self, parent: PrepareEvangelZachalo):
-        super().__init__(parent.data[const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK:
-                                     const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK + self.final_len
+        super().__init__(parent.data[const.NumMovableDay.IN_CYCLE_1:
+                                     const.NumMovableDay.IN_CYCLE_1 + self.final_len
                          ])
 
     def _fill_gaps(self): pass
@@ -176,7 +138,7 @@ class PrepareC3EvangelZachalo(PrepareParentDataSliceBase):
 
 class PrepareApostleZachalo(PrepareTableBase):
     final_len: Final[
-        int] = const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK + const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1 + const.NumWeek.IN_CYCLE_3 * 2
+        int] = const.NumMovableDay.IN_CYCLE_1 + const.NumMovableDay.IN_CYCLE_2 + const.NumWeek.IN_CYCLE_3 * 2
 
     def __init__(self, table: Tag):
         super().__init__(table=table)
@@ -197,7 +159,7 @@ class PrepareApostleZachalo(PrepareTableBase):
 
 
 class PrepareC1ApostleZachalo(PrepareParentDataSliceBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_1
 
     def __init__(self, parent: PrepareApostleZachalo):
         super().__init__(parent.data[:self.final_len])
@@ -210,11 +172,11 @@ class PrepareC1ApostleZachalo(PrepareParentDataSliceBase):
 
 
 class PrepareC2ApostleZachalo(PrepareParentDataSliceBase):
-    final_len: Final[int] = const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1
+    final_len: Final[int] = const.NumMovableDay.IN_CYCLE_2
 
     def __init__(self, parent: PrepareApostleZachalo):
-        super().__init__(parent.data[const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK:
-                                     const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK + self.final_len
+        super().__init__(parent.data[const.NumMovableDay.IN_CYCLE_1:
+                                     const.NumMovableDay.IN_CYCLE_1 + self.final_len
                          ])
 
     def _fill_gaps(self): pass
@@ -249,13 +211,13 @@ class PrepareC1EvangelZachaloNum(PrepareParentNoCopyBase):
         pass
 
     def _convert(self):
-        # TODO: возможно стоит привести к общему шаблону как в других классах PrepareC2EvangelZachaloNum...
-        #  а лучше создать общую функцию или даже класс с этой и _collect_zachalo_num функциями
-        for i, zachalo in enumerate(self.parent.data):
-            if self.data[i] is None:
-                self.data[i]: int = _collect_zachalo_num(zachalo)
-            else:
-                logging.info(f"{zachalo.text} | {self.data[i]} | Когда zachalo введено вручную")
+        for i, zachalo_tag in enumerate(self.parent.data):
+            logging.info(zachalo_tag.find('a', {'target': 'BibleAV'})['href'].replace('/biblia/?', ''))
+            try:
+                self.data[i]: int = _prepare_zachalo_num(zachalo_tag)
+            except PrepareError:
+                self.data[i]: int = -1
+                logging.info('Когда zachalo не найдено и zachalo_num = -1 в бд')
 
 
 class PrepareC2EvangelZachaloNum(PrepareParentNoCopyBase):
@@ -267,16 +229,22 @@ class PrepareC2EvangelZachaloNum(PrepareParentNoCopyBase):
         pass
 
     def _clean(self):
-        self.data[(7 * const.NUM_DAYS_IN_WEEK) + 5]: Final[int] = 83
-        self.data[(33 * const.NUM_DAYS_IN_WEEK) + 6]: Final[int] = -1
-        self.data[(34 * const.NUM_DAYS_IN_WEEK)]: Final[int] = -2
+        pass
 
     def _convert(self):
-        for i, zachalo in enumerate(self.parent.data):
-            if self.data[i] is None:
-                self.data[i]: int = _collect_zachalo_num(zachalo)
-            else:
-                logging.info(f"{zachalo.text} | {self.data[i]} | Когда zachalo введено вручную")
+        for i, zachalo_tag in enumerate(self.parent.data):
+            if zachalo_tag.find('a', {'target': 'BibleAV'}) is None:
+                self.data[i]: int = -1
+                logging.info(
+                    'Когда нет zachalo потому что в ср и пт Сырной седмицы не бывает литургии и zachalo_num = -1 в бд'
+                )
+                continue
+            logging.info(zachalo_tag.find('a', {'target': 'BibleAV'})['href'].replace('/biblia/?', ''))
+            try:
+                self.data[i]: int = _prepare_zachalo_num(zachalo_tag)
+            except PrepareError:
+                self.data[i]: int = -1
+                logging.info('Когда zachalo не найдено и zachalo_num = -1 в бд')
 
 
 class PrepareC1ApostleZachaloNum(PrepareParentNoCopyBase):
@@ -288,18 +256,16 @@ class PrepareC1ApostleZachaloNum(PrepareParentNoCopyBase):
         pass
 
     def _clean(self):
-        self.data[(5 * const.NUM_DAYS_IN_WEEK) + 4]: Final[int] = -1
-
-        # тоже должно быть 79, но другая ее часть, в рукописи главной по почерку
-        # написано 79 "от полу."
-        self.data[(7 * const.NUM_DAYS_IN_WEEK) + 6]: Final[int] = -2
+        pass
 
     def _convert(self):
-        for i, zachalo in enumerate(self.parent.data):
-            if self.data[i] is None:
-                self.data[i]: int = _collect_zachalo_num(zachalo)
-            else:
-                logging.info(f"{zachalo.text} | {self.data[i]} | Когда zachalo введено вручную")
+        for i, zachalo_tag in enumerate(self.parent.data):
+            logging.info(zachalo_tag.find('a', {'target': 'BibleAV'})['href'].replace('/biblia/?', ''))
+            try:
+                self.data[i]: int = _prepare_zachalo_num(zachalo_tag)
+            except PrepareError:
+                self.data[i]: int = -1
+                logging.info('Когда zachalo не найдено и zachalo_num = -1 в бд')
 
 
 class PrepareC2ApostleZachaloNum(PrepareParentNoCopyBase):
@@ -314,21 +280,20 @@ class PrepareC2ApostleZachaloNum(PrepareParentNoCopyBase):
         pass
 
     def _convert(self):
-        for i, zachalo in enumerate(self.parent.data):
-            if self.data[i] is None:
-                self.data[i]: int = _collect_zachalo_num(zachalo)
-            else:
-                logging.info(f"{zachalo.text} | {self.data[i]} | Когда zachalo введено вручную")
+        for i, zachalo_tag in enumerate(self.parent.data):
+            if zachalo_tag.find('a', {'target': 'BibleAV'}) is None:
+                self.data[i]: int = -1
+                logging.info(
+                    'Когда нет zachalo потому что в ср и пт Сырной седмицы не бывает литургии и zachalo_num = -1 в бд'
+                )
+                continue
+            logging.info(zachalo_tag.find('a', {'target': 'BibleAV'})['href'].replace('/biblia/?', ''))
+            try:
+                self.data[i]: int = _prepare_zachalo_num(zachalo_tag)
+            except PrepareError:
+                self.data[i]: int = -1
+                logging.info('Когда zachalo не найдено и zachalo_num = -1 в бд')
 
-
-# TODO: можно сделать PrepareC1EvangelAbbr... как функцию, и просто в PrepareZachaloFactoryBase...
-#  передавать и получать list[abbr] =>
-#  ПРИМЕР:
-#     def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
-#         return self._merge_lists(
-#             foo(self.__prepare_c1_evangel_zachalo.data),
-#             foo(self.__prepare_c1_apostle_zachalo.data)
-#         )
 
 class PrepareC1EvangelAbbr(PrepareParentNoCopyBase):
 
@@ -343,13 +308,10 @@ class PrepareC1EvangelAbbr(PrepareParentNoCopyBase):
         for i, zachalo in enumerate(self.parent.data):
             zachalo: str = zachalo.text.strip()
             evangel_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(evangel_abbr_ru).name)
+            self.data[i] = enums.BibleBookAbbr[enums.BibleBookAbbrRu(evangel_abbr_ru).name]
 
 
 class PrepareC1ApostleAbbr(PrepareParentNoCopyBase):
-    # TODO т.к классы одинаковые с PrepareC1EvangelAbbr, можно сделать один PrepareС1BibleBookAbbr,
-    #  в который уже передавать в качестве параметра разные data: list[Tag]
-    #  ВПОЛНЕ НЕ ПЛОХАЯ ИДЕЯ
 
     def __init__(self, parent: PrepareC1ApostleZachalo):
         super().__init__(parent=parent)
@@ -362,7 +324,7 @@ class PrepareC1ApostleAbbr(PrepareParentNoCopyBase):
         for i, zachalo in enumerate(self.parent.data):
             zachalo: str = zachalo.text.strip()
             apostle_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(apostle_abbr_ru).name)
+            self.data[i] = enums.BibleBookAbbr[enums.BibleBookAbbrRu(apostle_abbr_ru).name]
 
 
 class PrepareC2EvangelAbbr(PrepareParentNoCopyBase):
@@ -376,9 +338,12 @@ class PrepareC2EvangelAbbr(PrepareParentNoCopyBase):
 
     def _convert(self):
         for i, zachalo in enumerate(self.parent.data):
+            if zachalo.find('a', {'target': 'BibleAV'}) is None:
+                self.data[i] = enums.BibleBookAbbr.Apok
+                continue
             zachalo: str = zachalo.text.strip()
             evangel_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(evangel_abbr_ru).name)
+            self.data[i] = enums.BibleBookAbbr[enums.BibleBookAbbrRu(evangel_abbr_ru).name]
 
 
 class PrepareC2ApostleAbbr(PrepareParentNoCopyBase):
@@ -392,9 +357,12 @@ class PrepareC2ApostleAbbr(PrepareParentNoCopyBase):
 
     def _convert(self):
         for i, zachalo in enumerate(self.parent.data):
+            if zachalo.find('a', {'target': 'BibleAV'}) is None:
+                self.data[i] = enums.BibleBookAbbr.Apok
+                continue
             zachalo: str = zachalo.text.strip()
             apostle_abbr_ru: str = zachalo[: zachalo.index('.')]
-            self.data[i]: enums.BibleBookAbbr = enums.BibleBookAbbr(enums.BibleBookAbbrRu(apostle_abbr_ru).name)
+            self.data[i] = enums.BibleBookAbbr[enums.BibleBookAbbrRu(apostle_abbr_ru).name]
 
 
 class PrepareZachaloFactoryBase(ABC):
@@ -419,8 +387,6 @@ class PrepareZachaloFactoryBase(ABC):
             'title': self._get_zachalos_titles(),
         }
 
-    # TODO: не относится к созданию schemas.ZachaloCreate, поэтому возможно писать это тут неправильно,
-    #  и это нарушает логику
     @abstractmethod
     def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
         pass
@@ -438,9 +404,9 @@ class PrepareC1ZachaloFactory(PrepareZachaloFactoryBase):
 
     def __init__(self):
         super().__init__()
-        self.__prepare_c1_evangel_zachalo: PrepareC1EvangelZachalo = PrepareC1EvangelZachalo(
+        self.__prepare_c1_evangel_zachalo = PrepareC1EvangelZachalo(
             self._prepare_evangel_zachalo)
-        self.__prepare_c1_apostle_zachalo: PrepareC1ApostleZachalo = PrepareC1ApostleZachalo(
+        self.__prepare_c1_apostle_zachalo = PrepareC1ApostleZachalo(
             self._prepare_apostle_zachalo)
 
     def _get_zachalos_nums(self) -> list[int]:
@@ -451,7 +417,7 @@ class PrepareC1ZachaloFactory(PrepareZachaloFactoryBase):
 
     @staticmethod
     def _get_zachalos_titles() -> list[None]:
-        return [None] * const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK * 2
+        return [None] * const.NumMovableDay.IN_CYCLE_1 * 2
 
     def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
         return self._merge_lists(
@@ -477,7 +443,7 @@ class PrepareC2ZachaloFactory(PrepareZachaloFactoryBase):
 
     @staticmethod
     def _get_zachalos_titles() -> list[None]:
-        return [None] * const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK * 2
+        return [None] * const.NumMovableDay.IN_CYCLE_2 * 2
 
     def get_bible_books_abbrs(self) -> list[enums.BibleBookAbbr]:
         return self._merge_lists(
@@ -495,7 +461,7 @@ class CreateZachaloFactory(object):
             db,
             items=zachalo_factory.get_zachalos(),
             parents_id=zachalo_factory.get_bible_books_abbrs(),
-            num_creatures=const.NumWeek.IN_CYCLE_1 * const.NUM_DAYS_IN_WEEK * 2
+            num_creatures=const.NumMovableDay.IN_CYCLE_1 * 2
         )
 
     @staticmethod
@@ -505,5 +471,5 @@ class CreateZachaloFactory(object):
             db,
             items=zachalo_factory.get_zachalos(),
             parents_id=zachalo_factory.get_bible_books_abbrs(),
-            num_creatures=(const.NumWeek.IN_CYCLE_2 * const.NUM_DAYS_IN_WEEK + 1) * 2
+            num_creatures=const.NumMovableDay.IN_CYCLE_2 * 2
         )

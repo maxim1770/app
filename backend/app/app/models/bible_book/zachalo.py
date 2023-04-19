@@ -6,10 +6,10 @@ from sqlalchemy import ForeignKey, String, SmallInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.base_class import Base, intpk
+from ..movable_date import MovableDate
 
 if TYPE_CHECKING:
     from .bible_book import BibleBook
-    from ..reading import Reading
 
 
 class Zachalo(Base):
@@ -22,4 +22,17 @@ class Zachalo(Base):
 
     bible_book: Mapped[BibleBook] = relationship(back_populates='zachalos')
 
-    readings: Mapped[list[Reading]] = relationship(back_populates='zachalo')
+    movable_dates: Mapped[list[MovableDate]] = relationship(
+        secondary='zachalos_movable_dates',
+        back_populates='zachalos',
+        viewonly=True
+    )
+    movable_date_associations: Mapped[list['ZachalosMovableDates']] = relationship(back_populates='zachalo')
+
+
+class ZachalosMovableDates(Base):
+    zachalo_id: Mapped[intpk] = mapped_column(ForeignKey(Zachalo.id))
+    movable_date_id: Mapped[intpk] = mapped_column(ForeignKey(MovableDate.id))
+
+    zachalo: Mapped[Zachalo] = relationship(back_populates='movable_date_associations')
+    movable_date: Mapped[MovableDate] = relationship(back_populates='zachalo_associations')

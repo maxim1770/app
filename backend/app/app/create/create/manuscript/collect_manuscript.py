@@ -33,11 +33,13 @@ class CollectManuscript(object):
         for i, img in enumerate(self._imgs):
             current_path: Path = self._path / f'{i + 1}.webp'
             img.save(current_path, format='webp')
-        logging.info(f'The Manuscript imgs saved: {self._path}')
+            logging.info(f'{i + 1} | {current_path}')
+        logging.info(f'The Manuscript imgs {self._path} saved')
 
     def create_pdf(self) -> None:
+        logging.info(f'The Manuscript pdf {self._pdf_path} creating...')
         self.create_pdf_from_imgs(self._pdf_path, imgs=self._imgs)
-        logging.info(f'The Manuscript pdf created: {self._pdf_path}')
+        logging.info(f'The Manuscript pdf {self._pdf_path} created')
 
     @staticmethod
     def create_pdf_from_imgs(pdf_path: Path, *, imgs: list[Image]):

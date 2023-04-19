@@ -35,7 +35,7 @@ class PrepareYearTitle(object):
         year_title = cls.__replace_to_one_text(year_title, ['Ок.'], const.CenturyCorrection.okolo)
         year_title = cls.__replace_to_one_text(year_title, ['Нач.'], const.CenturyCorrection.nachalo)
         year_title = cls.__replace_to_one_text(year_title, ['Кон.'], const.CenturyCorrection.konets)
-        year_title = cls.__replace_to_one_text(year_title, ['Серед.', 'Серед', 'Сер'],
+        year_title = cls.__replace_to_one_text(year_title, ['Серед.', 'Серед', 'Сер.', 'Сер'],
                                                const.CenturyCorrection.seredina
                                                )
         year_title = cls.__replace_to_one_text(year_title, ['Посл.'], 'Последняя')
@@ -61,7 +61,8 @@ class PrepareYearTitle(object):
     @classmethod
     def _clean_spaces(cls, year_title: str) -> str:
         year_title = year_title.replace('  ', '')
-        year_title = year_title.replace('–', '-').replace(' -', '-').replace('- ', '-')
+        year_title = year_title.replace('—', '-').replace('–', '-')
+        year_title = year_title.replace(' -', '-').replace('- ', '-')
         year_title = year_title.strip()
         return year_title
 

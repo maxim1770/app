@@ -21,7 +21,7 @@ def test_create_saint_holiday(client: TestClient, db: Session) -> None:
     created_holiday = r.json()
     assert created_holiday['slug'] == saint_holiday_in.holiday_in.slug
     assert 'id' in created_holiday
-    assert created_holiday['year']['_year'] == saint_holiday_in.year_in.year
+    assert created_holiday['year']['year'] == saint_holiday_in.year_in.year
     assert created_holiday['holiday_category']['title'] == saint_holiday_in.holiday_category_title
     # assert created_holiday['saints']
 

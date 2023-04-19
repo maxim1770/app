@@ -10,7 +10,7 @@ some_day: date = date(2031, 9, 1)
 some_saint_slug: str = 'foo-bar'
 
 
-@pytest.mark.parametrize('saint_holiday_collect, saint_holiday_in, _year', [
+@pytest.mark.parametrize('saint_holiday_collect, saint_holiday_in, year', [
     (
             SaintHolidayCollect(
                 day=some_day,
@@ -105,11 +105,11 @@ some_saint_slug: str = 'foo-bar'
 def test_saint_holiday_create_factory(
         saint_holiday_collect: SaintHolidayCollect,
         saint_holiday_in: schemas.SaintHolidayCreate,
-        _year: int
+        year: int
 ) -> None:
     created_saint_holiday_in = SaintHolidayCreateFactory(saint_holiday_collect).get()
     assert created_saint_holiday_in == saint_holiday_in
-    assert created_saint_holiday_in.year_in.year == _year
+    assert created_saint_holiday_in.year_in.year == year
 
 
 @pytest.mark.parametrize('year_title, cleaned_year_title', [

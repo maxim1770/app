@@ -3,3 +3,4 @@ from .manuscript import requests_mock_get_manuscript_data_neb, requests_mock_get
 from .manuscript import requests_mock_search_manuscript_in_neb, requests_mock_search_manuscript_in_nlr, \
     requests_mock_search_manuscript_in_rsl
 from .saint import requests_mock_get_saint_data
+from .zachalo import requests_mock_get_zachalo_data

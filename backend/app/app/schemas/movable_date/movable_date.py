@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from .divine_service import DivineService
-from ..reading import Reading
+from ..bible_book import Zachalo
 
 
 class MovableDateBase(BaseModel):
@@ -19,7 +19,7 @@ class MovableDate(MovableDateBase):
     # divine_service_id: int
     divine_service: DivineService
 
-    readings: list[Reading] = []
+    zachalos: list[Zachalo] = []
 
     class Config:
         orm_mode = True

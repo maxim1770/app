@@ -10,7 +10,7 @@ from .create_all import create_all_movable_dates
 
 
 def create(num: enums.CycleNum):
-    db: Session = deps.get_db().__next__()
+    db: Session = next(deps.get_db())
 
     cycle: models.Cycle = crud.get_cycle(db, num)
 
@@ -26,7 +26,7 @@ class Zachalos(BaseModel):
 
 
 def create_zachalo():
-    db: Session = deps.get_db().__next__()
+    db: Session = next(deps.get_db())
 
     zachalos: Zachalos = Zachalos.parse_obj(crud.get_all_zachalos(db))
 

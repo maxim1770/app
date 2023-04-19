@@ -1,7 +1,6 @@
 from pydantic import BaseModel, constr, validator
 
 from app import enums
-from .zachalo import Zachalo
 
 
 class BibleBookBase(BaseModel):
@@ -38,8 +37,6 @@ class BibleBookApostleCreate(BibleBookNewTestamentCreate):
 
 
 class BibleBook(BibleBookBase):
-    zachalos: list[Zachalo] = []
-
     abbr_ru: enums.BibleBookAbbrRu
 
     class Config:

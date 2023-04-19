@@ -1,5 +1,5 @@
 from .bible_book import BibleBook
-from .bible_book import Zachalo
+from .bible_book import Zachalo, ZachalosMovableDates
 from .book import Book, HolidayBook, TopicBook
 from .date import Date
 from .day import Day
@@ -14,7 +14,6 @@ from .movable_date import DivineService
 from .movable_date import MovableDate
 from .movable_date import MovableDay
 from .movable_date import Week
-from .reading import Reading
 from .saint import Dignity
 from .saint import FaceSanctity
 from .saint import Saint, SaintsHolidays

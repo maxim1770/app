@@ -2,37 +2,22 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from app.api import deps
-from app.create import prepare
 from .bible_book import create_bible_books
-from .zachalo import CreateZachalo
+from .zachalos_movable_dates import CreateZachaloMovableDateAssociationFactory
 
 
-def create_all_zachalos(db: Session):
+def create_all_bible_books(db: Session):
     create_bible_books(db)
-    logging.info("Create bible books")
-
-    zachalos_id: list[int] = create_all_c1_zachalos(db)
-
-    # zachalos_id: list[int] = create_all_c2_zachalos(db)
+    logging.info('Created Bible Books')
 
 
-def create_all_c1_zachalos(db: Session) -> list[int]:
-    create_zachalo: CreateZachalo = prepare.CreateZachaloFactory.get_c1_zachalo(db)
-    zachalos_id: list[int] = create_zachalo.create()
-    logging.info("Create c1 zachalos")
-
-    return zachalos_id
+def create_c1_zachalos_movable_dates_associations(db: Session):
+    create_zachalo_movable_date_association = CreateZachaloMovableDateAssociationFactory.get_c1(db)
+    zachalos_id: list[int] = create_zachalo_movable_date_association.create()
+    logging.info('Created c1 zachalos movable dates associations')
 
 
-def create_all_c2_zachalos(db: Session) -> list[int]:
-    create_zachalo: CreateZachalo = prepare.CreateZachaloFactory.get_c2_zachalo(db)
-    zachalos_id: list[int] = create_zachalo.create()
-    logging.info("Create c2 zachalos")
-
-    return zachalos_id
-
-
-if __name__ == '__main__':
-    db: Session = deps.get_db().__next__()
-    create_all_zachalos(db)
+def create_c2_zachalos_movable_dates_associations(db: Session):
+    create_zachalo_movable_date_association = CreateZachaloMovableDateAssociationFactory.get_c2(db)
+    zachalos_id: list[int] = create_zachalo_movable_date_association.create()
+    logging.info('Created c2 zachalos movable dates associations')

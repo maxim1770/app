@@ -1,11 +1,12 @@
 from pathlib import Path
 
 import requests
-from bs4 import Tag
+from bs4 import Tag, BeautifulSoup
 
 from app import const
 from app.api import deps
 from app.core.config import settings
+from app.create.const import AzbykaUrl
 from app.create.prepare.base_collect import collect_saint_data
 from app.create.prepare.manuscript.collect_manuscript_data import CollectManuscriptDataFromRsl, \
     CollectManuscriptDataFromNeb
@@ -133,6 +134,29 @@ def create_search_manuscripts_neb(session: requests.Session):
             current_path.write_text(search_manuscript_json, encoding="utf-8")
 
 
+def _prepare_zachalo_abbr_to_path(zachalo_abbr):
+    zachalo_abbr: str = zachalo_abbr.replace('.', '_').replace(':', '_')
+    return zachalo_abbr
+
+
+def create_get_zachalos_data(session: requests.Session):
+    path = Path(settings.TEST_DATA_DIR) / 'zachalo/some_zachalo_abbr.html'
+    for zachalo_abbr in [
+        'Jn.4:46-54',
+        'Jn.7:1-13',
+        'Act.9:20-31',
+        'Jn.5:30-6:2',
+        'Act.27:1-44',
+        'Act.23:1-11',
+        'Rom.1:7-12',
+    ]:
+        current_path = path.with_stem(_prepare_zachalo_abbr_to_path(zachalo_abbr))
+        if not current_path.exists():
+            r = session.get(url=AzbykaUrl.GET_ZACHALO + zachalo_abbr)
+            soup = BeautifulSoup(r.text, 'lxml')
+            current_path.write_text(str(soup), encoding="utf-8")
+
+
 def create_all_test_data(session: requests.Session):
     # create_dirs_for_test_data()
     create_get_saints_data(session)
@@ -141,6 +165,7 @@ def create_all_test_data(session: requests.Session):
     create_get_manuscripts_data_nlr(session)
     create_search_manuscripts_nlr(session)
     create_search_manuscripts_neb(session)
+    create_get_zachalos_data(session)
 
 
 if __name__ == '__main__':

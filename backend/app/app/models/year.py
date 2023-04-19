@@ -16,7 +16,7 @@ class Year(Base):
     id: Mapped[intpk]
 
     title: Mapped[str] = mapped_column(String(30), unique=True)
-    _year: Mapped[int] = mapped_column(SmallInteger)
+    year: Mapped[int] = mapped_column(SmallInteger)
 
     holidays: Mapped[list[Holiday]] = relationship(back_populates='year')
     manuscripts: Mapped[list[Manuscript]] = relationship(back_populates='year')

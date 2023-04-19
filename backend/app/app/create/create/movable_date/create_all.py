@@ -13,10 +13,10 @@ from .week import CreateWeek
 
 def create_all_movable_dates(db: Session):
     create_cycles(db)
-    logging.info("Create cycles")
+    logging.info("Created cycles")
 
     create_divine_services(db)
-    logging.info("Create divine services")
+    logging.info("Created divine services")
 
     create_all_c1_movable_dates(db)
 
@@ -30,11 +30,11 @@ def create_all_c1_movable_dates(db: Session):
 
     create_week: CreateWeek = prepare.CreateWeekFactory.get_c1_week(db, cycle_id=cycle_id)
     weeks_id: list[int] = create_week.create()
-    logging.info("Create c1 weeks")
+    logging.info("Created c1 weeks")
 
     create_day: CreateMovableDay = prepare.CreateMovableDayFactory.get_c1_day(db, weeks_id=weeks_id)
     days_id: list[int] = create_day.create()
-    logging.info("Create c1 days")
+    logging.info("Created c1 days")
 
     crud.create_movable_date(
         db,
@@ -51,7 +51,7 @@ def create_all_c1_movable_dates(db: Session):
     )
     create_movable_date: CreateMovableDate = prepare.CreateMovableDateFactory.get_c1_movable_date(db, days_id=days_id)
     movable_dates_id: list[int] = create_movable_date.create()
-    logging.info("Create c1 movable dates")
+    logging.info("Created c1 movable dates")
 
 
 def create_all_c2_movable_dates(db: Session):
@@ -59,15 +59,15 @@ def create_all_c2_movable_dates(db: Session):
 
     create_week: CreateWeek = prepare.CreateWeekFactory.get_c2_week(db, cycle_id=cycle_id)
     weeks_id: list[int] = create_week.create()
-    logging.info("Create c2 weeks")
+    logging.info("Created c2 weeks")
 
     create_day: CreateMovableDay = prepare.CreateMovableDayFactory.get_c2_day(db, weeks_id=weeks_id)
     days_id: list[int] = create_day.create()
-    logging.info("Create c2 days")
+    logging.info("Created c2 days")
 
     create_movable_date: CreateMovableDate = prepare.CreateMovableDateFactory.get_c2_movable_date(db, days_id=days_id)
     movable_dates_id: list[int] = create_movable_date.create()
-    logging.info("Create c2 movable dates")
+    logging.info("Created c2 movable dates")
 
 
 def create_all_c3_movable_dates(db: Session):
@@ -75,19 +75,19 @@ def create_all_c3_movable_dates(db: Session):
 
     create_week: CreateWeek = prepare.CreateWeekFactory.get_c3_week(db, cycle_id=cycle_id)
     weeks_id: list[int] = create_week.create()
-    logging.info("Create c3 weeks")
+    logging.info("Created c3 weeks")
 
     create_day: CreateMovableDay = prepare.CreateMovableDayFactory.get_c3_day(db, weeks_id=weeks_id)
     days_id: list[int] = create_day.create()
-    logging.info("Create c3 days")
+    logging.info("Created c3 days")
 
     create_strastnaja_sedmitsa(db)
-    logging.info("Create  strastnaja_sedmitsa week")
-    logging.info("Create strastnaja_sedmitsa days")
+    logging.info("Created  strastnaja_sedmitsa week")
+    logging.info("Created strastnaja_sedmitsa days")
 
     # create_movable_date: CreateMovableDate = prepare.CreateMovableDateFactory.get_c3_movable_date(db, days_id=days_id)
     # movable_dates_id: list[int] = create_movable_date.create()
-    # logging.info("Create c3 movable dates")
+    # logging.info("Created c3 movable dates")
 
 
 def create_strastnaja_sedmitsa(db: Session):

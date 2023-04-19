@@ -12,7 +12,7 @@ from ..movable_date import MovableDay
 from ..year import Year
 
 if TYPE_CHECKING:
-    from ..saint.saint import Saint, SaintsHolidays
+    from ..saint import Saint, SaintsHolidays
     from ..book import HolidayBook
 
 

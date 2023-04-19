@@ -12,12 +12,12 @@ def test_create_saint_holiday(db: Session) -> None:
         db,
         holiday_category_in=schemas.HolidayCategoryCreate(title=saint_holiday_in.holiday_category_title)
     )
-    year = crud.get_year(db, title=saint_holiday_in.year_in.title, _year=saint_holiday_in.year_in.year)
+    year = crud.get_year(db, title=saint_holiday_in.year_in.title, year=saint_holiday_in.year_in.year)
     saint = crud.saint.get_by_slug(db, slug=saint_holiday_in.saint_in.slug)
     assert year is None
     assert saint is None
     holiday = create.create_saint_holiday(db, saint_holiday_in=saint_holiday_in)
-    year = crud.get_year(db, title=saint_holiday_in.year_in.title, _year=saint_holiday_in.year_in.year)
+    year = crud.get_year(db, title=saint_holiday_in.year_in.title, year=saint_holiday_in.year_in.year)
     saint = crud.saint.get_by_slug(db, slug=saint_holiday_in.saint_in.slug)
     assert holiday.year.title == year.title
     assert len(holiday.saints) == 1

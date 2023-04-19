@@ -1,7 +1,7 @@
 from math import ceil
 from statistics import mean
 
-from pydantic import BaseModel, Field, root_validator
+from pydantic import BaseModel, root_validator
 from roman import fromRoman
 
 from app import const
@@ -9,7 +9,7 @@ from app import const
 
 class YearBase(BaseModel):
     title: str
-    year: int = Field(None, alias='_year')
+    year: int = None
 
 
 class YearCreate(YearBase):
@@ -27,41 +27,41 @@ class YearCreate(YearBase):
 
         years: list[int] = list(map(lambda groups: int(groups[0]), const.YearRegex.YEAR_BEFORE_1600.findall(title)))
         if years:
-            _year = ceil(mean(years))
-            _year_max = max(years)
+            year = ceil(mean(years))
+            year_max = max(years)
 
             if title.isdigit():
                 pass
             elif title.endswith('-е'):
-                _year += 5
-                _year_max += 9
+                year += 5
+                year_max += 9
             elif title.startswith(const.YearCorrection.do):
-                _year += const.NumYearCorrection.do
+                year += const.NumYearCorrection.do
             elif title.startswith(const.YearCorrection.okolo):
-                _year_max += const.NumYearCorrection.okolo
+                year_max += const.NumYearCorrection.okolo
             elif title.startswith(const.YearCorrection.posle):
-                _year_max += const.NumYearCorrection.posle
-                _year += const.NumYearCorrection.posle - 10
+                year_max += const.NumYearCorrection.posle
+                year += const.NumYearCorrection.posle - 10
 
-            if _year_max >= const.YEAR_HERESY:
+            if year_max >= const.YEAR_HERESY:
                 raise ValueError(f'year > {const.YEAR_HERESY}')
         else:
             centuries: list[int] = list(map(fromRoman, const.YearRegex.CENTURY_BEFORE_XVI.findall(title)))
-            _year = int(mean(centuries) * const.NUM_YEARS_IN_CENTURY) - 50
+            year = int(mean(centuries) * const.NUM_YEARS_IN_CENTURY) - 50
 
             for century_correction in const.CenturyCorrection:
                 if title.startswith(century_correction + ' '):
-                    _year += const.NumCenturyCorrection[century_correction.name]
+                    year += const.NumCenturyCorrection[century_correction.name]
                     break
 
-            _year += const.NUM_OFFSET_YEARS
+            year += const.NUM_OFFSET_YEARS
 
-            if _year >= const.YEAR_HERESY:
+            if year >= const.YEAR_HERESY:
                 raise ValueError(f'year > {const.YEAR_HERESY}')
 
-        _year += const.YEAR_CHRISTMAS
+        year += const.YEAR_CHRISTMAS
 
-        values['year'] = _year
+        values['year'] = year
         return values
 
 

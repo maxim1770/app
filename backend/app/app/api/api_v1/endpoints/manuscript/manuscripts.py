@@ -4,10 +4,11 @@ from uuid import UUID
 
 import requests
 from fastapi import Depends, APIRouter, status, HTTPException
+from fastapi_filter import FilterDepends
 from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, models, const, create
+from app import crud, schemas, models, const, create, filters
 from app.create.prepare import ManuscriptDataCreateFactory, PrepareError
 from app.schemas.manuscript.manuscript import NotNumberedPages
 from ....deps import get_db, get_session, get_driver
@@ -18,11 +19,9 @@ router = APIRouter()
 @router.get('/', response_model=list[schemas.Manuscript])
 def read_manuscripts(
         db: Session = Depends(get_db),
-        skip: int = 0,
-        limit: int = 100
+        manuscript_filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
 ) -> Any:
-    manuscripts = crud.manuscript.get_multi(db, skip=skip, limit=limit)
-    return manuscripts
+    return crud.manuscript.get_multi_by_filter(db, manuscript_filter=manuscript_filter)
 
 
 @router.post('/', response_model=schemas.Manuscript)

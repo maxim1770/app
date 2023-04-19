@@ -10,7 +10,7 @@ from app.db.base_class import Base, intpk
 if TYPE_CHECKING:
     from .movable_day import MovableDay
     from .divine_service import DivineService
-    from ..reading import Reading
+    from ..bible_book import Zachalo, ZachalosMovableDates
 
 
 class MovableDate(Base):
@@ -22,4 +22,9 @@ class MovableDate(Base):
     movable_day: Mapped[MovableDay] = relationship(back_populates='movable_dates')
     divine_service: Mapped[DivineService] = relationship(back_populates='movable_dates')
 
-    readings: Mapped[list[Reading]] = relationship(back_populates='movable_date')
+    zachalos: Mapped[list[Zachalo]] = relationship(
+        secondary='zachalos_movable_dates',
+        back_populates='movable_dates',
+        viewonly=True
+    )
+    zachalo_associations: Mapped[list[ZachalosMovableDates]] = relationship(back_populates='movable_date')
