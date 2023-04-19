@@ -39,4 +39,4 @@
 [pk]: ../../../../../../pravoslavie/bibliya/novyj_zavet/apostol/tolkovyy/apostol_tolkovyy.pdf
 
 
-[apostol]: ../../../apostol/Апостол.md
+[apostol]: ../../../Библия/Апостол/Апостол.md
