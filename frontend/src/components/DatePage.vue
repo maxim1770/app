@@ -1,9 +1,10 @@
 <template>
   <div class="75">
-    <div class="d-flex justify-space-around mb-5 mt-2 align-center">
+    <div class="d-flex justify-center mb-5 mt-2 align-center">
       <v-btn
           color="blue"
           @click="$router.push({ name: 'date', params: { date: preDate } })"
+          class="mr-12"
       >
         <v-icon icon="mdi-arrow-left"></v-icon>
       </v-btn>
@@ -11,6 +12,7 @@
       <v-btn
           color="blue"
           @click="$router.push({ name: 'date', params: { date: nextDate } })"
+          class="ml-12"
       >
         <v-icon icon="mdi-arrow-right"></v-icon>
       </v-btn>
@@ -51,14 +53,26 @@
                 :key="saint.id"
                 :title="saint.name"
             >
-              <v-chip v-if="saint.face_sanctity" class="ma-2" color="green">
+              <v-chip
+                  v-if="saint.face_sanctity"
+                  class="ma-2"
+                  :class="{
+                    'text-red': saint.face_sanctity.title.toLowerCase().indexOf('мучени') !== -1,
+                    'text-green': saint.face_sanctity.title.toLowerCase().indexOf('мучени') === -1
+                     }"
+              >
                 {{ saint.face_sanctity.title }}
               </v-chip>
-              <v-chip v-if="saint.dignity" class="ma-2" color="blue">
+              <v-chip
+                  v-if="saint.dignity"
+                  class="ma-2 text-blue"
+              >
                 {{ saint.dignity.title }}
               </v-chip>
               <br/>
-              <p class="font-italic">{{ saint.slug }}</p>
+              <p class="font-italic mt-1 mb-2">{{ saint.slug }}</p>
+              <p class="font-italic mb-4">{{ saint.url }}</p>
+              <p class="font-italic">{{ azbykaURL }}</p>
             </v-list-item>
           </v-list>
         </td>
@@ -68,7 +82,6 @@
       </tr>
       </tbody>
     </v-table>
-
     <div class="mt-7">
       <hr/>
     </div>
@@ -93,6 +106,14 @@ export default {
       let _nextDate = new Date(this.date.day?.month_day)
       _nextDate.setDate(_nextDate.getDate() + 1)
       return this.date2str(_nextDate)
+    },
+    azbykaDate() {
+      let _azbykaDate = new Date(this.date.day?.month_day)
+      _azbykaDate.setDate(_azbykaDate.getDate() + 13)
+      return this.date2str(_azbykaDate)
+    },
+    azbykaURL() {
+      return 'https://azbyka.ru/days/' + this.azbykaDate
     },
   },
   methods: {

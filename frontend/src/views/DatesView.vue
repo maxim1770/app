@@ -12,15 +12,15 @@ export default {
   data() {
     return {
       dates: {
-        type: Object,
+        type: Array,
         required: true,
-      },
+      }, // ref([])
     };
   },
-  mounted() {
+  created() {
     api
-        .getDates()
-        .then((response) => (this.dates = response.data));
+      .getDates()
+      .then((response) => (this.dates = response.data));
   },
 };
 </script>

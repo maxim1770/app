@@ -51,6 +51,14 @@ export default {
           title: "Праздники",
           value: "holidays",
         },
+        {
+          title: "Календарь",
+          value: "dates",
+        },
+        {
+          title: "Рукописи",
+          value: "manuscripts",
+        },
       ],
     };
   },

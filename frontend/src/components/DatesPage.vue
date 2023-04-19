@@ -28,7 +28,7 @@ export default defineComponent({
   },
   props: {
     dates: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },
@@ -62,14 +62,19 @@ export default defineComponent({
   },
   methods: {
     getInitialEvents() {
-      console.log(this.dates?.[0])
-      const initialEvents = [
-        {
-          id: 'test',
-          title: 'All-day esdfsdfdsvent',
-          start: '2023-03-21'
-        }
-      ]
+      let initialEvents = [];
+      // for (let date of this.dates) {
+      //   for (let holiday of date.day?.holidays) {
+      //     let dateStr = new Date(date.day?.month_day);
+      //     dateStr.setFullYear(dateStr.getFullYear() - 9);
+      //     const event = {
+      //       id: holiday?.slug,
+      //       title: holiday?.title,
+      //       start: this.date2str(dateStr)
+      //     };
+      //     initialEvents.push(event);
+      //   }
+      // }
       return initialEvents;
     },
     handleDateSelect(selectInfo) {
@@ -77,24 +82,25 @@ export default defineComponent({
       date.setFullYear(date.getFullYear() + 9)
       this.$router.push({
         name: 'date',
-        params: {date: date.toISOString().split('T')[0]},
+        params: {date: this.date2str(date)},
       })
     },
     weekNumberCalculation(weekMoment) {
-      let weekDate = new Date(weekMoment.startStr)
-      weekDate.setFullYear(weekDate.getFullYear() + 9)
-      // console.log(this.dates?.[1])
-      // this.dates.forEach((date) => {
-      //   console.log(date.year);
-      // });
-      // const date = this.dates.filter(dates => date.day?.month_day == weekDate.toISOString().split('T')[0])[0];
-      return 0;
+      weekMoment.setFullYear(weekMoment.getFullYear() + 9)
+      let result = this.dates?.find(function (item) {
+        console.log(item)
+      });
+      console.log(result)
+      return result; //date.day?.month_day === this.date2str(weekMoment)
     },
     handleEventClick(clickInfo) {
       this.$router.push({
         name: 'holiday',
         params: {holidaySlug: clickInfo.event.id},
       })
+    },
+    date2str(dateObject) {
+      return dateObject.toISOString().split('T')[0]
     },
   }
 })
