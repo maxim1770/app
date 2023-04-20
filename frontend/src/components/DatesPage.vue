@@ -28,7 +28,7 @@ export default defineComponent({
   },
   props: {
     dates: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
@@ -86,12 +86,13 @@ export default defineComponent({
       })
     },
     weekNumberCalculation(weekMoment) {
-      weekMoment.setFullYear(weekMoment.getFullYear() + 9)
-      let result = this.dates?.find(function (item) {
-        console.log(item)
-      });
-      console.log(result)
-      return result; //date.day?.month_day === this.date2str(weekMoment)
+      // weekMoment.setFullYear(weekMoment.getFullYear() + 9)
+      // let result = this.dates?.find(function (item) {
+      //   console.log(item)
+      // });
+      // console.log(result)
+      // return result; //date.day?.month_day === this.date2str(weekMoment)
+      return 1;
     },
     handleEventClick(clickInfo) {
       this.$router.push({

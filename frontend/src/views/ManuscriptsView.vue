@@ -142,9 +142,6 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
-      this.getManuscripts()
-    },
     search() {
       this.routerManuscriptsPush()
     },

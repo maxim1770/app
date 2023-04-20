@@ -1,11 +1,25 @@
 import axios from "axios";
 import {apiUrl} from "@/env";
 
+
+axios.interceptors.request.use(config => {
+  NProgress.start()
+  return config
+})
+
+axios.interceptors.response.use(response => {
+  NProgress.done()
+  return response
+})
+
+
 export const api = {
   async getDates() {
     return axios.get(`${apiUrl}/dates/?limit=2`);
   }, async getDate(date) {
     return axios.get(`${apiUrl}/dates/${date}`);
+  }, async getMovableDates() {
+    return axios.get(`${apiUrl}/movable-dates/`);
   }, async getCycle(cycleNum) {
     return axios.get(`${apiUrl}/movable-dates/cycle-${cycleNum}`);
   }, async getHolidays() {

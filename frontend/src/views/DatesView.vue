@@ -1,5 +1,5 @@
 <template>
-  <DatesPage :dates="dates"/>
+    <DatesPage :dates="dates"/>
 </template>
 
 <script>
@@ -12,12 +12,12 @@ export default {
   data() {
     return {
       dates: {
-        type: Array,
+        type: Object,
         required: true,
       }, // ref([])
     };
   },
-  created() {
+  mounted() {
     api
       .getDates()
       .then((response) => (this.dates = response.data));

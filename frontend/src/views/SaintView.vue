@@ -1,5 +1,5 @@
 <template>
-  <SaintPage :saint="saint"/>
+    <SaintPage :saint="saint"/>
 </template>
 
 <script>
@@ -17,11 +17,10 @@ export default {
       },
     };
   },
-
   mounted() {
-    api
-        .getSaint(this.$route.params.saintSlug)
-        .then((response) => (this.saint = response.data));
+      api
+          .getSaint(this.$route.params.saintSlug)
+          .then((response) => (this.saint = response.data));
   },
 };
 </script>

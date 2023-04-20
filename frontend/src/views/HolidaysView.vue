@@ -1,5 +1,5 @@
 <template>
-  <HolidaysPage :holidays="holidays"/>
+    <HolidaysPage :holidays="holidays"/>
 </template>
 
 <script>
@@ -19,7 +19,9 @@ export default {
   },
 
   mounted() {
-    api.getHolidays().then((response) => (this.holidays = response.data));
+    api
+      .getHolidays()
+      .then((response) => (this.holidays = response.data));
   },
 };
 </script>
