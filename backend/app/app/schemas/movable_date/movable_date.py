@@ -16,8 +16,7 @@ class MovableDate(MovableDateBase):
     id: int
 
     movable_day_id: int
-    # divine_service_id: int
-    divine_service: DivineService
+    divine_service: DivineService | None
 
     zachalos: list[Zachalo] = []
 

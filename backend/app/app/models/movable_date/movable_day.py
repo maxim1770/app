@@ -7,9 +7,9 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
 from app.db.base_class import Base, intpk
+from .week import Week
 
 if TYPE_CHECKING:
-    from .week import Week
     from .movable_date import MovableDate
     from ..date import Date
     from ..holiday import Holiday
@@ -22,7 +22,7 @@ class MovableDay(Base):
     abbr_ru: Mapped[enums.MovableDayAbbrRu]
     title: Mapped[str | None] = mapped_column(String(30), unique=True)
 
-    week_id: Mapped[int] = mapped_column(ForeignKey('week.id'))
+    week_id: Mapped[int] = mapped_column(ForeignKey(Week.id))
 
     week: Mapped[Week] = relationship(back_populates='movable_days')
 

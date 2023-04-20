@@ -25,8 +25,8 @@ class BibleBookPartRu(StrEnum):
 
 class BibleBookAbbr(StrEnum):
     # Евангелие
-    Mk = auto()
     Mt = auto()
+    Mk = auto()
     Lk = auto()
     Jn = auto()
 
@@ -64,10 +64,10 @@ class BibleBookAbbr(StrEnum):
 
 class BibleBookAbbrRu(StrEnum):
     # Евангелие
-    Jn = 'Ин'
-    Lk = 'Лк'
-    Mk = 'Мк'
     Mt = 'Мф'
+    Mk = 'Мк'
+    Lk = 'Лк'
+    Jn = 'Ин'
 
     # Деяния святых Апостолов
     Act = 'Деян'

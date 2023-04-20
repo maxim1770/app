@@ -6,9 +6,9 @@ from sqlalchemy import ForeignKey, String, SmallInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.base_class import Base, intpk
+from .cycle import Cycle
 
 if TYPE_CHECKING:
-    from .cycle import Cycle
     from .movable_day import MovableDay
 
 
@@ -20,7 +20,7 @@ class Week(Base):
     sunday_title: Mapped[str | None] = mapped_column(String(50), unique=True)
     sunday_num: Mapped[int | None] = mapped_column(SmallInteger)
 
-    cycle_id: Mapped[int] = mapped_column(ForeignKey('cycle.id'))
+    cycle_id: Mapped[int] = mapped_column(ForeignKey(Cycle.id))
 
     cycle: Mapped[Cycle] = relationship(back_populates='weeks')
 

@@ -10,6 +10,7 @@ def init_db(db: Session) -> None:
     Base.metadata.create_all(bind=engine)
     create.create_all_days(db)
     create.create_all_movable_dates(db)
+    create.create_all_zachalos_movable_dates_associations(db)
     create.create_dates_for_years(db)
     create.create_all_holidays_categories(db)
     create.create_all_dignities(db)

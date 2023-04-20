@@ -19,7 +19,7 @@ def _create_c3_liturgies_on_sat_and_sun(db: Session):
                 (models.MovableDay.abbr == enums.MovableDayAbbr.sat) |
                 (models.MovableDay.abbr == enums.MovableDayAbbr.sun)
         )
-    )).scalars().all()
+    ).order_by(models.MovableDay.id)).scalars().all()
     for movable_day in movable_days:
         crud.create_movable_date(
             db,
@@ -64,11 +64,20 @@ def _create_all_strastnaja_sedmitsa(db: Session):
             abbr=enums.MovableDayAbbr.wed,
             title='Святая и Великая Среда'
         )))
-    movable_days.append(
-        crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
-            abbr=enums.MovableDayAbbr.thu,
-            title='Святой и Великий Четверг'
-        )))
+    thu = crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
+        abbr=enums.MovableDayAbbr.thu,
+        title='Святой и Великий Четверг'
+    ))
+    movable_days.append(thu)
+    crud.create_movable_date(
+        db,
+        movable_day_id=thu.id,
+        divine_service_title=enums.DivineServiceTitle.vespers
+    )
+    crud.create_movable_date(
+        db,
+        movable_day_id=thu.id
+    )
     # Создаем fri тут, чтобы в бд строчки были по порядку чт-пт-сб
     fri = crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
         abbr=enums.MovableDayAbbr.fri,
@@ -94,6 +103,10 @@ def _create_all_strastnaja_sedmitsa(db: Session):
 
 
 def __create_fri_strastnaja_sedmitsa_movable_dates(db: Session, *, fri: models.MovableDay):
+    crud.create_movable_date(
+        db,
+        movable_day_id=fri.id
+    )
     crud.create_movable_date(
         db,
         movable_day_id=fri.id,

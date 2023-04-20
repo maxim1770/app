@@ -118,6 +118,7 @@ class PrepareC3MovableDayTitle(PrepareMethodsBase):
     def _fill_gaps(self):
         self.data[-2 - const.NUM_DAYS_IN_WEEK]: Final[str] = 'Похвала Богородицы'
         self.data[-2]: Final[str] = 'Лазарева'
+        self.data[-1]: Final[str] = 'Цветоносная'
 
     def _clean(self): pass
 

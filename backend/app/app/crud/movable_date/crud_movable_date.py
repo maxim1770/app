@@ -29,7 +29,6 @@ def get_movable_date(
 ) -> models.MovableDate:
     movable_day_id: int = get_movable_day(db, cycle_num=cycle_num, sunday_num=sunday_num, abbr=movable_day_abbr).id
     divine_service_id: int = get_divine_service(db, title=divine_service_title).id
-
     return db.execute(
         sa.select(
             models.MovableDate
@@ -47,7 +46,6 @@ def get_movable_date_by_id(
         divine_service_title: enums.DivineServiceTitle
 ) -> models.MovableDate:
     divine_service_id: int = get_divine_service(db, title=divine_service_title).id
-
     return db.execute(
         sa.select(
             models.MovableDate
@@ -62,10 +60,10 @@ def get_movable_date_by_id(
 def create_movable_date(
         db: Session,
         movable_day_id: int,
-        divine_service_title: enums.DivineServiceTitle
+        divine_service_title: enums.DivineServiceTitle | None = None
 ) -> models.MovableDate | None:
-    divine_service_id: int = get_divine_service(db, title=divine_service_title).id
-
+    divine_service_id: int | None = get_divine_service(db,
+                                                       title=divine_service_title).id if divine_service_title else None
     db_movable_date: models.MovableDate = models.MovableDate(
         movable_day_id=movable_day_id,
         divine_service_id=divine_service_id,

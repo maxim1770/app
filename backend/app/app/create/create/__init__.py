@@ -1,4 +1,5 @@
 from .base_cls import FatalCreateError
+from .bible_book import create_all_zachalos_movable_dates_associations
 from .date import create_dates_for_years
 from .day import create_all_days
 from .holiday import create_all_great_holidays, create_all_movable_saints_holidays, \
