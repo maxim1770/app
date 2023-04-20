@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.create import const
 from app.create.create.movable_date.movable_date import CreateMovableDate
-from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareMethodsBase
+from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase
 from ..base_collect import get_readings
 
 
@@ -73,39 +73,6 @@ class PrepareC2SundayMatins(PrepareParentDataSliceBase):
     def _convert(self): pass
 
 
-class PrepareC3SundayMatins(PrepareMethodsBase):
-    final_len: Final[int] = const.NumSunday.IN_CYCLE_3
-
-    def __init__(self):
-        super().__init__()
-
-    def _fill_gaps(self):
-        self.data: list[int] = [1, 1, 1, 1, 1, 1]
-
-    def _clean(self): pass
-
-    def _convert(self): pass
-
-
-#
-# class PrepareC1SundayVespers(PrepareMethodsBase):
-#     # TODO т.к это вроде как единственная вечерня в Воскресение из всего года,
-#     #  то возможно ее стоит создать как то отдельно
-#     final_len: Final[int] = const.NumSunday.IN_CYCLE_1
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#     def _fill_gaps(self):
-#         # ВОЗМОЖНО ЭТО СТОИЛО ЗАПИСАТЬ НЕ В ЭТОЙ ФУНКЦИИ
-#         # Только в Пасху чтение на вечерне - по данным с сайта
-#         self.data: list[bool] = [True] + [False for _ in range(self.final_len - 1)]
-#
-#     def _clean(self): pass
-#
-#     def _convert(self): pass
-
-
 class CreateMovableDateFactory(object):
 
     @staticmethod
@@ -124,13 +91,4 @@ class CreateMovableDateFactory(object):
             parents_id=days_id,
             sundays_matins=PrepareC2SundayMatins(PrepareSundayMatins.factory()).data,
             num_creatures=const.NumWeek.IN_CYCLE_2 * 6 + const.NumSunday.IN_CYCLE_2 * 2
-        )
-
-    @staticmethod
-    def get_c3_movable_date(db: Session, days_id: list[int]) -> CreateMovableDate:
-        return CreateMovableDate(
-            db,
-            parents_id=days_id,
-            sundays_matins=PrepareC3SundayMatins().data,
-            num_creatures=const.NumWeek.IN_CYCLE_3 * 6 + const.NumSunday.IN_CYCLE_3 * 2
         )

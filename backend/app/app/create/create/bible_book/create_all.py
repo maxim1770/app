@@ -33,3 +33,7 @@ def create_c2_zachalos_movable_dates_associations(db: Session):
         db.delete(zachalo)
         db.commit()
     logging.info('Deleted default (BibleBookAbbr = Apok) c2 zachalos and zachalos movable dates associations')
+
+
+def create_c3_zachalos_movable_dates_associations(db: Session):
+    pass

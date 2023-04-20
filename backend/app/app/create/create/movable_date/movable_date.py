@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app import schemas, crud, enums
+from app import crud, enums
 from ..base_cls import CreateBase, FatalCreateError
 
 
@@ -20,10 +20,6 @@ class CreateMovableDate(CreateBase):
     def create(self) -> list[int]:
         movable_dates_id: list[int] = []
 
-        # FIXME попробовать убрать это и в функции create_movable_date не требовать movable_date
-        # просто заглушка для вызовов функции create_movable_date()
-        movable_date: schemas.MovableDateCreate = schemas.MovableDateCreate()
-
         for i, movable_day_id in enumerate(self.parents_id):
 
             if i % 7 == 0:
@@ -42,8 +38,7 @@ class CreateMovableDate(CreateBase):
                             crud.create_movable_date(
                                 self.db,
                                 movable_day_id=movable_day_id,
-                                divine_service_title=enums.DivineServiceTitle.matins,
-                                movable_date=movable_date
+                                divine_service_title=enums.DivineServiceTitle.matins
                             ).id
                         )
 
@@ -59,8 +54,7 @@ class CreateMovableDate(CreateBase):
                 crud.create_movable_date(
                     self.db,
                     movable_day_id=movable_day_id,
-                    divine_service_title=enums.DivineServiceTitle.liturgy,
-                    movable_date=movable_date
+                    divine_service_title=enums.DivineServiceTitle.liturgy
                 ).id
             )
 

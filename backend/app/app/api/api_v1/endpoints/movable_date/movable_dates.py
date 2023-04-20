@@ -32,7 +32,6 @@ def create_movable_date(
         sunday_num: int,
         movable_day_abbr: enums.MovableDayAbbr,
         divine_service_title: enums.DivineServiceTitle,
-        movable_date: schemas.MovableDateCreate,
         db: Session = Depends(deps.get_db)
 ):
     return crud.create_movable_date(
@@ -40,6 +39,5 @@ def create_movable_date(
         cycle_num=cycle_num,
         sunday_num=sunday_num,
         movable_day_abbr=movable_day_abbr,
-        divine_service_title=divine_service_title,
-        movable_date=movable_date
+        divine_service_title=divine_service_title
     )

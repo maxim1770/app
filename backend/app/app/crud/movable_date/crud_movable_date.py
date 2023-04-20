@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
-from app import models, schemas, enums
+from app import models, enums
 from .crud_divine_service import get_divine_service
 from .crud_movable_day import get_movable_day
 
@@ -62,15 +62,13 @@ def get_movable_date_by_id(
 def create_movable_date(
         db: Session,
         movable_day_id: int,
-        divine_service_title: enums.DivineServiceTitle,
-        movable_date: schemas.MovableDateCreate
+        divine_service_title: enums.DivineServiceTitle
 ) -> models.MovableDate | None:
     divine_service_id: int = get_divine_service(db, title=divine_service_title).id
 
     db_movable_date: models.MovableDate = models.MovableDate(
         movable_day_id=movable_day_id,
         divine_service_id=divine_service_id,
-        **movable_date.dict()
     )
     db.add(db_movable_date)
     db.commit()
