@@ -5,9 +5,9 @@ from typing import Pattern
 
 class NlrUrl(StrEnum):
     DOMAIN = 'https://nlr.ru'
-    _MANUSCRIPT_BASE = f'{DOMAIN}/manuscripts'
-    GET_MANUSCRIPT = f'{_MANUSCRIPT_BASE}/RA1527/elektronnyiy-katalog'
-    __MANUSCRIPT_API_BASE = f'{_MANUSCRIPT_BASE}/1/1/ajax'
+    MANUSCRIPT_BASE = f'{DOMAIN}/manuscripts'
+    GET_MANUSCRIPT = f'{MANUSCRIPT_BASE}/RA1527/elektronnyiy-katalog'
+    __MANUSCRIPT_API_BASE = f'{MANUSCRIPT_BASE}/1/1/ajax'
     GET_MANUSCRIPT_DATA_API = f'{__MANUSCRIPT_API_BASE}/GetResultDocumPoiskCatalogueOne'
     GET_MANUSCRIPT_PAGES_API = f'{__MANUSCRIPT_API_BASE}/GetResultDocumPoiskCatalogueOneIzo'
     SEARCH_MANUSCRIPT_API = f'{__MANUSCRIPT_API_BASE}/GetResultDocumPoiskCatalogue'

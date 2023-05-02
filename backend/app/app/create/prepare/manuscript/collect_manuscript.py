@@ -58,7 +58,7 @@ class СollectManuscriptImgsUrls(object):
         soup = BeautifulSoup(r.json()['result'], 'lxml')
         imgs_links: list[Tag] = soup.find('ul', class_='list_catizo').find_all('li')
         imgs_urls: list[str] = [
-            const.NlrUrl.DOMAIN + img_link.find('a')['href']
+            const.NlrUrl.MANUSCRIPT_BASE + img_link.find('a')['href']
             for img_link in imgs_links
         ]
         return imgs_urls
