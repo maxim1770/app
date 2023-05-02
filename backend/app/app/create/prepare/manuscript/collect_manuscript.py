@@ -32,7 +32,7 @@ class СollectManuscriptImgsUrls(object):
     @classmethod
     def _from_neb(cls, driver: WebDriver, manuscript_slug: str) -> list[str]:
         url: str = f'{const.NebUrl.GET_MANUSCRIPT_PAGES}/{manuscript_slug}'
-        soup = BeautifulSoup(cls._collect_page(driver, url=url), "lxml")
+        soup = BeautifulSoup(cls._collect_page(driver, url=url), 'lxml')
         imgs_links: list[Tag] = soup.find('div', class_="main-right-side").find('div', class_="panel").find_all('div',
                                                                                                                 class_='preview')
         imgs_urls: list[str] = [

@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.icon.icon import find_face_sanctity_and_dignity_abbrs
+from app.create.prepare.icon.icon import __find_face_sanctity_and_dignity_abbrs
 
 
 @pytest.mark.parametrize("saint_name, face_sanctity_and_dignity_abbrs", [
@@ -13,7 +13,7 @@ def test_find_face_sanctity_and_dignity_abbrs_one_abbr(
         saint_name: str,
         face_sanctity_and_dignity_abbrs: list[str]
 ) -> None:
-    assert find_face_sanctity_and_dignity_abbrs(saint_name) == face_sanctity_and_dignity_abbrs
+    assert __find_face_sanctity_and_dignity_abbrs(saint_name) == face_sanctity_and_dignity_abbrs
 
 
 @pytest.mark.parametrize("saint_name, face_sanctity_and_dignity_abbrs", [
@@ -26,7 +26,7 @@ def test_find_face_sanctity_and_dignity_abbrs_two_abbrs(
         saint_name: str,
         face_sanctity_and_dignity_abbrs: list[str]
 ) -> None:
-    assert find_face_sanctity_and_dignity_abbrs(saint_name) == face_sanctity_and_dignity_abbrs
+    assert __find_face_sanctity_and_dignity_abbrs(saint_name) == face_sanctity_and_dignity_abbrs
 
 
 @pytest.mark.parametrize("saint_name, face_sanctity_and_dignity_abbrs", [
@@ -38,4 +38,4 @@ def test_find_face_sanctity_and_dignity_abbrs_no_abbr(
         saint_name: str,
         face_sanctity_and_dignity_abbrs: list[str]
 ) -> None:
-    assert find_face_sanctity_and_dignity_abbrs(saint_name) == face_sanctity_and_dignity_abbrs
+    assert __find_face_sanctity_and_dignity_abbrs(saint_name) == face_sanctity_and_dignity_abbrs

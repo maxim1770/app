@@ -1,7 +1,7 @@
 import requests
 from bs4 import Tag
 
-from app import enums, schemas
+from app import enums, schemas, utils
 from ..base_collect import collect_saint_data
 
 
@@ -17,7 +17,7 @@ class SaintDataUpdateFactory(object):
 
     @property
     def saint_in(self) -> schemas.SaintUpdate:
-        name: str = ' '.join(self._name_data.text.split()).strip()
+        name: str = utils.clean_extra_spaces(self._name_data.text)
         name = name.replace(' и и евангелист', '')
         name = name.replace(' и евангелист', '')
         name = name.replace('юродивый', 'Юродивый')
@@ -30,6 +30,7 @@ class SaintDataUpdateFactory(object):
                 self.dignity_title[0].lower() + self.dignity_title[1:],
                 self.dignity_title
             )
+        name = 'NEW G_M_2 ' + name
         return schemas.SaintUpdate(name=name)
 
     @property

@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.WARNING)
 def collect_saints_cathedral_saints(cathedral_saints_title: str) -> list[str]:
     req = requests.get(AzbykaUrl.GET_SAINT_BY_SLUG + cathedral_saints_title)
 
-    saints_data: Tag = BeautifulSoup(req.text, "lxml").find(
+    saints_data: Tag = BeautifulSoup(req.text, 'lxml').find(
         lambda tag: tag.name == 'h2'
                     and 'Список Святых' in tag.text
     ).next_sibling.next_sibling

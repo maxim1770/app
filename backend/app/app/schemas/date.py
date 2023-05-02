@@ -1,7 +1,6 @@
 from pydantic import BaseModel, conint
 
 from .day import Day
-from .movable_date import MovableDayInDB
 
 
 class DateBase(BaseModel):
@@ -14,9 +13,8 @@ class DateCreate(DateBase):
 
 class Date(DateBase):
     day: Day
-    movable_day: MovableDayInDB
+
+    # movable_day: MovableDayInDB
 
     class Config:
         orm_mode = True
-
-

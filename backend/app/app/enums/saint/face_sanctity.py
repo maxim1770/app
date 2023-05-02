@@ -64,3 +64,17 @@ class FaceSanctityTitle(StrEnum):
     svjataja = 'Святая'
 
     svjatitel = 'Святитель'
+
+
+class FaceSanctityAbbr(StrEnum):
+    svjaschennomuchenik = 'Сщмч'
+    prepodobnyj = 'Прп'
+    pravednyj = 'Прав'
+    prepodobnomuchenik = 'Прмч'
+    prepodobnomuchenitsa = 'Прмц'
+    ravnoapostolnyj = 'Равноап'
+    muchenik = 'Мч'
+    muchenitsa = 'Мц'
+    svjatitel = 'Свт'
+    apostol = 'Ап'
+    ispovednik = 'Исп'

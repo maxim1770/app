@@ -12,7 +12,7 @@ def main():
     req = requests.get(
         'https://azbyka.ru/otechnik/list_view/dates')
 
-    soup: BeautifulSoup = BeautifulSoup(req.text, "lxml")
+    soup: BeautifulSoup = BeautifulSoup(req.text, 'lxml')
 
     table = soup.find('table', class_='menology')
 

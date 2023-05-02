@@ -1,10 +1,12 @@
 from .bible_book import BibleBook
 from .bible_book import Zachalo, ZachalosMovableDates
 from .book import Book, HolidayBook, TopicBook
+from .city import City
 from .date import Date
 from .day import Day
 from .holiday import Holiday
 from .holiday import HolidayCategory
+from .icon import Icon
 from .manuscript import Bookmark
 from .manuscript import Fund
 from .manuscript import Manuscript

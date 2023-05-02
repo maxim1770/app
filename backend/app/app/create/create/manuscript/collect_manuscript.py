@@ -44,7 +44,7 @@ class CollectManuscript(object):
     @staticmethod
     def create_pdf_from_imgs(pdf_path: Path, *, imgs: list[Image]):
         imgs[0].save(
-            pdf_path, "PDF", resolution=100.0, save_all=True, append_images=imgs[1:]
+            pdf_path, "PDF", resolution=99.0, save_all=True, append_images=imgs[1:]
         )
 
 

@@ -31,22 +31,60 @@
       <tr
           v-for="holiday in date.day?.holidays"
           :key="holiday.id"
-          :class="{ 'bg-yellow': holiday.saints?.length > 1 }"
+          :class="{
+                        'bg-green-lighten-3': holiday.title.includes('NEW G_M_2'),
+                        'bg-yellow': holiday.saints?.length > 1,
+                    }"
       >
         <td class="w-0 font-italic">
           {{ holiday.slug }}
-          <v-btn @click="copyText(holiday.slug)"> Скопировать</v-btn>
+          <div class="d-flex mb-1">
+            <v-btn @click="copyText(holiday.slug)" class="mr-1" color="blue-lighten-3">Скопировать</v-btn>
+            <v-btn @click="copyText(holiday.slug + ' Упоминание')">Упом</v-btn>
+          </div>
+          <div class="d-flex">
+            <v-btn @click="copyText('Тропарь глас ' + foo_num_not_null + ' ' + holiday.slug)" class="mx-1">
+              Тропарь
+            </v-btn>
+            <v-btn @click="copyText('Кондак глас ' + foo_num_not_null + ' ' +holiday.slug)">
+              Кондак
+            </v-btn>
+          </div>
+          <v-text-field
+              v-model.number="foo_num"
+              label="Глас"
+          >
+          </v-text-field>
         </td>
-        <td class="w-25 text-h6 text-center">{{ holiday.title }}</td>
+        <td class="w-25 text-h6 text-center"
+            :class="{
+                        'bg-green-lighten-3': holiday.title.includes('NEW G_M_2'),
+                  }"
+        >
+          {{ holiday.title }}
+        </td>
         <td>
-          <v-chip v-if="holiday.year" variant="outlined">
+          <v-chip
+              v-if="holiday.year"
+              :class="{
+                    'bg-red': holiday.year.year < 5500 + 1600,
+                    'bg-yellow-accent-2': holiday.year.year < 5500 + 1500,
+                    'bg-light-blue': holiday.year.year < 5500 + 1400,
+                    'bg-grey-lighten-5': holiday.year.year < 5500 + 1000,
+                  }"
+              variant="outlined"
+          >
             {{ holiday.year.title }}
           </v-chip>
         </td>
         <td>
           <v-list
               lines="one"
-              :class="{ 'bg-yellow': holiday.saints?.length > 1 }"
+              :class="{
+                        'bg-green-lighten-4': holiday.title.includes('NEW G_M_2') && holiday.saints?.length > 1,
+                        'bg-green-lighten-3': holiday.title.includes('NEW G_M_2'),
+                        'bg-yellow': holiday.saints?.length > 1,
+                            }"
           >
             <v-list-item
                 v-for="saint in holiday.saints"
@@ -96,7 +134,18 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      foo_num: 0
+    };
+  },
   computed: {
+    foo_num_not_null() {
+      if (this.foo_num === null) { // FIXME: не работает
+        return '0'
+      }
+      return this.foo_num
+    },
     preDate() {
       let _preDate = new Date(this.date.day?.month_day)
       _preDate.setDate(_preDate.getDate() - 1)

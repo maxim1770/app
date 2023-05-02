@@ -164,8 +164,11 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
         manuscript_code_title: str = self._soup.find(
             'div', class_='book-info'
         ).find_all('div', class_='book-info-table')[-1].text.replace('Шифр хранения', '').strip()
-        if utils.is_rsl_manuscript_code_title(manuscript_code_title):
-            manuscript_code_title: str = self._prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title)
+        if manuscript_code_title[-1] == '.':
+            manuscript_title = manuscript_code_title[:-1]
+        if manuscript_code_title[-1]:
+            if utils.is_rsl_manuscript_code_title(manuscript_code_title):
+                manuscript_code_title: str = self._prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title)
         return manuscript_code_title
 
     @property

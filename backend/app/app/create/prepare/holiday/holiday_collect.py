@@ -24,6 +24,12 @@ class SaintsHolidayCollect(HolidayCollectBase):
     saints_ids_from_azbyka: list[int]
 
 
+class SaintsHolidayNewCollect(HolidayCollectBase):
+    saints_slugs: constr(strip_whitespace=True, strict=True, regex=const.REGEX_SLUG_STR)
+
+class SaintsHolidayNewMethod2Collect(HolidayCollectBase):
+    saints_slugs: list[str]
+
 class HolidayCollectFactoryBase(ABC):
 
     def __init__(self, *, day: date, holiday_data: Tag):
@@ -66,7 +72,8 @@ class SaintHolidayCollectFactory(HolidayCollectFactoryBase):
 
     @property
     def saint_slug(self) -> str:
-        saint_slug: str = self.holiday_data['href'].replace(AzbykaUrl.GET_SAINT_BY_SLUG, '').lower().strip()
+        saint_slug: str = self.holiday_data['href'].replace('http:', 'https:').replace(AzbykaUrl.GET_SAINT_BY_SLUG,
+                                                                                       '').lower().strip()
         self._check_saint_slug_in_cathedrals_saints(saint_slug)
         self._check_saint_slug_not_is_one_saint(saint_slug)
         return saint_slug
@@ -87,7 +94,7 @@ class SaintsHolidayCollectFactory(HolidayCollectFactoryBase):
     @property
     def saints_ids_from_azbyka(self) -> list[int]:
         if '/' not in self.holiday_data['data-id']:
-            raise ValueError('not valid saints_group in one tag a')
+            raise ValueError('Not valid saints_group in one tag a')
         saints_ids_from_azbyka: list[int] = [
             int(saint_id_from_azbyka) for saint_id_from_azbyka in self.holiday_data['data-id'].strip().split('/')
         ]
@@ -98,4 +105,62 @@ class SaintsHolidayCollectFactory(HolidayCollectFactoryBase):
             day=self.day,
             full_title=self.full_title,
             saints_ids_from_azbyka=self.saints_ids_from_azbyka
+        )
+
+
+class SaintsHolidayNewCollectFactory(HolidayCollectFactoryBase):
+
+    def __init__(self, *, day: date, holiday_data: Tag):
+        super().__init__(day=day, holiday_data=holiday_data)
+
+    @property
+    def saints_slugs(self) -> str:
+        if 'svv' not in self.holiday_data['href']:
+            raise ValueError('Not valid saints slugs in one tag a')
+        saints_slugs: str = self.holiday_data['href'].replace('http:', 'https:').replace(AzbykaUrl.GET_SAINTS_BY_SLUG,
+                                                                                         '').lower().strip()
+        return saints_slugs
+
+    def get(self) -> SaintsHolidayNewCollect:
+        return SaintsHolidayNewCollect(
+            day=self.day,
+            full_title=self.full_title,
+            saints_slugs=self.saints_slugs
+        )
+
+
+class SaintsHolidayNewMethod2CollectFactory(object):
+
+    def __init__(self, *, day: date, holiday_data: Tag):
+        self.day = day
+        self.holiday_data = holiday_data
+
+    def foo(self):
+        saints_slugs = []
+        title = ''
+        try:
+            title += self.holiday_data.next_sibling
+            tag_a = self.holiday_data.next_sibling.next_sibling
+            while isinstance(tag_a, Tag):
+                title += tag_a.text
+                saint_slug: str = tag_a['href'].replace('http:', 'https:').replace(
+                    AzbykaUrl.GET_SAINT_BY_SLUG,
+                    '').lower().strip()
+                saints_slugs.append(saint_slug)
+                some_sting = tag_a.next_sibling.text
+                if '.' in some_sting.strip() or ';' in some_sting.strip():
+                    break
+                title += some_sting
+                tag_a = tag_a.next_sibling.next_sibling
+        except (KeyError, TypeError, AttributeError) as e:
+            raise ValueError(f'Some Error in SaintsHolidayNewMethod2CollectFactory {e}')
+        else:
+            return title, saints_slugs
+
+    def get(self) -> SaintsHolidayNewMethod2Collect:
+        full_title, saints_slugs = self.foo()
+        return SaintsHolidayNewMethod2Collect(
+            day=self.day,
+            full_title=full_title,
+            saints_slugs=saints_slugs
         )

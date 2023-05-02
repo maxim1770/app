@@ -149,7 +149,7 @@ def create_manuscript_imgs(
             detail=e.args[0]
         )
     collect_manuscript.save_imgs()
-    collect_manuscript.create_pdf()
+    # collect_manuscript.create_pdf() # TODO collect_manuscript.create_pdf()
     return manuscript
 
 

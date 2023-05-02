@@ -6,8 +6,8 @@ from .create import create_all_funds
 from .create import create_all_great_holidays, create_all_movable_saints_holidays, create_all_proroks_and_any_pravednyjs
 from .create import create_all_holidays_categories
 from .create import create_all_movable_dates
-from .create import create_all_saints_holidays, create_all_cathedrals_saints, create_any_holidays, \
-    create_all_saints_groups_holidays
+from .create import create_all_saints_holidays, create_all_saints_holidays_new, create_all_cathedrals_saints, \
+    create_any_holidays, create_all_saints_groups_holidays, create_all_saints_groups_holidays_new, create_all_saints_groups_holidays_new_method_2
 from .create import create_all_zachalos_movable_dates_associations
 from .create import create_dates_for_years
 from .create import create_holiday, create_saint_holiday, create_saint_holiday_without_year, create_saints_holiday, \

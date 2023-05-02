@@ -1,16 +1,13 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from pydantic import BaseModel, constr
 
 from app import const, enums
+# if TYPE_CHECKING:
+from ..day import DayCreate
 from ..movable_date import MovableDayGet
 from ..saint import Saint, SaintCreate
 from ..year import Year, YearCreate
-
-if TYPE_CHECKING:
-    from ..day import DayCreate
 
 
 class HolidayBase(BaseModel):

@@ -6,5 +6,6 @@ class AzbykaUrl(StrEnum):
     DAYS = f'{DOMAIN}/days'
     GET_ZACHALO = f'{DOMAIN}/biblia/?'
     GET_SAINT_BY_SLUG = f'{DAYS}/sv-'
+    GET_SAINTS_BY_SLUG = f'{DAYS}/svv-'
     GET_SAINT_BY_ID = f'{DAYS}/saint'
     GET_HOLIDAYS_IN_DAY_API = f'{DAYS}/widgets/presentations.json?date='

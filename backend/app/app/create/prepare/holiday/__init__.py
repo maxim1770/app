@@ -1,1 +1,2 @@
-from .holiday import saints_holidays_in_factory, saints_groups_holidays_in_factory
+from .holiday import saints_holidays_in_factory, saints_groups_holidays_in_factory, saints_holidays_in_new_factory, \
+    saints_groups_holidays_in_new_factory, saints_groups_holidays_in_new_method_2_factory

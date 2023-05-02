@@ -10,6 +10,8 @@ NUM_OFFSET_YEARS: Final[int] = 8
 NUM_YEARS_IN_CENTURY: Final[int] = 100
 YEAR_CHRISTMAS: Final[int] = 5500
 
+BASE_YEAR_FOR_DAY: Final[int] = 2032
+
 
 class YearCorrection(StrEnum):
     okolo = 'Около'

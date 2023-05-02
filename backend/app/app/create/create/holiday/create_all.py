@@ -3,17 +3,43 @@ import logging
 import requests
 from sqlalchemy.orm import Session
 
-from app import crud
+from app import crud, models
 from app.enums import CycleNum, MovableDayAbbr
 from app.enums import FaceSanctityTitle, HolidayCategoryTitle
 from app.schemas import MovableSaintHolidayCreate, MovableSaintHolidayCreateWithoutData, MovableDayGet
 from app.schemas import SaintDataCreate, SaintCreate, HolidayCreate, YearCreate, HolidayDataCreate
 from app.schemas import SaintHolidayCreate, SaintHolidayCreateWithoutYear, DayCreate
 from app.schemas import SaintsHolidayCreate
+from app.schemas.holiday.holiday import HolidayCreateBase
 from .holiday import create_holiday, create_saint_holiday, create_saints_holiday, create_movable_saint_holiday, \
     create_saint_holiday_without_year
 from ..saint import create_saint
 from ....create import const, prepare
+
+
+def _check_holiday_for_existence_and_to_slug(db: Session, *, holiday_data_in) -> HolidayCreateBase | None:
+    holiday = crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug)
+    if holiday:
+        if holiday_data_in.day_in.month == holiday.day.month and holiday_data_in.day_in.day == holiday.day.day:
+            logging.error(
+                f'The Holiday with this slug and day already exists, {holiday_data_in.holiday_in.slug}'
+            )
+            return None
+        if holiday_data_in.holiday_category_title == HolidayCategoryTitle.den_pamjati:
+            holiday_data_in.holiday_in.slug = holiday_data_in.holiday_in.slug.replace(
+                'den-pamjati',
+                'den-pamjati-drugoj',
+            )
+            logging.info(
+                f'The Holiday with this slug already exists, New slug: {holiday_data_in.holiday_in.slug}'
+            )
+            holiday = crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug)
+            if holiday:
+                logging.warning(
+                    f'The Holiday with this slug den-pamjati-drugoj already exists, {holiday_data_in.holiday_in.slug}'
+                )
+                return None
+    return holiday_data_in
 
 
 def _create_all_holidays_base(
@@ -22,32 +48,17 @@ def _create_all_holidays_base(
         *,
         fun_holidays_in_factory,
         fun_create_holiday_data
-):
+) -> None:
     for day in const.all_days_in_year():
         logging.info(day)
         holidays_data_in = fun_holidays_in_factory(session=session, day=day)
         for holiday_data_in in holidays_data_in:
-            holiday = crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug)
-            if holiday:
-                if holiday_data_in.day_in.month == holiday.day.month and holiday_data_in.day_in.day == holiday.day.day:
-                    logging.error(
-                        f'The Holiday with this slug and day already exists, {holiday_data_in.holiday_in.slug}'
-                    )
-                    continue
-                if holiday_data_in.holiday_category_title == HolidayCategoryTitle.den_pamjati:
-                    holiday_data_in.holiday_in.slug = holiday_data_in.holiday_in.slug.replace(
-                        'den-pamjati',
-                        'den-pamjati-drugoj',
-                    )
-                    logging.info(
-                        f'The Holiday with this slug already exists, New slug: {holiday_data_in.holiday_in.slug}'
-                    )
-                    holiday = crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug)
-                    if holiday:
-                        logging.warning(
-                            f'The Holiday with this slug den-pamjati-drugoj already exists, {holiday_data_in.holiday_in.slug}'
-                        )
-                        continue
+            holiday_data_in: HolidayCreateBase | None = _check_holiday_for_existence_and_to_slug(
+                db,
+                holiday_data_in=holiday_data_in
+            )
+            if holiday_data_in is None:
+                continue
             holiday = fun_create_holiday_data(db, holiday_data_in)
     logging.info('Holidays data created')
 
@@ -59,6 +70,64 @@ def create_all_saints_holidays(db: Session):
         fun_create_holiday_data=create_saint_holiday
     )
 
+
+def create_all_saints_holidays_new(db: Session):
+    all_holidays: list[models.Holiday] = crud.holiday.get_multi(db, limit=2000)
+    for day in const.all_days_in_year():
+        logging.info(day)
+        holidays_data_in = prepare.saints_holidays_in_new_factory(day, all_holidays=all_holidays)
+        for holiday_data_in in holidays_data_in:
+            if holiday_data_in.holiday_category_title == HolidayCategoryTitle.cathedral_saints:
+                continue
+            holiday_data_in: HolidayCreateBase | None = _check_holiday_for_existence_and_to_slug(
+                db,
+                holiday_data_in=holiday_data_in
+            )
+            if holiday_data_in is None:
+                continue
+            holiday_data_in.holiday_in.title = 'NEW ' + holiday_data_in.holiday_in.title
+            # holiday = create_saint_holiday(db, holiday_data_in)
+            logging.info(f'Created Holiday {holiday_data_in}')
+    logging.info('New Holidays data created')
+
+def create_all_saints_groups_holidays_new(db: Session, *, session: requests.Session):
+    all_holidays: list[models.Holiday] = crud.holiday.get_multi(db, limit=2000)
+    for day in const.all_days_in_year():
+        # logging.info(day)
+        holidays_data_in = prepare.saints_groups_holidays_in_new_factory(session, day=day, all_holidays=all_holidays)
+        for holiday_data_in in holidays_data_in:
+            if holiday_data_in.holiday_category_title == HolidayCategoryTitle.cathedral_saints:
+                continue
+            holiday_data_in: HolidayCreateBase | None = _check_holiday_for_existence_and_to_slug(
+                db,
+                holiday_data_in=holiday_data_in
+            )
+            if holiday_data_in is None:
+                continue
+            holiday_data_in.holiday_in.title = 'NEW ' + holiday_data_in.holiday_in.title
+            # holiday = create_saints_holiday(db, holiday_data_in)
+            # logging.info(f'Created Holiday {holiday_data_in}')
+    logging.info('New Holidays data created')
+
+
+def create_all_saints_groups_holidays_new_method_2(db: Session, *, session: requests.Session):
+    all_holidays: list[models.Holiday] = crud.holiday.get_multi(db, limit=2000)
+    for day in const.all_days_in_year():
+        logging.info(day)
+        holidays_data_in = prepare.saints_groups_holidays_in_new_method_2_factory(session, day=day, all_holidays=all_holidays)
+        for holiday_data_in in holidays_data_in:
+            if holiday_data_in.holiday_category_title == HolidayCategoryTitle.cathedral_saints:
+                continue
+            holiday_data_in: HolidayCreateBase | None = _check_holiday_for_existence_and_to_slug(
+                db,
+                holiday_data_in=holiday_data_in
+            )
+            if holiday_data_in is None:
+                continue
+            holiday_data_in.holiday_in.title = 'NEW G_M_2 ' + holiday_data_in.holiday_in.title
+            # holiday = create_saints_holiday(db, holiday_data_in)
+            logging.info(f'Created Holiday {holiday_data_in}')
+    logging.info('New Holidays data created')
 
 def create_all_saints_groups_holidays(db: Session, session: requests.Session):
     return _create_all_holidays_base(

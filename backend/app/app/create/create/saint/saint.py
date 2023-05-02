@@ -50,6 +50,8 @@ def update_saint_from_azbyka(db: Session, *, session: requests.Session, saint: m
         saint_data_in = schemas.SaintDataUpdate(saint_in=schemas.SaintUpdate(name='Каллисфе́ния Ефесская'))
     elif saint.slug == 'markellin-ispanskij':
         saint_data_in = schemas.SaintDataUpdate(saint_in=schemas.SaintUpdate(name='Маркелли́н Испанский'))
+    elif saint.slug == 'marfa-kappadokijskaja':
+        saint_data_in = schemas.SaintDataUpdate(saint_in=schemas.SaintUpdate(name='Ма́рфа Каппадокийская'))
     else:
         saint_data_in = SaintDataUpdateFactory(session=session, saint_slug=saint.slug).get()
     saint = update_saint(db, saint=saint, saint_data_in=saint_data_in)

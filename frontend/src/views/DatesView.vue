@@ -22,5 +22,6 @@ export default {
       .getDates()
       .then((response) => (this.dates = response.data));
   },
+
 };
 </script>

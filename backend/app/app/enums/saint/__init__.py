@@ -1,2 +1,2 @@
 from .dignity import DignityTitle
-from .face_sanctity import FaceSanctityTitle
+from .face_sanctity import FaceSanctityTitle, FaceSanctityAbbr
