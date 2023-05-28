@@ -26,9 +26,9 @@ class Manuscript(Base):
     first_page_position: Mapped[enums.PagePosition]
 
     year_id: Mapped[int] = mapped_column(ForeignKey(Year.id))
-    fund_id: Mapped[int] = mapped_column(ForeignKey(Fund.id))
+    fund_id: Mapped[int | None] = mapped_column(ForeignKey(Fund.id))
 
     year: Mapped[Year] = relationship(back_populates='manuscripts')
-    fund: Mapped[Fund] = relationship(back_populates='manuscripts')
+    fund: Mapped[Fund | None] = relationship(back_populates='manuscripts')
 
     books: Mapped[list[Bookmark]] = relationship(back_populates='manuscript')

@@ -31,12 +31,23 @@ def is_rsl_library(fund_title: enums.FundTitle) -> bool:
     return False
 
 
+def is_nlr_manuscript_code(manuscript_code: UUID | str) -> bool:
+    manuscript_code: str = str(manuscript_code)
+    if len(manuscript_code) == 36:
+        return True
+    return False
+
+
 def prepare_manuscript_url(manuscript_code: UUID | str) -> str:
     manuscript_code: str = str(manuscript_code)
     if is_rsl_manuscript_code(manuscript_code):
         manuscript_url: str = f'{const.RslUrl.GET_MANUSCRIPT}/{_combine_fund_with_manuscript_code(manuscript_code)}'
-    else:
+    elif is_nlr_manuscript_code(manuscript_code):
         manuscript_url: str = f'{const.NlrUrl.GET_MANUSCRIPT}?ab={manuscript_code}'
+    elif manuscript_code in [f'lls_book_rus_{i}' for i in range(1, 11)]:
+        manuscript_url: str = f'{const.RuniversUrl.GET_LLS_FOR_RUS_1_10}/{manuscript_code}'
+    else:
+        manuscript_url: str = f'{const.RuniversUrl.GET_LLS}/{manuscript_code}'
     return manuscript_url
 
 

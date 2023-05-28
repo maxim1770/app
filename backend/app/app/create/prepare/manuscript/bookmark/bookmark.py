@@ -8,12 +8,12 @@ from sqlalchemy.orm import Session
 from app import crud, const
 from app import schemas, enums
 from app.api import deps
-from .convert_bookmark_to_schemas import convert_bookmark_to_schemas, PdfBookmark
 from .convert_page import pages_nums2pages_in
+from .get_bookmarks import get_bookmarks, Bookmark
 from ....const import BookRegex, BookRegexGroupName
 
 
-def _check_holiday_day(db: Session, slug: str, *, month: PdfBookmark, day: PdfBookmark) -> None:
+def _check_holiday_day(db: Session, slug: str, *, month: Bookmark, day: Bookmark) -> None:
     holiday = crud.holiday.get_by_slug(db, slug=slug)
     if holiday.day.month != int(month.title) or holiday.day.day != int(day.title):
         logging.error(f"ERROR, {slug} is not in day {month}-{day}")
@@ -21,8 +21,8 @@ def _check_holiday_day(db: Session, slug: str, *, month: PdfBookmark, day: PdfBo
 
 class _BookDataCreateFactoryBase(ABC):
 
-    def __init__(self, pdf_bookmark_title: str):
-        self._pdf_bookmark_title: str = pdf_bookmark_title.strip()
+    def __init__(self, bookmark_title: str):
+        self._bookmark_title: str = bookmark_title.strip()
 
     @property
     @abstractmethod
@@ -31,18 +31,18 @@ class _BookDataCreateFactoryBase(ABC):
 
 class HolidayBookDataCreateFactory(_BookDataCreateFactoryBase):
 
-    def __init__(self, pdf_bookmark_title: str):
-        super().__init__(pdf_bookmark_title)
+    def __init__(self, bookmark_title: str):
+        super().__init__(bookmark_title)
 
     @property
     def book_data_in(self) -> schemas.HolidayBookDataCreate:
-        if not const.REGEX_SLUG.match(self._pdf_bookmark_title):
+        if not const.REGEX_SLUG.match(self._bookmark_title):
             return None
         holiday_book_data_in = schemas.HolidayBookDataCreate(
             book_data_in=schemas.BookDataCreate(
                 book_in=schemas.BookCreate(title=None)
             ),
-            holiday_slug=self._pdf_bookmark_title,
+            holiday_slug=self._bookmark_title,
         )
         # _check_holiday_day(db, holiday_book_data_in.holiday_slug, month=month, day=day)
         return holiday_book_data_in
@@ -50,12 +50,12 @@ class HolidayBookDataCreateFactory(_BookDataCreateFactoryBase):
 
 class TopicBookDataCreateFactory(_BookDataCreateFactoryBase):
 
-    def __init__(self, pdf_bookmark_title: str):
-        super().__init__(pdf_bookmark_title)
+    def __init__(self, bookmark_title: str):
+        super().__init__(bookmark_title)
 
     @property
     def book_data_in(self) -> schemas.TopicBookDataCreate:
-        groups: dict[str, str] = BookRegex.TOPIC.match(self._pdf_bookmark_title).groupdict()
+        groups: dict[str, str] = BookRegex.TOPIC.match(self._bookmark_title).groupdict()
         type_ = enums.BookType(groups[BookRegexGroupName.type])
         source = enums.BookSource(groups[BookRegexGroupName.source]) if groups[BookRegexGroupName.source] else None
         topics_str: str | None = groups[BookRegexGroupName.topics]
@@ -79,11 +79,11 @@ class TopicBookDataCreateFactory(_BookDataCreateFactoryBase):
 class BookDataCreateFactoryFactory(object):
 
     @classmethod
-    def get(cls, pdf_bookmark_title: str) -> schemas.HolidayBookDataCreate | schemas.TopicBookDataCreate | None:
-        if BookRegex.HOLIDAY.match(pdf_bookmark_title):
-            return HolidayBookDataCreateFactory(pdf_bookmark_title).book_data_in
-        if BookRegex.TOPIC.match(pdf_bookmark_title):
-            return TopicBookDataCreateFactory(pdf_bookmark_title).book_data_in
+    def get(cls, bookmark_title: str) -> schemas.HolidayBookDataCreate | schemas.TopicBookDataCreate | None:
+        if BookRegex.HOLIDAY.match(bookmark_title):
+            return HolidayBookDataCreateFactory(bookmark_title).book_data_in
+        if BookRegex.TOPIC.match(bookmark_title):
+            return TopicBookDataCreateFactory(bookmark_title).book_data_in
         return None
 
 
@@ -97,14 +97,14 @@ def prepare_manuscript_bookmark(
     db: Session = next(deps.get_db())
     not_numbered_pages = schemas.NotNumberedPages.parse_obj(not_numbered_pages)
     reader = PdfReader(pdf_path)
-    pdf_bookmarks: list[PdfBookmark] = convert_bookmark_to_schemas(reader, reader.outline)
+    bookmarks: list[Bookmark] = get_bookmarks(reader)
     bookmarks_data_in: list[schemas.BookmarkDataCreate] = []
-    for month in pdf_bookmarks:
-        logging.warning(f'{month.title}, page={month.page}')
+    for month in bookmarks:
+        logging.warning(f'{month.title}, page={month.page_num}')
         for i, day in enumerate(month.children):
-            logging.warning(f'{day.title}, page={day.page}')
+            logging.warning(f'{day.title}, page={day.page_num}')
             for j, pdf_book in enumerate(day.children):
-                logging.info(f'{pdf_book.title}, page={pdf_book.page}')
+                logging.info(f'{pdf_book.title}, page={pdf_book.page_num}')
                 if pdf_book.title.isdigit():
                     continue
                 if pdf_book.title[0].isdigit():
@@ -113,11 +113,11 @@ def prepare_manuscript_bookmark(
                 if not book_data_in:
                     continue
                 if j + 1 < len(day.children):
-                    end_page_num: int = day.children[j + 1].page
+                    end_page_num: int = day.children[j + 1].page_num
                 elif i + 1 < len(month.children):
-                    end_page_num: int = month.children[i + 1].page
+                    end_page_num: int = month.children[i + 1].page_num
                 pages_in: schemas.PagesCreate = pages_nums2pages_in(
-                    pdf_book.page,
+                    pdf_book.page_num,
                     end_page_num,
                     not_numbered_pages=not_numbered_pages,
                     from_neb=from_neb,

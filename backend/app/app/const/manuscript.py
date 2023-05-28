@@ -27,5 +27,13 @@ class NebUrl(StrEnum):
     SEARCH_MANUSCRIPT_API = f'{DOMAIN}/search/2/facets'
 
 
+class RuniversUrl(StrEnum):
+    _DOMAIN = 'https://runivers.ru'
+    _LIB = f'{_DOMAIN}/lib'
+    GET_MANUSCRIPT_PAGES = f'{_DOMAIN}/bookreader/books'
+    GET_LLS = f'{_LIB}/book6958'
+    GET_LLS_FOR_RUS_1_10 = f'{_LIB}/book19785'
+
+
 REGEX_RSL_MANUSCRIPT_CODE_STR: str = r'^f-\d{1,3}i{0,3}-\d{1,4}$'
 REGEX_RSL_MANUSCRIPT_CODE: Pattern[str] = re.compile(REGEX_RSL_MANUSCRIPT_CODE_STR)

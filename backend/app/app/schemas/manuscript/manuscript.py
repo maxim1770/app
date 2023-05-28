@@ -1,4 +1,3 @@
-from pathlib import Path
 from uuid import UUID
 
 from pydantic import BaseModel, constr, conint, HttpUrl, root_validator, validator
@@ -27,7 +26,7 @@ class ManuscriptBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, min_length=1, max_length=150) | None = None
     neb_slug: constr(strip_whitespace=True, strict=True, max_length=150, regex=const.REGEX_SLUG_STR) | None = None
     code_title: constr(strip_whitespace=True, strict=True, min_length=1, max_length=20) | None = None
-    code: UUID | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR) | None = None
+    code: UUID | str | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR) | None = None
     handwriting: conint(strict=True, ge=1, le=12) | None = None
     not_numbered_pages: NotNumberedPages = []
     first_page_position: enums.PagePosition | None = None
@@ -45,7 +44,7 @@ class ManuscriptCreateAny(ManuscriptBase):
 class ManuscriptCreate(ManuscriptBase):
     title: constr(strip_whitespace=True, strict=True, max_length=150)
     code_title: constr(strip_whitespace=True, strict=True, max_length=20)
-    code: UUID | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
+    code: UUID | str | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
     handwriting: conint(strict=True, ge=1, le=12)
 
 
@@ -60,13 +59,13 @@ class ManuscriptInDBBase(ManuscriptBase):
     code_title: str
     code: str
     handwriting: int
-    path: Path = None
+    # path: str | None = None
 
     url: HttpUrl = None
     neb_url: HttpUrl | None = None
 
     year: Year
-    fund: Fund
+    fund: Fund | None
 
     @validator('url', pre=True, always=True)
     def prepare_url(cls, url: None, values):
@@ -83,11 +82,14 @@ class ManuscriptInDBBase(ManuscriptBase):
     # @validator('path', pre=True, always=True)
     # def prepare_path(cls, path: None, values):
     #     try:
-    #         created_path: Path = utils.PrepareManuscriptPath(
-    #             fund_title=values['fund'].title,
-    #             library_title=values['fund'].library,
-    #             code=values['code']
-    #         ).created_path
+    #         if values['fund']:
+    #             created_path: Path = utils.PrepareManuscriptPathFactory.from_lib(
+    #                 fund_title=values['fund'].title,
+    #                 library_title=values['fund'].library,
+    #                 code=values['code']
+    #             ).created_path
+    #         else:
+    #             created_path: Path = utils.PrepareManuscriptPathFactory.from_lls(code=values['code']).created_path
     #     except FileNotFoundError:
     #         return None
     #     return created_path

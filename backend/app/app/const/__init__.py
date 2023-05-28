@@ -2,7 +2,7 @@ import re
 from typing import Pattern
 
 from .day import MONTH_TITLE
-from .manuscript import NlrUrl, RslUrl, NebUrl
+from .manuscript import NlrUrl, RslUrl, NebUrl, RuniversUrl
 from .manuscript import REGEX_RSL_MANUSCRIPT_CODE_STR, REGEX_RSL_MANUSCRIPT_CODE
 from .year import NUM_OFFSET_YEARS, NUM_YEARS_IN_CENTURY, YEAR_HERESY, YEAR_CHRISTMAS, BASE_YEAR_FOR_DAY
 from .year import YearCorrection, CenturyCorrection, NumYearCorrection, NumCenturyCorrection
