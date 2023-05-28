@@ -4,8 +4,7 @@ from app.tests.const.year import main_1_split_on_bookmarks_and_prepare_title
 from app.tests.create.prepare import main_4_join_bookmarks_and_sorted_by_pages_nums_and_delete_copy_elems, \
     LlsBookRusFullType, LlsBookRusType
 from app.tests.crud import verify_all_lls_pages
-from app.tests.schemas import main_2_add_brackets_and_offset_years
-from app.tests.utils import main_3_offset_pages
+from app.tests.schemas import main_2_add_brackets_and_offset_years, main_3_offset_pages
 
 __path = Path(r'C:\Users\MaxDroN\python_projects\app\delete_me\Output.md')
 __encoding: str = 'utf-8'
