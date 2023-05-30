@@ -20,7 +20,7 @@ class FitSchema(BaseModel):
 
 class BookmarkBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, max_length=620)
-    page_num: conint(strict=True, ge=1, le=1500)
+    page_num: conint(strict=True, ge=1, le=2000)
     color: Color | None = None
 
 
@@ -49,8 +49,9 @@ def _get_bookmarks(
         else:
             page_index: int = reader.get_destination_page_number(destination)
             page_label: int = int(reader.page_labels[page_index])
-            fit = FitSchema(left=destination.left, top=destination.top, zoom=destination.zoom)
             parent: Bookmark | None = parent_bookmark if parent_bookmark.title != __BASE_BOOKMARK_TITLE else None
+            fit: FitSchema | None = FitSchema(left=destination.left, top=destination.top, zoom=destination.zoom) \
+                if destination.left is not None else None
             bookmark = Bookmark(page_num=page_label, title=destination.title, fit=fit, parent=parent)
             parent_bookmark.children.append(bookmark)
     bookmarks: list[Bookmark] = parent_bookmark.children

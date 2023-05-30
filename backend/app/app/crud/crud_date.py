@@ -1,30 +1,52 @@
 import sqlalchemy as sa
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-from app import models, schemas
+from app import models
+from app.filters import DateFilter
+from app.models import Date
+from app.schemas import DateCreate, DateUpdate
+from .base import CRUDBase
 
 
-def get_dates(db: Session, *, skip: int = 0, limit: int = 100) -> list[models.Date]:
-    return list(db.execute(sa.select(models.Date).offset(skip).limit(limit)).scalars())
+class CRUDDate(CRUDBase[Date, DateCreate, DateUpdate, DateFilter]):
+
+    def get_multi_by_filter(self, db: Session, *, filter: DateFilter) -> sa.Select:
+        select: sa.Select = sa.select(self.model)
+        select: sa.Select = self._filtering_and_sorting_select(select, filter=filter)
+        return select
+
+    def get_by_day_and_year(self, db: Session, *, day_id: int, year: int) -> models.Date | None:
+        return db.execute(
+            sa.select(self.model).filter_by(day_id=day_id).filter_by(year=year)
+        ).scalar_one_or_none()
+
+    def create_with_any(
+            self,
+            db: Session,
+            *,
+            obj_in: DateCreate,
+            day_id: int,
+            movable_day_id: int
+    ) -> Date:
+        obj_in_data = jsonable_encoder(obj_in)
+        db_obj = self.model(
+            **obj_in_data,
+            day_id=day_id,
+            movable_day_id=movable_day_id,
+        )
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
+    @staticmethod
+    def update_by_movable_day_id(db: Session, *, db_obj: models.Date, movable_day_id: int) -> models.Date:
+        db_obj.movable_day_id = movable_day_id
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
-def get_date(db: Session, *, day_id: int, year: int, ) -> models.Date | None:
-    return db.execute(
-        sa.select(models.Date).filter_by(day_id=day_id).filter_by(year=year)
-    ).scalar_one_or_none()
-
-
-def create_date(db: Session, *, date_in: schemas.DateCreate, day_id: int, movable_day_id: int) -> models.Date:
-    db_date = models.Date(**date_in.dict(), day_id=day_id, movable_day_id=movable_day_id)
-    db.add(db_date)
-    db.commit()
-    db.refresh(db_date)
-    return db_date
-
-
-def update_date_by_movable_day_id(db: Session, *, db_date: models.Date, movable_day_id: int) -> models.Date:
-    db_date.movable_day_id = movable_day_id
-    db.add(db_date)
-    db.commit()
-    db.refresh(db_date)
-    return db_date
+date = CRUDDate(Date)

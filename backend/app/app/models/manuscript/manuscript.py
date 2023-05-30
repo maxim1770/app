@@ -24,6 +24,7 @@ class Manuscript(Base):
     handwriting: Mapped[int] = mapped_column(SmallInteger)
     not_numbered_pages: Mapped[list[dict[str, int]]] = mapped_column(JSON)
     first_page_position: Mapped[enums.PagePosition]
+    preview_img_num: Mapped[int] = mapped_column(SmallInteger)
 
     year_id: Mapped[int] = mapped_column(ForeignKey(Year.id))
     fund_id: Mapped[int | None] = mapped_column(ForeignKey(Fund.id))

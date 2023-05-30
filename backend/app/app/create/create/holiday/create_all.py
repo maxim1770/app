@@ -4,6 +4,7 @@ import requests
 from sqlalchemy.orm import Session
 
 from app import crud, models
+from app.create import const, prepare
 from app.enums import CycleNum, MovableDayAbbr
 from app.enums import FaceSanctityTitle, HolidayCategoryTitle
 from app.schemas import MovableSaintHolidayCreate, MovableSaintHolidayCreateWithoutData, MovableDayGet
@@ -14,7 +15,6 @@ from app.schemas.holiday.holiday import HolidayCreateBase
 from .holiday import create_holiday, create_saint_holiday, create_saints_holiday, create_movable_saint_holiday, \
     create_saint_holiday_without_year
 from ..saint import create_saint
-from ....create import const, prepare
 
 
 def _check_holiday_for_existence_and_to_slug(db: Session, *, holiday_data_in) -> HolidayCreateBase | None:
@@ -90,6 +90,7 @@ def create_all_saints_holidays_new(db: Session):
             logging.info(f'Created Holiday {holiday_data_in}')
     logging.info('New Holidays data created')
 
+
 def create_all_saints_groups_holidays_new(db: Session, *, session: requests.Session):
     all_holidays: list[models.Holiday] = crud.holiday.get_multi(db, limit=2000)
     for day in const.all_days_in_year():
@@ -114,7 +115,8 @@ def create_all_saints_groups_holidays_new_method_2(db: Session, *, session: requ
     all_holidays: list[models.Holiday] = crud.holiday.get_multi(db, limit=2000)
     for day in const.all_days_in_year():
         logging.info(day)
-        holidays_data_in = prepare.saints_groups_holidays_in_new_method_2_factory(session, day=day, all_holidays=all_holidays)
+        holidays_data_in = prepare.saints_groups_holidays_in_new_method_2_factory(session, day=day,
+                                                                                  all_holidays=all_holidays)
         for holiday_data_in in holidays_data_in:
             if holiday_data_in.holiday_category_title == HolidayCategoryTitle.cathedral_saints:
                 continue
@@ -124,10 +126,11 @@ def create_all_saints_groups_holidays_new_method_2(db: Session, *, session: requ
             )
             if holiday_data_in is None:
                 continue
-            holiday_data_in.holiday_in.title = 'NEW G_M_2 ' + holiday_data_in.holiday_in.title
+            # holiday_data_in.holiday_in.title = 'NEW G_M_2 ' + holiday_data_in.holiday_in.title
             # holiday = create_saints_holiday(db, holiday_data_in)
             logging.info(f'Created Holiday {holiday_data_in}')
     logging.info('New Holidays data created')
+
 
 def create_all_saints_groups_holidays(db: Session, session: requests.Session):
     return _create_all_holidays_base(

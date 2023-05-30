@@ -52,21 +52,21 @@ def _create_all_strastnaja_sedmitsa(db: Session):
     movable_days.append(
         crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
             abbr=enums.MovableDayAbbr.mon,
-            title='Святой и Великий Понедельник'
+            title=enums.MovableDayStrastnajaSedmitsaRu.mon.value
         )))
     movable_days.append(
         crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
             abbr=enums.MovableDayAbbr.tue,
-            title='Святой и Великий Вторник'
+            title=enums.MovableDayStrastnajaSedmitsaRu.tue.value
         )))
     movable_days.append(
         crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
             abbr=enums.MovableDayAbbr.wed,
-            title='Святая и Великая Среда'
+            title=enums.MovableDayStrastnajaSedmitsaRu.wed.value
         )))
     thu = crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
         abbr=enums.MovableDayAbbr.thu,
-        title='Святой и Великий Четверг'
+        title=enums.MovableDayStrastnajaSedmitsaRu.thu.value
     ))
     movable_days.append(thu)
     crud.create_movable_date(
@@ -81,11 +81,11 @@ def _create_all_strastnaja_sedmitsa(db: Session):
     # Создаем fri тут, чтобы в бд строчки были по порядку чт-пт-сб
     fri = crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
         abbr=enums.MovableDayAbbr.fri,
-        title='Святая и Великая Пятница'
+        title=enums.MovableDayStrastnajaSedmitsaRu.fri.value
     ))
     sat = crud.create_movable_day(db, week_id=week_id, movable_day=schemas.MovableDayCreate(
         abbr=enums.MovableDayAbbr.sat,
-        title='Святая и Великая Суббота'
+        title=enums.MovableDayStrastnajaSedmitsaRu.sat.value
     ))
     movable_days.append(sat)
     crud.create_movable_date(

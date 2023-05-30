@@ -18,5 +18,5 @@ def create_random_book(db: Session, *, author_id: int = None) -> models.Book:
         author = create_random_saint(db)
         author_id = author.id
     book_in = create_random_book_in()
-    book = crud.create_book(db, book_in=book_in, author_id=author_id)
+    book = crud.book.create_with_any(db, obj_in=book_in, author_id=author_id)
     return book

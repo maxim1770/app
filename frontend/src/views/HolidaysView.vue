@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import {api} from "@/api";
-import HolidaysPage from "@/components/HolidaysPage.vue";
+import {api} from "@/services/api";
+import HolidaysPage from "@/components/pages/HolidaysPage.vue";
 
 export default {
   components: {HolidaysPage},

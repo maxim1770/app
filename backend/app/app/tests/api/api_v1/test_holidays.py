@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import status
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
@@ -19,6 +21,7 @@ def test_create_saint_holiday(client: TestClient, db: Session) -> None:
     )
     assert 200 <= r.status_code < 300
     created_holiday = r.json()
+    logging.info(created_holiday)
     assert created_holiday['slug'] == saint_holiday_in.holiday_in.slug
     assert 'id' in created_holiday
     assert created_holiday['year']['year'] == saint_holiday_in.year_in.year

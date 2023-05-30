@@ -1,6 +1,13 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, conint, constr
 
-from .movable_day import MovableDay
+from .cycle import CycleInDB
+
+if TYPE_CHECKING:
+    from .movable_day import MovableDayInDBForWeek
 
 
 class WeekBase(BaseModel):
@@ -14,12 +21,16 @@ class WeekCreate(WeekBase):
     pass
 
 
-class Week(WeekBase):
+class WeekInDBBase(WeekBase):
     id: int
-
-    cycle_id: int
-
-    movable_days: list[MovableDay] = []
 
     class Config:
         orm_mode = True
+
+
+class Week(WeekInDBBase):
+    cycle: CycleInDB
+
+
+class WeekInDB(WeekInDBBase):
+    movable_days: list[MovableDayInDBForWeek] = []

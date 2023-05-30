@@ -1,7 +1,13 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from pydantic import BaseModel, constr
 
 from app import enums
-from .week import Week
+
+if TYPE_CHECKING:
+    from .week import WeekInDB
 
 
 class CycleBase(BaseModel):
@@ -13,10 +19,16 @@ class CycleCreate(CycleBase):
     pass
 
 
-class Cycle(CycleBase):
+class CycleInDBBase(CycleBase):
     id: int
-
-    weeks: list[Week] = []
 
     class Config:
         orm_mode = True
+
+
+class Cycle(CycleInDBBase):
+    weeks: list[WeekInDB] = []
+
+
+class CycleInDB(CycleInDBBase):
+    pass

@@ -103,3 +103,42 @@ class BibleBookAbbrRu(StrEnum):
     # Апокалипсис
     # НЕ ЧИТАЕТСЯ ПО ДНЯМ
     Apok = 'Откр'
+
+
+class BibleBookAuthorSlug(StrEnum):
+    # Евангелие
+    Mt = 'matfej-levij'
+    Mk = 'mark-evangelist'
+    Lk = 'luka-evangelist'
+    Jn = 'ioann-bogoslov'
+
+    # Деяния святых Апостолов
+    Act = 'luka-evangelist'
+
+    # Соборные Послания
+    Jac = 'iakov-zevedeev'
+    _1Pet = 'petr-do-prizvanija-simon'
+    _2Pet = 'petr-do-prizvanija-simon'
+    _1Jn = 'ioann-bogoslov'
+    _2Jn = 'ioann-bogoslov'
+    _3Jn = 'ioann-bogoslov'
+    Juda = 'iuda-iakovlev-levvej'
+
+    # Послания Апостола Павла
+    Rom = 'pavel-pervoverhovnyj-apostol'
+    _1Cor = 'pavel-pervoverhovnyj-apostol'
+    _2Cor = 'pavel-pervoverhovnyj-apostol'
+    Gal = 'pavel-pervoverhovnyj-apostol'
+    Eph = 'pavel-pervoverhovnyj-apostol'
+    Phil = 'pavel-pervoverhovnyj-apostol'
+    Col = 'pavel-pervoverhovnyj-apostol'
+    _1Thes = 'pavel-pervoverhovnyj-apostol'
+    _2Thes = 'pavel-pervoverhovnyj-apostol'
+    _1Tim = 'pavel-pervoverhovnyj-apostol'
+    _2Tim = 'pavel-pervoverhovnyj-apostol'
+    Tit = 'pavel-pervoverhovnyj-apostol'
+    Phlm = 'pavel-pervoverhovnyj-apostol'
+    Hebr = 'pavel-pervoverhovnyj-apostol'
+
+    # Апокалипсис
+    Apok = 'ioann-bogoslov'

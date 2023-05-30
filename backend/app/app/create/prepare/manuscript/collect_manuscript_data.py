@@ -57,9 +57,9 @@ class CollectManuscriptDataFromRsl(CollectManuscriptDataBase):
     def manuscript_title(self) -> str:
         manuscript_title: str = self._soup.find('h1', class_='item-h1').text.replace(
             f'{self.manuscript_code_title}. ', ''
-        ).strip()
-        if manuscript_title[-1] == '.':
-            manuscript_title = manuscript_title[:-1]
+        )
+        manuscript_title: str = utils.clean_extra_spaces(manuscript_title)
+        manuscript_title: str = utils.remove_extra_end_letter(manuscript_title)
         return manuscript_title
 
     @property
@@ -71,7 +71,7 @@ class CollectManuscriptDataFromRsl(CollectManuscriptDataBase):
     def year_in(self) -> YearCreate:
         year_title: str = self._soup.find(
             lambda tag: tag.name == 'span' and 'Дата:' in tag.text
-        ).next_element.next_element.strip()
+        ).next_element.next_element
         year_title: str = self._prepare_year_in(year_title)
         year_in = YearCreate(title=year_title)
         return year_in
@@ -99,19 +99,20 @@ class CollectManuscriptDataFromNlr(CollectManuscriptDataBase):
 
     @property
     def manuscript_title(self) -> str:
-        manuscript_title: str = self._soup.find_all('b')[1].text.strip()
-        if manuscript_title[-1] == '.':
-            manuscript_title = manuscript_title[:-1]
+        manuscript_title: str = self._soup.find_all('b')[1].text
+        manuscript_title: str = utils.clean_extra_spaces(manuscript_title)
+        manuscript_title: str = utils.remove_extra_end_letter(manuscript_title)
         return manuscript_title
 
     @property
     def manuscript_code_title(self) -> str:
-        _code_title: str = self._soup.find('b').text.replace('ОР ', '').strip()
+        _code_title: str = self._soup.find('b').text.replace('ОР ', '')
+        _code_title: str = utils.clean_extra_spaces(_code_title)
         return _code_title
 
     @property
     def year_in(self) -> YearCreate:
-        year_title: str = self._soup.find_all('br')[2].next_element.next_element.strip()
+        year_title: str = self._soup.find_all('br')[2].next_element.next_element
         year_title: str = self._prepare_year_in(year_title)
         year_in = YearCreate(title=year_title)
         return year_in
@@ -145,10 +146,10 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
         manuscript_title: str = self._soup.find(
             'div', class_='book-info'
         ).find(lambda tag: tag.name == 'div' and 'Заглавие' == tag.text).next_sibling.text
-        manuscript_title = manuscript_title.replace(' :', ':')
+        manuscript_title: str = utils.remove_extra_space_before_punctuation_marks(manuscript_title)
         if '=' in manuscript_title:
             manuscript_title = manuscript_title.split('=')[1]
-        manuscript_title = manuscript_title.strip()
+        manuscript_title: str = utils.clean_extra_spaces(manuscript_title)
         return manuscript_title
 
     @staticmethod
@@ -163,9 +164,11 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
     def manuscript_code_title(self) -> str:
         manuscript_code_title: str = self._soup.find(
             'div', class_='book-info'
-        ).find_all('div', class_='book-info-table')[-1].text.replace('Шифр хранения', '').strip()
-        if manuscript_code_title[-1] == '.':
-            manuscript_title = manuscript_code_title[:-1]
+        ).find_all('div', class_='book-info-table')[-1].text.replace('Шифр хранения', '')
+        manuscript_code_title: str = utils.clean_extra_spaces(manuscript_code_title)
+        manuscript_code_title: str = utils.remove_extra_end_letter(manuscript_code_title)
+        manuscript_code_title = manuscript_code_title.replace('ОЛДП F. ', 'ОЛДП F.')
+        manuscript_code_title = manuscript_code_title.replace('ОР ', '')
         if manuscript_code_title[-1]:
             if utils.is_rsl_manuscript_code_title(manuscript_code_title):
                 manuscript_code_title: str = self._prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title)

@@ -19,3 +19,12 @@ class MovableDayAbbrRu(StrEnum):
     thu = 'чт'
     fri = 'пт'
     sat = 'сб'
+
+
+class MovableDayStrastnajaSedmitsaRu(StrEnum):
+    mon = 'Святой и Великий Понедельник'
+    tue = 'Святой и Великий Вторник'
+    wed = 'Святая и Великая Среда'
+    thu = 'Святой и Великий Четверг'
+    fri = 'Святая и Великая Пятница'
+    sat = 'Святая и Великая Суббота'

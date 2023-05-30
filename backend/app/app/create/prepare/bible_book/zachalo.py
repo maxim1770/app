@@ -17,8 +17,8 @@ from ...const import AzbykaUrl
 
 
 def _collect_zachalo_num(zachalo_abbr: str) -> int:
-    req = requests.get(url=AzbykaUrl.GET_ZACHALO + zachalo_abbr)
-    soup = BeautifulSoup(req.text, 'lxml')
+    r = requests.get(url=AzbykaUrl.GET_ZACHALO + zachalo_abbr)
+    soup = BeautifulSoup(r.text, 'lxml')
     num_text: str | None = None
     first_highlighted_verse: Tag | None = soup.find('div', {'class': 'crossref-verse', 'data-lang': 'r'})
     try:

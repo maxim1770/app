@@ -12,16 +12,13 @@ logging.basicConfig(level=logging.WARNING)
 
 
 def collect_saints_cathedral_saints(cathedral_saints_title: str) -> list[str]:
-    req = requests.get(AzbykaUrl.GET_SAINT_BY_SLUG + cathedral_saints_title)
-
-    saints_data: Tag = BeautifulSoup(req.text, 'lxml').find(
+    r = requests.get(AzbykaUrl.GET_SAINT_BY_SLUG + cathedral_saints_title)
+    saints_data: Tag = BeautifulSoup(r.text, 'lxml').find(
         lambda tag: tag.name == 'h2'
                     and 'Список Святых' in tag.text
     ).next_sibling.next_sibling
-
     saints_slugs: list[str] = [saint_slug['href'].replace('/days/sv-', '') for saint_slug in
                                saints_data.find_all('a')]
-
     return saints_slugs
 
 

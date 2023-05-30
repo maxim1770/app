@@ -53,9 +53,8 @@ class SearchManuscriptInNeb(object):
             sub_roman_num: str = match[0]
             sub_num: int = fromRoman(sub_roman_num)
             manuscript_code_title = manuscript_code_title.replace(f'/{sub_roman_num}', f'.{sub_num}')
-        if manuscript_code_title[-1] == '.':
-            manuscript_code_title = manuscript_code_title[:-1]
-        manuscript_code_title = manuscript_code_title.strip()
+        manuscript_code_title: str = utils.remove_extra_end_letter(manuscript_code_title)
+        manuscript_code_title: str = utils.clean_extra_spaces(manuscript_code_title)
         return manuscript_code_title
 
 

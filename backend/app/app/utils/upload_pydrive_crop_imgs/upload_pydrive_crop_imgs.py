@@ -9,7 +9,7 @@ from pydrive.files import GoogleDriveFile
 
 def get_drive() -> GoogleDrive:
     gauth = GoogleAuth()
-    # Try to load saved client credentials
+    # Try to_cyrillic load saved client credentials
     gauth.LoadCredentialsFile("mycreds.txt")
     if gauth.credentials is None:
         # Authenticate if they're not there
@@ -23,7 +23,7 @@ def get_drive() -> GoogleDrive:
     else:
         # Initialize the saved creds
         gauth.Authorize()
-    # Save the current credentials to a file
+    # Save the current credentials to_cyrillic a file
     gauth.SaveCredentialsFile("mycreds.txt")
 
     return GoogleDrive(gauth)

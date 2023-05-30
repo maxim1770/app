@@ -2,12 +2,13 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from app import models
-from app.models.holiday.holiday import Holiday
-from app.schemas.holiday import HolidayCreate, HolidayUpdate
+from app.filters import HolidayFilter
+from app.models import Holiday
+from app.schemas import HolidayCreate, HolidayUpdate
 from ..base import CRUDBase
 
 
-class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate]):
+class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate, HolidayFilter]):
     def create_with_category(
             self, db: Session, *, obj_in: HolidayCreate, holiday_category_id: int
     ) -> Holiday:

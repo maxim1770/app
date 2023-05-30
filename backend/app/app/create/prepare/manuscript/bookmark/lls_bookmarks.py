@@ -4,7 +4,7 @@ from typing import Final, TypeAlias
 from pydantic import validator
 from pydantic.color import Color
 
-from app import const
+from app import const, utils
 
 LlsBookTitleTupleType: TypeAlias = tuple[int, str] | tuple[str, int]
 
@@ -2362,13 +2362,12 @@ def __prepare_year_title(year: int) -> str:
 
 
 def __prepare_title(title: str) -> str:
-    title = title.strip()
-    title = title[0].upper() + title[1:]
+    title: str = utils.clean_extra_spaces(title)
+    title: str = utils.set_first_letter_upper(title)
     if not title[-1] in ['.', '!', '?', ':']:
         title += '.'
-    title = title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
-    title = ' '.join(title.split())
-    title = title.strip()
+    title: str = utils.remove_extra_space_before_punctuation_marks(title)
+    title: str = utils.clean_extra_spaces(title)
     return title
 
 

@@ -3,8 +3,11 @@ from typing import Any
 from uuid import UUID
 
 import requests
+import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, HTTPException
 from fastapi_filter import FilterDepends
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
@@ -16,12 +19,13 @@ from ....deps import get_db, get_session, get_driver
 router = APIRouter()
 
 
-@router.get('/', response_model=list[schemas.Manuscript])
+@router.get('/', response_model=Page[schemas.Manuscript])
 def read_manuscripts(
         db: Session = Depends(get_db),
-        manuscript_filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
+        filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
 ) -> Any:
-    return crud.manuscript.get_multi_by_filter(db, manuscript_filter=manuscript_filter)
+    select: sa.Select = crud.manuscript.get_multi_by_filter(db, filter=filter)
+    return paginate(db, select)
 
 
 @router.post('/', response_model=schemas.Manuscript)
@@ -81,23 +85,47 @@ def get_valid_manuscript(
     return manuscript
 
 
+def get_manuscripts_near(
+        db: Session,
+        *,
+        fund_id: int,
+        manuscript_code: str
+) -> list[models.Manuscript]:
+    manuscripts_near_len: int = 5
+    manuscripts_near: list[models.Manuscript] = db.execute(
+        sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript_code).filter_by(fund_id=fund_id).limit(
+            manuscripts_near_len)).scalars().all()
+    if manuscripts_best_handwriting_len := manuscripts_near_len - len(manuscripts_near):
+        manuscripts_best_handwriting: list[models.Manuscript] = db.execute(
+            sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript_code).order_by(
+                models.Manuscript.handwriting.desc()).limit(manuscripts_best_handwriting_len)).scalars().all()
+        manuscripts_near += manuscripts_best_handwriting
+    return manuscripts_near
+
+
 def get_valid_book(
         *,
         db: Session = Depends(get_db),
         book_id: int
 ) -> models.Book:
-    book = crud.get_book_by_id(db, id=book_id)
+    book = crud.book.get(db, id=book_id)
     if not book:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Book not found')
     return book
 
 
-@router.get('/{manuscript_code}', response_model=schemas.Manuscript)
+@router.get('/{manuscript_code}', response_model=schemas.ManuscriptWithNear)
 def read_manuscript(
         *,
-        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
 ) -> Any:
-    return manuscript
+    manuscripts_near: list[models.Manuscript] = get_manuscripts_near(
+        db,
+        fund_id=manuscript.fund_id,
+        manuscript_code=manuscript.code
+    )
+    return {'manuscript': manuscript, 'manuscripts_near': manuscripts_near}
 
 
 @router.put('/{manuscript_code}', response_model=schemas.Manuscript)
@@ -190,5 +218,5 @@ def delete_manuscript(
         db: Session = Depends(get_db),
         manuscript: models.Manuscript = Depends(get_valid_manuscript)
 ) -> Any:
-    manuscript = crud.manuscript.remove_by_id(db, id=manuscript.id)
+    manuscript = crud.manuscript.remove(db, id=manuscript.id)
     return manuscript

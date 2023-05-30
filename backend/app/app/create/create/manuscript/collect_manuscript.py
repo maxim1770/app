@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 
 from app import enums, utils, const
 from app.core.config import settings
-from ....create import prepare
+from app.create import prepare
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -72,7 +72,7 @@ class CollectManuscriptFactory(object):
         )
         path: Path = prepare_manuscript_path.path
         pdf_path: Path = prepare_manuscript_path.pdf_path
-        imgs_urls: list[str] = prepare.СollectManuscriptImgsUrls(session, driver, code=code,
+        imgs_urls: list[str] = prepare.CollectManuscriptImgsUrls(session, driver, code=code,
                                                                  neb_slug=neb_slug).imgs_urls
         collect_manuscript = CollectManuscript(session, imgs_urls=imgs_urls, path=path, pdf_path=pdf_path)
         return collect_manuscript

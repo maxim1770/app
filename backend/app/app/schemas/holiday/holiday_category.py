@@ -14,7 +14,5 @@ class HolidayCategoryCreate(HolidayCategoryBase):
 class HolidayCategory(HolidayCategoryBase):
     id: int
 
-    # holidays: list[Holiday] = []
-
     class Config:
         orm_mode = True

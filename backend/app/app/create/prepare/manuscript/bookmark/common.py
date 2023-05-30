@@ -101,3 +101,9 @@ def get_pdf_bookmarks(path: Path) -> list[Bookmark]:
     reader = PdfReader(path)
     bookmarks: list[Bookmark] = get_bookmarks(reader)
     return bookmarks
+
+
+def get_pdf_writer(path: Path) -> PdfWriter:
+    reader = PdfReader(path)
+    writer: PdfWriter = reader2writer(reader)
+    return writer

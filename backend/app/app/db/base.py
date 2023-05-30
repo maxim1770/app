@@ -8,12 +8,14 @@ from app.models.bible_book import ZachalosMovableDates  # noqa
 from app.models.book import Book  # noqa
 from app.models.book import HolidayBook  # noqa
 from app.models.book import TopicBook  # noqa
-# from app.models.city import City  # noqa
+from app.models.book import MolitvaBook  # noqa
+from app.models.book import MovableDateBook  # noqa
+from app.models.city import City  # noqa
 from app.models.date import Date  # noqa
 from app.models.day import Day  # noqa
 from app.models.holiday import Holiday  # noqa
 from app.models.holiday import HolidayCategory  # noqa
-# from app.models.icon import Icon  # noqa
+from app.models.icon import Icon  # noqa
 from app.models.manuscript import Bookmark  # noqa
 from app.models.manuscript import Fund  # noqa
 from app.models.manuscript import Manuscript  # noqa

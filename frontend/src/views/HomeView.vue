@@ -13,12 +13,16 @@
   <!--      width="250px"-->
   <!--  >-->
   <!--    <v-card-text>-->
-  <!--      Adjust screen size to see spacing changes-->
+  <!--      Adjust screen size to_cyrillic see spacing changes-->
   <!--    </v-card-text>-->
   <!--  </v-card>-->
   <div class="mx-auto" width="200px">
-    Adjust screen size to see spacing changes
+    тут должны быть ссылки на все, потому что это главная страница
+
+    <v-chip color="red">fsf gdfgfd g</v-chip>
   </div>
+
 </template>
 
-<script></script>
+<script>
+</script>

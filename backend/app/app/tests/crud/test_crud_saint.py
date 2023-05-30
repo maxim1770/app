@@ -60,7 +60,7 @@ def test_crud_update_saint(db: Session) -> None:
 def test_crud_delete_saint(db: Session) -> None:
     saint_in = test_utils.create_random_saint_in()
     saint = crud.saint.create(db, obj_in=saint_in)
-    saint_2 = crud.saint.remove(db, slug=saint.slug)
+    saint_2 = crud.saint.remove_by_slug(db, slug=saint.slug)
     saint_3 = crud.saint.get_by_slug(db, slug=saint.slug)
     assert saint_3 is None
     assert saint_2.id == saint.id

@@ -9,7 +9,7 @@ def get_weeks(db: Session, cycle_id: int) -> list[models.Week]:
     return list(db.execute(sa.select(models.Week).filter_by(cycle_id=cycle_id)).scalars())
 
 
-def get_week(db: Session, cycle_num: enums.CycleNum, sunday_num: int) -> models.Week | None:
+def get_week(db: Session, cycle_num: enums.CycleNum, sunday_num: int | None) -> models.Week | None:
     cycle_id: int = get_cycle(db, num=cycle_num).id
     return db.execute(
         sa.select(models.Week).filter_by(cycle_id=cycle_id).filter_by(sunday_num=sunday_num)

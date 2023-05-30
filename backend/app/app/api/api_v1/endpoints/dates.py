@@ -16,7 +16,7 @@ def read_dates(
         skip: int = 0,
         limit: int = 100
 ) -> Any:
-    dates = crud.get_dates(db, skip=skip, limit=limit)
+    dates = crud.date.get_multi(db, skip=skip, limit=limit)
     return dates
 
 
@@ -37,7 +37,7 @@ def get_valid_date(
         day: models.Day = Depends(get_valid_day),
         date: date_type
 ) -> models.Day:
-    date = crud.get_date(db, year=date.year, day_id=day.id)
+    date = crud.date.get_by_day_and_year(db, day_id=day.id, year=date.year)
     if not date:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Date not found')
     return date
@@ -46,6 +46,6 @@ def get_valid_date(
 @router.get('/{date}', response_model=schemas.Date)
 def read_date(
         *,
-        date: models.Date = Depends(get_valid_date),
+        date: models.Date = Depends(get_valid_date)
 ) -> Any:
     return date

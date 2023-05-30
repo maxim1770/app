@@ -5,8 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from ..base_cls import FatalCreateError
-from ...prepare import SaintDataUpdateFactory
-
+from app.create import prepare
 
 def create_saint(db: Session, *, saint_data_in: schemas.SaintDataCreate) -> models.Saint:
     foreign_keys: dict[str, int] = {}
@@ -53,6 +52,6 @@ def update_saint_from_azbyka(db: Session, *, session: requests.Session, saint: m
     elif saint.slug == 'marfa-kappadokijskaja':
         saint_data_in = schemas.SaintDataUpdate(saint_in=schemas.SaintUpdate(name='Ма́рфа Каппадокийская'))
     else:
-        saint_data_in = SaintDataUpdateFactory(session=session, saint_slug=saint.slug).get()
+        saint_data_in = prepare.SaintDataUpdateFactory(session=session, saint_slug=saint.slug).get()
     saint = update_saint(db, saint=saint, saint_data_in=saint_data_in)
     return saint

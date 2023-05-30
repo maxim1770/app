@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from .movable_date import MovableDate
     from ..date import Date
     from ..holiday import Holiday
+    from ..book import MovableDateBook
 
 
 class MovableDay(Base):
@@ -30,3 +31,4 @@ class MovableDay(Base):
 
     movable_dates: Mapped[list[MovableDate]] = relationship(back_populates='movable_day')
     holidays: Mapped[list[Holiday]] = relationship(back_populates='movable_day')
+    movable_date_books: Mapped[list[MovableDateBook]] = relationship(back_populates='movable_day')

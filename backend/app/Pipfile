@@ -12,6 +12,9 @@ sqladmin = "*"
 pypdf = "*"
 pillow = "*"
 fastapi-filter = {extras = ["sqlalchemy"], version = "*"}
+fastapi-pagination = "*"
+gunicorn = "*"
+tenacity = "*"
 
 [dev-packages]
 pytest = "*"

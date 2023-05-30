@@ -1,6 +1,7 @@
 from pydantic import BaseModel, conint, constr
 
 from .bible_book import BibleBook
+from ..book import BookInDB
 
 
 class ZachaloBase(BaseModel):
@@ -12,10 +13,18 @@ class ZachaloCreate(ZachaloBase):
     pass
 
 
-class Zachalo(ZachaloBase):
+class ZachaloInDBBase(ZachaloBase):
     id: int
 
     bible_book: BibleBook
 
     class Config:
         orm_mode = True
+
+
+class Zachalo(ZachaloInDBBase):
+    book: BookInDB
+
+
+class ZachaloInDB(ZachaloInDBBase):
+    pass

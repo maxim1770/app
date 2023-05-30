@@ -37,6 +37,8 @@ class BibleBookApostleCreate(BibleBookNewTestamentCreate):
 
 
 class BibleBook(BibleBookBase):
+    id: int
+
     abbr_ru: enums.BibleBookAbbrRu
 
     class Config:

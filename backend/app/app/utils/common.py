@@ -8,11 +8,6 @@ def enum2regex(str_enum: [StrEnum], group: StrEnum = None) -> str:
     return regex_str
 
 
-def clean_extra_spaces(some_str: str) -> str:
-    some_str = ' '.join(some_str.split()).strip()
-    return some_str
-
-
 def int_date2date(month: int, *, day: int) -> date:
     # day = date(BASE_YEAR_FOR_DAY, month, day)
     day = date(2032, month,

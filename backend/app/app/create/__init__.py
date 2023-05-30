@@ -15,3 +15,4 @@ from .create import create_holiday, create_saint_holiday, create_saint_holiday_w
 from .create import create_manuscript, update_manuscript_bookmark, update_manuscript, create_manuscript_bookmarks, \
     create_all_manuscripts_lls
 from .create import create_saint, update_saint, update_saint_from_azbyka, update_saints
+from .create import create_all_cities

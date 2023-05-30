@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import TYPE_CHECKING, Final
 from uuid import UUID
 
 from pydantic import BaseModel, constr, conint, HttpUrl, root_validator, validator
@@ -6,6 +10,9 @@ from app import const, enums, utils
 from .fund import Fund
 from .page import PageCreate
 from ..year import Year, YearCreate
+
+if TYPE_CHECKING:
+    from .bookmark import BookmarkInDB
 
 
 class NotNumberedPage(BaseModel):
@@ -30,6 +37,7 @@ class ManuscriptBase(BaseModel):
     handwriting: conint(strict=True, ge=1, le=12) | None = None
     not_numbered_pages: NotNumberedPages = []
     first_page_position: enums.PagePosition | None = None
+    preview_img_num: conint(strict=True, ge=1, le=2000) | None = None
 
 
 class ManuscriptCreateAny(ManuscriptBase):
@@ -46,6 +54,7 @@ class ManuscriptCreate(ManuscriptBase):
     code_title: constr(strip_whitespace=True, strict=True, max_length=20)
     code: UUID | str | constr(strip_whitespace=True, regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
     handwriting: conint(strict=True, ge=1, le=12)
+    preview_img_num: conint(strict=True, ge=1, le=2000)
 
 
 class ManuscriptUpdate(ManuscriptBase):
@@ -59,7 +68,13 @@ class ManuscriptInDBBase(ManuscriptBase):
     code_title: str
     code: str
     handwriting: int
-    # path: str | None = None
+    preview_img_num: int
+    preview_img_path: Path | None = None
+    handwriting_to_rating: float | None = None
+    handwriting_title: str | None = None
+
+    path: Path | None = None
+    pdf_path: Path | None = None
 
     url: HttpUrl = None
     neb_url: HttpUrl | None = None
@@ -72,6 +87,22 @@ class ManuscriptInDBBase(ManuscriptBase):
         url: str = utils.prepare_manuscript_url(values['code'])
         return url
 
+    @validator('handwriting_to_rating', pre=True, always=True)
+    def prepare_handwriting_to_rating(cls, handwriting_to_rating: None, values):
+        handwriting_to_rating: float = round(values['handwriting'] / 2.4, 1)
+        return handwriting_to_rating
+
+    @validator('handwriting_title', pre=True, always=True)
+    def prepare_handwriting_title(cls, handwriting_title: None, values):
+        HANDWRITING_TITLES: Final[dict[int, str]] = {
+            12: 'Отличный почерк',
+            11: 'Отличный почерк',
+            10: 'Хороший почерк',
+            9: 'Хороший почерк'
+        }
+        handwriting_title: str | None = HANDWRITING_TITLES.get(values['handwriting'])
+        return handwriting_title
+
     @validator('neb_url', pre=True, always=True)
     def prepare_neb_url(cls, neb_url: None, values):
         if not values['neb_slug']:
@@ -79,28 +110,46 @@ class ManuscriptInDBBase(ManuscriptBase):
         neb_url: str = utils.prepare_manuscript_neb_url(values['neb_slug'])
         return neb_url
 
-    # @validator('path', pre=True, always=True)
-    # def prepare_path(cls, path: None, values):
-    #     try:
-    #         if values['fund']:
-    #             created_path: Path = utils.PrepareManuscriptPathFactory.from_lib(
-    #                 fund_title=values['fund'].title,
-    #                 library_title=values['fund'].library,
-    #                 code=values['code']
-    #             ).created_path
-    #         else:
-    #             created_path: Path = utils.PrepareManuscriptPathFactory.from_lls(code=values['code']).created_path
-    #     except FileNotFoundError:
-    #         return None
-    #     return created_path
+    @root_validator
+    def prepare_paths(cls, values):
+        try:
+            if values['fund']:
+                created_path: Path = utils.PrepareManuscriptPathFactory.from_lib(
+                    fund_title=values['fund'].title,
+                    library_title=values['fund'].library,
+                    code=values['code']
+                ).created_path
+            else:
+                created_path: Path = utils.PrepareManuscriptPathFactory.from_lls(code=values['code']).created_path
+        except FileNotFoundError:
+            values['path'] = None
+            values['pdf_path'] = None
+            return values
+        values['path'] = created_path
+        values[
+            'pdf_path'
+        ] = Path(f"pdf/manuscripts{str(created_path.with_suffix('.pdf')).split('manuscripts')[1]}")
+        values[
+            'preview_img_path'
+        ] = Path(
+            f"""img/manuscripts{str(created_path / f'{values["preview_img_num"]}.webp').split('manuscripts')[1]}""")
+        return values
 
     class Config:
         orm_mode = True
 
 
-class Manuscript(ManuscriptInDBBase):
-    # books: list[BookmarkInDB] = []
+class __ManuscriptInDBToNear(ManuscriptInDBBase):
     pass
+
+
+class Manuscript(ManuscriptInDBBase):
+    books: list[BookmarkInDB] = []
+
+
+class ManuscriptWithNear(BaseModel):
+    manuscript: Manuscript
+    manuscripts_near: list[__ManuscriptInDBToNear] = []
 
 
 class ManuscriptInDB(ManuscriptInDBBase):

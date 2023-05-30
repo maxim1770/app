@@ -11,6 +11,7 @@ class FundTitle(StrEnum):
     pogod = 'Погод'
     kir_bel = 'Кир.-Бел'
     georgij = 'Георгий'
+    oldp = 'ОЛДП F'
 
     f_7 = 'Ф.7'
     f_37 = 'Ф.37'
@@ -18,6 +19,9 @@ class FundTitle(StrEnum):
     f_98 = 'Ф.98'
     f_113 = 'Ф.113'
     f_173i = 'Ф.173/I'
+    f_178i = 'Ф.178/I'
+    f_218 = 'Ф.218'
+    f_228 = 'Ф.228'
     f_256 = 'Ф.256'
     f_304i = 'Ф.304/I'
     f_304iii = 'Ф.304/III'

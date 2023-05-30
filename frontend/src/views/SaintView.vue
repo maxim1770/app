@@ -1,26 +1,37 @@
 <template>
-    <SaintPage :saint="saint"/>
+  <SaintPage :saint="saint" />
 </template>
 
 <script>
-import {api} from "@/api";
-import SaintPage from "@/components/SaintPage.vue";
+import { api } from "@/services/api";
+import SaintPage from "@/components/pages/SaintPage.vue";
 
 export default {
-  components: {SaintPage},
+  components: { SaintPage },
 
   data() {
     return {
       saint: {
         type: Object,
-        required: true,
-      },
+        required: true
+      }
     };
   },
-  mounted() {
-      api
-          .getSaint(this.$route.params.saintSlug)
-          .then((response) => (this.saint = response.data));
+  watch: {
+    $route(to, from) {
+      this.getSaint();
+    }
   },
+  mounted() {
+    this.getSaint();
+  },
+  methods: {
+    getBook() {
+      api
+        .getSaint(this.$route.params.saintSlug)
+        .then((response) => (this.saint = response.data));
+    }
+  }
+
 };
 </script>

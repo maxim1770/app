@@ -3,7 +3,10 @@ from .bible_book import CreateZachaloFactory
 from .holiday import saints_holidays_in_factory, saints_groups_holidays_in_factory, saints_holidays_in_new_factory, \
     saints_groups_holidays_in_new_factory, saints_groups_holidays_in_new_method_2_factory
 from .manuscript import ManuscriptDataCreateFactory
-from .manuscript import prepare_manuscript_bookmark
-from .manuscript import СollectManuscriptImgsUrls
+from .manuscript import prepare_manuscript_bookmark, BookmarkDataCreate
+from .manuscript import CollectManuscriptImgsUrls
 from .movable_date import CreateWeekFactory, CreateMovableDayFactory, CreateMovableDateFactory
 from .saint import SaintDataUpdateFactory
+from .icon import get_saints_icons_data_in
+from .icon import get_gallerix_icon_data_in, get_shm_icon_data_in
+from .icon import prepare_pravicon_icon_img_url, prepare_gallerix_icon_data_url, prepare_shm_item_data_url

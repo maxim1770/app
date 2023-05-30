@@ -35,9 +35,10 @@ class CollectManuscriptDataFactory(object):
             manuscript_code=search_manuscript_in_neb.manuscript_neb_slug
         )
         if collect_manuscript_data.manuscript_code_title != collect_manuscript_data_from_neb.manuscript_code_title:
-            raise PrepareError(
-                f'Manuscript_code_title in libs не равны {collect_manuscript_data.manuscript_code_title} != {collect_manuscript_data_from_neb.manuscript_code_title}'
-            )
+            # raise PrepareError(
+            #     f'Manuscript_code_title in libs не равны {collect_manuscript_data.manuscript_code_title} != {collect_manuscript_data_from_neb.manuscript_code_title}. neb_slug: {search_manuscript_in_neb.manuscript_neb_slug}'
+            # )
+            return collect_manuscript_data
         return collect_manuscript_data_from_neb
 
 

@@ -15,7 +15,7 @@ class Settings(BaseSettings):
         'http://localhost:5174',
         'http://localhost:5175',
         'http://localhost:5176',
-        'http://localhost:8000', 'http://localhost:8080', 'http://localhost:8081'
+        'http://localhost:8000', 'http://localhost:8080', 'http://localhost:8081', 'http://localhost:81'
     ]
 
     @validator('BACKEND_CORS_ORIGINS', pre=True)

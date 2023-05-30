@@ -6,7 +6,7 @@ from app import models
 class YearFilter(Filter):
     year__gte: int | None
     year__lt: int | None
-    order_by: list[str] = ['year']
+    # order_by: list[str] = ['year']
 
     class Constants(Filter.Constants):
         model = models.Year

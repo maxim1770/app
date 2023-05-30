@@ -16,3 +16,4 @@ from .manuscript import create_manuscript_bookmarks, create_all_manuscripts_lls
 from .movable_date import create_all_movable_dates
 from .saint import create_all_dignities, create_all_faces_sanctity
 from .saint import create_saint, update_saint, update_saint_from_azbyka, update_saints
+from .city import create_all_cities

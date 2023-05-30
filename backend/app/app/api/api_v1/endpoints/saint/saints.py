@@ -1,23 +1,26 @@
 from typing import Any
 
 import requests
+import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, Path, HTTPException
+from fastapi_filter import FilterDepends
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas, const, create
+from app import crud, models, schemas, const, create, filters
 from ....deps import get_db, get_session
 
 router = APIRouter()
 
 
-@router.get('/', response_model=list[schemas.Saint])
+@router.get('/', response_model=Page[schemas.Saint])
 def read_saints(
         db: Session = Depends(get_db),
-        skip: int = 0,
-        limit: int = 100
+        filter: filters.SaintFilter = FilterDepends(filters.SaintFilter),
 ) -> Any:
-    saints = crud.saint.get_multi(db, skip=skip, limit=limit)
-    return saints
+    select: sa.Select = crud.saint.get_multi_by_filter(db, filter=filter)
+    return paginate(db, select)
 
 
 @router.post('/', response_model=schemas.Saint)
@@ -74,7 +77,7 @@ def update_saint_from_azbyka(
     return saint
 
 
-@router.get('/{saint_slug}', response_model=schemas.Saint)
+@router.get('/{saint_slug}', response_model=schemas.SaintInDB)
 def read_saint(
         *,
         saint: models.Saint = Depends(get_valid_saint)
@@ -88,5 +91,5 @@ def delete_saint(
         db: Session = Depends(get_db),
         saint: models.Saint = Depends(get_valid_saint)
 ) -> Any:
-    saint = crud.saint.remove(db, slug=saint.slug)
+    saint = crud.saint.remove_by_slug(db, slug=saint.slug)
     return saint

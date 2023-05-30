@@ -1,14 +1,10 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 from pydantic import BaseModel, validator, constr, conint
 
 from app import enums
-from .movable_date import MovableDate
-
-if TYPE_CHECKING:
-    pass
+from .movable_date import MovableDateInDB
+from .week import Week
+from ..book import MovableDateBook
+from ..holiday import HolidayInDB
 
 
 class MovableDayBase(BaseModel):
@@ -30,23 +26,26 @@ class MovableDayInDBBase(MovableDayBase):
 
     abbr_ru: enums.MovableDayAbbrRu
 
-    week_id: int
-    movable_dates: list[MovableDate] = []
-
     class Config:
         orm_mode = True
 
 
 class MovableDay(MovableDayInDBBase):
-    # holidays: list[HolidayInDB] = []
-    pass
+    holidays: list[HolidayInDB] = []
+    movable_date_books: list[MovableDateBook] = []
+    movable_dates: list[MovableDateInDB] = []
+    week: Week
 
 
 class MovableDayInDB(MovableDayInDBBase):
-    pass
+    week: Week
+
+
+class MovableDayInDBForWeek(MovableDayInDBBase):
+    movable_dates: list[MovableDateInDB] = []
 
 
 class MovableDayGet(BaseModel):
     cycle_num: enums.CycleNum
-    sunday_num: conint(strict=True, ge=1, le=36)
+    sunday_num: conint(strict=True, ge=1, le=36) | None
     abbr: enums.MovableDayAbbr

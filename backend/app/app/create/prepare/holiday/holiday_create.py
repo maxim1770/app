@@ -34,7 +34,7 @@ class HolidayCreateFactoryBase(ABC):
 
     @classmethod
     def _clean_year_title(cls, year_title: str) -> str:
-        year_title = year_title.replace('–', '-').replace(' -', '-').replace('- ', '-')
+        year_title: str = utils.prepare_dash(year_title)
         year_title = year_title.replace('года', '').replace('г.', '').strip()
         match: Match[str] | None = re.compile(r'(ок\.|после|до)(?!\s)').search(year_title)
         if match:
@@ -72,15 +72,29 @@ class HolidayCreateFactoryBase(ABC):
                 return holiday_category_title
         return enums.HolidayCategoryTitle.den_pamjati
 
+    @staticmethod
+    def __common_clean_holiday_title(holiday_title: str) -> str:
+        holiday_title: str = utils.clean_extra_spaces(holiday_title)
+        holiday_title: str = utils.set_first_letter_upper(holiday_title)
+        holiday_title: str = utils.remove_extra_end_letter(holiday_title)
+        holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
+        return holiday_title
+
+    @classmethod
+    def _clean_holiday_title_with_remove_many_years(cls, full_title: str) -> str:
+        holiday_title: str = cls.__common_clean_holiday_title(full_title)
+        while match := const.YearRegex.FIND_YEAR.search(holiday_title):
+            year_title: str = match[0]
+            holiday_title = holiday_title.replace(f'({year_title})', '')
+        holiday_title: str = utils.remove_extra_space_before_punctuation_marks(holiday_title)
+        holiday_title: str = utils.clean_extra_spaces(holiday_title)
+        return holiday_title
+
     @classmethod
     def _clean_holiday_title(cls, full_title: str) -> str:
-        holiday_title = full_title.strip()
-        holiday_title = holiday_title[0].upper() + holiday_title[1:]
-        if holiday_title[-1] in [';', ',', 'и']:
-            holiday_title = holiday_title[:-1]
-        holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
+        holiday_title: str = cls.__common_clean_holiday_title(full_title)
         holiday_title = holiday_title.replace(f'({cls._find_year_title_full_title(full_title)})', '')
-        holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
+        holiday_title: str = utils.remove_extra_space_before_punctuation_marks(holiday_title)
         holiday_title: str = utils.clean_extra_spaces(holiday_title)
         return holiday_title
 
@@ -231,16 +245,7 @@ class SaintsHolidayNewCreateFactory(HolidayCreateFactoryBase):
 
     @classmethod
     def _clean_holiday_title(cls, full_title: str) -> str:
-        holiday_title = full_title.strip()
-        holiday_title = holiday_title[0].upper() + holiday_title[1:]
-        if holiday_title[-1] in [';', ',', 'и']:
-            holiday_title = holiday_title[:-1]
-        holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
-        while match := const.YearRegex.FIND_YEAR.search(holiday_title):
-            year_title: str = match[0]
-            holiday_title = holiday_title.replace(f'({year_title})', '')
-        holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
-        holiday_title: str = utils.clean_extra_spaces(holiday_title)
+        holiday_title: str = cls._clean_holiday_title_with_remove_many_years(full_title)
         return holiday_title
 
     @property
@@ -286,16 +291,7 @@ class SaintsHolidayNewMethod2CreateFactory(HolidayCreateFactoryBase):
 
     @classmethod
     def _clean_holiday_title(cls, full_title: str) -> str:
-        holiday_title = full_title.strip()
-        holiday_title = holiday_title[0].upper() + holiday_title[1:]
-        if holiday_title[-1] in [';', ',', 'и']:
-            holiday_title = holiday_title[:-1]
-        holiday_title = re.sub(r'\((Серб|Румын|Болг|Груз)\.\)', '', holiday_title)
-        while match := const.YearRegex.FIND_YEAR.search(holiday_title):
-            year_title: str = match[0]
-            holiday_title = holiday_title.replace(f'({year_title})', '')
-        holiday_title = holiday_title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
-        holiday_title: str = utils.clean_extra_spaces(holiday_title)
+        holiday_title: str = cls._clean_holiday_title_with_remove_many_years(full_title)
         return holiday_title
 
     @property

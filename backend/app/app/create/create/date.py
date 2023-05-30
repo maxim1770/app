@@ -10,7 +10,7 @@ from ..const import NUM_DAYS_IN_WEEK
 
 def create_dates_for_one_year(db: Session, *, DAY_PASKHA: date_type) -> None:
     day = crud.get_day(db, month=DAY_PASKHA.month, day=DAY_PASKHA.day)
-    date = crud.get_date(db, day_id=day.id, year=DAY_PASKHA.year)
+    date = crud.date.get_by_day_and_year(db, day_id=day.id, year=DAY_PASKHA.year)
     if date:
         raise FatalCreateError(f'Date: Год с DAY_PASKHA: {DAY_PASKHA} уже был создан')
 
@@ -33,12 +33,11 @@ def create_dates_for_one_year(db: Session, *, DAY_PASKHA: date_type) -> None:
             year += 1
         date_in = schemas.DateCreate(year=year)
 
-        date = crud.get_date(db, day_id=day.id, year=date_in.year)
+        date = crud.date.get_by_day_and_year(db, day_id=day.id, year=date_in.year)
         if date:
-            print(date.__dict__, 'movable_day_id:', movable_day.id)
-            crud.update_date_by_movable_day_id(db, db_date=date, movable_day_id=movable_day.id)
+            crud.date.update_by_movable_day_id(db, db_obj=date, movable_day_id=movable_day.id)
         else:
-            crud.create_date(db, date_in=date_in, day_id=day.id, movable_day_id=movable_day.id)
+            crud.date.create_with_any(db, obj_in=date_in, day_id=day.id, movable_day_id=movable_day.id)
 
 
 def create_dates_for_years(db: Session) -> None:

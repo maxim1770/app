@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter, status
+from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas, enums
@@ -30,9 +30,3 @@ def read_bible_book(testament: enums.BibleBookTestament, part: enums.BibleBookPa
                     db: Session = Depends(deps.get_db)):
     bible_book: models.BibleBook = crud.get_bible_book(db, testament=testament, part=part, abbr=abbr)
     return bible_book
-
-
-@router.post('/', response_model=schemas.BibleBook, status_code=status.HTTP_201_CREATED)
-def create_bible_book(bible_book: schemas.BibleBookCreate, db: Session = Depends(deps.get_db)
-                      ):
-    return crud.create_bible_book(db, bible_book=bible_book)

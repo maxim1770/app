@@ -3,11 +3,14 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.base_class import Base, intpk
 from .bible_book import BibleBook
+from ..book import Book
 from ..movable_date import MovableDate
 
 
 class Zachalo(Base):
-    id: Mapped[intpk]
+    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
+
+    book: Mapped[Book] = relationship(back_populates='zachalo')
 
     num: Mapped[int] = mapped_column(SmallInteger)
     title: Mapped[str | None] = mapped_column(String(30), unique=True)

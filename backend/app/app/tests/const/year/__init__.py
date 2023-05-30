@@ -1,5 +1,6 @@
 from typing import Match
 
+from app import utils
 from app.const import YearRegex
 
 
@@ -31,11 +32,10 @@ def _delete_year_in_brackets(title: str) -> str:
 
 
 def __prepare_title(title: str) -> str:
-    title = title.strip()
-    title = title[0].upper() + title[1:]
-    title = title.replace(' ,', ',').replace('  ', ' ').replace(' .', '')
-    title = ' '.join(title.split())
-    title = title.strip()
+    title: str = utils.clean_extra_spaces(title)
+    title: str = utils.set_first_letter_upper(title)
+    title: str = utils.remove_extra_space_before_punctuation_marks(title)
+    title: str = utils.clean_extra_spaces(title)
     return title
 
 

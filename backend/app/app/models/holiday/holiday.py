@@ -14,6 +14,8 @@ from ..year import Year
 if TYPE_CHECKING:
     from ..saint import Saint, SaintsHolidays
     from ..book import HolidayBook
+    from ..book import MolitvaBook
+    from ..icon import Icon
 
 
 class Holiday(Base):
@@ -33,6 +35,8 @@ class Holiday(Base):
     movable_day: Mapped[MovableDay | None] = relationship(back_populates='holidays')
 
     holiday_books: Mapped[list[HolidayBook]] = relationship(back_populates='holiday')
+    molitva_books: Mapped[list[MolitvaBook]] = relationship(back_populates='holiday')
+    icons: Mapped[list[Icon]] = relationship(back_populates='holiday')
 
     saints: Mapped[list[Saint]] = relationship(
         secondary='saints_holidays',

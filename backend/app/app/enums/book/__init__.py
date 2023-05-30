@@ -1,1 +1,1 @@
-from .book import BookTitle, BookType, BookTopic, BookSource, BookUtil
+from .book import BookTitle, BookType, BookTopic, BookSource, BookUtil, MolitvaBookType

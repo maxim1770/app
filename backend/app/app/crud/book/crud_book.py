@@ -1,29 +1,37 @@
 import sqlalchemy as sa
-from sqlalchemy.orm import Session, joinedload
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
 
-from app import models, schemas
-
-
-def get_books(db: Session, skip: int = 0, limit: int = 100) -> list[models.Book]:
-    return list(db.execute(sa.select(models.Book).offset(skip).limit(limit)).scalars())
-
-
-def get_book(db: Session, title: str) -> models.Book | None:
-    return db.query(models.Book).options(joinedload(models.Book.saint_live)).filter(models.Book.title == title).first()
+from app import models
+from app.filters import BookFilter
+from app.models import Book
+from app.schemas import BookCreate, BookUpdate
+from ..base import CRUDBase
 
 
-def get_book_by_id(db: Session, id: int) -> models.Book | None:
-    return db.execute(sa.select(models.Book).filter_by(id=id)).scalar_one_or_none()
+class CRUDBook(CRUDBase[Book, BookCreate, BookUpdate, BookFilter]):
+
+    def get_multi_by_filter(self, db: Session, *, filter: BookFilter) -> sa.Select:
+        select: sa.Select = sa.select(self.model).outerjoin(models.TopicBook)
+        select: sa.Select = self._filtering_and_sorting_select(select, filter=filter)
+        return select
+
+    def create_with_any(
+            self,
+            db: Session,
+            *,
+            obj_in: BookCreate,
+            author_id: int = None
+    ) -> Book:
+        obj_in_data = jsonable_encoder(obj_in)
+        db_obj = self.model(
+            **obj_in_data,
+            author_id=author_id
+        )
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
-def create_book(
-        db: Session,
-        *,
-        book_in: schemas.BookCreate,
-        author_id: int = None
-) -> models.Book:
-    db_book: models.Book = models.Book(**book_in.dict(), author_id=author_id)
-    db.add(db_book)
-    db.commit()
-    db.refresh(db_book)
-    return db_book
+book = CRUDBook(Book)

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import {api} from "@/api";
-import DatesPage from "@/components/DatesPage.vue";
+import {api} from "@/services/api";
+import DatesPage from "@/components/pages/DatesPage.vue";
 
 export default {
   components: {DatesPage},

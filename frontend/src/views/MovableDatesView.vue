@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import {api} from "@/api";
-import MovableDatesPage from "@/components/MovableDatesPage.vue";
+import {api} from "@/services/api";
+import MovableDatesPage from "@/components/pages/MovableDatesPage.vue";
 
 export default {
     components: {MovableDatesPage},

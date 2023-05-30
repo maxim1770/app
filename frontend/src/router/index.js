@@ -1,25 +1,24 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
+import holidayRoutes from "@/router/routes/holiday";
+import saintRoutes from "@/router/routes/saint";
+import bookRoutes from "@/router/routes/book";
+import dateRoutes from "@/router/routes/date";
+import manuscriptRoutes from "@/router/routes/manuscript";
+import movableDateRoutes from "@/router/routes/movableDate";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), routes: [{
-    path: '/', name: 'home', component: () => import('@/views/HomeView.vue'),
-  }, {
-    path: '/dates', name: 'dates', component: () => import('@/views/DatesView.vue'),
-  }, {
-    path: '/dates/:date', name: 'date', component: () => import('@/views/DateView.vue'),
-  }, {
-    path: '/movable-dates', name: 'movableDates', component: () => import('@/views/MovableDatesView.vue'),
-  }, {
-    path: '/movable-dates/cycle-:cycleNum(\\d+)', name: 'cycle', component: () => import('@/views/CycleView.vue'),
-  }, {
-    path: '/holidays', name: 'holidays', component: () => import('@/views/HolidaysView.vue'),
-  }, {
-    path: '/holidays/:holidaySlug', name: 'holiday', component: () => import('@/views/HolidayView.vue'),
-  }, {
-    path: '/saints/:saintSlug', name: 'saint', component: () => import('@/views/SaintView.vue'),
-  }, {
-    path: '/manuscripts', name: 'manuscripts', component: () => import('@/views/ManuscriptsView.vue'),
-  },],
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/", name: "home", component: () => import("@/views/HomeView.vue")
+    },
+    ...holidayRoutes,
+    ...saintRoutes,
+    ...dateRoutes,
+    ...movableDateRoutes,
+    ...manuscriptRoutes,
+    ...bookRoutes
+  ]
 });
 
 export default router;

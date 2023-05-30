@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from .bookmark import prepare_db_bookmark
-
+from app.create import prepare
 
 def create_manuscript(db: Session, *, manuscript_data_in: schemas.ManuscriptDataCreate) -> models.Manuscript:
     fund = crud.get_fund(db, title=manuscript_data_in.fund_title)
@@ -60,8 +60,10 @@ def create_manuscript_bookmark(
         db: Session,
         *,
         manuscript: models.Manuscript,
-        bookmark_data_in: schemas.BookmarkDataCreate
-) -> models.Manuscript:
-    db_bookmark = prepare_db_bookmark(db, bookmark_data_in=bookmark_data_in)
+        bookmark_data_in: prepare.BookmarkDataCreate
+) -> models.Manuscript | None:
+    db_bookmark: models.Bookmark | None = prepare_db_bookmark(db, bookmark_data_in=bookmark_data_in)
+    if db_bookmark is None:
+        return None
     manuscript = crud.manuscript.create_book_association(db, db_obj=manuscript, db_bookmark=db_bookmark)
     return manuscript

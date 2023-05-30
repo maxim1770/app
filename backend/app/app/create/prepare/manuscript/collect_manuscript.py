@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from app import const, utils
 
 
-class СollectManuscriptImgsUrls(object):
+class CollectManuscriptImgsUrls(object):
 
     def __init__(
             self,

@@ -11,7 +11,10 @@ from ..saint import Saint
 
 if TYPE_CHECKING:
     from .holiday_book import HolidayBook
+    from .molitva_book import MolitvaBook
     from .topic_book import TopicBook
+    from .movable_date_book import MovableDateBook
+    from ..bible_book import Zachalo
     from ..manuscript import Bookmark
 
 
@@ -19,6 +22,7 @@ class Book(Base):
     id: Mapped[intpk]
 
     title: Mapped[enums.BookTitle | None]
+    type: Mapped[enums.BookType | None]
 
     parent_id: Mapped[int | None] = mapped_column(ForeignKey('book.id'))
 
@@ -31,4 +35,7 @@ class Book(Base):
     manuscripts: Mapped[list[Bookmark]] = relationship(back_populates='book')
 
     holiday_book: Mapped[HolidayBook | None] = relationship(back_populates='book')
+    molitva_book: Mapped[MolitvaBook | None] = relationship(back_populates='book')
     topic_book: Mapped[TopicBook | None] = relationship(back_populates='book')
+    movable_date_book: Mapped[MovableDateBook | None] = relationship(back_populates='book')
+    zachalo: Mapped[Zachalo | None] = relationship(back_populates='book')

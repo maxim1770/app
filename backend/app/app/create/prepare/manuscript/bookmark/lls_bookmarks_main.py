@@ -8,8 +8,7 @@ from app.create.prepare.manuscript.bookmark.common import add_bookmarks, reader2
     save_pdf, reader2writer_with_copy_bookmarks, offset_pages_bookmarks, print_bookmarks
 from app.create.prepare.manuscript.bookmark.get_bookmarks import get_bookmarks, Bookmark
 from app.create.prepare.manuscript.bookmark.lls_bookmarks import LlsBookmark, LlsBookRusFullType, get_lls_bookmarks
-from const.velikie_minei_cheti import PrologBookFullType, PrologBookmark, get_prolog_bookmarks, \
-    velikie_minei_cheti_sentyabr
+
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 

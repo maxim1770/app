@@ -12,6 +12,5 @@ class TopicBook(Base):
     id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
 
     book: Mapped[Book] = relationship(back_populates='topic_book')
-    type: Mapped[enums.BookType]
     source: Mapped[enums.BookSource | None]
     topics: Mapped[list[StrEnum]] = mapped_column(JSON)

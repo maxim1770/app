@@ -1,26 +1,7 @@
-from enum import StrEnum
+from enum import StrEnum, IntEnum
 
 
 class FaceSanctityTitle(StrEnum):
-    """
-        l: list = [
-        'апостол', 'апостол от 70-ти', 'равноапостольный', 'равноапостольная',
-        'ветхозаветный патриарх',
-        'пророк', 'пророчица',
-        'Христа ради юродивый',
-        'великомученица', 'великомученик', 'мученица', 'мученик', 'преподобномученица', 'преподобномученик',
-        'священномученик',
-        'исповедник', 'исповедница',
-        'бессребреник',
-        'блаженный', 'блаженная',
-        'благоверный', 'благоверная', 'благоверный князь', 'благоверная княгиня',
-        'праведный', 'праведная',
-        'преподобный', 'преподобная',
-        'святой', 'святая',
-        'святитель',
-    ]
-
-    """
     apostol = 'Апостол'
     apostol_ot_70_ti = 'Апостол от 70-ти'
     ravnoapostolnyj = 'Равноапостольный'
@@ -78,3 +59,54 @@ class FaceSanctityAbbr(StrEnum):
     svjatitel = 'Свт'
     apostol = 'Ап'
     ispovednik = 'Исп'
+
+
+class Gender(IntEnum):
+    man = 1
+    woman = 2
+
+
+class SaintGender(IntEnum):
+    apostol = Gender.man
+    apostol_ot_70_ti = Gender.man
+    ravnoapostolnyj = Gender.man
+    ravnoapostolnaja = Gender.woman
+
+    vethozavetnyj_patriarh = Gender.man
+
+    prorok = Gender.man
+    prorochitsa = Gender.woman
+
+    Hrista_radi_jurodivyj = Gender.man
+
+    velikomuchenitsa = Gender.woman
+    velikomuchenik = Gender.man
+    muchenitsa = Gender.woman
+    muchenik = Gender.man
+    prepodobnomuchenitsa = Gender.woman
+    prepodobnomuchenik = Gender.man
+    svjaschennomuchenik = Gender.man
+
+    ispovednik = Gender.man
+    ispovednitsa = Gender.woman
+
+    bessrebrenik = Gender.man
+
+    blazhennyj = Gender.man
+    blazhennaja = Gender.woman
+
+    blagovernyj = Gender.man
+    blagovernaja = Gender.woman
+    blagovernyj_knjaz = Gender.man
+    blagovernaja_knjaginja = Gender.woman
+
+    pravednyj = Gender.man
+    pravednaja = Gender.woman
+
+    prepodobnyj = Gender.man
+    prepodobnaja = Gender.woman
+
+    svjatoj = Gender.man
+    svjataja = Gender.woman
+
+    svjatitel = Gender.man

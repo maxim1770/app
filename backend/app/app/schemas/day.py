@@ -1,15 +1,11 @@
-from __future__ import annotations
-
 from datetime import date
-from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, conint, validator
 
 from app import const
-
-if TYPE_CHECKING:
-    from .holiday import HolidayInDB
 from ..const import BASE_YEAR_FOR_DAY
+
+from .holiday import HolidayInDBToDay
 
 
 class DayBase(BaseModel):
@@ -40,14 +36,14 @@ class DayInDBBase(DayBase):
 
 
 class Day(DayInDBBase):
-    holidays: list[HolidayInDB] = []
+    holidays: list[HolidayInDBToDay] = []
 
     has_new_holidays: bool = None
 
     @validator('has_new_holidays', pre=True, always=True)
     def prepare_has_new_holidays(cls, has_new_holidays: None, values):
         for holiday in values['holidays']:
-            if 'NEW G_M_2' in holiday.title:
+            if 'NEW' in holiday.title:
                 return True
         return False
 

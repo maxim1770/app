@@ -92,5 +92,5 @@ def delete_holiday(
         db: Session = Depends(deps.get_db),
         holiday: models.Holiday = Depends(get_valid_holiday)
 ) -> Any:
-    holiday = crud.holiday.remove(db, slug=holiday.slug)
+    holiday = crud.holiday.remove_by_slug(db, slug=holiday.slug)
     return holiday

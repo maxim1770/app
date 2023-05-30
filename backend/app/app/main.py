@@ -1,9 +1,9 @@
 import logging
 
-import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi_pagination import add_pagination
 from sqladmin import Admin, ModelView
+from starlette.middleware.cors import CORSMiddleware
 
 from app import models
 from app.api.api_v1.api import api_router
@@ -14,6 +14,8 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
 app = FastAPI(title=settings.PROJECT_NAME)
 admin = Admin(app, engine)
+
+add_pagination(app)
 
 
 class ManuscriptAdmin(ModelView, model=models.Manuscript):
@@ -59,10 +61,9 @@ if settings.BACKEND_CORS_ORIGINS:
 
 app.include_router(api_router)
 
-
-def main():
-    uvicorn.run('main:app', reload=True, port=8001)  # debug=True)  # host="0.0.0.0", port=8000)
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     uvicorn.run('main:app', reload=True, port=8001)  # debug=True)  # host="0.0.0.0", port=8000)
+#
+#
+# if __name__ == '__main__':
+#     main()

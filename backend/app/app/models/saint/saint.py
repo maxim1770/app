@@ -18,6 +18,7 @@ class Saint(Base):
     id: Mapped[intpk]
 
     name: Mapped[str | None] = mapped_column(String(150))
+    name_in_dative: Mapped[str | None] = mapped_column(String(150))
     slug: Mapped[unique_slug]
 
     dignity_id: Mapped[int | None] = mapped_column(ForeignKey(Dignity.id))

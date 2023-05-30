@@ -1,6 +1,6 @@
 import json
 
-# Data to be written
+# Data to_cyrillic be written
 dictionary = {
     "id": "04",
     "name": "sunil",

@@ -1,27 +1,36 @@
-from pydantic import BaseModel, constr
+from __future__ import annotations
 
-from app import const
-from .book import Book, BookDataCreate
+from typing import TYPE_CHECKING
+
+from pydantic import BaseModel
+
+from app import enums
+from .book import BookInDB
+
+if TYPE_CHECKING:
+    from ..holiday import HolidayInDB
 
 
 class HolidayBookBase(BaseModel):
-    pass
+    book_util: enums.BookUtil | None = None
 
 
 class HolidayBookCreate(HolidayBookBase):
     pass
 
 
-class HolidayBook(HolidayBookBase):
+class HolidayBookInDBBase(HolidayBookBase):
     id: int
-    book: Book
 
-    # holiday: Holiday | None = None
+    holiday: HolidayInDB
 
     class Config:
         orm_mode = True
 
 
-class HolidayBookDataCreate(BaseModel):
-    book_data_in: BookDataCreate
-    holiday_slug: constr(strip_whitespace=True, strict=True, max_length=200, regex=const.REGEX_SLUG_STR)
+class HolidayBook(HolidayBookInDBBase):
+    book: BookInDB
+
+
+class HolidayBookInDB(HolidayBookInDBBase):
+    pass

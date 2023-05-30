@@ -1,6 +1,6 @@
 import re
 
-from app import const
+from app import const, utils
 
 
 class PrepareYearTitle(object):
@@ -31,7 +31,7 @@ class PrepareYearTitle(object):
 
     @classmethod
     def _prepare_сlarification_year(cls, year_title: str) -> str:
-        year_title = year_title[0].upper() + year_title[1:]
+        year_title: str = utils.set_first_letter_upper(year_title)
         year_title = cls.__replace_to_one_text(year_title, ['Ок.'], const.CenturyCorrection.okolo)
         year_title = cls.__replace_to_one_text(year_title, ['Нач.'], const.CenturyCorrection.nachalo)
         year_title = cls.__replace_to_one_text(year_title, ['Кон.'], const.CenturyCorrection.konets)
@@ -60,10 +60,10 @@ class PrepareYearTitle(object):
 
     @classmethod
     def _clean_spaces(cls, year_title: str) -> str:
-        year_title = year_title.replace('  ', '')
-        year_title = year_title.replace('—', '-').replace('–', '-')
-        year_title = year_title.replace(' -', '-').replace('- ', '-')
-        year_title = year_title.strip()
+        year_title: str = utils.clean_extra_spaces(year_title)
+        year_title: str = utils.remove_extra_space_before_punctuation_marks(year_title)
+        year_title: str = utils.prepare_dash(year_title)
+        year_title: str = utils.clean_extra_spaces(year_title)
         return year_title
 
     @staticmethod

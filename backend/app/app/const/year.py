@@ -6,6 +6,7 @@ from typing import Final, Pattern
 from app import utils
 
 YEAR_HERESY: Final[int] = 1597
+YEAR_GRETSIJA_HERESY: Final[int] = 1442  # TODO
 NUM_OFFSET_YEARS: Final[int] = 8
 NUM_YEARS_IN_CENTURY: Final[int] = 100
 YEAR_CHRISTMAS: Final[int] = 5500

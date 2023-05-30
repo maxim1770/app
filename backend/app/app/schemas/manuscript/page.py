@@ -4,7 +4,7 @@ from app import enums
 
 
 class PageBase(BaseModel):
-    num: conint(strict=True, ge=1, le=1500)
+    num: conint(strict=True, ge=1, le=2000)
     position: enums.PagePosition
 
 

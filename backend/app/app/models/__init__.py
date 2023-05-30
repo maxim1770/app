@@ -1,6 +1,6 @@
 from .bible_book import BibleBook
 from .bible_book import Zachalo, ZachalosMovableDates
-from .book import Book, HolidayBook, TopicBook
+from .book import Book, HolidayBook, TopicBook, MolitvaBook, MovableDateBook
 from .city import City
 from .date import Date
 from .day import Day
