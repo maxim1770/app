@@ -22,7 +22,7 @@ COPY ./app /app
 ENV PYTHONPATH=/app
 
 COPY ./app/initial_db_and_start_server.production.sh /initial_db_and_start_server.production.sh
-# RUN chmod +x /initial_db_and_start_server.sh # Раскомментировать, чтобы запустить не через docker-compose command: /bin/sh -c "initial_db_and_start_server.sh"
+RUN chmod +x /initial_db_and_start_server.production.sh
 ENTRYPOINT "/initial_db_and_start_server.production.sh"
 # И если тут вызывать RUN, то по идее эта строчка не нужно, а может и нужна, не знаю
 

@@ -31,7 +31,7 @@ services:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     depends_on:
       - db
-    command: /bin/sh -c "initial_db_and_start_server.production.sh"
+    command: bash -c "initial_db_and_start_server.production.sh"
     expose:
       - 8000
     env_file:
