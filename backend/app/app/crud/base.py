@@ -1,8 +1,9 @@
+from enum import StrEnum
 from typing import Any, Generic, Type, TypeVar
 
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
-from fastapi_filter.contrib.sqlalchemy import Filter
+# from fastapi_filter.contrib.sqlalchemy import Filter
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -11,7 +12,7 @@ from app.db.base_class import Base
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
-FilterSchemaType = TypeVar("FilterSchemaType", bound=Filter)
+FilterSchemaType = TypeVar("FilterSchemaType", bound=BaseModel)  # Filter
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, FilterSchemaType]):
@@ -27,13 +28,17 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, FilterSche
         select: sa.Select = filter.sort(select)
         return select
 
-    def get_multi(
-            self, db: Session, *, skip: int = 0, limit: int = 100
-    ) -> list[ModelType]:
-        return list(db.execute(sa.select(self.model).offset(skip).limit(limit)).scalars())
+    def get_all(self, db: Session) -> list[ModelType]:
+        return db.execute(sa.select(self.model)).scalars().all()
+
+    def get_all_select(self) -> sa.Select:
+        return sa.select(self.model)
 
     def get_by_slug(self, db: Session, *, slug: str) -> ModelType | None:
         return db.execute(sa.select(self.model).filter_by(slug=slug)).scalar_one_or_none()
+
+    def get_by_title(self, db: Session, *, title: StrEnum) -> ModelType | None:
+        return db.execute(sa.select(self.model).filter_by(title=title)).scalar_one_or_none()
 
     def get(self, db: Session, *, id: int) -> ModelType | None:
         return db.execute(sa.select(self.model).filter_by(id=id)).scalar_one_or_none()
@@ -60,7 +65,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, FilterSche
         if isinstance(obj_in, dict):
             update_data = obj_in
         else:
-            update_data = obj_in.dict(exclude_unset=True)
+            update_data = obj_in.model_dump(exclude_unset=True)
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])

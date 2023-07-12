@@ -2,33 +2,31 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, constr
+from pydantic import constr
 
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 if TYPE_CHECKING:
     from .week import WeekInDB
 
 
-class CycleBase(BaseModel):
+class __CycleBase(SchemaBase):
     num: enums.CycleNum
     title: constr(strip_whitespace=True, strict=True, max_length=30)
 
 
-class CycleCreate(CycleBase):
+class CycleCreate(__CycleBase):
     pass
 
 
-class CycleInDBBase(CycleBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class __CycleInDBBase(__CycleBase, SchemaInDBBase):
+    pass
 
 
-class Cycle(CycleInDBBase):
+class Cycle(__CycleInDBBase):
     weeks: list[WeekInDB] = []
 
 
-class CycleInDB(CycleInDBBase):
+class CycleInDB(__CycleInDBBase):
     pass

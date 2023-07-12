@@ -13,6 +13,10 @@ class BookTitle(StrEnum):
     Evangelie_tolkovoe = 'Евангелие толковое'
     Apostol = 'Апостол'
     Apostol_tolkovyj = 'Апостол толковый'
+    Psaltyr = 'Псалтырь'
+    Psaltyr_tolkovaja = 'Псалтырь толковая'
+    Kormchaja = 'Кормчая'
+    Lls = 'ЛЛС'
 
 
 class BookType(StrEnum):
@@ -32,6 +36,10 @@ class BookType(StrEnum):
     pouchenie_istorija = f'{Pouchenie}-{_istorija}'
     Sinaksar = 'Синаксарь'
     Zachalo = 'Зачало'
+    Psalom = 'Псалом'
+    Pravilo = 'Правило'
+    Tropar = 'Тропарь'
+    Kondak = 'Кондак'
 
 
 class BookSource(StrEnum):
@@ -114,8 +122,3 @@ class BookTopic(StrEnum):
 class BookUtil(StrEnum):
     Upominanie = 'Упоминание'
     Chudo = 'Чудо'
-
-
-class MolitvaBookType(StrEnum):
-    Tropar = 'Тропарь'
-    Kondak = 'Кондак'

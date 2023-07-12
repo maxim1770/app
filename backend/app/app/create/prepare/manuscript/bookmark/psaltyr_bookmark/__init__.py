@@ -1,0 +1,1 @@
+from .psaltyr_bookmark import get_psaltyr_bookmarks

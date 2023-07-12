@@ -12,7 +12,7 @@ def create_molitva_book(
 ) -> models.MolitvaBook:
     db_molitva_book = models.MolitvaBook(
         id=id,
-        **molitva_book_in.dict(),
+        **molitva_book_in.model_dump(),
         holiday_id=holiday_id
     )
     db.add(db_molitva_book)

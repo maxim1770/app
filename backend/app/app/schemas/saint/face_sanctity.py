@@ -1,20 +1,18 @@
-from pydantic import BaseModel
-
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class FaceSanctityBase(BaseModel):
+class __FaceSanctityBase(SchemaBase):
+    title: enums.FaceSanctityTitle | None = None
+
+
+class FaceSanctityCreate(__FaceSanctityBase):
     title: enums.FaceSanctityTitle
 
 
-class FaceSanctityCreate(FaceSanctityBase):
+class FaceSanctityUpdate(__FaceSanctityBase):
     pass
 
 
-class FaceSanctity(FaceSanctityBase):
-    id: int
-
-    # saints: list[Saint] = []
-
-    class Config:
-        orm_mode = True
+class FaceSanctity(__FaceSanctityBase, SchemaInDBBase):
+    pass

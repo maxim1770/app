@@ -9,7 +9,9 @@ from app import enums, utils, models
 from app.api import deps
 from app.create.prepare.manuscript.bookmark.common import get_pdf_bookmarks, get_pdf_writer, offset_pages_bookmarks, \
     set_show_bookmarks_panel, save_pdf, add_bookmarks
-from app.create.prepare.manuscript.bookmark.get_bookmarks import Bookmark
+from app.create.prepare.manuscript.bookmark.__get_bookmarks import PdfBookmark
+from app.enums import PagePosition
+from app.schemas import NotNumberedPages, NotNumberedPage, PageCreate
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
@@ -27,8 +29,8 @@ def __prepare_zachalo_bookmark_title(bookmark_title: str) -> str:
 
 
 def prepare_f_178i_9500():
-    def __add_head_bookmark(bookmarks: list[Bookmark]) -> list[Bookmark]:
-        head_bookmark = Bookmark(title=enums.BibleBookAbbr.Jn.name, page_num=bookmarks[0].page_num)
+    def __add_head_bookmark(bookmarks: list[PdfBookmark]) -> list[PdfBookmark]:
+        head_bookmark = PdfBookmark(title=enums.BibleBookAbbr.Jn.name, page_num=bookmarks[0].page_num)
         dash_bookmark_index: int | None = next(
             (i for i, bookmark in enumerate(bookmarks) if '-' == bookmark.title), None)
         head_bookmark_children, bookmarks = bookmarks[:dash_bookmark_index + 1], bookmarks[dash_bookmark_index + 1:]
@@ -43,7 +45,7 @@ def prepare_f_178i_9500():
     writer: PdfWriter = get_pdf_writer(pdf_path)
 
     bookmarks = get_pdf_bookmarks(pdf_path)
-    bookmarks: list[Bookmark] = __add_head_bookmark(bookmarks)
+    bookmarks: list[PdfBookmark] = __add_head_bookmark(bookmarks)
 
     bookmarks_part_1 = get_pdf_bookmarks(pdf_path_part_1)
     bookmarks_part_2 = get_pdf_bookmarks(pdf_path_part_2)
@@ -185,15 +187,16 @@ def prepare_f_98_30():
 
 
 if __name__ == '__main__':
-    db = next(deps.get_db())
+    # db = next(deps.get_db())
 
-    select = sa.select(models.Book).outerjoin(models.TopicBook).filter(
-        models.TopicBook.id == 15001
-    )
-    a = db.execute(select).scalar_one_or_none()
-    logging.info(type(a.topic_book.topics))
-    logging.info(a.topic_book.topics[0])
-    logging.info(type(a.topic_book.topics[0]))
+
+    # select = sa.select(models.Book).outerjoin(models.TopicBook).filter(
+    #     models.TopicBook.id == 15001
+    # )
+    # a = db.execute(select).scalar_one_or_none()
+    # logging.info(type(a.topic_book.topics))
+    # logging.info(a.topic_book.topics[0])
+    # logging.info(type(a.topic_book.topics[0]))
     # logging.info(a.topic_book.topics.__dict__)
 
     # select = sa.select(models.Book).outerjoin(models.TopicBook).filter(
@@ -226,3 +229,23 @@ if __name__ == '__main__':
     a = {'священномученику Макарию, митрополиту Киевскому', 'священномученику Мефодию, епископу Патарскому'}
     b = ' и '.join(a)
     print(b)
+
+    some_2_not_numbered_pages = NotNumberedPages(
+        [
+            NotNumberedPage(
+                page=PageCreate(
+                    num=1,
+                    position=PagePosition.right
+                ),
+                count=2,
+            ),
+            NotNumberedPage(
+                page=PageCreate(
+                    num=5,
+                    position=PagePosition.left
+                ),
+                count=1,
+            )
+        ]
+    )
+    print(some_2_not_numbered_pages)

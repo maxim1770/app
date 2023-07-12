@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from app import schemas, utils
-from app.create.prepare.year import PrepareYearTitle
+from ..year import PrepareYearTitle
 from ..icon import __collect
 
 
@@ -27,7 +27,7 @@ def get_verived_gallerix_icons_ids(driver: WebDriver) -> list[int]:
             logging.warning(year_title)
             prepared_year_title: str = PrepareYearTitle(year_title).year_title
             year_in = schemas.YearCreate(title=prepared_year_title)
-        except (ValueError, IndexError) as e:
+        except (ValueError, IndexError):
             pass
         else:
             logging.info(gallerix_icon_id)

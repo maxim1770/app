@@ -2,20 +2,31 @@
 # imported by Alembic
 
 from app.db.base_class import Base  # noqa
+from app.models import City  # noqa
+from app.models import Date  # noqa
+from app.models import Day  # noqa
+from app.models import Icon  # noqa
+from app.models import IconHolidayAssociation  # noqa
+from app.models import Post  # noqa
+from app.models import Year  # noqa
 from app.models.bible_book import BibleBook  # noqa
 from app.models.bible_book import Zachalo  # noqa
-from app.models.bible_book import ZachalosMovableDates  # noqa
+from app.models.bible_book import ZachaloMovableDateAssociation  # noqa
 from app.models.book import Book  # noqa
+from app.models.book import Cathedral  # noqa
+from app.models.book import CathedralBook  # noqa
 from app.models.book import HolidayBook  # noqa
-from app.models.book import TopicBook  # noqa
+from app.models.book import LlsBook  # noqa
 from app.models.book import MolitvaBook  # noqa
 from app.models.book import MovableDateBook  # noqa
-from app.models.city import City  # noqa
-from app.models.date import Date  # noqa
-from app.models.day import Day  # noqa
+from app.models.book import PsaltyrBook  # noqa
+from app.models.book import TopicBook  # noqa
+from app.models.holiday import BeforeAfterHoliday  # noqa
+from app.models.holiday import BeforeAfterHolidayDayAssociation  # noqa
+from app.models.holiday import BeforeAfterHolidayMovableDayAssociation  # noqa
 from app.models.holiday import Holiday  # noqa
 from app.models.holiday import HolidayCategory  # noqa
-from app.models.icon import Icon  # noqa
+from app.models.holiday import Tipikon  # noqa
 from app.models.manuscript import Bookmark  # noqa
 from app.models.manuscript import Fund  # noqa
 from app.models.manuscript import Manuscript  # noqa
@@ -28,5 +39,4 @@ from app.models.movable_date import Week  # noqa
 from app.models.saint import Dignity  # noqa
 from app.models.saint import FaceSanctity  # noqa
 from app.models.saint import Saint  # noqa
-from app.models.saint import SaintsHolidays  # noqa
-from app.models.year import Year  # noqa
+from app.models.saint import SaintHolidayAssociation  # noqa

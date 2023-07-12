@@ -1,4 +1,4 @@
-from pydantic_factories import ModelFactory
+from polyfactory.factories.pydantic_factory import ModelFactory
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas

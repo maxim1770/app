@@ -1,22 +1,20 @@
 import sqlalchemy as sa
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app import models, schemas
+from app.models import Day
+from app.schemas import DayCreate, DayUpdate
+from .base import CRUDBase
 
 
-def get_days(db: Session, *, skip: int = 0, limit: int = 100) -> list[models.Day]:
-    return list(db.execute(sa.select(models.Day).offset(skip).limit(limit)).scalars())
+class DayFilter(BaseModel):
+    pass
 
 
-def get_day(db: Session, *, month: int, day: int) -> models.Day | None:
-    return db.execute(
-        sa.select(models.Day).filter_by(month=month).filter_by(day=day)
-    ).scalar_one_or_none()
+class CRUDDay(CRUDBase[Day, DayCreate, DayUpdate, DayFilter]):
+
+    def get_by_month_and_day(self, db: Session, *, month: int, day: int) -> Day | None:
+        return db.execute(sa.select(self.model).filter_by(month=month).filter_by(day=day)).scalar_one_or_none()
 
 
-def create_day(db: Session, *, day_in: schemas.DayCreate) -> models.Day:
-    db_day = models.Day(**day_in.dict())
-    db.add(db_day)
-    db.commit()
-    db.refresh(db_day)
-    return db_day
+day = CRUDDay(Day)

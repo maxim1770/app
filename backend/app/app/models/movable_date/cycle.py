@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 class Cycle(Base):
     id: Mapped[intpk]
 
-    num: Mapped[enums.CycleNum] = mapped_column(unique=True)
+    num: Mapped[enums.CycleNum] = mapped_column(unique=True, index=True)
     title: Mapped[str] = mapped_column(String(30), unique=True)
 
     weeks: Mapped[list[Week]] = relationship(back_populates='cycle')

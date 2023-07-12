@@ -1,13 +1,17 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-from app.filters import SaintFilter
+# from app.filters import SaintFilter
 from app.models import Saint
 from app.schemas import SaintCreate, SaintUpdate
 from ..base import CRUDBase
 
+
+class SaintFilter(BaseModel):
+    pass
 
 class CRUDSaint(CRUDBase[Saint, SaintCreate, SaintUpdate, SaintFilter]):
 
@@ -21,8 +25,8 @@ class CRUDSaint(CRUDBase[Saint, SaintCreate, SaintUpdate, SaintFilter]):
             db: Session,
             *,
             obj_in: SaintCreate,
-            dignity_id: int = None,
-            face_sanctity_id: int = None,
+            dignity_id: int | None = None,
+            face_sanctity_id: int | None = None,
     ) -> Saint:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(

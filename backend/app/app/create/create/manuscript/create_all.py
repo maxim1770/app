@@ -3,8 +3,8 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from app import models, schemas, utils, crud, enums
-from .manuscript import create_manuscript_bookmark
 from app.create import prepare
+from .manuscript import create_manuscript_bookmark
 
 
 def create_manuscript_bookmarks(
@@ -12,15 +12,8 @@ def create_manuscript_bookmarks(
         *,
         manuscript: models.Manuscript
 ) -> models.Manuscript:
-    try:
-        pdf_path: Path = utils.PrepareManuscriptPathFactory.from_lib(
-            fund_title=manuscript.fund.title,
-            library_title=manuscript.fund.library,
-            code=manuscript.code,
-        ).created_pdf_path
-    except FileNotFoundError as e:
-        raise ValueError(e.args[0])
-    bookmarks_data_in: list[prepare.BookmarkDataCreate] = prepare.prepare_manuscript_bookmark(
+    pdf_path: Path = utils.assemble_manuscript_pdf_path(manuscript)
+    bookmarks_data_in: list[schemas.BookmarkDataCreate] = prepare.prepare_manuscript_bookmark(
         pdf_path=pdf_path,
         not_numbered_pages=manuscript.not_numbered_pages,
         from_neb=True if manuscript.neb_slug else False,
@@ -35,10 +28,10 @@ def create_all_manuscripts_lls(
         db: Session,
 ) -> None:
     year_in = schemas.YearCreate(title='1568-1576')
-    year = crud.get_or_create_year(db, year_in=year_in)
+    year = crud.year.get_or_create(db, year_in=year_in)
     handwriting: int = 12
     not_numbered_pages = schemas.NotNumberedPages(
-        __root__=[
+        [
             schemas.NotNumberedPage(
                 page=schemas.PageCreate(
                     num=1,
@@ -312,7 +305,7 @@ def create_all_manuscripts_lls(
         )
     ]
     for manuscript_in in manuscripts_in:
-        manuscript = crud.manuscript.create_with_any(
+        crud.manuscript.create_with_any(
             db,
             obj_in=manuscript_in,
             year_id=year.id,

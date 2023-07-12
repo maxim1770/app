@@ -3,20 +3,17 @@
     prepend-icon="mdi-timer-sand"
   >
     Год:
-    <v-chip
-      variant="tonal"
-      color="blue"
-      class="ml-1"
-    >
-      {{ year?.title }}
-    </v-chip>
+    <ChipYear :year="year" class="ml-1" />
   </v-list-item>
 </template>
 
 <script>
 
 
+import ChipYear from "@/components/year/ChipYear.vue";
+
 export default {
+  components: { ChipYear },
   props: {
     year: {
       type: Object,

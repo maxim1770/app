@@ -2,8 +2,10 @@ FROM node:lts-alpine as build-stage
 
 WORKDIR /frontend
 
-COPY package*.json ./
+COPY package*.json .
 
+
+RUN apk update && apk add --no-cache bash
 RUN npm install -g npm@latest
 RUN npm install
 

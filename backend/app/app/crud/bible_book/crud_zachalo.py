@@ -1,41 +1,27 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
-from app import models, schemas, enums
+from app import models, schemas, enums, utils
 from .crud_bible_book import get_bible_book
 from ..book import book
 from ..saint import saint
 
 
-# def get_zachalos(db: Session, bible_book_abbr: enums.BibleBookAbbr) -> list[models.Zachalo]:
-#     # Другой вариант, не знаю какой лучше и быстрее
-#     # return db.query(models.Zachalo).join(models.BibleBook).filter(models.BibleBook.abbr == bible_book_abbr).all()
-#
-#     bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
-#     return db.query(models.Zachalo).filter(models.Zachalo.bible_book_id == bible_book_id).all()
-
-
-def get_all_zachalos(db: Session, skip: int = 0, limit: int = 1000) -> list[models.Zachalo]:
-    return list(db.execute(sa.select(models.Zachalo).offset(skip).limit(limit)).scalars())
-
-
 def get_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, num: int) -> models.Zachalo | None:
-    bible_book_id: int = get_bible_book(db, abbr=bible_book_abbr).id
-    try:
-        return db.execute(
-            sa.select(models.Zachalo).filter_by(bible_book_id=bible_book_id).filter_by(num=num)
-        ).scalars().all()[0]  # FIXME
-    except IndexError:
-        return None
+    return db.execute(
+        sa.select(models.Zachalo).filter_by(num=num).filter(models.BibleBook.abbr == bible_book_abbr)
+    ).scalars().first()
 
 
-def create_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, zachalo: schemas.ZachaloCreate) -> models.Zachalo:
+def create_zachalo(
+        db: Session,
+        *,
+        bible_book_abbr: enums.BibleBookAbbr,
+        zachalo_in: schemas.ZachaloCreate
+) -> models.Zachalo:
     bible_book: models.BibleBook = get_bible_book(db, abbr=bible_book_abbr)
     saint_slug: str = enums.BibleBookAuthorSlug[bible_book.abbr.name].value
-    if bible_book.part == enums.BibleBookPart.evangel:
-        book_title, book_title_tolk = enums.BookTitle.Evangelie, enums.BookTitle.Evangelie_tolkovoe
-    else:
-        book_title, book_title_tolk = enums.BookTitle.Apostol, enums.BookTitle.Apostol_tolkovyj
+    book_title: enums.BookTitle = utils.get_bible_book_title(bible_book.part)
     book_data_in = schemas.BookDataCreate(
         book_in=schemas.BookCreate(
             title=book_title,
@@ -44,15 +30,42 @@ def create_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, zachalo: s
         saint_slug=saint_slug
     )
     author_id: int = saint.get_by_slug(db, slug=book_data_in.saint_slug).id
-    main_book = book.create_with_any(db, obj_in=book_data_in.book_in, author_id=author_id)
-    book_data_in.book_in.title = book_title_tolk
-    book_tolk = book.create_with_any(db, obj_in=book_data_in.book_in, author_id=author_id)
-    db_zachalo = models.Zachalo(id=main_book.id, bible_book_id=bible_book.id, **zachalo.dict())
-    db_zachalo_tolk = models.Zachalo(id=book_tolk.id, bible_book_id=bible_book.id, **zachalo.dict())
-    for db_zachalo_ in (db_zachalo, db_zachalo_tolk):
-        db.add(db_zachalo_)
-        db.commit()
-        db.refresh(db_zachalo_)
+    book_id: int = book.create_with_any(db, obj_in=book_data_in.book_in, author_id=author_id).id
+    zachalo: models.Zachalo = __create_zachalo(db, book_id=book_id, bible_book_id=bible_book.id, zachalo_in=zachalo_in)
+    return zachalo
+
+
+def create_zachalo_tolkovoe(db: Session, *, zachalo: models.Zachalo) -> models.Zachalo:
+    book_title: enums.BookTitle = utils.get_book_title_tolkovoe(zachalo.book.title)
+    book_in = schemas.BookCreate(type=zachalo.book.type, title=book_title)
+    book_id: int = book.create_with_any(db, obj_in=book_in, author_id=zachalo.book.author_id).id
+    zachalo_in = schemas.ZachaloCreate(num=zachalo.num, title=zachalo.title)
+    zachalo_tolkovoe: models.Zachalo = __create_zachalo(
+        db,
+        book_id=book_id,
+        bible_book_id=zachalo.bible_book_id,
+        zachalo_in=zachalo_in
+    )
+    for movable_date in zachalo.movable_dates:
+        create_zachalo_movable_date_association(
+            db,
+            zachalo_id=zachalo_tolkovoe.id,
+            movable_date_id=movable_date.id
+        )
+    return zachalo_tolkovoe
+
+
+def __create_zachalo(
+        db: Session,
+        *,
+        book_id: int,
+        bible_book_id: int,
+        zachalo_in: schemas.ZachaloCreate
+) -> models.Zachalo:
+    db_zachalo = models.Zachalo(id=book_id, bible_book_id=bible_book_id, **zachalo_in.model_dump())
+    db.add(db_zachalo)
+    db.commit()
+    db.refresh(db_zachalo)
     return db_zachalo
 
 
@@ -66,7 +79,7 @@ def create_zachalo_movable_date_association(
         sa.select(models.Zachalo).filter_by(id=zachalo_id)).scalar_one_or_none()
     movable_date: models.MovableDate = db.execute(
         sa.select(models.MovableDate).filter_by(id=movable_date_id)).scalar_one_or_none()
-    zachalo.movable_date_associations.append(models.ZachalosMovableDates(movable_date=movable_date))
+    zachalo.movable_date_associations.append(models.ZachaloMovableDateAssociation(movable_date=movable_date))
     db.add(zachalo)
     db.commit()
     db.refresh(zachalo)

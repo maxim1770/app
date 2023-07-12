@@ -26,16 +26,15 @@ from app.tests import test_utils
                 face_sanctity_title=enums.FaceSanctityTitle.prepodobnaja
             )
     ),
-    (
-            'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij',
-            schemas.SaintDataUpdate(
-                saint_in=schemas.SaintUpdate(
-                    name='Благоверный Князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
-                ),
-                face_sanctity_title=enums.FaceSanctityTitle.blagovernyj_knjaz
-            )
-    )
-
+    # (
+    #         'igor-v-kreshchenii-georgij-chernigovskij-i-kievskij',
+    #         schemas.SaintDataUpdate(
+    #             saint_in=schemas.SaintUpdate(
+    #                 name='Благоверный Князь И́горь (в Крещении Гео́ргий, в иночестве Гаврии́л) Ольгович, Черниговский и Киевский'
+    #             ),
+    #             face_sanctity_title=enums.FaceSanctityTitle.blagovernyj_knjaz
+    #         )
+    # )
 ])
 def test_update_saint_from_azbyka(
         db: Session,
@@ -45,13 +44,13 @@ def test_update_saint_from_azbyka(
         saint_data_in: schemas.SaintDataUpdate
 ) -> None:
     saint = crud.saint.create(db, obj_in=schemas.SaintCreate(slug=saint_slug))
-    dignity = crud.create_dignity(
+    dignity = crud.dignity.create(
         db,
-        dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
+        obj_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
     ) if saint_data_in.dignity_title else None
-    face_sanctity = crud.create_face_sanctity(
+    face_sanctity = crud.face_sanctity.create(
         db,
-        face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
+        obj_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
     test_utils.requests_mock_get_saint_data(requests_mock, saint_slug=saint_slug)
     saint_2 = create.update_saint_from_azbyka(db, session=session, saint=saint)

@@ -12,7 +12,7 @@ def create_movable_date_book(
 ) -> models.MovableDateBook:
     db_movable_date_book = models.MovableDateBook(
         id=id,
-        **movable_date_book_in.dict(),
+        **movable_date_book_in.model_dump(),
         movable_day_id=movable_day_id
     )
     db.add(db_movable_date_book)

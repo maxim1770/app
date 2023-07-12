@@ -22,7 +22,7 @@ export const api = {
   }, async getMainConstData() {
     return instance.get("/");
   }, async getDates() {
-    return instance.get(`/dates/?limit=2`);
+    return instance.get(`/dates/`);
   }, async getDate(date) {
     return instance.get(`/dates/${date}`);
   }, async getMovableDates() {
@@ -31,6 +31,8 @@ export const api = {
     return instance.get(`/holidays/`);
   }, async getHoliday(holidaySlug) {
     return instance.get(`/holidays/${holidaySlug}`);
+  }, async putHoliday({ holidaySlug, tipikon_title } = {}) {
+    return instance.put(`/holidays/${holidaySlug}`, { "tipikon_title": tipikon_title });
   }, async getSaints({ search, face_sanctity__title, dignity__title, order_by } = {}) {
     return instance.get(`/saints/`, {
       params: {
@@ -42,20 +44,28 @@ export const api = {
     });
   }, async getSaint(saintSlug) {
     return instance.get(`/saints/${saintSlug}`);
-  }, async getManuscripts({ search, fund__title, year__year__gte, year__year__lt, order_by } = {}) {
+  }, async getManuscripts({ page, search, fund__title, year__year__gte, year__year__lt, order_by } = {}) {
     return instance.get(`/manuscripts/`, {
       params: {
         "search": search,
         "fund__title": fund__title,
         "year__year__gte": year__year__gte,
         "year__year__lt": year__year__lt,
-        "order_by": order_by
+        "order_by": order_by,
+        "page": page,
+        "size": 10
       }
     });
   }, async getBooks() {
     return instance.get(`/books/`);
   }, async getBook(bookId) {
     return instance.get(`/books/${bookId}`);
+  }, async getCathedrals() {
+    return instance.get(`/books/cathedrals/`);
+  }, async getBibleBooks() {
+    return instance.get(`/books/bible-books/`);
+  }, async getLls() {
+    return instance.get(`/books/lls/`);
   }, async getManuscript(manuscriptCode) {
     return instance.get(`/manuscripts/${manuscriptCode}`);
   }

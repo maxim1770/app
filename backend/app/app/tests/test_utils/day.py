@@ -1,4 +1,4 @@
-from pydantic_factories import ModelFactory
+from polyfactory.factories.pydantic_factory import ModelFactory
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -14,5 +14,5 @@ def create_random_day_in() -> schemas.DayCreate:
 
 def create_random_day(db: Session) -> models.Day:
     day_in = create_random_day_in()
-    day = crud.create_day(db, day_in=day_in)
+    day = crud.day.create(db, obj_in=day_in)
     return day

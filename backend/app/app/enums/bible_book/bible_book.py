@@ -16,11 +16,15 @@ class BibleBookTestamentRu(StrEnum):
 class BibleBookPart(StrEnum):
     evangel = auto()
     apostle = auto()
+    psaltyr = auto()
+    pjatiknizhie_moiseja = auto()
 
 
 class BibleBookPartRu(StrEnum):
     evangel = 'Евангелие'
     apostle = 'Апостол'
+    psaltyr = 'Псалтырь'
+    pjatiknizhie_moiseja = 'Пятикнижие Моисея'
 
 
 class BibleBookAbbr(StrEnum):
@@ -60,6 +64,25 @@ class BibleBookAbbr(StrEnum):
 
     # Апокалипсис
     Apok = auto()
+
+    Ps = auto()
+
+    Gen = auto()
+    Ex = auto()
+    Lev = auto()
+    Num = auto()
+    Deut = auto()
+
+    Nav = auto()
+    Judg = auto()
+    Rth = auto()
+    _1Sam = '1Sam'
+    _2Sam = '2Sam'
+    _1King = '1King'
+    _2King = '2King'
+
+    Tov = auto()
+    Est = auto()
 
 
 class BibleBookAbbrRu(StrEnum):
@@ -104,6 +127,25 @@ class BibleBookAbbrRu(StrEnum):
     # НЕ ЧИТАЕТСЯ ПО ДНЯМ
     Apok = 'Откр'
 
+    Ps = 'Пс'
+
+    Gen = 'Быт'
+    Ex = 'Исх'
+    Lev = 'Лев'
+    Num = 'Чис'
+    Deut = 'Втор'
+
+    Nav = 'Нав'
+    Judg = 'Суд'
+    Rth = 'Руф'
+    _1Sam = '1Цар'
+    _2Sam = '2Цар'
+    _1King = '3Цар'
+    _2King = '4Цар'
+
+    Tov = 'Тов'
+    Est = 'Есф'
+
 
 class BibleBookAuthorSlug(StrEnum):
     # Евангелие
@@ -142,3 +184,14 @@ class BibleBookAuthorSlug(StrEnum):
 
     # Апокалипсис
     Apok = 'ioann-bogoslov'
+
+    Ps = 'david-car'
+
+    Gen = 'moisej-bogovidec'
+    Ex = 'moisej-bogovidec'
+    Lev = 'moisej-bogovidec'
+    Num = 'moisej-bogovidec'
+    Deut = 'moisej-bogovidec'
+
+    Nav = 'iisus-navin'
+    Judg = 'samuil-prorok'

@@ -6,7 +6,7 @@ from app.schemas.manuscript.manuscript import NotNumberedPage
 from app.utils import pages_in2pages_nums
 
 some_not_numbered_pages = NotNumberedPages(
-    __root__=[
+    [
         NotNumberedPage(
             page=PageCreate(
                 num=1,
@@ -18,7 +18,7 @@ some_not_numbered_pages = NotNumberedPages(
 )
 
 some_2_not_numbered_pages = NotNumberedPages(
-    __root__=[
+    [
         NotNumberedPage(
             page=PageCreate(
                 num=1,

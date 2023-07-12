@@ -12,11 +12,11 @@ def create_all_dignities(db: Session) -> bool:
     num_creatures: int = 0
 
     for dignity_title in enums.DignityTitle:
-        if crud.get_dignity(db, title=dignity_title):
-            raise FatalCreateError(f'Dignity: title={dignity_title} уже была создана')
+        if crud.dignity.get_by_title(db, title=dignity_title):
+            raise FatalCreateError(f'Dignity: title={dignity_title} already created')
 
-        crud.create_dignity(db,
-                            dignity_in=schemas.DignityCreate(
+        crud.dignity.create(db,
+                            obj_in=schemas.DignityCreate(
                                 title=dignity_title
                             )
                             )

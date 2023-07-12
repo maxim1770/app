@@ -13,26 +13,26 @@ def _get_days_abbrs_in_weeks(num_weeks: int) -> list[enums.MovableDayAbbr]:
     # хотя этот код плох тем, что если изменить порядок в MovableDayAbbr, тот ту тоже изменится, а это ошибка
     # return [*enums.MovableDayAbbr] * num_weeks
     return [
-               enums.MovableDayAbbr.sun,
-               enums.MovableDayAbbr.mon,
-               enums.MovableDayAbbr.tue,
-               enums.MovableDayAbbr.wed,
-               enums.MovableDayAbbr.thu,
-               enums.MovableDayAbbr.fri,
-               enums.MovableDayAbbr.sat,
-           ] * num_weeks
+        enums.MovableDayAbbr.sun,
+        enums.MovableDayAbbr.mon,
+        enums.MovableDayAbbr.tue,
+        enums.MovableDayAbbr.wed,
+        enums.MovableDayAbbr.thu,
+        enums.MovableDayAbbr.fri,
+        enums.MovableDayAbbr.sat,
+    ] * num_weeks
 
 
 def _get_days_abbrs_in_weeks_first_mon(num_weeks: int) -> list[enums.MovableDayAbbr]:
     return [
-               enums.MovableDayAbbr.mon,
-               enums.MovableDayAbbr.tue,
-               enums.MovableDayAbbr.wed,
-               enums.MovableDayAbbr.thu,
-               enums.MovableDayAbbr.fri,
-               enums.MovableDayAbbr.sat,
-               enums.MovableDayAbbr.sun,
-           ] * num_weeks
+        enums.MovableDayAbbr.mon,
+        enums.MovableDayAbbr.tue,
+        enums.MovableDayAbbr.wed,
+        enums.MovableDayAbbr.thu,
+        enums.MovableDayAbbr.fri,
+        enums.MovableDayAbbr.sat,
+        enums.MovableDayAbbr.sun,
+    ] * num_weeks
 
 
 class PrepareC1MovableDayAbbr(PrepareMethodsBase):
@@ -86,7 +86,7 @@ class PrepareC1MovableDayTitle(PrepareMethodsBase):
         super().__init__()
 
     def _fill_gaps(self):
-        self.data[3 * const.NUM_DAYS_IN_WEEK + 3]: Final[str] = 'Преполовение Пятидес.'
+        self.data[3 * const.NUM_DAYS_IN_WEEK + 3]: Final[str] = 'Преполовение Пятидесятницы'
         self.data[7 * const.NUM_DAYS_IN_WEEK + 1]: Final[str] = 'Св. Духа'
 
     def _clean(self):

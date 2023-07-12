@@ -1,7 +1,7 @@
 import logging
 
 from fastapi_filter.contrib.sqlalchemy import Filter
-from pydantic import validator
+from pydantic import field_validator
 
 from app import models
 
@@ -10,7 +10,8 @@ class TopicBookFilter(Filter):
     id__isnull: bool | None
     topics__like: str | list[str] | None
 
-    @validator("topics__like")
+    @field_validator("topics__like")
+    @classmethod
     def topics__like_(cls, value):
         if value is None:
             return None

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, const, utils
 from app import schemas, enums
-from .get_bookmarks import Bookmark
+from .__get_bookmarks import PdfBookmark
 from ....const import BookRegex, BookRegexGroupName
 
 
@@ -44,7 +44,6 @@ class HolidayBookDataCreateFactory(__BookDataCreateFactoryBase):
         book_type = enums.BookType(groups[BookRegexGroupName.type]) if groups[BookRegexGroupName.type] else None
         saint_slug = groups[BookRegexGroupName.saint_slug] \
             if groups[BookRegexGroupName.saint_slug] else None
-
         holiday_book_data_in = schemas.HolidayBookDataCreate(
             book_data_in=schemas.BookDataCreate(
                 book_in=schemas.BookCreate(
@@ -69,18 +68,18 @@ class MolitvaBookDataCreateFactory(__BookDataCreateFactoryBase):
     @property
     def book_data_in(self) -> schemas.MolitvaBookDataCreate:
         groups: dict[str, str] = BookRegex.MOLITVA.match(self._bookmark_title).groupdict()
-        molitva_book_type = enums.MolitvaBookType(groups[BookRegexGroupName.molitva_book_type])
+        book_type = enums.BookType(groups[BookRegexGroupName.type])
         glas_num = int(groups[BookRegexGroupName.glas_num]) if groups[BookRegexGroupName.glas_num] else None
         holiday_slug = groups[BookRegexGroupName.slug]
-
         molitva_book_data_in = schemas.MolitvaBookDataCreate(
             book_data_in=schemas.BookDataCreate(
-                book_in=schemas.BookCreate()
+                book_in=schemas.BookCreate(
+                    type=book_type
+                )
             ),
             holiday_slug=holiday_slug,
             molitva_book_in=schemas.MolitvaBookCreate(
-                glas_num=glas_num,
-                type=molitva_book_type
+                glas_num=glas_num
             )
         )
         return molitva_book_data_in
@@ -102,9 +101,9 @@ class MovableDateBookDataCreateFactory(__BookDataCreateFactoryBase):
                 is_strastnaja_sedmitsa = True
                 break
         if not is_strastnaja_sedmitsa:
-            if 'по Пасце' in self._bookmark_title:
+            if enums.CycleDesc.cycle_1 in self._bookmark_title:
                 cycle_num = enums.CycleNum.cycle_1
-            elif 'Святого Поста' in self._bookmark_title:
+            elif enums.CycleDesc.cycle_3 in self._bookmark_title:
                 cycle_num = enums.CycleNum.cycle_3
             else:
                 cycle_num = enums.CycleNum.cycle_2
@@ -174,6 +173,44 @@ class TopicBookDataCreateFactory(__BookDataCreateFactoryBase):
         return topic_book_data_in
 
 
+class LlsBookDataCreateFactory(__BookDataCreateFactoryBase):
+
+    def __init__(self, bookmark_title: str):
+        super().__init__(bookmark_title)
+
+    @property
+    def book_data_in(self) -> schemas.LlsBookDataCreate:
+        year_title = int(self._bookmark_title.split()[3][1:-2])
+        year_in = schemas.YearCreate(title=str(year_title))
+        lls_book_data_in = schemas.LlsBookDataCreate(
+            book_data_in=schemas.BookDataCreate(
+                book_in=schemas.BookCreate(
+                    bookmark_title=self._bookmark_title
+                ),
+            ),
+            lls_book_in=schemas.LlsBookCreate(),
+            year_in=year_in
+        )
+        return lls_book_data_in
+
+
+class SomeBookDataCreateFactory(__BookDataCreateFactoryBase):
+
+    def __init__(self, bookmark_title: str):
+        super().__init__(bookmark_title)
+
+    @property
+    def book_data_in(self) -> schemas.SomeBookDataCreate:
+        some_book_data_in = schemas.SomeBookDataCreate(
+            book_data_in=schemas.BookDataCreate(
+                book_in=schemas.BookCreate(
+                    bookmark_title=self._bookmark_title
+                ),
+            )
+        )
+        return some_book_data_in
+
+
 class ZachaloBookDataGetFactory(__BookDataGetFactoryBase):
 
     def __init__(self, bookmark_title: str, *, head_bookmark_title: str, book_title: enums.BookTitle):
@@ -193,7 +230,44 @@ class ZachaloBookDataGetFactory(__BookDataGetFactoryBase):
         return zachalo_book_data_get
 
 
-def __check_holiday_day(db: Session, slug: str, *, month: Bookmark, day: Bookmark) -> None:
+class PsaltyrBookDataGetFactory(__BookDataGetFactoryBase):
+
+    def __init__(self, bookmark_title: str, *, head_bookmark_title: str, book_title: enums.BookTitle):
+        super().__init__(bookmark_title, head_bookmark_title=head_bookmark_title, book_title=book_title)
+
+    @property
+    def book_data_get(self) -> schemas.PsaltyrBookDataGet:
+        psalom_num = int(self._bookmark_title.split()[2][1:-1])
+        bible_book_abbr = enums.BibleBookAbbr[self._head_bookmark_title]
+        psaltyr_book_data_get = schemas.PsaltyrBookDataGet(
+            psaltyr_book_in=schemas.PsaltyrBookCreate(
+                num=psalom_num
+            ),
+            bible_book_abbr=bible_book_abbr,
+            book_title=self._book_title
+        )
+        return psaltyr_book_data_get
+
+
+class CathedralBookDataGetFactory(__BookDataGetFactoryBase):
+
+    def __init__(self, bookmark_title: str, *, head_bookmark_title: enums.СathedralSlug, book_title: enums.BookTitle):
+        super().__init__(bookmark_title, head_bookmark_title=head_bookmark_title, book_title=book_title)
+
+    @property
+    def book_data_get(self) -> schemas.CathedralBookDataGet:
+        rule_num = int(self._bookmark_title.split()[2][1:-1])
+        cathedral_slug: enums.СathedralSlug = enums.СathedralSlug[self._head_bookmark_title]
+        psaltyr_book_data_get = schemas.CathedralBookDataGet(
+            cathedral_book_in=schemas.CathedralBookCreate(
+                rule_num=rule_num
+            ),
+            cathedral_slug=cathedral_slug
+        )
+        return psaltyr_book_data_get
+
+
+def __check_holiday_day(db: Session, slug: str, *, month: PdfBookmark, day: PdfBookmark) -> None:
     holiday = crud.holiday.get_by_slug(db, slug=slug)
     if holiday.day.month != int(month.title) or holiday.day.day != int(day.title):
         logging.error(f"ERROR, {slug} is not in day {month}-{day}")

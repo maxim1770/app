@@ -33,7 +33,7 @@ def create_divine_services(db: Session) -> bool:
     for divine_service in divine_services:
         if crud.get_divine_service(db, title=divine_service.title):
             raise FatalCreateError(
-                f'DivineService: title={divine_service.title} уже была создана')
+                f'DivineService: title={divine_service.title} already created')
 
         crud.create_divine_service(db, divine_service=divine_service)
         num_creatures += 1

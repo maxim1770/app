@@ -1,18 +1,18 @@
-from pydantic import BaseModel
-
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class HolidayCategoryBase(BaseModel):
+class __HolidayCategoryBase(SchemaBase):
+    title: enums.HolidayCategoryTitle | None = None
+
+
+class HolidayCategoryCreate(__HolidayCategoryBase):
     title: enums.HolidayCategoryTitle
 
 
-class HolidayCategoryCreate(HolidayCategoryBase):
+class HolidayCategoryUpdate(__HolidayCategoryBase):
     pass
 
 
-class HolidayCategory(HolidayCategoryBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class HolidayCategory(__HolidayCategoryBase, SchemaInDBBase):
+    pass

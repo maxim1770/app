@@ -12,11 +12,11 @@ def create_all_faces_sanctity(db: Session) -> bool:
     num_creatures: int = 0
 
     for face_sanctity_title in enums.FaceSanctityTitle:
-        if crud.get_face_sanctity(db, title=face_sanctity_title):
-            raise FatalCreateError(f'FaceSanctity: title={face_sanctity_title} уже была создана')
+        if crud.face_sanctity.get_by_title(db, title=face_sanctity_title):
+            raise FatalCreateError(f'FaceSanctity: title={face_sanctity_title} already created')
 
-        crud.create_face_sanctity(db,
-                                  face_sanctity_in=schemas.FaceSanctityCreate(
+        crud.face_sanctity.create(db,
+                                  obj_in=schemas.FaceSanctityCreate(
                                       title=face_sanctity_title
                                   )
                                   )

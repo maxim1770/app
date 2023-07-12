@@ -4,7 +4,7 @@
     color="blue"
     prepend-icon="mdi-timer-sand"
   >
-    {{ year.title }}
+    {{ year?.title }}
   </v-chip>
 </template>
 

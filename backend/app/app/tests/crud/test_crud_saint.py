@@ -30,7 +30,7 @@ def test_crud_get_saints(db: Session) -> None:
     saint = crud.saint.create(db, obj_in=saint_in)
     saint_in_2 = test_utils.create_random_saint_in()
     saint_2 = crud.saint.create(db, obj_in=saint_in_2)
-    saints = crud.saint.get_multi(db)
+    saints = crud.saint.get_all(db)
     assert saints
     assert len(saints) == 2
 

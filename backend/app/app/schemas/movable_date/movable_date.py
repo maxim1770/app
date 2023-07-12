@@ -2,37 +2,37 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel
-
 from .divine_service import DivineService
-from ..bible_book import Zachalo
+from ..base import SchemaBase, SchemaInDBBase
+from ..bible_book import ZachaloInDBToBook, ZachaloInDB
 
 if TYPE_CHECKING:
     from .movable_day import MovableDayInDB
 
 
-class MovableDateBase(BaseModel):
+class __MovableDateBase(SchemaBase):
     pass
 
 
-class MovableDateCreate(MovableDateBase):
+class MovableDateCreate(__MovableDateBase):
     pass
 
 
-class MovableDateInDBBase(MovableDateBase):
-    id: int
-
+class __MovableDateInDBBase(__MovableDateBase, SchemaInDBBase):
     divine_service: DivineService | None
 
-    zachalos: list[Zachalo] = []
 
-    class Config:
-        orm_mode = True
+class __MovableDateInDBWithZachalos(__MovableDateInDBBase):
+    zachalos: list[ZachaloInDB] = []
 
 
-class MovableDate(MovableDateInDBBase):
+class MovableDate(__MovableDateInDBWithZachalos):
     movable_day: MovableDayInDB
 
 
-class MovableDateInDB(MovableDateInDBBase):
+class MovableDateInDB(__MovableDateInDBWithZachalos):
     pass
+
+
+class MovableDateInDBForMovableDay(__MovableDateInDBBase):
+    zachalos: list[ZachaloInDBToBook] = []

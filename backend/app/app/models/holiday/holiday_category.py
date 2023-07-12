@@ -14,6 +14,6 @@ if TYPE_CHECKING:
 class HolidayCategory(Base):
     id: Mapped[intpk]
 
-    title: Mapped[enums.HolidayCategoryTitle] = mapped_column(unique=True)
+    title: Mapped[enums.HolidayCategoryTitle] = mapped_column(unique=True, index=True)
 
     holidays: Mapped[list[Holiday]] = relationship(back_populates='holiday_category')

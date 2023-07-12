@@ -50,6 +50,7 @@ class CollectManuscriptImgsUrls(object):
             'https:' + urllib.parse.quote(img_link.find('a', class_='page-img-link')['data-src'].replace('\\', '/'))
             for img_link in imgs_links
         ]
+        # imgs_urls: list[str] = [img_url.replace('/JPG', '/JPG_PREVIEW') for img_url in imgs_urls]
         return imgs_urls
 
     @classmethod

@@ -10,14 +10,14 @@ from app.tests import test_utils
 
 def test_create_saint_holiday(client: TestClient, db: Session) -> None:
     saint_holiday_in = test_utils.create_random_saint_holiday_in()
-    day = crud.create_day(db, day_in=saint_holiday_in.day_in)
-    holiday_category = crud.create_holiday_category(
+    day = crud.day.create(db, obj_in=saint_holiday_in.day_in)
+    holiday_category = crud.holiday_category.create(
         db,
-        holiday_category_in=schemas.HolidayCategoryCreate(title=saint_holiday_in.holiday_category_title)
+        obj_in=schemas.HolidayCategoryCreate(title=saint_holiday_in.holiday_category_title)
     )
     r = client.post(
         '/holidays/saint',
-        json=saint_holiday_in.dict()
+        json=saint_holiday_in.model_dump()
     )
     assert 200 <= r.status_code < 300
     created_holiday = r.json()
@@ -35,7 +35,7 @@ def test_create_saint_holiday_already_exists_bad(client: TestClient, db: Session
     saint_holiday_in.holiday_in.slug = holiday.slug
     r = client.post(
         '/holidays/saint',
-        json=saint_holiday_in.dict()
+        json=saint_holiday_in.model_dump()
     )
     assert r.status_code == status.HTTP_400_BAD_REQUEST
 

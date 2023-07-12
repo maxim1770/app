@@ -1,18 +1,18 @@
-from pydantic import BaseModel
-
 from app import enums
+from .base import SchemaBase, SchemaInDBBase
 
 
-class CityBase(BaseModel):
+class __CityBase(SchemaBase):
+    title: enums.CityTitle | None = None
+
+
+class CityCreate(__CityBase):
     title: enums.CityTitle
 
 
-class CityCreate(CityBase):
+class CityUpdate(__CityBase):
     pass
 
 
-class City(CityBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class City(__CityBase, SchemaInDBBase):
+    pass

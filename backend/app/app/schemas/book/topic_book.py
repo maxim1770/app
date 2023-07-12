@@ -1,28 +1,24 @@
-from pydantic import BaseModel
-
 from app import enums
 from .book import BookInDB
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class TopicBookBase(BaseModel):
+class __TopicBookBase(SchemaBase):
     source: enums.BookSource | None = None
     topics: list[enums.BookTopic] = []
 
 
-class TopicBookCreate(TopicBookBase):
+class TopicBookCreate(__TopicBookBase):
     pass
 
 
-class TopicBookInDBBase(TopicBookBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class __TopicBookInDBBase(__TopicBookBase, SchemaInDBBase):
+    pass
 
 
-class TopicBook(TopicBookInDBBase):
+class TopicBook(__TopicBookInDBBase):
     book: BookInDB
 
 
-class TopicBookInDB(TopicBookInDBBase):
+class TopicBookInDB(__TopicBookInDBBase):
     pass

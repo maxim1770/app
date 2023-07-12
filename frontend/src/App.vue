@@ -25,7 +25,7 @@
           <v-menu activator="parent" location="start" open-on-hover transition="scale-transition">
             <v-list density="compact" nav>
               <v-list-item
-                v-for="item in const_data.book_topics"
+                v-for="item in main_data.book_topics"
                 :key="item"
                 :value="item"
                 :title="item"
@@ -49,9 +49,15 @@
       </v-app-bar-title>
       <template v-slot:append>
         <v-btn
-          @click="$router.push({ name: 'date', params: { date: todayWithCorrectYear.toISOString().split('T')[0] } })"
+          @click="$router.push({ name: 'date', params: { date: main_data.date.day.month_day } })"
+          class="d-flex"
         >
-          {{ todayWithCorrectYear.toISOString().split("T")[0] }}
+          <div>
+            <strong>{{ main_data.date?.day.title }}</strong>
+            <div class="text-caption">
+              {{ main_data.date?.movable_day.full_title }}
+            </div>
+          </div>
         </v-btn>
         <v-combobox
           label="Поиск..."
@@ -80,10 +86,27 @@
       >
         <router-view class="mx-md-16"></router-view>
       </v-container>
-      <div class="h-75"></div>
-      <v-footer class="bg-grey-lighten-1 text-center d-flex flex-column">
-        <p>{{ new Date().getFullYear() + 8 }} — Православие в Рукописях</p>
-      </v-footer>
+<!--      <div class="h-25"></div>-->
+<!--      <v-footer class="bg-grey-lighten-1 text-center d-flex flex-column">-->
+<!--        <v-row justify="center" no-gutters>-->
+<!--          <v-btn-->
+<!--            v-for="mainPage in mainPages"-->
+<!--            :key="mainPage"-->
+<!--            @click="$router.push({ name: mainPage.value})"-->
+<!--            color="white"-->
+<!--            variant="text"-->
+<!--            class="mx-2"-->
+<!--            rounded="xl"-->
+<!--            :prepend-icon="mainPage.prependIcon"-->
+<!--          >-->
+<!--            {{ mainPage.title }}-->
+<!--          </v-btn>-->
+<!--          <v-col class="text-center mt-4" cols="12">-->
+<!--            {{ new Date().getFullYear() + 8 }} — <strong>Православие в Рукописях</strong>-->
+<!--          </v-col>-->
+<!--          <p></p>-->
+<!--        </v-row>-->
+<!--      </v-footer>-->
     </v-main>
   </v-app>
 </template>
@@ -95,11 +118,19 @@ import { useTheme } from "vuetify";
 export default {
   data() {
     return {
-      const_data: {
+      main_data: {
         type: Object,
         required: true
       },
-      drawer: null
+      drawer: null,
+      links: [
+        "Home",
+        "About Us",
+        "Team",
+        "Services",
+        "Blog",
+        "Contact Us"
+      ]
     };
   },
   computed: {
@@ -127,12 +158,17 @@ export default {
       {
         title: "Календарь",
         value: "dates",
-        prependIcon: "mdi-calendar-blank-outline"
+        prependIcon: "mdi-calendar-range-outline"
       },
       {
         title: "Рукописи",
         value: "manuscripts",
         prependIcon: "mdi-bookshelf"
+      },
+      {
+        title: "Чтения",
+        value: "movableDates",
+        prependIcon: "mdi-book-open"
       },
       {
         title: "Книги",
@@ -152,7 +188,7 @@ export default {
   mounted() {
     api
       .getMainConstData()
-      .then((response) => (this.const_data = response.data));
+      .then((response) => (this.main_data = response.data));
   }
 };
 </script>

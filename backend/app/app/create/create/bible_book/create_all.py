@@ -9,22 +9,29 @@ from .zachalos_movable_dates import CreateZachaloMovableDateAssociationFactory
 from ..movable_date.delete_any_cycle_2 import delete_any_movable_dates_in_cycle_2
 
 
-def create_all_zachalos_movable_dates_associations(db: Session):
+def create_all_zachalos_movable_dates_associations(db: Session) -> None:
     create_bible_books(db)
     logging.info('Created Bible Books')
     _create_c1_zachalos_movable_dates_associations(db)
     _create_c2_zachalos_movable_dates_associations(db)
     _create_c1_and_c2_zachalos_movable_dates_associations_matins_on_sun(db)
     _create_c3_zachalos_movable_dates_associations(db)
+    _create_all_zachalos_movable_dates_associations_tolkovoe(db)
 
 
-def _create_c1_zachalos_movable_dates_associations(db: Session):
+def _create_all_zachalos_movable_dates_associations_tolkovoe(db: Session) -> None:
+    for zachalo in db.execute(sa.select(models.Zachalo)).scalars():
+        crud.create_zachalo_tolkovoe(db, zachalo=zachalo)
+    logging.info('Created all zachalos movable dates associations tolkovoe')
+
+
+def _create_c1_zachalos_movable_dates_associations(db: Session) -> None:
     create_zachalo_movable_date_association = CreateZachaloMovableDateAssociationFactory.get_c1(db)
     zachalos_id: list[int] = create_zachalo_movable_date_association.create()
     logging.info('Created c1 zachalos movable dates associations')
 
 
-def _create_c2_zachalos_movable_dates_associations(db: Session):
+def _create_c2_zachalos_movable_dates_associations(db: Session) -> None:
     create_zachalo_movable_date_association = CreateZachaloMovableDateAssociationFactory.get_c2(db)
     zachalos_id: list[int] = create_zachalo_movable_date_association.create()
     logging.info('Created c2 zachalos movable dates associations')
@@ -32,7 +39,7 @@ def _create_c2_zachalos_movable_dates_associations(db: Session):
         models.BibleBook.abbr == enums.BibleBookAbbr.Apok)).scalars().all()
     for zachalo in zachalos:
         zachalos_movable_dates = db.execute(
-            sa.select(models.ZachalosMovableDates).filter_by(zachalo_id=zachalo.id)
+            sa.select(models.ZachaloMovableDateAssociation).filter_by(zachalo_id=zachalo.id)
         ).scalar_one_or_none()
         db.delete(zachalos_movable_dates)
         db.delete(zachalo)
@@ -43,7 +50,7 @@ def _create_c2_zachalos_movable_dates_associations(db: Session):
     )
 
 
-def _create_c1_and_c2_zachalos_movable_dates_associations_matins_on_sun(db: Session):
+def _create_c1_and_c2_zachalos_movable_dates_associations_matins_on_sun(db: Session) -> None:
     zachalos_evangels_id: list[int] = []
     for i, zachalo_data in enumerate([
         (enums.BibleBookAbbr.Mt, 116),
@@ -62,7 +69,7 @@ def _create_c1_and_c2_zachalos_movable_dates_associations_matins_on_sun(db: Sess
             crud.create_zachalo(
                 db,
                 bible_book_abbr=zachalo_data[0],
-                zachalo=schemas.ZachaloCreate(
+                zachalo_in=schemas.ZachaloCreate(
                     num=zachalo_data[1],
                     title=f'Евангелие Воскресное {i + 1}'
                 ),
@@ -111,37 +118,37 @@ def _create_c1_and_c2_zachalos_movable_dates_associations_matins_on_sun(db: Sess
     )
 
 
-def _create_c3_zachalos_movable_dates_associations(db: Session):
+def _create_c3_zachalos_movable_dates_associations(db: Session) -> None:
     __create_c3_zachalos_movable_dates_associations_liturgies_on_sat_and_sun(db)
     __create_c3_zachalos_movable_dates_associations_matins_on_sun_6(db)
     __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db)
     logging.info('Created c3 zachalos movable dates associations')
 
 
-def __create_c3_zachalos_movable_dates_associations_liturgies_on_sat_and_sun(db: Session):
+def __create_c3_zachalos_movable_dates_associations_liturgies_on_sat_and_sun(db: Session) -> None:
     zachalos_evangels_id: list[int] = []
     for zachalo_num in [10, -5, 6, 7, 8, 37, 31, 40, 35, 47, -39, -41]:
         if zachalo_num < 0:
             zachalos_evangels_id.append(
                 crud.create_zachalo(db, bible_book_abbr=enums.BibleBookAbbr.Jn,
-                                    zachalo=schemas.ZachaloCreate(num=abs(zachalo_num))).id
+                                    zachalo_in=schemas.ZachaloCreate(num=abs(zachalo_num))).id
             )
         else:
             zachalos_evangels_id.append(
                 crud.create_zachalo(db, bible_book_abbr=enums.BibleBookAbbr.Mt,
-                                    zachalo=schemas.ZachaloCreate(num=zachalo_num)).id
+                                    zachalo_in=schemas.ZachaloCreate(num=zachalo_num)).id
             )
     zachalos_apostles_id: list[int] = []
     for zachalo_num in [303, 329, 309, 304, 325, 311, 313, 314, 322, 321, 333, -247]:
         if zachalo_num < 0:
             zachalos_apostles_id.append(
                 crud.create_zachalo(db, bible_book_abbr=enums.BibleBookAbbr.Phil,
-                                    zachalo=schemas.ZachaloCreate(num=abs(zachalo_num))).id
+                                    zachalo_in=schemas.ZachaloCreate(num=abs(zachalo_num))).id
             )
         else:
             zachalos_apostles_id.append(
                 crud.create_zachalo(db, bible_book_abbr=enums.BibleBookAbbr.Hebr,
-                                    zachalo=schemas.ZachaloCreate(num=zachalo_num)).id
+                                    zachalo_in=schemas.ZachaloCreate(num=zachalo_num)).id
             )
     movable_dates = db.execute(
         sa.select(models.MovableDate).join(models.DivineService).join(models.MovableDay).join(models.Week).join(
@@ -171,10 +178,10 @@ def __create_c3_zachalos_movable_dates_associations_liturgies_on_sat_and_sun(db:
         )
 
 
-def __create_c3_zachalos_movable_dates_associations_matins_on_sun_6(db: Session):
+def __create_c3_zachalos_movable_dates_associations_matins_on_sun_6(db: Session) -> None:
     zachalo_sun_6_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr.Mt,
-        zachalo=schemas.ZachaloCreate(num=83)).id
+        zachalo_in=schemas.ZachaloCreate(num=83)).id
     movable_date_sun_6_id: int = db.execute(
         sa.select(models.MovableDate).join(models.DivineService).join(models.MovableDay).join(models.Week).join(
             models.Cycle
@@ -192,16 +199,16 @@ def __create_c3_zachalos_movable_dates_associations_matins_on_sun_6(db: Session)
     )
 
 
-def __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db: Session):
+def __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db: Session) -> None:
     zachalos_evangels_id: list[int] = []
     for zachalo_num in [98, 102, 108, 107, 115]:
         zachalos_evangels_id.append(
             crud.create_zachalo(db, bible_book_abbr=enums.BibleBookAbbr.Mt,
-                                zachalo=schemas.ZachaloCreate(num=zachalo_num)).id
+                                zachalo_in=schemas.ZachaloCreate(num=zachalo_num)).id
         )
     zachalo_apostle_sat_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr.Rom,
-        zachalo=schemas.ZachaloCreate(num=91)).id
+        zachalo_in=schemas.ZachaloCreate(num=91)).id
     movable_dates = db.execute(
         sa.select(models.MovableDate).join(models.DivineService).join(models.MovableDay).join(models.Week).join(
             models.Cycle
@@ -225,7 +232,7 @@ def __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db: Sess
 
     zachalo_apostle_vespers_thu_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr._1Cor,
-        zachalo=schemas.ZachaloCreate(num=149)).id
+        zachalo_in=schemas.ZachaloCreate(num=149)).id
     movable_date_vespers_thu_id: int = db.execute(
         sa.select(models.MovableDate).join(models.DivineService).join(models.MovableDay).join(models.Week).join(
             models.Cycle
@@ -243,10 +250,10 @@ def __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db: Sess
 
     zachalo_evangel_1_umyveniye_thu_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr.Jn,
-        zachalo=schemas.ZachaloCreate(num=44)).id
+        zachalo_in=schemas.ZachaloCreate(num=44)).id
     zachalo_evangel_2_umyveniye_thu_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr.Jn,
-        zachalo=schemas.ZachaloCreate(num=45)).id
+        zachalo_in=schemas.ZachaloCreate(num=45)).id
     movable_date_umyveniye_thu_id: int = db.execute(
         sa.select(models.MovableDate).join(models.MovableDay).join(models.Week).join(
             models.Cycle
@@ -269,10 +276,10 @@ def __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db: Sess
 
     zachalo_evangel_matins_sat_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr.Mt,
-        zachalo=schemas.ZachaloCreate(num=114)).id
+        zachalo_in=schemas.ZachaloCreate(num=114)).id
     zachalo_apostle_matins_sat_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr._1Cor,
-        zachalo=schemas.ZachaloCreate(num=133)).id
+        zachalo_in=schemas.ZachaloCreate(num=133)).id
     movable_date_matins_sat_id: int = db.execute(
         sa.select(models.MovableDate).join(models.DivineService).join(models.MovableDay).join(models.Week).join(
             models.Cycle
@@ -296,7 +303,7 @@ def __create_zachalos_movable_dates_associations_on_strastnaja_sedmitsa(db: Sess
     ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db)
 
 
-def ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db: Session):
+def ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db: Session) -> None:
     zachalos_evangels_id: list[int] = []
     for bible_book_abbr, zachalo_num in [
         (enums.BibleBookAbbr.Jn, 46),
@@ -314,7 +321,7 @@ def ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db:
     ]:
         zachalos_evangels_id.append(
             crud.create_zachalo(db, bible_book_abbr=bible_book_abbr,
-                                zachalo=schemas.ZachaloCreate(num=zachalo_num)).id
+                                zachalo_in=schemas.ZachaloCreate(num=zachalo_num)).id
         )
     movable_date_common_fri_id: int = db.execute(
         sa.select(models.MovableDate).join(models.MovableDay).join(models.Week).join(
@@ -341,7 +348,7 @@ def ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db:
     ]:
         zachalos_evangels_na_chasakh_id.append(
             crud.create_zachalo(db, bible_book_abbr=bible_book_abbr,
-                                zachalo=schemas.ZachaloCreate(num=zachalo_num)).id
+                                zachalo_in=schemas.ZachaloCreate(num=zachalo_num)).id
         )
     zachalos_apostles_na_chasakh_id: list[int] = []
     for bible_book_abbr, zachalo_num in [
@@ -352,7 +359,7 @@ def ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db:
     ]:
         zachalos_apostles_na_chasakh_id.append(
             crud.create_zachalo(db, bible_book_abbr=bible_book_abbr,
-                                zachalo=schemas.ZachaloCreate(num=zachalo_num)).id
+                                zachalo_in=schemas.ZachaloCreate(num=zachalo_num)).id
         )
     for zachalo_evangel_na_chas_id, zachalo_apostle_na_chas_id in zip(
             zachalos_evangels_na_chasakh_id, zachalos_apostles_na_chasakh_id
@@ -370,10 +377,10 @@ def ___create_zachalos_movable_dates_associations_on_fri_strastnaja_sedmitsa(db:
 
     zachalo_evangel_vespers_fri_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr.Mt,
-        zachalo=schemas.ZachaloCreate(num=110)).id
+        zachalo_in=schemas.ZachaloCreate(num=110)).id
     zachalo_apostle_vespers_fri_id: int = crud.create_zachalo(
         db, bible_book_abbr=enums.BibleBookAbbr._1Cor,
-        zachalo=schemas.ZachaloCreate(num=125)).id
+        zachalo_in=schemas.ZachaloCreate(num=125)).id
     movable_date_vespers_fri_id: int = db.execute(
         sa.select(models.MovableDate).join(models.DivineService).join(models.MovableDay).join(models.Week).join(
             models.Cycle

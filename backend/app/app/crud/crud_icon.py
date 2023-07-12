@@ -1,12 +1,16 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.filters import IconFilter
+from app import models
+# from app.filters import IconFilter
 from app.models import Icon
 from app.schemas import IconCreate, IconUpdate
 from .base import CRUDBase
 
+class IconFilter(BaseModel):
+    pass
 
 class CRUDIcon(CRUDBase[Icon, IconCreate, IconUpdate, IconFilter]):
 
@@ -24,17 +28,28 @@ class CRUDIcon(CRUDBase[Icon, IconCreate, IconUpdate, IconFilter]):
             db: Session,
             *,
             obj_in: IconCreate,
-            holiday_id: int,
             year_id: int,
-            city_id: int = None
+            city_id: int | None = None
     ) -> Icon:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(
             **obj_in_data,
-            holiday_id=holiday_id,
             year_id=year_id,
             city_id=city_id
         )
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
+    @staticmethod
+    def create_holiday_association(
+            db: Session,
+            *,
+            db_obj: Icon,
+            holiday: models.Holiday,
+    ) -> Icon:
+        db_obj.holiday_associations.append(models.IconHolidayAssociation(holiday=holiday))
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

@@ -19,52 +19,112 @@
     </div>
     <v-divider></v-divider>
     <v-list lines="one">
-      <v-list-item class="d-flex justify-center align-content-center">
-        <v-chip-group>
-          <CurrentBookFactory :book="book" />
-        </v-chip-group>
+      <v-list-item class="text-center">
+        <BookFullTitleFactory :book="book.book" />
       </v-list-item>
       <v-divider></v-divider>
-      <ListItemManuscript :manuscript="book.manuscripts?.[0].manuscript" />
+      <ListItemManuscript :manuscript="bookmarkWithBestManuscriptHandwriting?.manuscript" />
     </v-list>
     <v-divider></v-divider>
-
     <!--    {{ api.getAsset("img//manuscripts//rsl//f_218//f-218-1132//177.webp") }}-->
-    <!--    <BlobImage src="http://localhost:80/assets/img//manuscripts//rsl//f_218//f-218-1132//177.webp"></BlobImage>-->
+    <!--    <BlobImage src="http://localhost:80/api/assets/img//manuscripts//rsl//f_218//f-218-1132//177.webp"></BlobImage>-->
+
+    <!--    <lightgalleryBase :imgs="bookmarkWithBestManuscriptHandwriting?.imgs_paths" />-->
 
 
-    <lightgallery
-      :settings="{ speed: 500, plugins: plugins }"
-      :onInit="onInit"
-      :onBeforeSlide="onBeforeSlide"
+    <!--    <lightgalleryPro :imgs="bookmarkWithBestManuscriptHandwriting?.imgs_paths" />-->
+
+    <!--    <VueGalleryBase :imgs="bookmarkWithBestManuscriptHandwriting?.imgs_paths" />-->
+
+    <!--    <VViewerBase :imgs="bookmarkWithBestManuscriptHandwriting?.imgs_paths" />-->
+
+
+    <div>
+      <table>
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(image, index) in allImages" :key="index">
+          <td>{{ index }}</td>
+          <td>
+            <button type="button" @click="show(index)">Click to show</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <img-viewer ref="viewer" />
+    </div>
+
+
+    <div
+      v-if="book.book_tolkovoe"
+      class="mt-2"
     >
-      <a
-        v-for="img in book.manuscripts?.[0].imgs"
-        :data-src="imgUrl(img)"
-      >
-        <img
-          className="img-responsive"
-          :src="imgUrl(img)"
-        />
-      </a>
-    </lightgallery>
+      <h3>Толкование:</h3>
+      <v-list lines="one">
+        <v-list-item
+          :to="{ name: 'book', params: { bookId: book.book_tolkovoe.id } }"
+          rounded="xl"
+          class="text-center"
+        >
+          <BookFullTitleFactory :book="book.book_tolkovoe" />
+        </v-list-item>
+        <v-divider></v-divider>
+        <ListItemManuscript :manuscript="book.book_tolkovoe.bookmarks?.[0].manuscript" />
+      </v-list>
+      <v-divider></v-divider>
+    </div>
+    <div
+      v-if="otherBookmarks.length"
+      class="mt-2"
+    >
+      <h3>Читать в других Рукописях:</h3>
+      <v-list>
+        <v-list-item
+          v-for="bookmark in otherBookmarks"
+          :key="bookmark.manuscript.id"
+          :to="{ name: 'manuscript', params: { manuscriptCode: bookmark.manuscript.code } }"
+          rounded="xl"
+        >
+          <ChipBookmarkFirstPageNum :first_page="bookmark.first_page" class="mr-1" />
+          <ManuscriptFullTitle :manuscript="bookmark.manuscript" />
+        </v-list-item>
+      </v-list>
+    </div>
   </div>
 
 </template>
 
 <script>
-import { api } from "@/services/api";
-import Lightgallery from "lightgallery/vue";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
 import BlobImage from "@/components/BlobImage.vue";
 import { imgUrl } from "@/utils/common";
-import CurrentBookFactory from "@/components/book/CurrentBookFactory.vue";
+import BookFullTitleFactory from "@/components/book/book_full_title/BookFullTitleFactory.vue";
 import ListItemManuscript from "@/components/manuscript/ListItemManuscript.vue";
+import lightgalleryBase from "@/components/lightgallery/lightgalleryBase.vue";
+import ManuscriptFullTitle from "@/components/manuscript/ManuscriptFullTitle.vue";
+import ChipBookmarkFirstPageNum from "@/components/manuscript/ChipBookmarkFirstPageNum.vue";
+import lightgalleryPro from "@/components/lightgallery/lightgalleryPro.vue";
+import VueGalleryBase from "@/components/lightgallery/VueGalleryBase.vue";
+import VViewerBase from "@/components/lightgallery/VViewerBase.vue";
+import VViewerOther from "@/components/lightgallery/VViewerOther.vue";
 
-let lightGallery = null;
 export default {
-  components: { ListItemManuscript, CurrentBookFactory, Lightgallery, BlobImage },
+  components: {
+    VViewerOther,
+    VViewerBase,
+    VueGalleryBase,
+    ManuscriptFullTitle,
+    lightgalleryBase,
+    lightgalleryPro,
+    ListItemManuscript,
+    BookFullTitleFactory,
+    BlobImage,
+    ChipBookmarkFirstPageNum
+  },
 
   props: {
     book: {
@@ -72,38 +132,45 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    plugins: [lgThumbnail, lgZoom]
-  }),
   computed: {
-    api() {
-      return api;
+    imgsWithHost() {
+      const imgsWithHost_ = [];
+      for (let i = 0; i < this.bookmarkWithBestManuscriptHandwriting?.imgs_paths?.length; i++) {
+        imgsWithHost_.push(
+          "http://localhost:81/assets/img//manuscripts//lls//lls-book-rus-1//40.webp"
+        );
+      }
+      return imgsWithHost_;
     },
     preBook() {
-      return this.book.id - 1;
+      return this.book.book.id - 1;
     },
     nextBook() {
-      return this.book.id + 1;
+      return this.book.book.id + 1;
+    },
+    bookmarkWithBestManuscriptHandwriting() {
+      return Object.assign([], this.book.book?.bookmarks).sort((b1, b2) => b1.manuscript?.handwriting > b2.manuscript?.handwriting ? 1 : -1)[0];
+    },
+    otherBookmarks() {
+      return Object.assign([], this.book.book?.bookmarks).sort((b1, b2) => b1.manuscript?.handwriting > b2.manuscript?.handwriting ? 1 : -1).slice(1);
     }
   },
   methods: {
     imgUrl,
-    onInit: (detail) => {
-      lightGallery = detail.instance;
-    },
-    onBeforeSlide: () => {
-      console.log("calling before slide");
+    show(index) {
+      this.$refs.viewer.show(
+        this.imgsWithHost[index],
+        Math.floor(Math.random() * 10)
+      );
     }
   }
 };
 </script>
 
 
-<style lang="css">
-@import 'lightgallery.css';
-@import 'lg-thumbnail.css';
-@import 'lg-zoom.css';
-</style>
+
+
+
 
 
 

@@ -2,35 +2,37 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, conint, constr
+from pydantic import conint, constr
 
 from .cycle import CycleInDB
+from ..base import SchemaBase, SchemaInDBBase
 
 if TYPE_CHECKING:
-    from .movable_day import MovableDayInDBForWeek
+    from .movable_day import MovableDayInDBForWeek, MovableDayInDBForMovableDay
 
 
-class WeekBase(BaseModel):
-    title: constr(strip_whitespace=True, strict=True, max_length=100) | None = None
+class __WeekBase(SchemaBase):
+    title: str | None = None  # constr(strip_whitespace=True, strict=True, max_length=100) | None = None
     num: conint(strict=True, ge=1, le=36) | None = None
     sunday_title: constr(strip_whitespace=True, strict=True, max_length=50) | None = None
     sunday_num: conint(strict=True, ge=1, le=36) | None = None
 
 
-class WeekCreate(WeekBase):
+class WeekCreate(__WeekBase):
     pass
 
 
-class WeekInDBBase(WeekBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
-class Week(WeekInDBBase):
+class __WeekInDBBase(__WeekBase, SchemaInDBBase):
     cycle: CycleInDB
 
 
-class WeekInDB(WeekInDBBase):
+class Week(__WeekInDBBase):
+    pass
+
+
+class WeekInDBToMovableDay(__WeekInDBBase):
+    movable_days: list[MovableDayInDBForMovableDay] = []
+
+
+class WeekInDB(__WeekInDBBase):
     movable_days: list[MovableDayInDBForWeek] = []

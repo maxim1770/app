@@ -1,11 +1,14 @@
+import logging
 from datetime import date
 
 import requests
 from bs4 import BeautifulSoup, Tag
 
+from app import utils, schemas
 from app.const import MONTH_TITLE, BASE_YEAR_FOR_DAY
 from app.create import const
 from app.create.const import NUM_OFFSET_DAYS
+from ..year import PrepareYearTitle
 
 
 def collect_icons_saints(session: requests.Session) -> list[Tag]:
@@ -38,16 +41,45 @@ def collect_icon_data(session: requests.Session, *, pravicon_icon_id: int) -> st
 def collect_pravicon_saint_days(session: requests.Session, *, pravicon_saint_id: int) -> list[date]:
     pravicon_saint_days: list[date] = []
     r = session.get(const.PraviconUrl.GET_SAINT_DESC + str(pravicon_saint_id))
-    for day_str in [day_tag.find('b').text.strip() for day_tag in BeautifulSoup(r.text, 'lxml').find(
-            lambda tag: tag.name == 'b' and 'Дни празднования:' == tag.text
-    ).parent.next_sibling.find_all('li')]:
-        for month_int, month_title in MONTH_TITLE.items():
-            day_str = day_str.replace(month_title, str(month_int))
-        day_, month = map(int, day_str.split(' '))
-        day = date(BASE_YEAR_FOR_DAY, month, day_)
-        day = day - NUM_OFFSET_DAYS
-        pravicon_saint_days.append(day)
+    try:
+        for day_str in [day_tag.find('b').text.strip() for day_tag in BeautifulSoup(r.text, 'lxml').find(
+                lambda tag: tag.name == 'b' and 'Дни празднования:' == tag.text
+        ).parent.next_sibling.find_all('li')]:
+            for month_int, month_title in MONTH_TITLE.items():
+                day_str = day_str.replace(month_title, str(month_int))
+            day_, month = map(int, day_str.split(' '))
+            day = date(BASE_YEAR_FOR_DAY, month, day_)
+            day = day - NUM_OFFSET_DAYS
+            pravicon_saint_days.append(day)
+    except AttributeError:
+        pass
     return pravicon_saint_days
+
+
+def collect_pravicon_saint_year_in(
+        session: requests.Session,
+        *,
+        pravicon_saint_id: int
+) -> schemas.YearCreate | None:
+    r = session.get(const.PraviconUrl.GET_SAINT_DESC + str(pravicon_saint_id))
+    try:
+        saint_desc: str = BeautifulSoup(r.text, 'lxml').find(
+            lambda tag: tag.name == 'b' and 'Ключевые слова:' == tag.text
+        ).parent.text.replace('Ключевые слова:', '')
+    except AttributeError:
+        return None
+    saint_desc: str = utils.common_prepare_text(saint_desc)
+    for part_saint_desc in map(utils.clean_extra_spaces, saint_desc.split(',')):
+        try:
+            if 'X-XVII' in part_saint_desc:
+                return saint_desc
+            prepared_year_title: str = PrepareYearTitle(part_saint_desc).year_title
+            year_in = schemas.YearCreate(title=prepared_year_title)
+        except (ValueError, IndexError):
+            continue
+        else:
+            return year_in
+    return None
 
 
 def __prepare_pravicon_saint_icons_url(pravicon_saint_id: int) -> str:

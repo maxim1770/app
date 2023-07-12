@@ -4,11 +4,10 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from .bookmark import prepare_db_bookmark
-from app.create import prepare
 
 def create_manuscript(db: Session, *, manuscript_data_in: schemas.ManuscriptDataCreate) -> models.Manuscript:
-    fund = crud.get_fund(db, title=manuscript_data_in.fund_title)
-    year = crud.get_or_create_year(db, year_in=manuscript_data_in.year_in)
+    fund = crud.fund.get_by_title(db, title=manuscript_data_in.fund_title)
+    year = crud.year.get_or_create(db, year_in=manuscript_data_in.year_in)
     manuscript = crud.manuscript.create_with_any(
         db,
         obj_in=manuscript_data_in.manuscript_in,
@@ -26,12 +25,12 @@ def update_manuscript(
 ) -> models.Manuscript:
     obj_in: dict[str, Any] = {}
     if manuscript_data_in.manuscript_in:
-        obj_in |= manuscript_data_in.manuscript_in.dict(exclude_defaults=True)
+        obj_in |= manuscript_data_in.manuscript_in.model_dump(exclude_defaults=True)
     if manuscript_data_in.fund_title:
-        fund = crud.get_fund(db, title=manuscript_data_in.fund_title)
+        fund = crud.fund.get_by_title(db, title=manuscript_data_in.fund_title)
         obj_in |= {'fund_id': fund.id}
     if manuscript_data_in.year_in:
-        year = crud.get_or_create_year(db, year_in=manuscript_data_in.year_in)
+        year = crud.year.get_or_create(db, year_in=manuscript_data_in.year_in)
         obj_in |= {'year_id': year.id}
     manuscript = crud.manuscript.update(db, db_obj=manuscript, obj_in=obj_in)
     return manuscript
@@ -45,11 +44,11 @@ def update_manuscript_bookmark(
         pages_in: schemas.PagesCreate
 ) -> models.Manuscript:
     db_bookmark = models.Bookmark(
-        first_page=models.Page(**pages_in.first_page.dict()),
-        end_page=models.Page(**pages_in.end_page.dict())
+        first_page=models.Page(**pages_in.first_page.model_dump()),
+        end_page=models.Page(**pages_in.end_page.model_dump())
     )
     db_bookmark.book = book
-    manuscript.books.append(db_bookmark)
+    manuscript.bookmarks.append(db_bookmark)
     db.add(manuscript)
     db.commit()
     db.refresh(manuscript)
@@ -60,7 +59,7 @@ def create_manuscript_bookmark(
         db: Session,
         *,
         manuscript: models.Manuscript,
-        bookmark_data_in: prepare.BookmarkDataCreate
+        bookmark_data_in: schemas.BookmarkDataCreate
 ) -> models.Manuscript | None:
     db_bookmark: models.Bookmark | None = prepare_db_bookmark(db, bookmark_data_in=bookmark_data_in)
     if db_bookmark is None:

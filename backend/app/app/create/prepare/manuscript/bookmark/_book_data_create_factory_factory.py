@@ -1,6 +1,7 @@
 from app import schemas, enums
 from .__book_data_create_factory import MolitvaBookDataCreateFactory, HolidayBookDataCreateFactory, \
-    TopicBookDataCreateFactory, MovableDateBookDataCreateFactory, ZachaloBookDataGetFactory
+    TopicBookDataCreateFactory, MovableDateBookDataCreateFactory, ZachaloBookDataGetFactory, PsaltyrBookDataGetFactory, \
+    CathedralBookDataGetFactory, SomeBookDataCreateFactory, LlsBookDataCreateFactory
 from ....const import BookRegex
 
 
@@ -34,8 +35,10 @@ class BookDataCreateFactoryFactory(object):
             book_data_create_factory_cls = HolidayBookDataCreateFactory
         elif 'Нд' in bookmark_title or any(day in bookmark_title for day in enums.MovableDayStrastnajaSedmitsaRu):
             book_data_create_factory_cls = MovableDateBookDataCreateFactory
+        elif bookmark_title.startswith('В лето'):
+            book_data_create_factory_cls = LlsBookDataCreateFactory
         else:
-            return None
+            book_data_create_factory_cls = SomeBookDataCreateFactory
 
         book_data_in: schemas.BookDataType = book_data_create_factory_cls(bookmark_title).book_data_in
 
@@ -58,22 +61,22 @@ class BookDataGetFactoryFactory(object):
             book_title: enums.BookTitle,
     ) -> schemas.BookDataGetType | None:
         bookmark_title = bookmark_title.replace('Глава ', '').strip()
-
         if bookmark_title.isdigit() or '?' in bookmark_title:
             return None
-
         if bookmark_title.split()[0].isdigit():
             bookmark_title: str = ' '.join(bookmark_title.split()[1:])
 
-        if bookmark_title.startswith('Зачало'):
+        if bookmark_title.startswith(enums.BookType.Zachalo):
             book_data_get_factory_cls = ZachaloBookDataGetFactory
+        elif bookmark_title.startswith(enums.BookType.Psalom):
+            book_data_get_factory_cls = PsaltyrBookDataGetFactory
+        elif bookmark_title.startswith(enums.BookType.Pravilo):
+            book_data_get_factory_cls = CathedralBookDataGetFactory
         else:
             return None
-
         book_data_get: schemas.BookDataGetType = book_data_get_factory_cls(
             bookmark_title,
             head_bookmark_title=head_bookmark_title,
             book_title=book_title
         ).book_data_get
-
         return book_data_get

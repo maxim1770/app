@@ -10,10 +10,10 @@ from app.create import prepare
 def create_saint(db: Session, *, saint_data_in: schemas.SaintDataCreate) -> models.Saint:
     foreign_keys: dict[str, int] = {}
     if saint_data_in.face_sanctity_title:
-        face_sanctity = crud.get_face_sanctity(db, title=saint_data_in.face_sanctity_title)
+        face_sanctity = crud.face_sanctity.get_by_title(db, title=saint_data_in.face_sanctity_title)
         foreign_keys |= {'face_sanctity_id': face_sanctity.id}
     if saint_data_in.dignity_title:
-        dignity = crud.get_dignity(db, title=saint_data_in.dignity_title)
+        dignity = crud.dignity.get_by_title(db, title=saint_data_in.dignity_title)
         foreign_keys |= {'dignity_id': dignity.id}
     saint = crud.saint.create_with_any(
         db,
@@ -31,12 +31,12 @@ def update_saint(
 ) -> models.Saint:
     obj_in: dict[str, Any] = {}
     if saint_data_in.saint_in:
-        obj_in |= saint_data_in.saint_in.dict(exclude_none=True)
+        obj_in |= saint_data_in.saint_in.model_dump(exclude_none=True)
     if saint_data_in.face_sanctity_title:
-        face_sanctity = crud.get_face_sanctity(db, title=saint_data_in.face_sanctity_title)
+        face_sanctity = crud.face_sanctity.get_by_title(db, title=saint_data_in.face_sanctity_title)
         obj_in |= {'face_sanctity_id': face_sanctity.id}
     if saint_data_in.dignity_title:
-        dignity = crud.get_dignity(db, title=saint_data_in.dignity_title)
+        dignity = crud.dignity.get_by_title(db, title=saint_data_in.dignity_title)
         obj_in |= {'dignity_id': dignity.id}
     saint = crud.saint.update(db, db_obj=saint, obj_in=obj_in)
     return saint

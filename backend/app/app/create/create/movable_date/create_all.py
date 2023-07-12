@@ -22,7 +22,7 @@ def create_all_movable_dates(db: Session):
     _create_all_c3_movable_dates(db)
 
 
-def _create_all_c1_movable_dates(db: Session):
+def _create_all_c1_movable_dates(db: Session) -> None:
     cycle_id: int = crud.get_cycle(db, num=enums.CycleNum.cycle_1).id
 
     create_week: CreateWeek = prepare.CreateWeekFactory.get_c1_week(db, cycle_id=cycle_id)
@@ -37,7 +37,7 @@ def _create_all_c1_movable_dates(db: Session):
     movable_dates_id: list[int] = create_movable_date.create()
     crud.create_movable_date(
         db,
-        movable_day_id=crud.get_movable_day_(
+        movable_day_id=crud.get_movable_day(
             db,
             movable_day_get=schemas.MovableDayGet(
                 cycle_num=enums.CycleNum.cycle_1,
@@ -50,7 +50,7 @@ def _create_all_c1_movable_dates(db: Session):
     logging.info("Created c1 movable dates")
 
 
-def _create_all_c2_movable_dates(db: Session):
+def _create_all_c2_movable_dates(db: Session) -> None:
     cycle_id: int = crud.get_cycle(db, num=enums.CycleNum.cycle_2).id
 
     create_week: CreateWeek = prepare.CreateWeekFactory.get_c2_week(db, cycle_id=cycle_id)
@@ -66,7 +66,7 @@ def _create_all_c2_movable_dates(db: Session):
     logging.info("Created c2 movable dates")
 
 
-def _create_all_c3_movable_dates(db: Session):
+def _create_all_c3_movable_dates(db: Session) -> None:
     cycle_id: int = crud.get_cycle(db, num=enums.CycleNum.cycle_3).id
 
     create_week: CreateWeek = prepare.CreateWeekFactory.get_c3_week(db, cycle_id=cycle_id)

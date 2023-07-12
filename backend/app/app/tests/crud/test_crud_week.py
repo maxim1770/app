@@ -38,7 +38,7 @@ def test_crud_get_week(db: Session) -> None:
     cycle = test_utils.create_random_cycle(db)
     week_in = test_utils.create_random_week_in()
     week = crud.create_week(db, cycle_id=cycle.id, week=week_in)
-    week_2 = crud.get_week_by_id(db, cycle_id=cycle.id, sunday_num=week.sunday_num)
+    week_2 = crud.get_week(db, cycle_id=cycle.id, sunday_num=week.sunday_num)
     assert week_2
     assert week.id == week_2.id
     assert week.title == week_2.title
@@ -48,7 +48,7 @@ def test_crud_get_week(db: Session) -> None:
 
 def test_crud_get_week_by_sunday_num_bad(db: Session) -> None:
     cycle = test_utils.create_random_cycle(db)
-    week = crud.get_week_by_id(db, cycle_id=cycle.id, sunday_num=-1)
+    week = crud.get_week(db, cycle_id=cycle.id, sunday_num=-1)
     assert week is None
 
 
@@ -56,5 +56,5 @@ def test_crud_get_week_by_cycle_id_bad(db: Session) -> None:
     cycle = test_utils.create_random_cycle(db)
     week_in = test_utils.create_random_week_in()
     week = crud.create_week(db, cycle_id=cycle.id, week=week_in)
-    week_2 = crud.get_week_by_id(db, cycle_id=-1, sunday_num=week.sunday_num)
+    week_2 = crud.get_week(db, cycle_id=-1, sunday_num=week.sunday_num)
     assert week_2 is None

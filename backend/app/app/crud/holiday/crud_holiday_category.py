@@ -1,19 +1,18 @@
-from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
-from app import models, schemas, enums
-
-
-def get_holidays_categories(db: Session, skip: int = 0, limit: int = 100) -> list[models.HolidayCategory]:
-    return db.query(models.HolidayCategory).offset(skip).limit(limit).all()
+from app.models import HolidayCategory
+from app.schemas import HolidayCategoryCreate, HolidayCategoryUpdate
+from ..base import CRUDBase
 
 
-def get_holiday_category(db: Session, title: enums.HolidayCategoryTitle) -> models.HolidayCategory | None:
-    return db.query(models.HolidayCategory).filter(models.HolidayCategory.title == title).first()
+class HolidayCategoryFilter(BaseModel):
+    pass
 
 
-def create_holiday_category(db: Session, holiday_category_in: schemas.HolidayCategoryCreate) -> models.HolidayCategory:
-    db_holiday_category: models.HolidayCategory = models.HolidayCategory(**holiday_category_in.dict())
-    db.add(db_holiday_category)
-    db.commit()
-    db.refresh(db_holiday_category)
-    return db_holiday_category
+class CRUDHolidayCategory(
+    CRUDBase[HolidayCategory, HolidayCategoryCreate, HolidayCategoryUpdate, HolidayCategoryFilter]
+):
+    pass
+
+
+holiday_category = CRUDHolidayCategory(HolidayCategory)

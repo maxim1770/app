@@ -14,6 +14,6 @@ if TYPE_CHECKING:
 class DivineService(Base):
     id: Mapped[intpk]
 
-    title: Mapped[enums.DivineServiceTitle] = mapped_column(unique=True)
+    title: Mapped[enums.DivineServiceTitle] = mapped_column(unique=True, index=True)
 
     movable_dates: Mapped[list[MovableDate]] = relationship(back_populates='divine_service')

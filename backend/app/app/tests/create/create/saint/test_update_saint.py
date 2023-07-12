@@ -8,13 +8,13 @@ def _test_update_saint(db: Session) -> None:
     saint = test_utils.create_random_saint(db)
     saint_slug: str | None = saint.slug
     saint_data_in = test_utils.create_random_saint_data_update_in()
-    dignity = crud.create_dignity(
+    dignity = crud.dignity.create(
         db,
-        dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
+        obj_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
     ) if saint_data_in.dignity_title else None
-    face_sanctity = crud.create_face_sanctity(
+    face_sanctity = crud.face_sanctity.create(
         db,
-        face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
+        obj_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
     saint_2 = create.update_saint(db, saint=saint, saint_data_in=saint_data_in)
     assert saint_2.id == saint.id

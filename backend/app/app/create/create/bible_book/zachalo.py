@@ -18,6 +18,6 @@ class CreateZachalo(CreateBase):
         for bible_book_abbr, zachalo in zip(self.parents_id, self.items):
             # if crud.get_zachalo(self.db, bible_book_abbr=bible_book_abbr, num=zachalo.num):
             #     raise FatalCreateError(self.get_except_text_created(bible_book_abbr, zachalo))
-            zachalos_id.append(crud.create_zachalo(self.db, bible_book_abbr=bible_book_abbr, zachalo=zachalo).id)
+            zachalos_id.append(crud.create_zachalo(self.db, bible_book_abbr=bible_book_abbr, zachalo_in=zachalo).id)
         self.check_num_creatures(zachalos_id)
         return zachalos_id

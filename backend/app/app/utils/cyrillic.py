@@ -1,16 +1,18 @@
-from pydantic import BaseModel, conint, constr, Field
+from pydantic import BaseModel, conint, constr
+
+from app import schemas
 
 
 class _CyrillicNumberScheme(BaseModel):
-    cyrillic: constr(min_length=1, max_length=2, regex=r"[ТцѿѱхфутсрчпоѮнмлкѲiѲизsєдгва]") = Field(default='')
-    number: conint(strict=True, ge=1, le=10000) | None = Field(default=None)
+    cyrillic: constr(min_length=1, pattern=r"[ТцѿѱхфутсрчпоѮнмлкѲiѲизsєдгва]") = ''
+    number: conint(strict=True, ge=1, le=10000) | None = None
 
 
-class _CyrillicNumberMapScheme(BaseModel):
-    __root__: list[_CyrillicNumberScheme]
+class _CyrillicNumberMapScheme(schemas.RootSchemaBase):
+    root: list[_CyrillicNumberScheme]
 
 
-class Cyrillic:
+class Cyrillic(object):
     _CyrillicNumberMap: list[tuple[str, int], ...] = [
         ('Т', 10000), ('ц', 900), ('ѿ', 800), ('ѱ', 700), ('х', 600), ('ф', 500), ('у', 400), ('т', 300), ('с', 200),
         ('р', 100), ('ч', 90), ('п', 80), ('о', 70), ('Ѯ', 60), ('н', 50), ('м', 40), ('л', 30), ('к', 20),
@@ -18,7 +20,7 @@ class Cyrillic:
         ('i', 10), ('Ѳ', 9), ('и', 8), ('з', 7), ('s', 6), ('є', 5), ('д', 4), ('г', 3), ('в', 2), ('а', 1)
     ]
 
-    _CYRILLIC_NUMBER_MAP: _CyrillicNumberMapScheme = _CyrillicNumberMapScheme(__root__=[
+    _CYRILLIC_NUMBER_MAP = _CyrillicNumberMapScheme.model_validate([
         _CyrillicNumberScheme(cyrillic="Т"
                               ,
                               number=10000
@@ -206,7 +208,7 @@ class Cyrillic:
     @classmethod
     def to_cyrillic(cls, num: int) -> str:
         cyr_num_scheme = _CyrillicNumberScheme(number=num)
-        for const_scheme in cls._CYRILLIC_NUMBER_MAP.__root__:
+        for const_scheme in cls._CYRILLIC_NUMBER_MAP:
             while cyr_num_scheme.number >= const_scheme.number:
                 cyr_num_scheme.cyrillic += const_scheme.cyrillic
                 cyr_num_scheme.number -= const_scheme.number

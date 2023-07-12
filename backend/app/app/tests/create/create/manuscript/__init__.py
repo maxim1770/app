@@ -17,7 +17,7 @@ def _get_manuscript_delete_me_late(db) -> models.Manuscript:
         handwriting=10,
         neb_slug='prolog-mart-avgust-4',
         not_numbered_pages=NotNumberedPages(
-            __root__=[
+            [
                 NotNumberedPage(
                     page=schemas.PageCreate(
                         num=1,
@@ -29,11 +29,11 @@ def _get_manuscript_delete_me_late(db) -> models.Manuscript:
         ),
         first_page_position=enums.PagePosition.right
     )
-    year = crud.get_or_create_year(db, year_in=schemas.YearCreate(title='1234'))
+    year = crud.year.get_or_create(db, year_in=schemas.YearCreate(title='1234'))
     manuscript = crud.manuscript.create_with_any(
         db,
         obj_in=manuscript_in,
-        fund_id=crud.get_fund(db, title=enums.FundTitle.sof).id,
+        fund_id=crud.fund.get_by_title(db, title=enums.FundTitle.sof).id,
         year_id=year.id
     )
     return manuscript

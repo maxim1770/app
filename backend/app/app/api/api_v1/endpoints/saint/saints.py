@@ -3,23 +3,24 @@ from typing import Any
 import requests
 import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, Path, HTTPException
-from fastapi_filter import FilterDepends
+from fastapi_cache.decorator import cache
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas, const, create, filters
+from app import crud, models, schemas, const, create
 from ....deps import get_db, get_session
 
 router = APIRouter()
 
 
 @router.get('/', response_model=Page[schemas.Saint])
+@cache(expire=60)
 def read_saints(
         db: Session = Depends(get_db),
-        filter: filters.SaintFilter = FilterDepends(filters.SaintFilter),
+        # filter: filters.SaintFilter = FilterDepends(filters.SaintFilter),
 ) -> Any:
-    select: sa.Select = crud.saint.get_multi_by_filter(db, filter=filter)
+    select: sa.Select = crud.saint.get_all_select()
     return paginate(db, select)
 
 
@@ -41,7 +42,7 @@ def create_saint(
 
 def get_valid_saint(
         db: Session = Depends(get_db),
-        saint_slug: str = Path(max_length=150, regex=const.REGEX_SLUG_STR)
+        saint_slug: str = Path(max_length=150, pattern=const.REGEX_SLUG_STR)
 ) -> models.Saint:
     saint = crud.saint.get_by_slug(db, slug=saint_slug)
     if not saint:
@@ -77,7 +78,8 @@ def update_saint_from_azbyka(
     return saint
 
 
-@router.get('/{saint_slug}', response_model=schemas.SaintInDB)
+@router.get('/{saint_slug}', response_model=schemas.Saint)
+@cache(expire=60)
 def read_saint(
         *,
         saint: models.Saint = Depends(get_valid_saint)

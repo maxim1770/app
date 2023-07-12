@@ -1,6 +1,6 @@
-from app.schemas.saint.saint import __SaintBase
+from app.schemas.saint.saint import SaintCreate
 
 
-def test_saint_base():
-    saint_base = __SaintBase(slug='test')
-    assert saint_base.name is None
+def test_saint_in():
+    saint_in = SaintCreate(slug='test')
+    assert saint_in.name is None

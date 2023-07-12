@@ -1,26 +1,23 @@
-from pydantic import BaseModel
-
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class DignityBase(BaseModel):
+class __DignityBase(SchemaBase):
     """ Иже не мнитъ Церковныхъ сановъ Богомъ и Апостолы състроенъ да будетъ проклятъ
     https://pravoslavnyy.ru/ustyuzhskaya-kormchayaya/
 
     мн. число dignities
     """
+    title: enums.DignityTitle | None = None
 
+
+class DignityCreate(__DignityBase):
     title: enums.DignityTitle
 
 
-class DignityCreate(DignityBase):
+class DignityUpdate(__DignityBase):
     pass
 
 
-class Dignity(DignityBase):
-    id: int
-
-    # saints: list[Saint] = []
-
-    class Config:
-        orm_mode = True
+class Dignity(__DignityBase, SchemaInDBBase):
+    pass

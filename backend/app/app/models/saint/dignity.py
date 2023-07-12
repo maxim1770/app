@@ -14,6 +14,6 @@ if TYPE_CHECKING:
 class Dignity(Base):
     id: Mapped[intpk]
 
-    title: Mapped[enums.DignityTitle] = mapped_column(unique=True)
+    title: Mapped[enums.DignityTitle] = mapped_column(unique=True, index=True)
 
     saints: Mapped[list[Saint]] = relationship(back_populates='dignity')

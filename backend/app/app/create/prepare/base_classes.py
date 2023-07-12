@@ -4,10 +4,9 @@ from functools import wraps
 from typing import Final, Any
 
 from bs4 import Tag
-from pydantic import BaseModel, parse_obj_as
+from pydantic import BaseModel
+from pydantic import TypeAdapter
 
-# FIXME: баги с data, т.к у класса PrepareParentNoCopyBase остается инфо о дате, нужно это сделать как то
-#  только для объектов, а не для классов
 from app.create.create.base_cls import FatalCreateError
 
 
@@ -63,7 +62,6 @@ class PrepareMethodsBase(PrepareBase):
 class PrepareTableBase(PrepareMethodsBase):
 
     def __init__(self, table: Tag):
-        # FIXME: подумать над тем, чтобы self.table сделать приватным атрибутом self._table или даже self.__table
         self.table: Tag = table
         super().__init__()
 
@@ -78,8 +76,6 @@ class PrepareTableBase(PrepareMethodsBase):
 class PrepareParentDataSliceBase(PrepareMethodsBase):
 
     def __init__(self, data: list):
-        # FIXME: подумать над тем почему мы не используем list.copy(), вроде как нужно использовать
-        #  НАВЕРНЕО НЕ НУЖНО, Т,К В КЛАССАХ МЫ ДЕЛАЕМ СРЕЗ [:...], а он вроде как копирует часть списка, и создает новый
         super().__init__(data=data)
 
 
@@ -116,19 +112,15 @@ def convert_to_schemas(schema: [BaseModel]):
         @wraps(func)
         def wrapper(*args, **kwargs) -> list[schema]:
             data: dict[str, list] = func(*args, **kwargs)
-
             _check_lens_lists(data)
-
             items: list[dict[str, Any]] = []
-
             for i in range(len(list(data.values())[0])):
                 item: dict[str, Any] = {}
                 for name, value in data.items():
                     item[name] = value[i]
-
                 items.append(item)
-
-            return parse_obj_as(list[schema], items)
+            adapter = TypeAdapter(list[schema])
+            return adapter.validate_python(items)
 
         return wrapper
 

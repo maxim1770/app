@@ -1,27 +1,27 @@
 <template>
-    <DatesPage :dates="dates"/>
+  <DatesPage :dates="dates" v-if="dates.dates?.[0]" />
 </template>
 
 <script>
-import {api} from "@/services/api";
+import { api } from "@/services/api";
 import DatesPage from "@/components/pages/DatesPage.vue";
 
 export default {
-  components: {DatesPage},
+  components: { DatesPage },
 
   data() {
     return {
       dates: {
-        type: Object,
-        required: true,
-      }, // ref([])
+        type: Array,
+        required: true
+      } // ref([])
     };
   },
   mounted() {
     api
       .getDates()
       .then((response) => (this.dates = response.data));
-  },
+  }
 
 };
 </script>

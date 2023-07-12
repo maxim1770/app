@@ -9,3 +9,4 @@ class AzbykaUrl(StrEnum):
     GET_SAINTS_BY_SLUG = f'{DAYS}/svv-'
     GET_SAINT_BY_ID = f'{DAYS}/saint'
     GET_HOLIDAYS_IN_DAY_API = f'{DAYS}/widgets/presentations.json?date='
+    # 'https://azbyka.ru/otechnik/list_view/dates'

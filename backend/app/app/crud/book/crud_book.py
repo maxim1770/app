@@ -1,12 +1,17 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-from app.filters import BookFilter
+# from app.filters import BookFilter
 from app.models import Book
 from app.schemas import BookCreate, BookUpdate
 from ..base import CRUDBase
+
+
+class BookFilter(BaseModel):
+    pass
 
 
 class CRUDBook(CRUDBase[Book, BookCreate, BookUpdate, BookFilter]):
@@ -21,7 +26,7 @@ class CRUDBook(CRUDBase[Book, BookCreate, BookUpdate, BookFilter]):
             db: Session,
             *,
             obj_in: BookCreate,
-            author_id: int = None
+            author_id: int | None = None
     ) -> Book:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(

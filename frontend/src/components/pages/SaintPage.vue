@@ -1,65 +1,66 @@
 <template>
-  <h4 class="text-h4 font-weight-bold">
-    {{ saint.name }}
-    <ChipFaceSanctity v-if="saint.face_sanctity" :face_sanctity="saint.face_sanctity" class="ml-1" />
-    <ChipDignity v-if="saint.dignity" :dignity="saint.dignity" class="ml-1" />
-  </h4>
-
-  <!--   </hr>-->
-  "Дни памяти"
-
-  <v-list lines="one">
-    <v-list-item
-      v-for="holiday in saint.holidays"
-      :key="holiday.id"
-      :title="holiday.title"
-      :to="{ name: 'holiday', params: { holidaySlug: holiday.slug } }"
+  <div>
+    <lightgalleryWithDesc :imgs_data="allIcons" />
+    <h4 class="text-h4 font-weight-bold ma-2">
+      <SaintFullTitle :saint="saint" />
+    </h4>
+    <v-divider></v-divider>
+    <div
+      v-if="saint.holidays?.length"
+      class="mt-2"
     >
-    </v-list-item>
-  </v-list>
-
-  <!--  <div>-->
-  <!--    <h1>Труд:</h1>-->
-  <!--    <div-->
-  <!--        v-for="book in holiday.books"-->
-  <!--        :key="book.id"-->
-  <!--    >-->
-  <!--      <lightgallery-->
-  <!--          :settings="{ speed: 500, plugins: plugins }"-->
-  <!--          :onInit="onInit"-->
-  <!--          :onBeforeSlide="onBeforeSlide"-->
-  <!--      >-->
-  <!--        <a-->
-  <!--            v-for="img in book.manuscripts?.[0].imgs"-->
-  <!--            :data-src="img"-->
-  <!--            :data-sub-html="book.title"-->
-  <!--            className="gallery-item"-->
-  <!--        >-->
-  <!--          <img-->
-  <!--              className="img-responsive"-->
-  <!--              :src="img"-->
-  <!--          />-->
-  <!--        </a>-->
-  <!--      </lightgallery>-->
-  <!--    </div>-->
-  <!--  </div>-->
-
-
+      <h3>Дни памяти:</h3>
+      <v-list lines="one">
+        <v-list-item
+          v-for="holiday in saint.holidays"
+          :key="holiday.id"
+          :to="{ name: 'holiday', params: { holidaySlug: holiday.slug } }"
+          rounded="xl"
+        >
+          <v-chip>
+            <HolidayFullTitle :holiday="holiday" />
+          </v-chip>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+    </div>
+    <div
+      v-if="saint.books?.length"
+      class="mt-2"
+    >
+      <h3>Труд:</h3>
+      <v-list lines="one">
+        <v-list-item
+          v-for="book in saint.books"
+          :key="book.id"
+          :to="{ name: 'book', params: { bookId: book.id } }"
+          rounded="xl"
+        >
+          <div>
+            <BookFullTitleFactory :book="book" />
+          </div>
+        </v-list-item>
+      </v-list>
+    </div>
+    <v-divider></v-divider>
+  </div>
 </template>
 
 <script>
-import Lightgallery from "lightgallery/vue";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
-import ChipDignity from "@/components/saint/ChipDignity.vue";
-import ChipFaceSanctity from "@/components/saint/ChipFaceSanctity.vue";
 
-// If you are using scss you can skip the css imports below and use scss instead
+import lightgalleryBase from "@/components/lightgallery/lightgalleryBase.vue";
+import BookFullTitleFactory from "@/components/book/book_full_title/BookFullTitleFactory.vue";
+import HolidayFullTitle from "@/components/holiday/HolidayFullTitle.vue";
+import SaintFullTitle from "@/components/saint/SaintFullTitle.vue";
+import lightgalleryWithDesc from "@/components/lightgallery/lightgalleryWithDesc.vue";
+
 
 export default {
   components: {
-    ChipFaceSanctity, ChipDignity,
-    Lightgallery
+    lightgalleryWithDesc,
+    BookFullTitleFactory,
+    lightgalleryBase,
+    SaintFullTitle, HolidayFullTitle
   },
   props: {
     saint: {
@@ -67,23 +68,17 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    plugins: [lgThumbnail, lgZoom]
-  }),
-  methods: {
-    onInit: () => {
-      console.log("lightGallery has been initialized");
-    },
-    onBeforeSlide: () => {
-      console.log("calling before slide");
+  computed: {
+    allIcons() {
+      const allIcons_ = new Set();
+      this.saint.holidays?.forEach((holiday) => {
+        holiday.icons?.forEach((icon) => {
+          allIcons_.add(icon);
+        });
+      });
+      return allIcons_;
     }
   }
 };
 </script>
 
-
-<style lang="css">
-@import 'lightgallery.css';
-@import 'lg-thumbnail.css';
-@import 'lg-zoom.css';
-</style>

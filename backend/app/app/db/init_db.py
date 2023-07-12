@@ -8,7 +8,7 @@ from app.db.session import engine
 
 def init_db(db: Session) -> None:
     Base.metadata.create_all(bind=engine)
-    if not crud.get_days(db):
+    if not crud.day.get_all(db):
         create.create_all_days(db)
         # create.create_all_movable_dates(db)
         # create.create_all_zachalos_movable_dates_associations(db)

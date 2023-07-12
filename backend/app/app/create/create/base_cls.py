@@ -17,7 +17,7 @@ class CreateBase(ABC):
 
     @classmethod
     def get_except_text_created(cls, *args) -> str:
-        return f'{cls}: {" | ".join(map(str, args))} уже была создана'
+        return f'{cls}: {" | ".join(map(str, args))} already created'
 
     def __get_except_text_num_creatures(self, len_items_id: int) -> str:
         return f'Не создались {self.num_creatures} записи из {self}. Было создано {len_items_id} записей'

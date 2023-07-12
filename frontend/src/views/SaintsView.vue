@@ -72,13 +72,9 @@
         :title="saint.name"
         :to="{ name: 'saint', params: { saintSlug: saint.slug } }"
       >
-        <v-list-item-subtitle>
-          <v-chip v-if="saint.face_sanctity" class="ma-2" variant="tonal" color="green">
-            {{ saint.face_sanctity.title }}
-          </v-chip>
-          <v-chip v-if="saint.dignity" class="ma-2" variant="tonal" color="blue">
-            {{ saint.dignity.title }}
-          </v-chip>
+        <v-list-item-subtitle class="ma-2">
+          <ChipFaceSanctity v-if="saint.face_sanctity" :face_sanctity="saint.face_sanctity" />
+          <ChipDignity v-if="saint.dignity" :dignity="saint.dignity" class="ml-1" />
         </v-list-item-subtitle>
       </v-list-item>
     </v-list>
@@ -92,8 +88,11 @@
 <script>
 import { api } from "@/services/api";
 import { useDisplay } from "vuetify";
+import ChipDignity from "@/components/saint/ChipDignity.vue";
+import ChipFaceSanctity from "@/components/saint/ChipFaceSanctity.vue";
 
 export default {
+  components: { ChipDignity, ChipFaceSanctity },
 
   data() {
     return {

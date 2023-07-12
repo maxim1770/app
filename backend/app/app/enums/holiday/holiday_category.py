@@ -10,3 +10,5 @@ class HolidayCategoryTitle(StrEnum):
     obretenie_moschej = 'Обретение мощей'
     perenesenie_moschej = 'Перенесение мощей'
     vtoroe_perenesenie_moschej = 'Второе перенесение мощей'
+    predprazdnstvo = 'Предпразднство'
+    poprazdnstvo = 'Попразднство'

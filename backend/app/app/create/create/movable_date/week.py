@@ -14,7 +14,7 @@ class CreateWeek(CreateBase):
 
         for week in self.items:
 
-            if crud.get_week_by_id(self.db, cycle_id=self.parents_id, sunday_num=week.sunday_num):
+            if crud.get_week(self.db, cycle_id=self.parents_id, sunday_num=week.sunday_num):
                 raise FatalCreateError(self.get_except_text_created(self.parents_id, week))
 
             weeks_id.append(crud.create_week(self.db, cycle_id=self.parents_id, week=week).id)

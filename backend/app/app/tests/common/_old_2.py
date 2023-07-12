@@ -2,12 +2,12 @@ import logging
 from pathlib import Path
 
 from app.create.prepare.manuscript.bookmark.common import get_pdf_bookmarks
-from app.create.prepare.manuscript.bookmark.get_bookmarks import Bookmark
+from app.create.prepare.manuscript.bookmark.__get_bookmarks import PdfBookmark
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
 
-def __compare_bookmarks_for_prolog(bookmark: Bookmark, backup_bookmark: Bookmark) -> None:
+def __compare_bookmarks_for_prolog(bookmark: PdfBookmark, backup_bookmark: PdfBookmark) -> None:
     if bookmark.title != backup_bookmark.title:
         logging.warning(f'{bookmark.parent.parent.title}.{bookmark.parent.title}')
         if len(bookmark.title) < 3:
@@ -21,7 +21,7 @@ def __compare_bookmarks_for_prolog(bookmark: Bookmark, backup_bookmark: Bookmark
         logging.warning('- - -')
 
 
-def __get_bookmarks_titles(bookmarks: list[Bookmark]) -> list[str]:
+def __get_bookmarks_titles(bookmarks: list[PdfBookmark]) -> list[str]:
     return [child.title for child in bookmarks if child.title != '-']
 
 
@@ -42,7 +42,7 @@ def __check_new_glas(children_titles: list[str], *, backup_children_titles: list
         for child_title in bookmarks_titles:
             try:
                 glas_num: int = int(child_title[child_title.find('глас') + 4:].strip()[0])
-            except ValueError as e:
+            except ValueError:
                 continue
             child_title = child_title.replace(str(glas_num), '').replace('  ', ' ')
             bookmarks_titles_with_glas_nums.append((child_title, glas_num))
@@ -109,7 +109,7 @@ def __remove_found_titles(children_titles: list[str], *, found_titles: list[str]
     return children_titles
 
 
-def __compare_bookmarks_for_month_word(bookmark: Bookmark, backup_bookmark: Bookmark) -> None:
+def __compare_bookmarks_for_month_word(bookmark: PdfBookmark, backup_bookmark: PdfBookmark) -> None:
     if bookmark.parent.parent:
         return None
     logging.warning(f'{bookmark.parent.title}.{bookmark.title}')
@@ -131,8 +131,8 @@ def __compare_bookmarks_for_month_word(bookmark: Bookmark, backup_bookmark: Book
 
 
 def __compare_bookmarks(
-        bookmark_1: Bookmark,
-        bookmark_2: Bookmark,
+        bookmark_1: PdfBookmark,
+        bookmark_2: PdfBookmark,
         __fun_compare_bookmarks
 ) -> None:
     __fun_compare_bookmarks(bookmark_1, bookmark_2)
@@ -140,16 +140,16 @@ def __compare_bookmarks(
         __compare_bookmarks(sub_bookmark_1, sub_bookmark_2, __fun_compare_bookmarks)
 
 
-def _compare_bookmarks(bookmarks_1: list[Bookmark], bookmarks_2: list[Bookmark], __fun_compare_bookmarks) -> None:
+def _compare_bookmarks(bookmarks_1: list[PdfBookmark], bookmarks_2: list[PdfBookmark], __fun_compare_bookmarks) -> None:
     for bookmark_1, bookmark_2 in zip(bookmarks_1, bookmarks_2):
         __compare_bookmarks(bookmark_1, bookmark_2, __fun_compare_bookmarks)
 
 
-def _compare_pdf_with_backup_for_prolog(bookmarks: list[Bookmark], *, backup_bookmarks: list[Bookmark]) -> None:
+def _compare_pdf_with_backup_for_prolog(bookmarks: list[PdfBookmark], *, backup_bookmarks: list[PdfBookmark]) -> None:
     _compare_bookmarks(bookmarks, backup_bookmarks, __compare_bookmarks_for_prolog)
 
 
-def _compare_pdf_with_backup_for_month_word(bookmarks: list[Bookmark], *, backup_bookmarks: list[Bookmark]) -> None:
+def _compare_pdf_with_backup_for_month_word(bookmarks: list[PdfBookmark], *, backup_bookmarks: list[PdfBookmark]) -> None:
     _compare_bookmarks(bookmarks, backup_bookmarks, __compare_bookmarks_for_month_word)
 
 
@@ -157,9 +157,9 @@ def _get_pdf_bookmarks_and_backup_bookmarks(
         pdf_path: Path,
         *,
         backup_pdf_path: Path
-) -> tuple[list[Bookmark], list[Bookmark]]:
-    bookmarks: list[Bookmark] = get_pdf_bookmarks(pdf_path)
-    backup_bookmarks: list[Bookmark] = get_pdf_bookmarks(backup_pdf_path)
+) -> tuple[list[PdfBookmark], list[PdfBookmark]]:
+    bookmarks: list[PdfBookmark] = get_pdf_bookmarks(pdf_path)
+    backup_bookmarks: list[PdfBookmark] = get_pdf_bookmarks(backup_pdf_path)
     return bookmarks, backup_bookmarks
 
 

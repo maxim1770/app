@@ -10,6 +10,7 @@ from app.db.base_class import Base, intpk
 
 if TYPE_CHECKING:
     from .zachalo import Zachalo
+    from ..book import PsaltyrBook
 
 
 class BibleBook(Base):
@@ -18,11 +19,12 @@ class BibleBook(Base):
     testament: Mapped[enums.BibleBookTestament]
     testament_ru: Mapped[enums.BibleBookTestamentRu]
 
-    part: Mapped[enums.BibleBookPart]
-    part_ru: Mapped[enums.BibleBookPartRu]
+    part: Mapped[enums.BibleBookPart | None]
+    part_ru: Mapped[enums.BibleBookPartRu | None]
 
-    title: Mapped[str] = mapped_column(String(50), unique=True)
-    abbr: Mapped[enums.BibleBookAbbr] = mapped_column(unique=True)
+    title: Mapped[str] = mapped_column(String(50), unique=True, index=True)
+    abbr: Mapped[enums.BibleBookAbbr] = mapped_column(unique=True, index=True)
     abbr_ru: Mapped[enums.BibleBookAbbrRu] = mapped_column(unique=True)
 
     zachalos: Mapped[list[Zachalo]] = relationship(back_populates='bible_book')
+    psaltyr_books: Mapped[list[PsaltyrBook]] = relationship(back_populates='bible_book')

@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup, Tag
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from app import schemas
-from app.create.prepare.year import PrepareYearTitle
 from ..icon import __collect
+from ..year import PrepareYearTitle
 
 
 def __get_all_shm_icons_ids(driver) -> list[int]:
@@ -34,7 +34,7 @@ def get_verived_shm_icons_ids(driver: WebDriver) -> list[int]:
         try:
             prepared_year_title: str = PrepareYearTitle(year_title).year_title
             year_in = schemas.YearCreate(title=prepared_year_title)
-        except (ValueError, IndexError) as e:
+        except (ValueError, IndexError):
             pass
         else:
             logging.info(shm_icon_id)

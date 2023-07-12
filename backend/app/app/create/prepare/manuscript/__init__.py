@@ -1,3 +1,3 @@
-from .bookmark import prepare_manuscript_bookmark, BookmarkDataCreate
+from .bookmark import prepare_manuscript_bookmark
 from .collect_manuscript import CollectManuscriptImgsUrls
 from .manuscript import ManuscriptDataCreateFactory

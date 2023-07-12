@@ -1,23 +1,9 @@
 from pathlib import Path
 
-from pydantic import BaseModel
-
-from app import const
-from app import schemas, enums
+from app import schemas, enums, utils
+from .__convert_page import pages_nums2pages_in
 from ._book_data_create_factory_factory import BookDataCreateFactoryFactory, BookDataGetFactoryFactory
 from .common import get_pdf_bookmarks
-from .convert_page import pages_nums2pages_in
-from .get_bookmarks import Bookmark
-
-
-class __BookmarkDataBase(BaseModel):
-    pages_in: schemas.PagesCreate | None = None
-    book_data_in: schemas.BookDataType | schemas.BookDataGetType | None = None
-
-
-class BookmarkDataCreate(__BookmarkDataBase):
-    pages_in: schemas.PagesCreate
-    book_data_in: schemas.BookDataType | schemas.BookDataGetType
 
 
 def prepare_manuscript_bookmark(
@@ -26,31 +12,27 @@ def prepare_manuscript_bookmark(
         not_numbered_pages: str,
         from_neb: bool,
         first_page_position: enums.PagePosition | None = None
-) -> list[BookmarkDataCreate]:
-    bookmarks_data_in: list[BookmarkDataCreate] = []
-    not_numbered_pages = schemas.NotNumberedPages.parse_obj(not_numbered_pages)
-    bookmarks: list[Bookmark] = get_pdf_bookmarks(pdf_path)
-
+) -> list[schemas.BookmarkDataCreate]:
+    bookmarks_data_in: list[schemas.BookmarkDataCreate] = []
+    not_numbered_pages = schemas.NotNumberedPages.model_validate(not_numbered_pages)
+    bookmarks: list[schemas.PdfBookmark] = get_pdf_bookmarks(pdf_path)
     try:
         book_title = enums.BookTitle._value2member_map_[bookmarks[0].title.replace('Название: ', '')]
     except KeyError:
         book_title = None
     else:
         bookmarks = bookmarks[1:]
-
-    main_author: str = bookmarks[0].title.replace('Автор: ', '')
-    if not main_author.isdigit() and const.REGEX_SLUG.match(main_author):
+    if 'Автор:' in bookmarks[0].title:
+        main_author: str = utils.clean_extra_spaces(bookmarks[0].title.replace('Автор: ', ''))
         bookmarks = bookmarks[1:]
     else:
         main_author: str | None = None
-
     try:
         book_type = enums.BookType._value2member_map_[bookmarks[0].title.replace('Тип: ', '')]
     except KeyError:
         book_type = None
     else:
         bookmarks = bookmarks[1:]
-
     if bookmarks[0].children and bookmarks[0].children[0].title.isdigit():
         for bookmark_month in bookmarks:
             for i, bookmark_day in enumerate(bookmark_month.children):
@@ -126,7 +108,7 @@ def __get_bookmark_data_in(
         from_neb,
         first_page_position,
         book_data_in
-) -> BookmarkDataCreate:
+) -> schemas.BookmarkDataCreate:
     pages_in: schemas.PagesCreate = pages_nums2pages_in(
         first_page_num,
         end_page_num,
@@ -134,7 +116,7 @@ def __get_bookmark_data_in(
         from_neb=from_neb,
         first_page_position=first_page_position
     )
-    bookmark_data_in = BookmarkDataCreate(
+    bookmark_data_in = schemas.BookmarkDataCreate(
         pages_in=pages_in,
         book_data_in=book_data_in
     )

@@ -26,7 +26,7 @@ export default {
     this.getSaint();
   },
   methods: {
-    getBook() {
+    getSaint() {
       api
         .getSaint(this.$route.params.saintSlug)
         .then((response) => (this.saint = response.data));

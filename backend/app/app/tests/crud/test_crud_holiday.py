@@ -10,9 +10,9 @@ def test_crud_create_holiday_with_any(db: Session) -> None:
     holiday_category_in = test_utils.create_random_holiday_category_in()
     day_in = test_utils.create_random_day_in()
     year_in = test_utils.create_random_year_in()
-    holiday_category = crud.create_holiday_category(db, holiday_category_in=holiday_category_in)
-    day = crud.create_day(db, day_in=day_in)
-    year = crud.create_year(db, year_in=year_in)
+    holiday_category = crud.holiday_category.create(db, obj_in=holiday_category_in)
+    day = crud.day.create(db, obj_in=day_in)
+    year = crud.year.create(db, obj_in=year_in)
     holiday_in = test_utils.create_random_holiday_in()
     holiday = crud.holiday.create_with_any(
         db,
@@ -29,7 +29,7 @@ def test_crud_create_holiday_with_any(db: Session) -> None:
 
 def test_crud_create_holiday_with_any_only_category(db: Session) -> None:
     holiday_category_in = test_utils.create_random_holiday_category_in()
-    holiday_category = crud.create_holiday_category(db, holiday_category_in=holiday_category_in)
+    holiday_category = crud.holiday_category.create(db, obj_in=holiday_category_in)
     holiday_in = test_utils.create_random_holiday_in()
     holiday = crud.holiday.create_with_any(db, obj_in=holiday_in, holiday_category_id=holiday_category.id)
     assert holiday.slug == holiday_in.slug
@@ -40,8 +40,8 @@ def test_crud_create_holiday_with_any_only_category(db: Session) -> None:
 def test_crud_create_holiday_with_any_no_year_bad(db: Session) -> None:
     holiday_category_in = test_utils.create_random_holiday_category_in()
     day_in = test_utils.create_random_day_in()
-    holiday_category = crud.create_holiday_category(db, holiday_category_in=holiday_category_in)
-    day = crud.create_day(db, day_in=day_in)
+    holiday_category = crud.holiday_category.create(db, obj_in=holiday_category_in)
+    day = crud.day.create(db, obj_in=day_in)
     holiday_in = test_utils.create_random_holiday_in()
     holiday = crud.holiday.create_with_any(
         db,

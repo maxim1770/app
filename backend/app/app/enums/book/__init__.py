@@ -1,1 +1,2 @@
-from .book import BookTitle, BookType, BookTopic, BookSource, BookUtil, MolitvaBookType
+from .book import BookTitle, BookType, BookTopic, BookSource, BookUtil
+from .cathedral import СathedralSlug

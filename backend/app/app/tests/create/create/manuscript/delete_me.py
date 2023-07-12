@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 def collect(manuscript_code: str):
     session = requests.Session()
     try:
-        collect_manuscript = create.CollectManuscriptLLSFactory.get(
+        collect_manuscript = create.CollectManuscriptLlsFactory.get(
             session,
             code=manuscript_code,
         )
@@ -56,7 +56,7 @@ def __move_imgs_from_lls_book_3_to_lls_book_4():
     lls_book_4_imgs_path.mkdir()
     lls_book_4_first_page: int = 457
     for lls_book_4_img_num, img_num in enumerate(
-            range(lls_book_4_first_page, create.CollectManuscriptLLSFactory.LLSNumPages.lls_book_3 + 1)):
+            range(lls_book_4_first_page, create.CollectManuscriptLlsFactory.RuniversLlsNumPages.lls_book_3 + 1)):
         lls_book_3_current_img_path = lls_book_3_some_img_path.with_stem(str(img_num))
         lls_book_4_current_img_path = lls_book_4_some_img_path.with_stem(str(img_num))
         lls_book_3_current_img_path.rename(lls_book_4_current_img_path.with_stem(str(lls_book_4_img_num + 1)))

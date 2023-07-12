@@ -5,13 +5,13 @@ from uuid import UUID
 import requests
 import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, HTTPException
-from fastapi_filter import FilterDepends
+from fastapi_cache.decorator import cache
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, models, const, create, filters
+from app import crud, schemas, models, const, create
 from app.create.prepare import ManuscriptDataCreateFactory, PrepareError
 from app.schemas.manuscript.manuscript import NotNumberedPages
 from ....deps import get_db, get_session, get_driver
@@ -19,12 +19,13 @@ from ....deps import get_db, get_session, get_driver
 router = APIRouter()
 
 
-@router.get('/', response_model=Page[schemas.Manuscript])
+@router.get('/', response_model=Page[schemas.ManuscriptInDB])
+@cache(expire=60)
 def read_manuscripts(
         db: Session = Depends(get_db),
-        filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
+        # filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
 ) -> Any:
-    select: sa.Select = crud.manuscript.get_multi_by_filter(db, filter=filter)
+    select: sa.Select = crud.manuscript.get_all_select()
     return paginate(db, select)
 
 
@@ -74,10 +75,10 @@ def create_manuscript_with_collect(
     return manuscript
 
 
-def get_valid_manuscript(
+def __get_valid_manuscript(
         *,
         db: Session = Depends(get_db),
-        manuscript_code: UUID | str = Path(regex=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
+        manuscript_code: UUID | str = Path(pattern=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
 ) -> models.Manuscript:
     manuscript = crud.manuscript.get_by_code(db, code=manuscript_code)
     if not manuscript:
@@ -85,25 +86,25 @@ def get_valid_manuscript(
     return manuscript
 
 
-def get_manuscripts_near(
-        db: Session,
+def __get_other_manuscripts(
         *,
-        fund_id: int,
-        manuscript_code: str
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
 ) -> list[models.Manuscript]:
-    manuscripts_near_len: int = 5
-    manuscripts_near: list[models.Manuscript] = db.execute(
-        sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript_code).filter_by(fund_id=fund_id).limit(
-            manuscripts_near_len)).scalars().all()
-    if manuscripts_best_handwriting_len := manuscripts_near_len - len(manuscripts_near):
+    other_manuscripts_len: int = 5
+    other_manuscripts: list[models.Manuscript] = db.execute(
+        sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript.code).filter_by(
+            fund_id=manuscript.fund_id).limit(
+            other_manuscripts_len)).scalars().all()
+    if manuscripts_best_handwriting_len := other_manuscripts_len - len(other_manuscripts):
         manuscripts_best_handwriting: list[models.Manuscript] = db.execute(
-            sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript_code).order_by(
+            sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript.code).order_by(
                 models.Manuscript.handwriting.desc()).limit(manuscripts_best_handwriting_len)).scalars().all()
-        manuscripts_near += manuscripts_best_handwriting
-    return manuscripts_near
+        other_manuscripts += manuscripts_best_handwriting
+    return other_manuscripts
 
 
-def get_valid_book(
+def __get_valid_book(
         *,
         db: Session = Depends(get_db),
         book_id: int
@@ -114,25 +115,21 @@ def get_valid_book(
     return book
 
 
-@router.get('/{manuscript_code}', response_model=schemas.ManuscriptWithNear)
+@router.get('/{manuscript_code}', response_model=schemas.ManuscriptWithOther)
+@cache(expire=60)
 def read_manuscript(
         *,
-        db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
+        other_manuscripts: list[models.Manuscript] = Depends(__get_other_manuscripts)
 ) -> Any:
-    manuscripts_near: list[models.Manuscript] = get_manuscripts_near(
-        db,
-        fund_id=manuscript.fund_id,
-        manuscript_code=manuscript.code
-    )
-    return {'manuscript': manuscript, 'manuscripts_near': manuscripts_near}
+    return {'manuscript': manuscript, 'other_manuscripts': other_manuscripts}
 
 
 @router.put('/{manuscript_code}', response_model=schemas.Manuscript)
 def update_manuscript(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
         manuscript_data_in: schemas.ManuscriptDataUpdate
 ) -> Any:
     manuscript = create.update_manuscript(db, manuscript=manuscript, manuscript_data_in=manuscript_data_in)
@@ -143,10 +140,10 @@ def update_manuscript(
 def create_manuscript_not_numbered_pages(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
         not_numbered_pages_in: NotNumberedPages
 ) -> Any:
-    not_numbered_pages = manuscript.not_numbered_pages + not_numbered_pages_in.dict()['__root__']
+    not_numbered_pages = manuscript.not_numbered_pages + not_numbered_pages_in.model_dump()['root']
     not_numbered_pages.sort(key=lambda not_numbered_page: not_numbered_page['page']['num'])
     manuscript.not_numbered_pages = not_numbered_pages
     db.add(manuscript)
@@ -160,7 +157,7 @@ def create_manuscript_imgs(
         *,
         session: requests.Session = Depends(get_session),
         driver: WebDriver = Depends(get_driver),
-        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
 ) -> Any:
     try:
         collect_manuscript = create.CollectManuscriptFactory.get(
@@ -177,14 +174,14 @@ def create_manuscript_imgs(
             detail=e.args[0]
         )
     collect_manuscript.save_imgs()
-    # collect_manuscript.create_pdf() # TODO collect_manuscript.create_pdf()
+    # collect_manuscript.create_pdf()
     return manuscript
 
 
 @router.post('/{manuscript_code}/pdf', response_model=schemas.Manuscript)
 def create_manuscript_pdf(
         *,
-        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
 ) -> Any:
     try:
         create.create_manuscript_pdf(
@@ -204,8 +201,8 @@ def create_manuscript_pdf(
 def update_manuscript_bookmark(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(get_valid_manuscript),
-        book: models.Book = Depends(get_valid_book),
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
+        book: models.Book = Depends(__get_valid_book),
         pages_in: schemas.PagesCreate
 ) -> Any:
     manuscript = create.update_manuscript_bookmark(db, manuscript=manuscript, book=book, pages_in=pages_in)
@@ -216,7 +213,7 @@ def update_manuscript_bookmark(
 def delete_manuscript(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(get_valid_manuscript)
+        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
 ) -> Any:
     manuscript = crud.manuscript.remove(db, id=manuscript.id)
     return manuscript

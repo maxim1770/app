@@ -17,19 +17,19 @@ if TYPE_CHECKING:
 class Manuscript(Base):
     id: Mapped[intpk]
 
-    title: Mapped[str | None] = mapped_column(String(170))
+    title: Mapped[str | None] = mapped_column(String(170), index=True)
     neb_slug: Mapped[unique_slug | None]
-    code_title: Mapped[str] = mapped_column(String(20), unique=True)
-    code: Mapped[str] = mapped_column(String(36), unique=True)
-    handwriting: Mapped[int] = mapped_column(SmallInteger)
+    code_title: Mapped[str] = mapped_column(String(20), unique=True, index=True)
+    code: Mapped[str] = mapped_column(String(36), unique=True, index=True)
+    handwriting: Mapped[int] = mapped_column(SmallInteger, index=True)
     not_numbered_pages: Mapped[list[dict[str, int]]] = mapped_column(JSON)
     first_page_position: Mapped[enums.PagePosition]
     preview_img_num: Mapped[int] = mapped_column(SmallInteger)
 
-    year_id: Mapped[int] = mapped_column(ForeignKey(Year.id))
-    fund_id: Mapped[int | None] = mapped_column(ForeignKey(Fund.id))
+    year_id: Mapped[int] = mapped_column(ForeignKey(Year.id), index=True)
+    fund_id: Mapped[int | None] = mapped_column(ForeignKey(Fund.id), index=True)
 
     year: Mapped[Year] = relationship(back_populates='manuscripts')
     fund: Mapped[Fund | None] = relationship(back_populates='manuscripts')
 
-    books: Mapped[list[Bookmark]] = relationship(back_populates='manuscript')
+    bookmarks: Mapped[list[Bookmark]] = relationship(back_populates='manuscript')

@@ -8,7 +8,7 @@ from app.tests import test_utils
 #         client: TestClient, db: Session, cycle: models.Cycle, week_in: schemas.WeekCreate
 # ) -> None:
 #     r = client.post(
-#         f'/movable-dates/cycle-{cycle.num}', json=week_in.dict(),
+#         f'/movable-dates/cycle-{cycle.num}', json=week_in.model_dump(),
 #     )
 #     assert 200 <= r.status_code < 300
 #

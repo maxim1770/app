@@ -45,7 +45,8 @@ def _create_all_strastnaja_sedmitsa(db: Session):
     week_in = schemas.WeekCreate(
         title='Страстная седмица',
     )
-    week = crud.create_week(db, cycle_id=enums.CycleNum.cycle_3, week=week_in)
+    cycle = crud.get_cycle(db, num=enums.CycleNum.cycle_3)
+    week = crud.create_week(db, cycle_id=cycle.id, week=week_in)
     week_id: int = week.id
 
     movable_days: list[models.MovableDay] = []

@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class Fund(Base):
     id: Mapped[intpk]
 
-    title: Mapped[enums.FundTitle] = mapped_column(unique=True)
+    title: Mapped[enums.FundTitle] = mapped_column(unique=True, index=True)
     library: Mapped[enums.LibraryTitle]
 
     manuscripts: Mapped[list[Manuscript]] = relationship(back_populates='fund')

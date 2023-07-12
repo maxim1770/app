@@ -1,22 +1,20 @@
 from pydantic import BaseModel, conint
 
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class PageBase(BaseModel):
+class __PageBase(SchemaBase):
     num: conint(strict=True, ge=1, le=2000)
     position: enums.PagePosition
 
 
-class PageCreate(PageBase):
+class PageCreate(__PageBase):
     pass
 
 
-class Page(PageBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class Page(__PageBase, SchemaInDBBase):
+    pass
 
 
 class PagesCreate(BaseModel):

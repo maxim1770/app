@@ -1,76 +1,96 @@
-from pydantic import BaseModel
-
-from .bible_book import BibleBook, BibleBookCreate, BibleBookNewTestamentCreate, BibleBookEvangelCreate, \
-    BibleBookApostleCreate
-from .bible_book import Zachalo, ZachaloCreate, ZachaloInDB
-from .book import BookDataType, BookDataGetType, Book, BookCreate, BookUpdate, BookDataCreate, HolidayBookDataCreate, \
+from .base import SchemaBase, RootSchemaBase, SchemaInDBToAssociationBase, SchemaInDBBase
+from .bible_book import BibleBook, BibleBookCreate, BibleBookEvangelCreate, \
+    BibleBookApostleCreate, BibleBookPsaltyrCreate, BibleBookOldTestamentCreate, BibleBookPjatiknizhieMoisejaCreate
+from .bible_book import Zachalo, ZachaloCreate, ZachaloInDB, ZachaloInDBToBook, ZachaloInDBToBibleBook
+from .book import BookDataType, BookDataGetType, BookInDBWithOther, Book, BookCreate, BookUpdate, BookDataCreate, \
+    HolidayBookDataCreate, \
     MolitvaBookDataCreate, MovableDateBookDataCreate, TopicBookDataCreate, ZachaloBookDataGet, BookInDB, \
-    BookInDBToManuscript, BookInDBToAuthor
+    BookInDBToManuscript, BookInDBToAuthor, BookInDBToBooks, PsaltyrBookDataGet, CathedralBookDataGet, \
+    BookmarkDataCreate, SomeBookDataCreate, LlsBookDataCreate
+from .book import Cathedral, CathedralInDB, CathedralCreate, CathedralUpdate, CathedralDataCreate
+from .book import CathedralBook, CathedralBookInDB, CathedralBookInDBToCathedral, CathedralBookCreate
 from .book import HolidayBook, HolidayBookCreate, HolidayBookInDB
+from .book import LlsBook, LlsBookCreate, LlsBookInDB
 from .book import MolitvaBook, MolitvaBook, MolitvaBookCreate, MolitvaBookInDB
 from .book import MovableDateBook, MovableDateBookCreate, MovableDateBookInDB
+from .book import PsaltyrBook, PsaltyrBookCreate, PsaltyrBookInDB, PsaltyrBookInDBToBook
 from .book import TopicBook, TopicBookCreate, TopicBookInDB
-from .city import City, CityCreate
-from .date import Date, DateCreate, DateUpdate
-from .day import Day, DayCreate, DayInDB
-from .holiday import Holiday, HolidayCreate, HolidayUpdate, HolidayDataCreate, HolidayInDB, HolidayInDBToDay, \
-    HolidayInDBToSaint
-from .holiday import HolidayCategory, HolidayCategoryCreate
+from .city import City, CityCreate, CityUpdate
+from .date import DateCreate, DateUpdate, Date, DateInDB, DateInDBToDates, Dates
+from .day import DayCreate, DayUpdate, Day, DayInDB, DayInDBToDates
+from .holiday import BeforeAfterHoliday, BeforeAfterHolidayInDB, BeforeAfterHolidayCreate
+from .holiday import BeforeAfterHolidayDayAssociation, BeforeAfterHolidayDayAssociationInDB, \
+    BeforeAfterHolidayDayAssociationCreate
+from .holiday import BeforeAfterHolidayMovableDayAssociation, BeforeAfterHolidayMovableDayAssociationInDB, \
+    BeforeAfterHolidayMovableDayAssociationCreate
+from .holiday import Holiday, HolidayWithData, HolidayCreate, HolidayUpdate, HolidayDataCreate, HolidayInDB, \
+    HolidayInDBToDay, \
+    HolidayInDBToMovableDay, HolidayInDBToSaint, HolidayInDBToIcon
+from .holiday import HolidayCategory, HolidayCategoryCreate, HolidayCategoryUpdate
 from .holiday import MovableSaintHolidayCreateWithoutData
 from .holiday import SaintHolidayCreate, SaintHolidayCreateWithoutYear, MovableSaintHolidayCreate
 from .holiday import SaintsHolidayCreate
-from .icon import Icon, IconCreate, IconUpdate, IconDataCreate, IconDataUpdate
+from .holiday import Tipikon, TipikonCreate, TipikonUpdate
+from .icon import IconCreate, IconUpdate, Icon, IconInDB, IconDataCreate
 from .manuscript import Bookmark, BookmarkInDB
-from .manuscript import Fund, FundCreate
-from .manuscript import Manuscript, ManuscriptWithNear, ManuscriptCreateAny, ManuscriptCreate, \
-    ManuscriptUpdate
+from .manuscript import Fund, FundCreate, FundUpdate
+from .manuscript import Manuscript, ManuscriptWithOther, ManuscriptCreateAny, ManuscriptCreate, \
+    ManuscriptUpdate, ManuscriptInDB
 from .manuscript import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptDataUpdate
 from .manuscript import NotNumberedPages, NotNumberedPage
 from .manuscript import Page, PagesCreate, PageCreate
+from .manuscript import PdfBookmark, FitSchema, PdfBookmark, PdfBookmark, PdfBookmark
 from .movable_date import Cycle, CycleCreate
 from .movable_date import DivineService, DivineServiceCreate
-from .movable_date import MovableDate, MovableDateCreate
-from .movable_date import MovableDay, MovableDayCreate, MovableDayGet, MovableDayInDB, MovableDayInDBForWeek
-from .movable_date import Week, WeekCreate, WeekInDB
-from .saint import Dignity, DignityCreate
-from .saint import FaceSanctity, FaceSanctityCreate
+from .movable_date import MovableDate, MovableDateCreate, MovableDateInDBForMovableDay, MovableDateInDB
+from .movable_date import MovableDay, MovableDayCreate, MovableDayGet, MovableDayInDB, MovableDayInDBForWeek, \
+    MovableDayInDBForMovableDay, MovableDayInDBToDates
+from .movable_date import Week, WeekCreate, WeekInDB, WeekInDBToMovableDay
+from .post import Post, PostCreate, PostUpdate
+from .saint import Dignity, DignityCreate, DignityUpdate
+from .saint import FaceSanctity, FaceSanctityCreate, FaceSanctityUpdate
 from .saint import Saints, Saint, SaintCreate, SaintUpdate, SaintDataCreate, SaintDataUpdate, SaintInDB, \
     SaintInDBToHoliday
-from .year import Year, YearCreate
+from .year import Year, YearCreate, YearUpdate
 
-MovableDate.update_forward_refs(MovableDayInDB=MovableDayInDB)
-WeekInDB.update_forward_refs(MovableDayInDBForWeek=MovableDayInDBForWeek)
-Cycle.update_forward_refs(WeekInDB=WeekInDB)
-
-Saint.update_forward_refs(BookInDBToAuthor=BookInDBToAuthor, HolidayInDBToSaint=HolidayInDBToSaint)
-SaintInDB.update_forward_refs(HolidayInDBToSaint=HolidayInDBToSaint)
-
-Holiday.update_forward_refs(DayInDB=DayInDB, MovableDayInDB=MovableDayInDB)
-HolidayInDBToSaint.update_forward_refs(DayInDB=DayInDB)
-HolidayInDB.update_forward_refs(DayInDB=DayInDB)
-MovableSaintHolidayCreate.update_forward_refs(MovableDayGet=MovableDayGet)
-MovableSaintHolidayCreateWithoutData.update_forward_refs(MovableDayGet=MovableDayGet)
-HolidayDataCreate.update_forward_refs(DayCreate=DayCreate)
-SaintHolidayCreate.update_forward_refs(DayCreate=DayCreate)
-SaintHolidayCreateWithoutYear.update_forward_refs(DayCreate=DayCreate)
-SaintsHolidayCreate.update_forward_refs(DayCreate=DayCreate)
-
-__book_refs: list[[BaseModel]] = [TopicBookInDB, HolidayBookInDB, MolitvaBookInDB, MovableDateBookInDB, ZachaloInDB]
-__book_refs_kwargs: dict[str, [BaseModel]] = {
-    str(book_ref).split('.')[-1].replace("'>", ''): book_ref for book_ref in __book_refs
-}
-BookInDBToManuscript.update_forward_refs(**__book_refs_kwargs)
-BookInDBToAuthor.update_forward_refs(**__book_refs_kwargs)
-Book.update_forward_refs(**__book_refs_kwargs)
-TopicBookDataCreate.update_forward_refs(TopicBookCreate=TopicBookCreate)
-HolidayBookDataCreate.update_forward_refs(HolidayBookCreate=HolidayBookCreate)
-MolitvaBookDataCreate.update_forward_refs(MolitvaBookCreate=MolitvaBookCreate)
-MovableDateBookDataCreate.update_forward_refs(MovableDayGet=MovableDayGet, MovableDateBookCreate=MovableDateBookCreate)
-ZachaloBookDataGet.update_forward_refs(ZachaloCreate=ZachaloCreate)
-
-BookmarkInDB.update_forward_refs(BookInDBToManuscript=BookInDBToManuscript)
-
-Manuscript.update_forward_refs(BookmarkInDB=BookmarkInDB)
-
-HolidayBook.update_forward_refs(HolidayInDB=HolidayInDB)
-HolidayBookInDB.update_forward_refs(HolidayInDB=HolidayInDB)
+MovableDate.model_rebuild()
+MovableDayInDB.model_rebuild()
+WeekInDB.model_rebuild()
+WeekInDBToMovableDay.model_rebuild()
+Cycle.model_rebuild()
+Saint.model_rebuild()
+SaintInDB.model_rebuild()
+Icon.model_rebuild()
+Holiday.model_rebuild()
+HolidayWithData.model_rebuild()
+HolidayInDBToSaint.model_rebuild()
+HolidayInDBToIcon.model_rebuild()
+HolidayInDB.model_rebuild()
+MovableSaintHolidayCreate.model_rebuild()
+MovableSaintHolidayCreateWithoutData.model_rebuild()
+HolidayDataCreate.model_rebuild()
+SaintHolidayCreate.model_rebuild()
+SaintHolidayCreateWithoutYear.model_rebuild()
+SaintsHolidayCreate.model_rebuild()
+BookInDBToManuscript.model_rebuild()
+BookInDBToAuthor.model_rebuild()
+Book.model_rebuild()
+BeforeAfterHoliday.model_rebuild()
+BeforeAfterHolidayInDB.model_rebuild()
+BeforeAfterHolidayDayAssociationInDB.model_rebuild()
+BeforeAfterHolidayMovableDayAssociationInDB.model_rebuild()
+TopicBookDataCreate.model_rebuild()
+HolidayBookDataCreate.model_rebuild()
+MolitvaBookDataCreate.model_rebuild()
+MovableDateBookDataCreate.model_rebuild()
+LlsBookDataCreate.model_rebuild()
+ZachaloBookDataGet.model_rebuild()
+PsaltyrBookDataGet.model_rebuild()
+CathedralBookDataGet.model_rebuild()
+Cathedral.model_rebuild()
+BookmarkDataCreate.model_rebuild()
+BookmarkInDB.model_rebuild()
+Manuscript.model_rebuild()
+HolidayBook.model_rebuild()
+HolidayBookInDB.model_rebuild()
+BibleBook.model_rebuild()

@@ -3,7 +3,7 @@ from uuid import UUID
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.manuscript.manuscript import ManuscriptCreateAny, ManuscriptBase
+from app.schemas.manuscript.manuscript import ManuscriptCreateAny
 
 
 @pytest.mark.parametrize('manuscript_code, manuscript_neb_slug', [
@@ -30,4 +30,4 @@ def test_schema_manuscript_create_any_bad() -> None:
     'f-304iii-21'
 ])
 def test_manuscript_code(manuscript_code: str) -> None:
-    assert ManuscriptBase(code=manuscript_code)
+    assert ManuscriptCreateAny(code=manuscript_code)

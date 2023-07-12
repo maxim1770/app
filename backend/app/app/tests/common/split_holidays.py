@@ -65,8 +65,8 @@ def main(db):
             )
             create_saint_holiday(db, holiday_data_in)
         for saint in holiday.saints:
-            saint_holiday = db.execute(sa.select(models.SaintsHolidays).filter_by(saint_id=saint.id,
-                                                                                  holiday_id=holiday.id)).scalar_one_or_none()
+            saint_holiday = db.execute(sa.select(models.SaintHolidayAssociation).filter_by(saint_id=saint.id,
+                                                                                           holiday_id=holiday.id)).scalar_one_or_none()
             db.delete(saint_holiday)
             db.commit()
         crud.holiday.remove_by_slug(db, slug=holiday.slug)

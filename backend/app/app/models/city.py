@@ -14,6 +14,6 @@ if TYPE_CHECKING:
 class City(Base):
     id: Mapped[intpk]
 
-    title: Mapped[enums.CityTitle] = mapped_column(unique=True)
+    title: Mapped[enums.CityTitle] = mapped_column(unique=True, index=True)
 
     icons: Mapped[list[Icon]] = relationship(back_populates='city')

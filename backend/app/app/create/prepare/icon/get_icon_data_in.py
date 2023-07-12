@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from app import schemas, utils, enums
-from app.create.prepare.year import PrepareYearTitle
+from ..year import PrepareYearTitle
 from ..icon import __collect
 
 
@@ -26,7 +26,7 @@ def get_pravicon_icons_ids(session: requests.Session, *, pravicon_saint_id: int)
                 city = None
             else:
                 city_title: enums.CityTitle = __prepare_icon_city(city)
-        except ValueError as e:
+        except ValueError:
             continue
         pravicon_icon_id = int(icon_tag.find('a')['href'].replace('/download/i', ''))
         pravicon_icons_ids.append(pravicon_icon_id)
@@ -50,7 +50,7 @@ def get_pravicon_icon_data_in(session: requests.Session, *, pravicon_icon_id: in
             city_title = None
         else:
             city_title: enums.CityTitle = __prepare_icon_city(city)
-    except (ValueError, AttributeError) as e:
+    except (ValueError, AttributeError):
         city_title = None
         year_in = None
     icon_in = schemas.IconCreate(
@@ -78,7 +78,7 @@ def get_gallerix_icon_data_in(driver: WebDriver, *, holiday_slug: str, gallerix_
     try:
         prepared_year_title: str = PrepareYearTitle(year_title).year_title
         year_in = schemas.YearCreate(title=prepared_year_title)
-    except ValueError as e:
+    except ValueError:
         pass
     else:
         icon_in = schemas.IconCreate(
@@ -112,7 +112,7 @@ def get_shm_icon_data_in(driver: WebDriver, *, holiday_slug: str, shm_icon_id: i
         ).next_sibling.text.replace('Читать далее', '')
         city: str = __prepare_shm_icon_city(city)
         city_title: enums.CityTitle = __prepare_icon_city(city)
-    except (ValueError, AttributeError) as e:
+    except (ValueError, AttributeError):
         city_title = None
     icon_in = schemas.IconCreate(
         desc=name,

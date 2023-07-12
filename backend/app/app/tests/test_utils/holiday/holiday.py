@@ -1,4 +1,4 @@
-from pydantic_factories import ModelFactory
+from polyfactory.factories.pydantic_factory import ModelFactory
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -23,7 +23,7 @@ def create_random_saint_holiday_in() -> schemas.SaintHolidayCreate:
     return SaintHolidayFactory.build()
 
 
-def create_random_holiday(db: Session, *, holiday_category_id: int = None) -> models.Holiday:
+def create_random_holiday(db: Session, *, holiday_category_id: int | None = None) -> models.Holiday:
     if holiday_category_id is None:
         holiday_category = create_random_holiday_category(db)
         holiday_category_id = holiday_category.id

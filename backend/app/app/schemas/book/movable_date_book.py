@@ -1,26 +1,22 @@
-from pydantic import BaseModel
-
 from .book import BookInDB
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class MovableDateBookBase(BaseModel):
+class __MovableDateBookBase(SchemaBase):
     pass
 
 
-class MovableDateBookCreate(MovableDateBookBase):
+class MovableDateBookCreate(__MovableDateBookBase):
     pass
 
 
-class MovableDateBookInDBBase(MovableDateBookBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class __MovableDateBookInDBBase(__MovableDateBookBase, SchemaInDBBase):
+    pass
 
 
-class MovableDateBook(MovableDateBookInDBBase):
+class MovableDateBook(__MovableDateBookInDBBase):
     book: BookInDB
 
 
-class MovableDateBookInDB(MovableDateBookInDBBase):
+class MovableDateBookInDB(__MovableDateBookInDBBase):
     pass

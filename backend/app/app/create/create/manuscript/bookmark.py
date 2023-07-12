@@ -1,12 +1,10 @@
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from ..book.book import create_book, get_book
-from app.create import prepare
 
 
-def prepare_db_bookmark(db: Session, *, bookmark_data_in: prepare.BookmarkDataCreate) -> models.Bookmark | None:
+def prepare_db_bookmark(db: Session, *, bookmark_data_in: schemas.BookmarkDataCreate) -> models.Bookmark | None:
     if isinstance(bookmark_data_in.book_data_in, schemas.BookDataGetType):
         book: models.Book | None = get_book(db, book_data_get=bookmark_data_in.book_data_in)
     else:

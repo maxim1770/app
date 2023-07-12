@@ -1,23 +1,13 @@
-from typing import Final
-
 from sqlalchemy.orm import Session
 
 from app import schemas, crud, enums
 from ..base_cls import FatalCreateError
 
 
-def create_bible_books(db: Session) -> bool:
-    """
-     Создает 27 = 4 + 23 записи об Книгах Нового Завета в таблице `bible_books`.
-
-    **Все данные введены вручную, не из парсера.**
-
-     :return: true, если все создалось успешно. Или завершается с ошибкой ValueError.
-     """
-    number_bible_books: Final[int] = 4 + 23
-
-    # Над всеми bible_books.title еще нужно подумать, особенно про те, которые начинаются на '1/2-е послание ...'
-    bible_books: list[schemas.BibleBookEvangelCreate | schemas.BibleBookApostleCreate] = [
+def create_bible_books(db: Session) -> None:
+    """Над всеми bible_books.title еще нужно подумать, особенно про те, которые начинаются на '1/2-е послание ...'"""
+    bible_books: list[
+        schemas.BibleBookEvangelCreate | schemas.BibleBookApostleCreate | schemas.BibleBookPsaltyrCreate] = [
         schemas.BibleBookEvangelCreate(
             title='Евангелие от Матфея',
             abbr=enums.BibleBookAbbr.Mt
@@ -134,20 +124,78 @@ def create_bible_books(db: Session) -> bool:
             title='Откровение Иоанна Богослова',
             abbr=enums.BibleBookAbbr.Apok
         ),
+
+        schemas.BibleBookPsaltyrCreate(
+            title='Псалтырь',
+            abbr=enums.BibleBookAbbr.Ps
+        ),
+
+        schemas.BibleBookPjatiknizhieMoisejaCreate(
+            title='Бытие́',
+            abbr=enums.BibleBookAbbr.Gen
+        ),
+        schemas.BibleBookPjatiknizhieMoisejaCreate(
+            title='Исхо́д',
+            abbr=enums.BibleBookAbbr.Ex
+        ),
+        schemas.BibleBookPjatiknizhieMoisejaCreate(
+            title='Леви́т',
+            abbr=enums.BibleBookAbbr.Lev
+        ),
+        schemas.BibleBookPjatiknizhieMoisejaCreate(
+            title='Числа́',
+            abbr=enums.BibleBookAbbr.Num
+        ),
+        schemas.BibleBookPjatiknizhieMoisejaCreate(
+            title='Второзако́ние',
+            abbr=enums.BibleBookAbbr.Deut
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Книга Исуса Навгина',
+            abbr=enums.BibleBookAbbr.Nav
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Книга Судей Израилевых',
+            abbr=enums.BibleBookAbbr.Judg
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Книга Руфь',
+            abbr=enums.BibleBookAbbr.Rth
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Царство первое',
+            abbr=enums.BibleBookAbbr._1Sam
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Царство второе',
+            abbr=enums.BibleBookAbbr._2Sam
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Царство третье',
+            abbr=enums.BibleBookAbbr._1King
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Царство четвертое',
+            abbr=enums.BibleBookAbbr._2King
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Царство четвертое',
+            abbr=enums.BibleBookAbbr._2King
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Царство четвертое',
+            abbr=enums.BibleBookAbbr._2King
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Книга глаголемая Товия',
+            abbr=enums.BibleBookAbbr.Tov
+        ),
+        schemas.BibleBookOldTestamentCreate(
+            title='Книга Есфирь',
+            abbr=enums.BibleBookAbbr.Est
+        ),
     ]
-
-    num_creatures: int = 0
-
     for bible_book in bible_books:
-        # TODO тут изменить аргументы get_bible_book, если все таки решу использовать только abbr
         if crud.get_bible_book(db, abbr=bible_book.abbr):
-            raise FatalCreateError(
-                f'BibleBook: abbr={bible_book.abbr} уже была создана')
-
+            raise FatalCreateError(f'BibleBook: abbr={bible_book.abbr} already created')
         crud.create_bible_book(db, bible_book=bible_book)
-        num_creatures += 1
-
-    if number_bible_books != num_creatures:
-        raise FatalCreateError(
-            f'Не создались {number_bible_books} записи об книгах Нового Завета в таблице `bible_books`.')
-    return True

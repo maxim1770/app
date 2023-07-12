@@ -6,16 +6,17 @@ from pypdf import PdfReader, PdfWriter
 from pypdf.generic import IndirectObject, Fit, PAGE_FIT
 from pypdf.types import PagemodeType
 
-from .get_bookmarks import Bookmark, FitSchema, get_bookmarks
+from app.schemas import PdfBookmark, FitSchema
+from .__get_bookmarks import get_bookmarks
 
 
-def _print_bookmarks(bookmark: Bookmark, *, num_space: int = 1) -> None:
+def _print_bookmarks(bookmark: PdfBookmark, *, num_space: int = 1) -> None:
     logging.info(' ' * num_space + f'{bookmark.title}, page_num={bookmark.page_num}')
     for sub_bookmark in bookmark.children:
         _print_bookmarks(sub_bookmark, num_space=num_space * 2)
 
 
-def print_bookmarks(bookmarks: list[Bookmark]) -> None:
+def print_bookmarks(bookmarks: list[PdfBookmark]) -> None:
     for bookmark in bookmarks:
         _print_bookmarks(bookmark)
 
@@ -51,7 +52,7 @@ def get_fit(fit_schema: FitSchema | None = None) -> Fit:
 def add_outline_item(
         writer: PdfWriter,
         *,
-        bookmark: Bookmark,
+        bookmark: PdfBookmark,
         parent: IndirectObject | None = None
 ) -> IndirectObject:
     fit: Fit = get_fit(bookmark.fit)
@@ -69,7 +70,7 @@ def add_outline_item(
 def _add_bookmarks(
         writer: PdfWriter,
         *,
-        bookmark: Bookmark,
+        bookmark: PdfBookmark,
         parent_indirect: IndirectObject | None = None
 ) -> None:
     indirect: IndirectObject = add_outline_item(writer, bookmark=bookmark, parent=parent_indirect)
@@ -81,25 +82,25 @@ def _add_bookmarks(
         )
 
 
-def add_bookmarks(writer: PdfWriter, *, bookmarks: list[Bookmark]) -> None:
+def add_bookmarks(writer: PdfWriter, *, bookmarks: list[PdfBookmark]) -> None:
     for bookmark in bookmarks:
         _add_bookmarks(writer, bookmark=bookmark)
 
 
-def _offset_pages_bookmarks(bookmark: Bookmark, *, num_offset_pages: int) -> None:
+def _offset_pages_bookmarks(bookmark: PdfBookmark, *, num_offset_pages: int) -> None:
     bookmark.page_num = bookmark.page_num + num_offset_pages
     for sub_bookmark in bookmark.children:
         _offset_pages_bookmarks(sub_bookmark, num_offset_pages=num_offset_pages)
 
 
-def offset_pages_bookmarks(bookmarks: list[Bookmark], *, num_offset_pages: int) -> None:
+def offset_pages_bookmarks(bookmarks: list[PdfBookmark], *, num_offset_pages: int) -> None:
     for bookmark in bookmarks:
         _offset_pages_bookmarks(bookmark, num_offset_pages=num_offset_pages)
 
 
-def get_pdf_bookmarks(path: Path) -> list[Bookmark]:
+def get_pdf_bookmarks(path: Path) -> list[PdfBookmark]:
     reader = PdfReader(path)
-    bookmarks: list[Bookmark] = get_bookmarks(reader)
+    bookmarks: list[PdfBookmark] = get_bookmarks(reader)
     return bookmarks
 
 

@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from app import models, schemas, enums
 
 
-def get_cycles(db: Session, skip: int = 0, limit: int = 100) -> list[models.Cycle]:
-    return list(db.execute(sa.select(models.Cycle).offset(skip).limit(limit)).scalars())
+def get_cycles(db: Session) -> list[models.Cycle]:
+    return db.execute(sa.select(models.Cycle)).scalars().all()
 
 
 def get_cycle(db: Session, num: enums.CycleNum) -> models.Cycle | None:
@@ -13,7 +13,7 @@ def get_cycle(db: Session, num: enums.CycleNum) -> models.Cycle | None:
 
 
 def create_cycle(db: Session, cycle: schemas.CycleCreate) -> models.Cycle:
-    db_cycle: models.Cycle = models.Cycle(**cycle.dict())
+    db_cycle: models.Cycle = models.Cycle(**cycle.model_dump())
     db.add(db_cycle)
     db.commit()
     db.refresh(db_cycle)

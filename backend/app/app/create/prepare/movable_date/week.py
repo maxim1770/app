@@ -259,14 +259,10 @@ class PrepareC2Week(PrepareParentDataSliceBase):
         self.data.insert(16 - 2, week_16)
 
     def _clean(self):
-        # FIXME: тут тоже не уверен как правильно сделать
         self.data: list[str] = list(map(_replace_dash_with_space, self.data))
 
         self.data[18 - 2]: Final[str] = self.data[18 - 2].replace(' *', '')
 
-        # TODO Подумать что сделать с [None], если записать в классы,
-        #  то тоже возможно нарушится логика т.к самих суббот то 35, а там будет написано 36!!!
-        #  ну и плюс к тому же, нужно будет переписывать все на try except в функциях, т.к None
         self.data.append(None)
 
     def _convert(self): pass
@@ -312,9 +308,7 @@ class PrepareC2WeekNum(PrepareParentNoCopyBase):
     def _clean(self): pass
 
     def _convert(self):
-        # FIXME: тут тоже не уверен как правильно сделать, но вроде так нормально
         self.data: list[int] = [int(re.search(r'\d+', week)[0]) for week in self.parent.data[:-1]]
-
         self.data.append(None)
 
 
@@ -424,8 +418,6 @@ class PrepareC3WeekFactory(PrepareWeekFactoryBase):
 
 
 class CreateWeekFactory(object):
-    # TODO: подумать над тем чтобы cycle_id находить внутри этого класса, т.к
-    #  по идее cycle_id нужен только внутри этого класса
 
     @staticmethod
     def get_c1_week(db: Session, cycle_id: int) -> CreateWeek:

@@ -11,24 +11,26 @@ from ..base_collect import get_all_cathedrals_saints
 from ...const import AzbykaUrl
 
 
-class HolidayCollectBase(BaseModel):
+class __HolidayCollectBase(BaseModel):
     full_title: str
     day: date
 
 
-class SaintHolidayCollect(HolidayCollectBase):
-    saint_slug: constr(strip_whitespace=True, strict=True, regex=const.REGEX_SLUG_STR)
+class SaintHolidayCollect(__HolidayCollectBase):
+    saint_slug: constr(strip_whitespace=True, strict=True, pattern=const.REGEX_SLUG_STR)
 
 
-class SaintsHolidayCollect(HolidayCollectBase):
+class SaintsHolidayCollect(__HolidayCollectBase):
     saints_ids_from_azbyka: list[int]
 
 
-class SaintsHolidayNewCollect(HolidayCollectBase):
-    saints_slugs: constr(strip_whitespace=True, strict=True, regex=const.REGEX_SLUG_STR)
+class SaintsHolidayNewCollect(__HolidayCollectBase):
+    saints_slugs: constr(strip_whitespace=True, strict=True, pattern=const.REGEX_SLUG_STR)
 
-class SaintsHolidayNewMethod2Collect(HolidayCollectBase):
+
+class SaintsHolidayNewMethod2Collect(__HolidayCollectBase):
     saints_slugs: list[str]
+
 
 class HolidayCollectFactoryBase(ABC):
 

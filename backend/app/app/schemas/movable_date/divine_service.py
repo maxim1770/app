@@ -1,23 +1,14 @@
-from pydantic import BaseModel
-
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 
-# from .movable_date import MovableDate
-
-
-class DivineServiceBase(BaseModel):
+class __DivineServiceBase(SchemaBase):
     title: enums.DivineServiceTitle
 
 
-class DivineServiceCreate(DivineServiceBase):
+class DivineServiceCreate(__DivineServiceBase):
     pass
 
 
-class DivineService(DivineServiceBase):
-    id: int
-
-    # movable_dates: list[MovableDate] = []
-
-    class Config:
-        orm_mode = True
+class DivineService(__DivineServiceBase, SchemaInDBBase):
+    pass

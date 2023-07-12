@@ -141,7 +141,7 @@ def test_offset_years_in_year_title(year_title: str, offset_year_title: str) -> 
     ('holiday_title (1234);', 'Holiday_title'),
     ('holiday_title (1234), text;', 'Holiday_title, text'),
     ('holiday_title  text (1234)', 'Holiday_title text'),
-    ('holiday_title (text) (1234).; ', 'Holiday_title (text)'),
+    ('holiday_title (text) (1234). ', 'Holiday_title (text)'),
     ('holiday_title (1234) (Серб.)', 'Holiday_title'),
     ('holiday_title (1234) (Румын.)', 'Holiday_title'),
     ('holiday_title (1234) (Болг.)', 'Holiday_title'),

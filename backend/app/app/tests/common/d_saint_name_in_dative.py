@@ -54,7 +54,7 @@ if __name__ == '__main__':
     db = next(deps.get_db())
     session: requests.Session = next(deps.get_session())
 
-    for saint in crud.saint.get_multi(db, limit=3000):
+    for saint in crud.saint.get_all(db):
         if not saint.name_in_dative:
             name_in_dative: str | None = find_saint_name_in_dative(saint_slug=saint.slug)
             if name_in_dative:

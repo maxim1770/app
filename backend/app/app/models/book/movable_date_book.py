@@ -11,5 +11,5 @@ class MovableDateBook(Base):
 
     book: Mapped[Book] = relationship(back_populates='movable_date_book')
 
-    movable_day_id: Mapped[int] = mapped_column(ForeignKey(MovableDay.id))
+    movable_day_id: Mapped[int] = mapped_column(ForeignKey(MovableDay.id), index=True)
     movable_day: Mapped[MovableDay] = relationship(back_populates='movable_date_books')

@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+
+  nginx_frontend:
+    container_name: nginx_frontend
+    build:
+      context: .
+    ports:
+      - 80:80
+    restart: always
+    networks:
+      - custom
+
+volumes:
+  app-db-data:
+
+networks:
+  custom:
+    driver: bridge

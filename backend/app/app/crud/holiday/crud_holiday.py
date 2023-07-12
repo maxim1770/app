@@ -1,11 +1,16 @@
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-from app.filters import HolidayFilter
+# from app.filters import HolidayFilter
 from app.models import Holiday
 from app.schemas import HolidayCreate, HolidayUpdate
 from ..base import CRUDBase
+
+
+class HolidayFilter(BaseModel):
+    pass
 
 
 class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate, HolidayFilter]):
@@ -25,14 +30,16 @@ class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate, HolidayFilter]
             *,
             obj_in: HolidayCreate,
             holiday_category_id: int,
-            year_id: int = None,
-            day_id: int = None,
-            movable_day_id: int = None
+            tipikon_id: int | None = None,
+            year_id: int | None = None,
+            day_id: int | None = None,
+            movable_day_id: int | None = None
     ) -> Holiday:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(
             **obj_in_data,
             holiday_category_id=holiday_category_id,
+            tipikon_id=tipikon_id,
             year_id=year_id,
             day_id=day_id,
             movable_day_id=movable_day_id
@@ -49,7 +56,7 @@ class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate, HolidayFilter]
             db_obj: Holiday,
             saint: models.Saint,
     ) -> Holiday:
-        db_obj.saint_associations.append(models.SaintsHolidays(saint=saint))
+        db_obj.saint_associations.append(models.SaintHolidayAssociation(saint=saint))
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

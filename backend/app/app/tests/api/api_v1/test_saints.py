@@ -8,15 +8,15 @@ from app.tests import test_utils
 
 def test_create_saint(client: TestClient, db: Session) -> None:
     saint_data_in = test_utils.create_random_saint_data_in()
-    dignity = crud.create_dignity(
+    dignity = crud.dignity.create(
         db,
-        dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
+        obj_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
     ) if saint_data_in.dignity_title else None
-    face_sanctity = crud.create_face_sanctity(
+    face_sanctity = crud.face_sanctity.create(
         db,
-        face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
+        obj_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
-    r = client.post('/saints', json=saint_data_in.dict())
+    r = client.post('/saints', json=saint_data_in.model_dump())
     assert 200 <= r.status_code < 300
     created_saint = r.json()
     assert 'id' in created_saint
@@ -39,7 +39,7 @@ def test_create_saint_bad(client: TestClient, db: Session) -> None:
     saint = test_utils.create_random_saint(db)
     saint_data_in = test_utils.create_random_saint_data_in()
     saint_data_in.saint_in.slug = saint.slug
-    r = client.post('/saints', json=saint_data_in.dict())
+    r = client.post('/saints', json=saint_data_in.model_dump())
     assert r.status_code == status.HTTP_400_BAD_REQUEST
 
 
@@ -47,15 +47,15 @@ def test_update_saint(client: TestClient, db: Session) -> None:
     saint = test_utils.create_random_saint(db)
     saint_name: str | None = saint.name
     saint_data_in = test_utils.create_random_saint_data_update_in()
-    dignity = crud.create_dignity(
+    dignity = crud.dignity.create(
         db,
-        dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
+        obj_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
     ) if saint_data_in.dignity_title else None
-    face_sanctity = crud.create_face_sanctity(
+    face_sanctity = crud.face_sanctity.create(
         db,
-        face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
+        obj_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
-    r = client.put(f'/saints/{saint.slug}', json=saint_data_in.dict())
+    r = client.put(f'/saints/{saint.slug}', json=saint_data_in.model_dump())
     assert 200 <= r.status_code < 300
     updated_saint = r.json()
     assert updated_saint['id'] == saint.id
@@ -90,13 +90,13 @@ def test_update_saint_from_azbyka(
         face_sanctity_title=enums.FaceSanctityTitle.svjatitel,
         dignity_title=enums.DignityTitle.arhiepiskop,
     )
-    dignity = crud.create_dignity(
+    dignity = crud.dignity.create(
         db,
-        dignity_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
+        obj_in=schemas.DignityCreate(title=saint_data_in.dignity_title)
     ) if saint_data_in.dignity_title else None
-    face_sanctity = crud.create_face_sanctity(
+    face_sanctity = crud.face_sanctity.create(
         db,
-        face_sanctity_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
+        obj_in=schemas.FaceSanctityCreate(title=saint_data_in.face_sanctity_title)
     ) if saint_data_in.face_sanctity_title else None
     test_utils.requests_mock_get_saint_data(requests_mock, saint_slug=saint_slug)
     r = client.put(f'saints/from_azbyka/{saint_slug}')

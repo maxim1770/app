@@ -1,12 +1,12 @@
 import pytest
 
-from app.create.prepare.manuscript.bookmark.convert_page import pages_nums2pages_in
+from app.create.prepare.manuscript.bookmark.__convert_page import pages_nums2pages_in
 from app.enums import PagePosition
 from app.schemas import PagesCreate, PageCreate, NotNumberedPages
 from app.schemas.manuscript.manuscript import NotNumberedPage
 
 some_not_numbered_pages = NotNumberedPages(
-    __root__=[
+    [
         NotNumberedPage(
             page=PageCreate(
                 num=1,
@@ -18,7 +18,7 @@ some_not_numbered_pages = NotNumberedPages(
 )
 
 some_2_not_numbered_pages = NotNumberedPages(
-    __root__=[
+    [
         NotNumberedPage(
             page=PageCreate(
                 num=1,

@@ -78,8 +78,8 @@ class CollectManuscriptFactory(object):
         return collect_manuscript
 
 
-class CollectManuscriptLLSFactory(object):
-    class LLSNumPages(IntEnum):
+class CollectManuscriptLlsFactory(object):
+    class RuniversLlsNumPages(IntEnum):
         lls_book_1 = 507
         lls_book_2 = 629
         lls_book_3 = 1063
@@ -122,50 +122,6 @@ class CollectManuscriptLLSFactory(object):
         lls_book_rus_22 = 552
         lls_book_rus_23 = 520  # Русь Книга 23
 
-    class _RuniversLLS(IntEnum):
-        lls_book_1 = 197389
-        lls_book_2 = 197391
-        lls_book_3 = 197394
-        lls_book_5 = 197398
-        lls_book_6 = 477701
-        lls_book_7 = 477711
-        lls_book_8 = 477717
-        lls_book_9 = 478157
-        lls_book_10 = 478159
-
-        # lls_book_rus_1 = 478161  # Русь Книга 1 (Тут получается Русь Книга 1-2)
-
-        # - - -
-        # С lls_book_rus_1 (594254) по lls_book_rus_10 Собираем из другого издания id = 19785
-        # https://runivers.ru/lib/book19785
-
-        lls_book_rus_1 = 594254  # Совпадают
-        lls_book_rus_2 = 594256  # Совпадают
-        lls_book_rus_3 = 594196  # 1182 (1174) - 1212 (1204), а у Германа 1183 (1175) - 1213 (1205)
-        lls_book_rus_4 = 594201  # Совпадают
-        lls_book_rus_5 = 594203  # Заканчивается на 1249 (1241), а у Германа на 1248 (1240)
-        lls_book_rus_6 = 594258  # Начинается с 1250 (1242), а у Германа с 1248 (1240)
-        lls_book_rus_7 = 594260  # Совпадают
-        lls_book_rus_8 = 594265  # Совпадают
-        lls_book_rus_9 = 594267  # Совпадают
-        lls_book_rus_10 = 594269  # Совпадают
-
-        # - - -
-
-        lls_book_rus_11 = 480116  # Русь Книга 11
-        lls_book_rus_12 = 480190
-        lls_book_rus_13 = 480292
-        lls_book_rus_14 = 480448
-        lls_book_rus_15 = 480451
-        lls_book_rus_16 = 480453
-        lls_book_rus_17 = 481263
-        lls_book_rus_18 = 481313
-        lls_book_rus_19 = 481461
-        lls_book_rus_20 = 481478
-        lls_book_rus_21 = 481997
-        lls_book_rus_22 = 482205
-        lls_book_rus_23 = 482514  # Русь Книга 23
-
     @classmethod
     def get(
             cls,
@@ -177,8 +133,8 @@ class CollectManuscriptLLSFactory(object):
         path: Path = prepare_manuscript_path.path
         pdf_path: Path = prepare_manuscript_path.pdf_path
         imgs_urls: list[str] = [
-            f'{const.RuniversUrl.GET_MANUSCRIPT_PAGES}/{cls._RuniversLLS[code.replace("-", "_")]}/{cls._add_zeros_to_num(num + 1)}.gif'
-            for num in range(cls.LLSNumPages[code.replace('-', '_')])
+            f'{const.RuniversUrl.GET_MANUSCRIPT_PAGES}/{const.RuniversLlsId[code.replace("-", "_")]}/{cls._add_zeros_to_num(num + 1)}.gif'
+            for num in range(cls.RuniversLlsNumPages[code.replace('-', '_')])
         ]
         collect_manuscript = CollectManuscript(session, imgs_urls=imgs_urls, path=path, pdf_path=pdf_path)
         return collect_manuscript

@@ -1,3 +1,3 @@
-from .bible_book import BibleBook, BibleBookCreate, BibleBookNewTestamentCreate, BibleBookEvangelCreate, \
-    BibleBookApostleCreate
-from .zachalo import Zachalo, ZachaloCreate, ZachaloInDB
+from .bible_book import BibleBook, BibleBookCreate, BibleBookEvangelCreate, \
+    BibleBookApostleCreate, BibleBookPsaltyrCreate, BibleBookOldTestamentCreate, BibleBookPjatiknizhieMoisejaCreate
+from .zachalo import Zachalo, ZachaloCreate, ZachaloInDB, ZachaloInDBToBook, ZachaloInDBToBibleBook

@@ -36,7 +36,7 @@ def create_cycles(db: Session) -> bool:
     for cycle in cycles:
         if crud.get_cycle(db, num=cycle.num):
             raise FatalCreateError(
-                f'Cycle: num={cycle.num} уже была создана')
+                f'Cycle: num={cycle.num} already created')
 
         crud.create_cycle(db, cycle=cycle)
         num_creatures += 1

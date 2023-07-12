@@ -1,19 +1,20 @@
-from pydantic import BaseModel
-
 from app import enums
+from ..base import SchemaBase, SchemaInDBBase
 
 
-class FundBase(BaseModel):
+class __FundBase(SchemaBase):
+    title: enums.FundTitle | None = None
+    library: enums.LibraryTitle | None = None
+
+
+class FundCreate(__FundBase):
     title: enums.FundTitle
     library: enums.LibraryTitle
 
 
-class FundCreate(FundBase):
+class FundUpdate(__FundBase):
     pass
 
 
-class Fund(FundBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class Fund(__FundBase, SchemaInDBBase):
+    pass

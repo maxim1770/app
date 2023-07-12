@@ -1,12 +1,17 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-from app.filters import DateFilter
+# from app.filters import DateFilter
 from app.models import Date
 from app.schemas import DateCreate, DateUpdate
 from .base import CRUDBase
+
+
+class DateFilter(BaseModel):
+    pass
 
 
 class CRUDDate(CRUDBase[Date, DateCreate, DateUpdate, DateFilter]):
@@ -19,6 +24,11 @@ class CRUDDate(CRUDBase[Date, DateCreate, DateUpdate, DateFilter]):
     def get_by_day_and_year(self, db: Session, *, day_id: int, year: int) -> models.Date | None:
         return db.execute(
             sa.select(self.model).filter_by(day_id=day_id).filter_by(year=year)
+        ).scalar_one_or_none()
+
+    def get_by_movable_day_and_year(self, db: Session, *, movable_day_id: int, year: int) -> models.Date | None:
+        return db.execute(
+            sa.select(self.model).filter_by(movable_day_id=movable_day_id).filter_by(year=year)
         ).scalar_one_or_none()
 
     def create_with_any(
@@ -41,8 +51,16 @@ class CRUDDate(CRUDBase[Date, DateCreate, DateUpdate, DateFilter]):
         return db_obj
 
     @staticmethod
-    def update_by_movable_day_id(db: Session, *, db_obj: models.Date, movable_day_id: int) -> models.Date:
+    def update_movable_day_id(db: Session, *, db_obj: models.Date, movable_day_id: int) -> models.Date:
         db_obj.movable_day_id = movable_day_id
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
+    @staticmethod
+    def update_post_id(db: Session, *, db_obj: models.Date, post_id: int) -> models.Date:
+        db_obj.post_id = post_id
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

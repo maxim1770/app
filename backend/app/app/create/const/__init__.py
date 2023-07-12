@@ -6,3 +6,4 @@ from .movable_date import DATE_PASKHA, NumSunday, NumWeek, NumMovableDay, NUM_DA
 from .pravicon import PraviconUrl
 from .gallerix import GallerixUrl
 from .shm import ShmUrl
+from .manuscript import ColorHex

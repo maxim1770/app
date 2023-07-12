@@ -11,7 +11,7 @@ def create_topic_book(
 ) -> models.TopicBook:
     db_topic_book = models.TopicBook(
         id=id,
-        **topic_book_in.dict()
+        **topic_book_in.model_dump()
     )
     db.add(db_topic_book)
     db.commit()

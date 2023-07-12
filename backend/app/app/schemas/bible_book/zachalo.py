@@ -1,30 +1,42 @@
-from pydantic import BaseModel, conint, constr
+from pydantic import conint
 
 from .bible_book import BibleBook
-from ..book import BookInDB
+from ..base import SchemaBase, SchemaInDBBase
+from ..book import BookInDBToBooks
 
 
-class ZachaloBase(BaseModel):
+class __ZachaloBase(SchemaBase):
     num: conint(strict=True, ge=-1, le=335)
-    title: constr(strip_whitespace=True, strict=True, max_length=30) | None = None
+    title: str | None = None  # constr(strip_whitespace=True, strict=True, max_length=30) | None = None
 
 
-class ZachaloCreate(ZachaloBase):
+class ZachaloCreate(__ZachaloBase):
     pass
 
 
-class ZachaloInDBBase(ZachaloBase):
-    id: int
+class __ZachaloInDBBase(__ZachaloBase, SchemaInDBBase):
+    pass
 
+
+class __ZachaloInDBWithBibleBookBase(__ZachaloInDBBase):
     bible_book: BibleBook
 
-    class Config:
-        orm_mode = True
+
+class __ZachaloInDBWithBookBase(__ZachaloInDBWithBibleBookBase):
+    book: BookInDBToBooks
 
 
-class Zachalo(ZachaloInDBBase):
-    book: BookInDB
+class ZachaloInDBToBibleBook(__ZachaloInDBBase):
+    pass
 
 
-class ZachaloInDB(ZachaloInDBBase):
+class ZachaloInDBToBook(__ZachaloInDBWithBibleBookBase):
+    pass
+
+
+class Zachalo(__ZachaloInDBWithBookBase, __ZachaloInDBWithBibleBookBase):
+    pass
+
+
+class ZachaloInDB(__ZachaloInDBWithBookBase, __ZachaloInDBWithBibleBookBase):
     pass

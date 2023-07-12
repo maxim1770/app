@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 from app import crud, models
 from app.api import deps
 from app.const import BASE_YEAR_FOR_DAY
-from app.utils.common import int_date2date
-from ..icon import __collect
+from app.create.prepare.icon import __collect
+from app.utils import int_date2date
 
 
 def __set_base_year_for_day(some_date: date) -> date:
@@ -534,10 +534,11 @@ if __name__ == '__main__':
                            ('martinian-efesskij', 2397), ('ioann-efesskij', 1938), ('dionisij-efesskij', 1636)]
     for saint_slug, pravicon_saint_id in pravicon_saints_ids:
         saint: models.Saint = crud.saint.get_by_slug(db, slug=saint_slug)
-        try:
-            pravicon_saint_days: list[date] = __collect.collect_pravicon_saint_days(session,
-                                                                                    pravicon_saint_id=pravicon_saint_id)
-        except AttributeError as e:
+        pravicon_saint_days: list[date] = __collect.collect_pravicon_saint_days(
+            session,
+            pravicon_saint_id=pravicon_saint_id
+        )
+        if not pravicon_saint_days:
             logging.warning(f'pravicon_saint_id {pravicon_saint_id}')
             continue
         saint_days: list[date] = [int_date2date(holiday.day.month, day=holiday.day.day)

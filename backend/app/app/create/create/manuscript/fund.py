@@ -5,9 +5,8 @@ from ..base_cls import FatalCreateError
 
 
 def create_all_funds(db: Session) -> None:
-    if crud.get_funds(db):
-        raise FatalCreateError(f'Fund: funds уже были созданы')
-
+    if crud.fund.get_all(db):
+        raise FatalCreateError(f'Fund: funds already created')
     funds_in: list[schemas.FundCreate] = []
     for fund_title in enums.FundTitle:
         if utils.is_rsl_library(fund_title):
@@ -15,6 +14,5 @@ def create_all_funds(db: Session) -> None:
         else:
             library = enums.LibraryTitle.nlr
         funds_in.append(schemas.FundCreate(title=fund_title, library=library))
-
     for fund_in in funds_in:
-        crud.create_fund(db, fund_in=fund_in)
+        crud.fund.create(db, obj_in=fund_in)

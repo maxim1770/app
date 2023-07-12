@@ -102,7 +102,7 @@ logger = logging.getLogger(__name__)
 
 
 def main(db: Session):
-    holidays = crud.holiday.get_multi(db, limit=2000)
+    holidays = crud.holiday.get_all(db)
     day = date(2031, 10, 12)
     saints_holidays: list[Tag] = get_saints_holidays_new_in_day(day)
     new_saints_holidays: list[Tag] = []

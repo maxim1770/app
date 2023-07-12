@@ -1,6 +1,15 @@
 version: "3.8"
 services:
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    env_file:
+      - .env
+    expose:
+      - 6379
+    networks:
+      - custom
   db:
     container_name: db
     image: postgres:latest
@@ -31,6 +40,7 @@ services:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     depends_on:
       - db
+      - redis
     command: bash -c "initial_db_and_start_server.production.sh"
     expose:
       - 8000
@@ -52,7 +62,7 @@ services:
     build:
       context: ./nginx_only_backend
     ports:
-      - 80:80
+      - 81:80
     restart: always
     depends_on:
       - backend

@@ -92,7 +92,7 @@ class ManuscriptDataCreateFactory(object):
             self._manuscript_data_in_any.manuscript_in.title = self.collect_manuscript_data.manuscript_title
         if not self._manuscript_data_in_any.manuscript_in.code_title:
             self._manuscript_data_in_any.manuscript_in.code_title = self.collect_manuscript_data.manuscript_code_title
-        manuscript_in = ManuscriptCreate(**self._manuscript_data_in_any.manuscript_in.dict())
+        manuscript_in = ManuscriptCreate(**self._manuscript_data_in_any.manuscript_in.model_dump())
         return manuscript_in
 
     def get(self) -> ManuscriptDataCreate:

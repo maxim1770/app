@@ -2,35 +2,31 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel
-
 from app import enums
 from .book import BookInDB
+from ..base import SchemaBase, SchemaInDBBase
 
 if TYPE_CHECKING:
     from ..holiday import HolidayInDB
+    from ..saint import SaintInDB
 
 
-class HolidayBookBase(BaseModel):
+class __HolidayBookBase(SchemaBase):
     book_util: enums.BookUtil | None = None
 
 
-class HolidayBookCreate(HolidayBookBase):
+class HolidayBookCreate(__HolidayBookBase):
     pass
 
 
-class HolidayBookInDBBase(HolidayBookBase):
-    id: int
-
-    holiday: HolidayInDB
-
-    class Config:
-        orm_mode = True
+class __HolidayBookInDBBase(__HolidayBookBase, SchemaInDBBase):
+    holiday: HolidayInDB | None
+    saint: SaintInDB | None
 
 
-class HolidayBook(HolidayBookInDBBase):
+class HolidayBook(__HolidayBookInDBBase):
     book: BookInDB
 
 
-class HolidayBookInDB(HolidayBookInDBBase):
+class HolidayBookInDB(__HolidayBookInDBBase):
     pass

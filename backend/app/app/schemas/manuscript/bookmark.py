@@ -3,52 +3,52 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from pydantic import BaseModel, validator
+from pydantic import model_validator
 
-from app import utils
-from .manuscript import ManuscriptInDB
+from app import utils, models
+from .manuscript import ManuscriptInDB, NotNumberedPages
 from .page import Page
+from ..base import SchemaBase, SchemaInDBToAssociationBase
 
 if TYPE_CHECKING:
     from ..book import BookInDBToManuscript
 
 
-class BookmarkBase(BaseModel):
+class __BookmarkBase(SchemaBase):
     pass
 
 
-class BookmarkCreate(BookmarkBase):
+class BookmarkCreate(__BookmarkBase):
     pass
 
 
-class BookmarkInDBBase(BookmarkBase):
+class __BookmarkInDBBase(__BookmarkBase, SchemaInDBToAssociationBase):
     first_page: Page
     end_page: Page
 
-    class Config:
-        orm_mode = True
 
-
-class Bookmark(BookmarkInDBBase):
+class Bookmark(__BookmarkInDBBase):
     manuscript: ManuscriptInDB
 
-    imgs: list[Path] = []
+    imgs_paths: list[Path]
 
-    @validator('imgs', pre=True, always=True)
-    def prepare_imgs(cls, imgs: None, values):
-        first_page_num, end_page_num = utils.pages_in2pages_nums(
-            values['first_page'],
-            values['end_page'],
-            not_numbered_pages=values['manuscript'].not_numbered_pages,
-            from_neb=True if values['manuscript'].neb_slug else False,
-            first_page_position=values['manuscript'].first_page_position
+    @model_validator(mode='before')
+    @classmethod
+    def prepare_imgs_paths(cls, values: models.Bookmark) -> models.Bookmark:
+        __first_page_num, __end_page_num = utils.pages_in2pages_nums(
+            values.first_page,
+            values.end_page,
+            not_numbered_pages=NotNumberedPages(values.manuscript.not_numbered_pages),
+            from_neb=True if values.manuscript.neb_slug else False,
+            first_page_position=values.manuscript.first_page_position
         )
-        imgs = [
-            Path(f"img/manuscripts{str(values['manuscript'].path / f'{i}.webp').split('manuscripts')[1]}")
-            for i in range(first_page_num, end_page_num + 1)
-        ]
-        return imgs
+        __manuscript_path: Path | None = utils.assemble_manuscript_path(values.manuscript)
+        values.imgs_paths: list[dict[str, Path]] = [
+            Path(f"img/manuscripts{str(__manuscript_path / f'{i}.webp').split('manuscripts')[1]}")
+            for i in range(__first_page_num, __end_page_num + 1)
+        ] if __manuscript_path else []
+        return values
 
 
-class BookmarkInDB(BookmarkInDBBase):
+class BookmarkInDB(__BookmarkInDBBase):
     book: BookInDBToManuscript

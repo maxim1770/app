@@ -1,10 +1,10 @@
 import logging
 from typing import Final, TypeAlias
 
-from pydantic.color import Color
+from pydantic_extra_types.color import Color
 
-from app.create.prepare.manuscript.bookmark.get_bookmarks import Bookmark
-from const import _ColorHex
+from app.create.prepare.manuscript.bookmark.__get_bookmarks import PdfBookmark
+from app.create.prepare.manuscript.bookmark.lls_bookmarks import _ColorHex
 
 PrologBookTitleType: TypeAlias = str
 
@@ -13,7 +13,7 @@ PrologBookType: TypeAlias = list[tuple[int, list[tuple[PrologBookTitleType, int]
 PrologBookFullType: TypeAlias = tuple[PrologBookType, int]
 
 
-class PrologBookmarkBase(Bookmark):
+class PrologBookmarkBase(PdfBookmark):
     start_on_new_page: bool
 
 

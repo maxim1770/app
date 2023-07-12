@@ -1,4 +1,5 @@
 import logging
+from datetime import date
 
 import requests
 from bs4 import Tag
@@ -6,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-from app import crud
+from app import schemas
 from app.create.prepare.icon import __collect
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
@@ -122,14 +123,43 @@ if __name__ == '__main__':
                            1938, 1636, 1698, 1250,
                            1274, 1483, 3155, 2240, 2594, 1795, 2788, 3167, 2803, 1284, 1033, 3015, 2775, 1133, 2122,
                            2879, 1194, 2878, 1787,
-                           2183]
+                           2183,
 
+                           # ('IV-IX') Проверил вручную, некоторых добавил, некоторых не нашел в бд
+                           1005, 1011, 1026, 1027, 1039, 1068, 1079, 1095, 1132, 1142, 1143, 1149, 1183, 1193, 1208,
+                           1215, 1222, 1247, 1257, 1277, 1283, 1316, 1319, 1320, 1330, 1331, 1337, 1359, 1367, 1384,
+                           1417, 1437, 1440, 1465, 1471, 1495, 1501, 1502, 1503, 1506, 1512, 1518, 1534, 1559, 1560,
+                           1561, 1562, 1564, 1568, 1579, 1584, 1585, 1589, 1608, 1616, 1651, 1652, 1687, 1701, 1705,
+                           1708, 1711, 1712, 1767, 1790, 1815, 1836, 1841, 1852, 1887, 1898, 1901, 1927, 1937, 1940,
+                           1942, 1943, 1947, 1948, 1949, 1952, 1953, 1955, 1961, 1969, 1987, 1989, 2061, 2080, 2099,
+                           2105, 2109, 2112, 2131, 2150, 2167, 2182, 2188, 2199, 2219, 2237, 2253, 2257, 2260, 2271,
+                           2281, 2300, 2313, 2335, 2360, 2368, 2375, 2379, 2389, 2392, 2393, 2395, 2398, 2405, 2423,
+                           2433, 2478, 2523, 2565, 2580, 2585, 2595, 2605, 2614, 2616, 2617, 2618, 2619, 2620, 2621,
+                           2622, 2633, 2641, 2670, 2672, 2673, 2675, 2682, 2686, 2693, 2698, 2699, 2700, 2707, 2719,
+                           2758, 2793, 2812, 2822, 2886, 2892, 2896, 2900, 2901, 2911, 2956, 2962, 2966, 2974, 2994,
+                           3030, 3038, 3046, 3057, 3076, 3081, 3085, 3124, 3126, 3143, 3188, 3206
+                           ]
+
+    new_pravicon_saints_ids = []
     icons_saints: list[Tag] = __collect.collect_icons_saints(session)
     for icon_saint in icons_saints:
         pravicon_saint_id: int = __collect.collect_pravicon_saint_id(icon_saint)
         if pravicon_saint_id in pravicon_saints_ids:
             continue
+        year_in: schemas.YearCreate | None = __collect.collect_pravicon_saint_year_in(
+            session,
+            pravicon_saint_id=pravicon_saint_id
+        )
+        if not year_in:
+            continue
+        pravicon_saint_days: list[date] = __collect.collect_pravicon_saint_days(
+            session,
+            pravicon_saint_id=pravicon_saint_id
+        )
+        logging.info(f'{pravicon_saint_id} | {icon_saint.text}')
+        logging.info(pravicon_saint_days)
+        logging.warning(year_in)
+        logging.info('- - -')
+        new_pravicon_saints_ids.append(pravicon_saint_id)
 
-        logging.info(icon_saint.text)
-
-
+    logging.error(new_pravicon_saints_ids)

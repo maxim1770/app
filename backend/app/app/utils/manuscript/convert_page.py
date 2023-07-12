@@ -29,7 +29,7 @@ def pages_in2pages_nums(
     else:
         first_page_num: int = first_page.num
         end_page_num: int = end_page.num
-    for not_numbered_page in not_numbered_pages.__root__:
+    for not_numbered_page in not_numbered_pages:
         if first_page.num >= not_numbered_page.page.num:
             first_page_num += not_numbered_page.count * 2 if from_neb else not_numbered_page.count
         if end_page.num >= not_numbered_page.page.num:

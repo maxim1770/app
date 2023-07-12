@@ -1,107 +1,102 @@
 <template>
-  <div class='d-flex w-100 h-100'>
-    <div class='flex-grow-1 p-3'>
-      <FullCalendar
-          class='text-subtitle-2 text-sm-body-2 text-lg-h5'
-          :options='calendarOptions'
+  <div>
+    <v-sheet>
+      <v-calendar
+        v-model="selectedDate"
+        :date-formatter="customDateFormatter"
+        :initial-page="{ month: 9, year: 2023 }"
+        :attributes="dates.attributes"
+        :rows="4"
+        :columns="3"
+        first-day-of-week="1"
+        @dayclick="toSelectedDay"
+        @transition-start="Foo"
       >
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
+        <template #popover="{ event: { popover } }">{{ popover.description }}</template>
+      </v-calendar>
+    </v-sheet>
+    <v-list
+      density="compact"
+      lines="one"
+    >
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon color="red-accent-4" icon="mdi-numeric-3-circle"></v-icon>
         </template>
-      </FullCalendar>
-    </div>
+        Великий Праздник
+      </v-list-item>
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon class="bg-red rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
+        </template>
+        Средний Праздник, Предпразднство и Попразднство
+      </v-list-item>
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon color="red-accent-4" icon="mdi-circle-small"></v-icon>
+        </template>
+        Малый Праздник
+      </v-list-item>
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon color="red" icon="mdi-numeric-3-circle-outline"></v-icon>
+        </template>
+        Отдание Праздника
+      </v-list-item>
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon class="bg-light-blue-accent-4 rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
+        </template>
+        Рождественский Пост, Петров Пост, Успенский Пост, Пост в Среду и Пятницу
+      </v-list-item>
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon class="bg-purple-lighten-2 rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
+        </template>
+        Великий Пост
+      </v-list-item>
+      <v-list-item>
+        <template v-slot:prepend>
+          <v-icon class="bg-indigo-darken-1 rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
+        </template>
+        Страстная Седмица
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import { date2str } from "@/utils/date";
 
 
-export default defineComponent({
-  components: {
-    FullCalendar,
-  },
+export default {
   props: {
     dates: {
-      type: Object,
-      required: true,
-    },
+      type: Array,
+      required: true
+    }
   },
   data() {
     return {
-      calendarOptions: {
-        plugins: [
-          dayGridPlugin,
-          timeGridPlugin,
-          interactionPlugin // needed for dateClick
-        ],
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        locale: 'ru',
-        initialView: 'dayGridMonth',
-        initialEvents: this.getInitialEvents(),
-        editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
-        weekends: true,
-        weekNumbers: true,
-        weekNumberCalculation: this.weekNumberCalculation,
-        select: this.handleDateSelect,
-        eventClick: this.handleEventClick,
-      },
-    }
+      selectedDate: new Date()
+    };
   },
   methods: {
-    getInitialEvents() {
-      let initialEvents = [];
-      // for (let date of this.dates) {
-      //   for (let holiday of date.day?.holidays) {
-      //     let dateStr = new Date(date.day?.month_day);
-      //     dateStr.setFullYear(dateStr.getFullYear() - 9);
-      //     const event = {
-      //       id: holiday?.slug,
-      //       title: holiday?.title,
-      //       start: date2str(dateStr)
-      //     };
-      //     initialEvents.push(event);
-      //   }
-      // }
-      return initialEvents;
+    toSelectedDay(CalendarDay) {
+      let year = CalendarDay.year + 8;
+      if ((9 <= CalendarDay.month) && (CalendarDay.month <= 12)) {
+        year += 1;
+      }
+      this.$router.push({ name: "date", params: { date: CalendarDay.id.replace(CalendarDay.year, year) } });
     },
-    handleDateSelect(selectInfo) {
-      let date = new Date(selectInfo.startStr)
-      date.setFullYear(date.getFullYear() + 9)
-      this.$router.push({
-        name: 'date',
-        params: {date: date2str(date)},
-      })
+    Foo() {
+      console.log("test");
     },
-    weekNumberCalculation(weekMoment) {
-      // weekMoment.setFullYear(weekMoment.getFullYear() + 9)
-      // let result = this.dates?.find(function (item) {
-      //   console.log(item)
-      // });
-      // console.log(result)
-      // return result; //date.day?.month_day === date2str(weekMoment)
-      return 1;
-    },
-    handleEventClick(clickInfo) {
-      this.$router.push({
-        name: 'holiday',
-        params: {holidaySlug: clickInfo.event.id},
-      })
-    },
+    customDateFormatter(date, format, type) {
+      if (type === "calendar") {
+        return this.$moment.utc(date).format("D MMMM");
+      }
+      return this.$moment.utc(date).format("YYYY-MM-DD");
+    }
   }
-})
-
+};
 </script>

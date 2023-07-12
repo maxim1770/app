@@ -8,7 +8,7 @@ def _test_create_cycle(client: TestClient) -> None:
     cycle_in = test_utils.create_random_cycle_in()
     r = client.post(
         '/movable-dates',
-        json=cycle_in.dict(),
+        json=cycle_in.model_dump(),
     )
     assert 200 <= r.status_code < 300
     created_cycle = r.json()
