@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     POSTGRES_PORT: int
-    SQLALCHEMY_DATABASE_URI: PostgresDsn | None = None
+    SQLALCHEMY_DATABASE_URI: URL | None = None
 
     @field_validator('SQLALCHEMY_DATABASE_URI', mode='before')
     @classmethod
