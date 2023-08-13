@@ -1,9 +1,8 @@
 from typing import Any
 
 from dotenv import load_dotenv
-from pydantic import field_validator, FieldValidationInfo, PostgresDsn
+from pydantic import field_validator, PostgresDsn, FieldValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from sqlalchemy.engine import URL
 
 load_dotenv()
 
@@ -38,22 +37,21 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
-    POSTGRES_PORT: int
-    SQLALCHEMY_DATABASE_URI: URL | None = None
+    SQLALCHEMY_DATABASE_URI: PostgresDsn | None = None
 
     @field_validator('SQLALCHEMY_DATABASE_URI', mode='before')
     @classmethod
     def assemble_db_connection(cls, v: str | None, info: FieldValidationInfo) -> Any:
         if isinstance(v, str):
             return v
-        SQLALCHEMY_DATABASE_URI: URL = URL.create(
-            'postgresql',
-            username=info.data['POSTGRES_USER'],
-            password=info.data['POSTGRES_PASSWORD'],
-            host=info.data['POSTGRES_SERVER'],
-            port=info.data['POSTGRES_PORT'],
-            database=info.data['POSTGRES_DB']
-        )
+        # return PostgresDsn.build(
+        #     scheme='postgresql',
+        #     user=values.get('POSTGRES_USER'),
+        #     password=values.get('POSTGRES_PASSWORD'),
+        #     host=values.get('POSTGRES_SERVER'),
+        #     path=f"/{values.get('POSTGRES_DB') or ''}",
+        # )
+        SQLALCHEMY_DATABASE_URI: str = f"postgresql://{info.data['POSTGRES_USER']}:{info.data['POSTGRES_PASSWORD']}@{info.data['POSTGRES_SERVER']}:5432/{info.data['POSTGRES_DB']}"
         return SQLALCHEMY_DATABASE_URI
 
     DATA_CREATE_DIR: str = './backend/app/app/create/data'
