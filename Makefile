@@ -1,10 +1,10 @@
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 up:
-	docker compose -f docker-compose.yml up -d
+	docker compose -f docker-compose.only_backend_without_db.yml up -d
 
 down:
-	docker compose -f docker-compose.yml down --remove-orphans
+	docker compose -f docker-compose.only_backend_without_db.yml down --remove-orphans
 
 up_rebuild:
-	docker compose -f docker-compose.yml up --build -d
+	docker compose -f docker-compose.only_backend_without_db.yml up -d --no-deps --build
