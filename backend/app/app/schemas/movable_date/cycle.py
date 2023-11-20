@@ -13,7 +13,8 @@ if TYPE_CHECKING:
 
 class __CycleBase(SchemaBase):
     num: enums.CycleNum
-    title: constr(strip_whitespace=True, strict=True, max_length=30)
+    title: constr(strip_whitespace=True, strict=True, max_length=50)
+    desc: constr(strip_whitespace=True, strict=True, max_length=200) | None = None
 
 
 class CycleCreate(__CycleBase):
@@ -21,7 +22,8 @@ class CycleCreate(__CycleBase):
 
 
 class __CycleInDBBase(__CycleBase, SchemaInDBBase):
-    pass
+    title: str
+    desc: str | None
 
 
 class Cycle(__CycleInDBBase):

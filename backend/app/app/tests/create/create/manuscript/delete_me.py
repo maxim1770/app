@@ -4,17 +4,19 @@ from pathlib import Path
 import requests
 
 from app import create, utils
+from app.create import prepare
 from app.create.create.manuscript.collect_manuscript import create_manuscript_pdf_from_lls
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
 
-def collect(manuscript_code: str):
+def collect(manuscript_code: str, *, object_storage: utils.ObjectStorage):
     session = requests.Session()
     try:
         collect_manuscript = create.CollectManuscriptLlsFactory.get(
             session,
             code=manuscript_code,
+            object_storage=object_storage
         )
     except (FileNotFoundError, FileExistsError) as e:
         raise e
@@ -23,9 +25,9 @@ def collect(manuscript_code: str):
     # collect_manuscript.create_pdf()
 
 
-def create_pdf(manuscript_code: str):
+def create_pdf(manuscript_code: str, *, object_storage: utils.ObjectStorage):
     try:
-        create_manuscript_pdf_from_lls(code=manuscript_code, resolution=99.0)
+        create_manuscript_pdf_from_lls(code=manuscript_code, resolution=99.0, object_storage=object_storage)
     except (FileNotFoundError, FileExistsError) as e:
         raise e
 

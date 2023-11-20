@@ -4,20 +4,26 @@ from typing import Any
 import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, HTTPException
 from fastapi_cache.decorator import cache
+from fastapi_filter import FilterDepends
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas
+from app import crud, models, schemas, filters
 from app.api import deps
 
 router = APIRouter()
 
 
 @router.get('/', response_model=schemas.Dates)
-@cache(expire=60)
+@cache(expire=60 * 15)
 def read_dates(
-        db: Session = Depends(deps.get_db)
+        *,
+        db: Session = Depends(deps.get_db),
+        filter: filters.DateFilter = FilterDepends(filters.DateFilter),
 ) -> Any:
-    return {'dates': db.execute(sa.select(models.Date).offset(0).limit(2_000)).scalars().all()}
+    select: sa.Select = crud.date.get_multi_by_filter(db, filter=filter)
+    return {
+        'dates': db.execute(select).scalars().all()
+    }
 
 
 def get_valid_day(
@@ -36,7 +42,7 @@ def get_valid_date(
         db: Session = Depends(deps.get_db),
         day: models.Day = Depends(get_valid_day),
         date: date_type
-) -> models.Day:
+) -> models.Date:
     date = crud.date.get_by_day_and_year(db, day_id=day.id, year=date.year)
     if not date:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Date not found')
@@ -44,7 +50,7 @@ def get_valid_date(
 
 
 @router.get('/{date}', response_model=schemas.Date)
-@cache(expire=60)
+@cache(expire=60 * 3)
 def read_date(
         *,
         date: models.Date = Depends(get_valid_date)

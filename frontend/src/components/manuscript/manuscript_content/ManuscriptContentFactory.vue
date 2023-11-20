@@ -13,9 +13,6 @@ import ManuscriptContentChapter from "@/components/manuscript/manuscript_content
 import ManuscriptContentHead from "@/components/manuscript/manuscript_content/ManuscriptContentHead.vue";
 
 export default {
-  components: {
-    ManuscriptContentDate, ManuscriptContentChapter, ManuscriptContentHead
-  },
   props: {
     manuscript: {
       type: Object,
@@ -24,12 +21,12 @@ export default {
   },
   computed: {
     manuscriptContentFactory() {
-      if (Array.isArray(this.manuscript?.bookmarks_)) {
-        return ManuscriptContentChapter;
-      } else if (this.__isDictWithArrayValues(this.manuscript?.bookmarks_)) {
-        return ManuscriptContentHead;
-      } else if (this.__isNestedDict(this.manuscript?.bookmarks_)) {
+      if (this.__isArrayWithArrayValues(this.manuscript?.structured_bookmarks)) {
         return ManuscriptContentDate;
+      } else if (this.__isDictWithArrayValues(this.manuscript?.structured_bookmarks)) {
+        return ManuscriptContentHead;
+      } else {
+        return ManuscriptContentChapter;
       }
     }
   },
@@ -45,17 +42,15 @@ export default {
       }
       return true;
     },
-    __isNestedDict: (obj) => {
-      if (typeof obj !== "object" || obj === null) {
+    __isArrayWithArrayValues: (obj) => {
+      if (Array.isArray(obj) === false || obj === null) {
         return false;
       }
-
-      for (let key in obj) {
-        if (typeof obj[key] !== "object" || obj[key] === null) {
+      for (const key in obj) {
+        if (Array.isArray(obj[key]) === false) {
           return false;
         }
       }
-
       return true;
     }
   }

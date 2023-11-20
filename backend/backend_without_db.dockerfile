@@ -19,15 +19,13 @@ COPY ./app/Pipfile .
 COPY ./app/Pipfile.lock .
 RUN pip install pipenv
 
-# Allow installing dev dependencies to run tests
-ARG INSTALL_DEV=false
-RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then pipenv install --dev; else pipenv install; fi"
+RUN bash -c "pipenv install --dev"
 
 COPY ./app .
 ENV PYTHONPATH=.
 
-COPY ./app/initial_db_and_start_server.production.sh /initial_db_and_start_server.production.sh
-RUN chmod +x /initial_db_and_start_server.production.sh
-ENTRYPOINT "/initial_db_and_start_server.production.sh"
+COPY ./app/start_server.production.sh /start_server.production.sh
+RUN chmod +x /start_server.production.sh
+ENTRYPOINT "/start_server.production.sh"
 
 EXPOSE 8000

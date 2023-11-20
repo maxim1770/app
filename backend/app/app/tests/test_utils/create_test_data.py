@@ -6,7 +6,6 @@ from bs4 import Tag, BeautifulSoup
 from app import const
 from app.api import deps
 from app.core.config import settings
-from app.create.const import AzbykaUrl
 from app.create.prepare.base_collect import collect_saint_data
 from app.create.prepare.manuscript.collect_manuscript_data import CollectManuscriptDataFromRsl, \
     CollectManuscriptDataFromNeb
@@ -152,7 +151,7 @@ def create_get_zachalos_data(session: requests.Session):
     ]:
         current_path = path.with_stem(_prepare_zachalo_abbr_to_path(zachalo_abbr))
         if not current_path.exists():
-            r = session.get(url=AzbykaUrl.GET_ZACHALO + zachalo_abbr)
+            r = session.get(url=const.AzbykaUrl.GET_ZACHALO + zachalo_abbr)
             soup = BeautifulSoup(r.text, 'lxml')
             current_path.write_text(str(soup), encoding="utf-8")
 

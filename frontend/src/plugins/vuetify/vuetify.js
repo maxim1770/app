@@ -42,21 +42,46 @@ const vuetify = createVuetify({
   },
   defaults: {
     VChip: {
-      variant: "outlined"
+      variant: "tonal",
+      elevation: "1"
     },
-    VChipGroup: {
-      variant: "outlined"
+    VCard: {
+      elevation: "6",
+      rounded: "xl"
     },
+    VList: {
+      lines: "one"
+    },
+    VListItem: {
+      rounded: "xl"
+    },
+    VExpansionPanel: {
+      elevation: "6",
+      rounded: "xl"
+    },
+    VAutocomplete: {
+      variant: "outlined",
+      clearable: "true"
+    },
+    VBadge: {
+      inline: "true"
+    },
+    VAppBar: {
+      elevation: "6"
+    },
+    VNavigationDrawer: {
+      location: "right",
+      temporary: "true"
+    }
   },
   icons: {
     defaultSet: "mdi",
     sets: {
       mdi,
-      custom: customSVGs,
-    },
-  },
+      custom: customSVGs
+    }
+  }
 });
-
 
 
 export default vuetify;

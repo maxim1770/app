@@ -2,31 +2,39 @@ from pathlib import Path
 from typing import Any
 from uuid import UUID
 
+import boto3
 import requests
 import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, HTTPException
 from fastapi_cache.decorator import cache
+from fastapi_filter import FilterDepends
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 from selenium.webdriver.chrome.webdriver import WebDriver
 from sqlalchemy.orm import Session
 
-from app import crud, schemas, models, const, create
+from app import crud, schemas, models, const, create, utils, filters
 from app.create.prepare import ManuscriptDataCreateFactory, PrepareError
-from app.schemas.manuscript.manuscript import NotNumberedPages
-from ....deps import get_db, get_session, get_driver
+from app.schemas.manuscript.manuscript import SortedNotNumberedPages
+from ....deps import get_db, get_session, get_driver, get_boto
 
 router = APIRouter()
 
 
-@router.get('/', response_model=Page[schemas.ManuscriptInDB])
-@cache(expire=60)
+@router.get('/', response_model=Page[schemas.ManuscriptInDBToMany])
+@cache(expire=60 * 2)
 def read_manuscripts(
         db: Session = Depends(get_db),
-        # filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
+        filter: filters.ManuscriptFilter = FilterDepends(filters.ManuscriptFilter),
 ) -> Any:
-    select: sa.Select = crud.manuscript.get_all_select()
+    select: sa.Select = crud.manuscript.get_multi_by_filter(db, filter=filter)
     return paginate(db, select)
+
+
+@router.get('/search-data/', response_model=schemas.ManuscriptsSearchData)
+@cache(expire=60 * 15)
+def read_manuscripts_search_data() -> Any:
+    return {}
 
 
 @router.post('/', response_model=schemas.Manuscript)
@@ -45,7 +53,7 @@ def create_manuscript(
     return manuscript
 
 
-@router.post('/with-collect', response_model=schemas.Manuscript)
+@router.post('/with-collect/', response_model=schemas.Manuscript)
 def create_manuscript_with_collect(
         *,
         db: Session = Depends(get_db),
@@ -75,7 +83,7 @@ def create_manuscript_with_collect(
     return manuscript
 
 
-def __get_valid_manuscript(
+def get_valid_manuscript(
         *,
         db: Session = Depends(get_db),
         manuscript_code: UUID | str = Path(pattern=const.REGEX_RSL_MANUSCRIPT_CODE_STR)
@@ -86,50 +94,20 @@ def __get_valid_manuscript(
     return manuscript
 
 
-def __get_other_manuscripts(
-        *,
-        db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
-) -> list[models.Manuscript]:
-    other_manuscripts_len: int = 5
-    other_manuscripts: list[models.Manuscript] = db.execute(
-        sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript.code).filter_by(
-            fund_id=manuscript.fund_id).limit(
-            other_manuscripts_len)).scalars().all()
-    if manuscripts_best_handwriting_len := other_manuscripts_len - len(other_manuscripts):
-        manuscripts_best_handwriting: list[models.Manuscript] = db.execute(
-            sa.select(models.Manuscript).filter(models.Manuscript.code != manuscript.code).order_by(
-                models.Manuscript.handwriting.desc()).limit(manuscripts_best_handwriting_len)).scalars().all()
-        other_manuscripts += manuscripts_best_handwriting
-    return other_manuscripts
-
-
-def __get_valid_book(
-        *,
-        db: Session = Depends(get_db),
-        book_id: int
-) -> models.Book:
-    book = crud.book.get(db, id=book_id)
-    if not book:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Book not found')
-    return book
-
-
-@router.get('/{manuscript_code}', response_model=schemas.ManuscriptWithOther)
-@cache(expire=60)
+@router.get('/{manuscript_code}', response_model=schemas.Manuscript)
+@cache(expire=60 * 15)
 def read_manuscript(
         *,
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
-        other_manuscripts: list[models.Manuscript] = Depends(__get_other_manuscripts)
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
 ) -> Any:
-    return {'manuscript': manuscript, 'other_manuscripts': other_manuscripts}
+    return manuscript
 
 
 @router.put('/{manuscript_code}', response_model=schemas.Manuscript)
 def update_manuscript(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
         manuscript_data_in: schemas.ManuscriptDataUpdate
 ) -> Any:
     manuscript = create.update_manuscript(db, manuscript=manuscript, manuscript_data_in=manuscript_data_in)
@@ -140,8 +118,8 @@ def update_manuscript(
 def create_manuscript_not_numbered_pages(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
-        not_numbered_pages_in: NotNumberedPages
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        not_numbered_pages_in: SortedNotNumberedPages
 ) -> Any:
     not_numbered_pages = manuscript.not_numbered_pages + not_numbered_pages_in.model_dump()['root']
     not_numbered_pages.sort(key=lambda not_numbered_page: not_numbered_page['page']['num'])
@@ -152,17 +130,20 @@ def create_manuscript_not_numbered_pages(
     return manuscript
 
 
-@router.post('/{manuscript_code}/imgs', response_model=schemas.Manuscript)
+@router.post('/{manuscript_code}/imgs/', response_model=schemas.Manuscript)
 def create_manuscript_imgs(
         *,
         session: requests.Session = Depends(get_session),
         driver: WebDriver = Depends(get_driver),
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
+        boto_session: boto3.session.Session = Depends(get_boto),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript)
 ) -> Any:
+    object_storage = utils.ObjectStorage(boto_session)
     try:
         collect_manuscript = create.CollectManuscriptFactory.get(
             session,
-            driver,
+            driver=driver,
+            object_storage=object_storage,
             fund_title=manuscript.fund.title,
             library_title=manuscript.fund.library,
             code=manuscript.code,
@@ -178,16 +159,19 @@ def create_manuscript_imgs(
     return manuscript
 
 
-@router.post('/{manuscript_code}/pdf', response_model=schemas.Manuscript)
+@router.post('/{manuscript_code}/pdf/', response_model=schemas.Manuscript)
 def create_manuscript_pdf(
         *,
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        boto_session: boto3.session.Session = Depends(get_boto)
 ) -> Any:
+    object_storage = utils.ObjectStorage(boto_session)
     try:
         create.create_manuscript_pdf(
             fund_title=manuscript.fund.title,
             library_title=manuscript.fund.library,
             code=manuscript.code,
+            object_storage=object_storage
         )
     except (FileNotFoundError, FileExistsError) as e:
         raise HTTPException(
@@ -197,23 +181,26 @@ def create_manuscript_pdf(
     return manuscript
 
 
-@router.patch('/{manuscript_code}/books/{book_id}', response_model=schemas.Manuscript)
-def update_manuscript_bookmark(
-        *,
-        db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript),
-        book: models.Book = Depends(__get_valid_book),
-        pages_in: schemas.PagesCreate
-) -> Any:
-    manuscript = create.update_manuscript_bookmark(db, manuscript=manuscript, book=book, pages_in=pages_in)
-    return manuscript
-
-
 @router.delete('/{manuscript_code}', response_model=schemas.Manuscript)
 def delete_manuscript(
         *,
         db: Session = Depends(get_db),
-        manuscript: models.Manuscript = Depends(__get_valid_manuscript)
+        manuscript: models.Manuscript = Depends(get_valid_manuscript)
 ) -> Any:
     manuscript = crud.manuscript.remove(db, id=manuscript.id)
+    return manuscript
+
+
+@router.delete('/{manuscript_code}/bookmarks/', response_model=schemas.ManuscriptInDB)
+def delete_manuscript_bookmarks(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        has_delete_orphan_book: bool = True
+) -> Any:
+    for bookmark in manuscript.bookmarks:
+        if has_delete_orphan_book:
+            crud.bookmark.remove_bookmark_and_orphan_book(db, db_obj=bookmark)
+        else:
+            crud.bookmark.remove_bookmark(db, db_obj=bookmark)
     return manuscript

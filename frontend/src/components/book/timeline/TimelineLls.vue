@@ -1,20 +1,24 @@
 <template>
-  <v-timeline align="start">
+  <v-timeline
+    :side="lgAndDown ? 'end' : undefined"
+    align="start"
+  >
     <v-timeline-item
       v-for="manuscript in llsManuscripts"
       :key="manuscript.id"
-      dot-color="blue"
+      dot-color="red-lighten-1"
+      icon="mdi-bookshelf"
+      fill-dot
       size="small"
     >
-      <router-link
+      <v-chip
         v-if="manuscript.code"
         :to="{ name: 'manuscript', params: { manuscriptCode: manuscript.code } }"
+        :style="{ 'font-size': smAndDown ? 'smaller' : 'larger' }"
+        color="blue"
       >
-        <strong>{{ manuscript.title }}</strong>
-        <div class="text-caption">
-          Рукопись взята с сайта "Руниверс" {{ manuscript.url }}
-        </div>
-      </router-link>
+        {{ manuscript.title }}
+      </v-chip>
     </v-timeline-item>
   </v-timeline>
 </template>
@@ -23,6 +27,7 @@
 
 
 import ManuscriptFullTitle from "@/components/manuscript/ManuscriptFullTitle.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   components: { ManuscriptFullTitle },
@@ -31,6 +36,10 @@ export default {
       type: Object,
       required: true
     }
+  },
+  setup() {
+    const { smAndDown, lgAndDown } = useDisplay();
+    return { smAndDown, lgAndDown };
   }
 };
 

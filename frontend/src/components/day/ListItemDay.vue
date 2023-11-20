@@ -1,9 +1,13 @@
 <template>
   <v-list-item
-    prepend-icon="mdi-calendar-range"
+    v-if="day"
+    prepend-icon="mdi-calendar-today-outline"
   >
-    День Памяти:
-    <ChipDay :day="day" class="ml-1" />
+    День Памяти
+    <ChipDay
+      :day="day"
+      class="ma-1"
+    />
   </v-list-item>
 </template>
 

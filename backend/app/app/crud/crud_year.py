@@ -1,14 +1,10 @@
 import sqlalchemy as sa
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from app.filters import YearFilter
 from app.models import Year
 from app.schemas import YearCreate, YearUpdate
 from .base import CRUDBase
-
-
-class YearFilter(BaseModel):
-    pass
 
 
 class CRUDYear(CRUDBase[Year, YearCreate, YearUpdate, YearFilter]):

@@ -13,7 +13,7 @@ def create_molitva_book(
     db_molitva_book = models.MolitvaBook(
         id=id,
         **molitva_book_in.model_dump(),
-        holiday_id=holiday_id
+        holiday_id=holiday_id,
     )
     db.add(db_molitva_book)
     db.commit()

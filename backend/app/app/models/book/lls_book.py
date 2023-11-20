@@ -7,9 +7,12 @@ from ..year import Year
 
 
 class LlsBook(Base):
-    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
+    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id, ondelete="CASCADE"))
 
     book: Mapped[Book] = relationship(back_populates='lls_book')
 
     year_id: Mapped[int | None] = mapped_column(ForeignKey(Year.id), index=True)
     year: Mapped[Year | None] = relationship(back_populates='lls_books')
+
+    is_chapter: Mapped[bool | None]
+    has_year_at_start: Mapped[bool | None]

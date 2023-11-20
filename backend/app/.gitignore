@@ -4,6 +4,6 @@ alembic/versions
 app/tests/data
 app/tests/.hypothesis
 app/tests/.pytest_cache
-app/utils/meta_create_enum.py
+app/utils/__meta_create_enum.py
 .pytest_cache
 .hypothesis

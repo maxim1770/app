@@ -1,5 +1,4 @@
 import logging
-from datetime import date
 
 import requests
 
@@ -83,7 +82,6 @@ if __name__ == '__main__':
         logging.info(a)
     # a = _get_saints_holidays_new_in_day_method_3(date(2032, 1, 20))
 
-
 import logging
 from datetime import date
 
@@ -94,8 +92,8 @@ from sqlalchemy.orm import Session
 from app import create
 from app import crud
 from app.api import deps
-from app.create.const import AzbykaUrl
-from app.create.prepare.base_collect import get_saints_holidays_new_in_day, get_saints_groups_holidays_new_in_day
+from app.const import AzbykaUrl
+from app.create.prepare.base_collect import get_saints_holidays_new_in_day
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -128,7 +126,6 @@ if __name__ == '__main__':
     # create.create_all_saints_holidays_new(db)
     # create.create_all_saints_groups_holidays_new(db, session=session)
     create.create_all_saints_groups_holidays_new_method_2(db, session=session)
-
 
     # a = get_saints_groups_holidays_new_in_day(date(2031, 11, 24))
     # print(a)

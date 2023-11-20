@@ -1,11 +1,8 @@
-from __future__ import annotations
-
 from datetime import date
-from typing import TYPE_CHECKING
 
 from pydantic import model_validator
 
-from app import models, enums, utils
+from app import models, utils, enums
 from .movable_day import __MovableDayBase
 from ..movable_date import MovableDateInDB, MovableDateInDBForMovableDay
 from ..week import Week, WeekInDBToMovableDay
@@ -13,18 +10,31 @@ from ..._calendar_attribute import CalendarAttribute
 from ..._some_day import prepare_some_day_attributes
 from ...base import SchemaInDBBase
 from ...book import MovableDateBook
-from ...holiday import HolidayInDB, BeforeAfterHolidayMovableDayAssociation
-
-if TYPE_CHECKING:
-    from ...date import DateInDB
+from ...holiday import HolidayInDBToMovableDay, BeforeAfterHolidayMovableDayAssociation
 
 
-class __MovableDayInDBBase(__MovableDayBase, SchemaInDBBase):
+class MovableDayInDBBase(__MovableDayBase, SchemaInDBBase):
+    pass
+
+
+class __MovableDayInDBWithDateSlugBase(MovableDayInDBBase):
+    date_slug: str
+
+    @model_validator(mode='before')
+    @classmethod
+    def prepare_date_slug(cls, values: models.MovableDay) -> models.MovableDay:
+        __current_year: int = utils.calculate_current_year()
+        day: models.Day = [date_.day for date_ in values.days if date_.year == __current_year][0]
+        values.date_slug = str(date(__current_year, day.month, day.day))
+        return values
+
+
+class __MovableDayInDBWithFullTitleBase(MovableDayInDBBase):
     full_title: str
 
     @model_validator(mode='before')
     @classmethod
-    def assemble_full_title(cls, values: models.MovableDay) -> models.MovableDay:
+    def prepare_full_title(cls, values: models.MovableDay) -> models.MovableDay:
         if values.week.cycle.num == enums.CycleNum.cycle_3 and not values.week.sunday_num and not values.week.num:
             full_title: str = enums.MovableDayStrastnajaSedmitsaRu[values.abbr.name].value
         else:
@@ -39,40 +49,26 @@ class __MovableDayInDBBase(__MovableDayBase, SchemaInDBBase):
         return values
 
 
-class MovableDay(__MovableDayInDBBase):
+class MovableDay(__MovableDayInDBWithFullTitleBase):
     movable_date_books: list[MovableDateBook] = []
-    movable_dates: list[MovableDateInDB] = []
     week: WeekInDBToMovableDay
-
-    holidays: list[HolidayInDB] = []
+    holidays: list[HolidayInDBToMovableDay] = []
     before_after_holidays: list[BeforeAfterHolidayMovableDayAssociation] = []
 
 
-class MovableDayInDB(__MovableDayInDBBase):
-    week: Week
-
-    month_day: str
-
-    days: list[DateInDB] = []
-
-    @model_validator(mode='before')
-    @classmethod
-    def calculate_month_day(cls, values: models.MovableDay) -> models.MovableDay:
-        current_year: int = utils.calculate_current_year()
-        day: models.Day = [date_.day for date_ in values.days if date_.year == current_year][0]
-        values.month_day = str(date(current_year, day.month, day.day))
-        return values
+class MovableDayInDB(__MovableDayInDBWithDateSlugBase, __MovableDayInDBWithFullTitleBase):
+    pass
 
 
-class MovableDayInDBForMovableDay(__MovableDayInDBBase):
+class MovableDayInDBForMovableDay(MovableDayInDBBase):
     movable_dates: list[MovableDateInDBForMovableDay] = []
 
 
-class MovableDayInDBForWeek(__MovableDayInDBBase):
+class MovableDayInDBForWeek(MovableDayInDBBase):
     movable_dates: list[MovableDateInDB] = []
 
 
-class MovableDayInDBToDates(__MovableDayInDBBase, SchemaInDBBase):
+class MovableDayInDBToDates(__MovableDayInDBWithFullTitleBase, SchemaInDBBase):
     before_after_holidays: list[BeforeAfterHolidayMovableDayAssociation] = []
     week: Week
 

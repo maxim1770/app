@@ -1,11 +1,16 @@
-from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
-from app import models, schemas
+from app.models import Page
+from app.schemas import PageCreate, PageUpdate
+from ..base import CRUDBase
 
 
-def create_page(db: Session, *, page_in: schemas.PageCreate) -> models.Page:
-    db_page = models.Page(**page_in.model_dump())
-    db.add(db_page)
-    db.commit()
-    db.refresh(db_page)
-    return db_page
+class PageFilter(BaseModel):
+    pass
+
+
+class CRUDPage(CRUDBase[Page, PageCreate, PageUpdate, PageFilter]):
+    pass
+
+
+page = CRUDPage(Page)

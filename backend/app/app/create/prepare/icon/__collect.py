@@ -5,8 +5,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 from app import utils, schemas
-from app.const import MONTH_TITLE, BASE_YEAR_FOR_DAY
-from app.create import const
+from app import const
 from app.create.const import NUM_OFFSET_DAYS
 from ..year import PrepareYearTitle
 
@@ -45,10 +44,10 @@ def collect_pravicon_saint_days(session: requests.Session, *, pravicon_saint_id:
         for day_str in [day_tag.find('b').text.strip() for day_tag in BeautifulSoup(r.text, 'lxml').find(
                 lambda tag: tag.name == 'b' and 'Дни празднования:' == tag.text
         ).parent.next_sibling.find_all('li')]:
-            for month_int, month_title in MONTH_TITLE.items():
+            for month_int, month_title in const.MONTH_TITLE.items():
                 day_str = day_str.replace(month_title, str(month_int))
             day_, month = map(int, day_str.split(' '))
-            day = date(BASE_YEAR_FOR_DAY, month, day_)
+            day = date(const.BASE_YEAR_FOR_DAY, month, day_)
             day = day - NUM_OFFSET_DAYS
             pravicon_saint_days.append(day)
     except AttributeError:

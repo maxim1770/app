@@ -1,27 +1,28 @@
 <template>
-  <DatesPage :dates="dates" v-if="dates.dates?.[0]" />
+  <div>
+    <ImgMainTitle
+      mainPageValue="dates"
+      @click="$router.push({ name: 'dates' })"
+    />
+    <DatesPage />
+  </div>
 </template>
 
 <script>
-import { api } from "@/services/api";
 import DatesPage from "@/components/pages/DatesPage.vue";
+import ImgMainTitle from "@/components/common/ImgMainTitle.vue";
 
 export default {
-  components: { DatesPage },
-
-  data() {
-    return {
-      dates: {
-        type: Array,
-        required: true
-      } // ref([])
-    };
-  },
-  mounted() {
-    api
-      .getDates()
-      .then((response) => (this.dates = response.data));
-  }
-
+  components: { ImgMainTitle, DatesPage }
 };
 </script>
+
+
+
+
+
+
+
+
+
+

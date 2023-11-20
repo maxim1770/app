@@ -1,11 +1,15 @@
+import io
 import logging
 from pathlib import Path
+from typing import Any
 
 from pydantic.color import ColorTuple
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import IndirectObject, Fit, PAGE_FIT
 from pypdf.types import PagemodeType
 
+from app import utils
+from app.core.config import settings
 from app.schemas import PdfBookmark, FitSchema
 from .__get_bookmarks import get_bookmarks
 
@@ -39,9 +43,25 @@ def set_show_bookmarks_panel(writer: PdfWriter) -> None:
     writer.page_mode = page_mode
 
 
-def save_pdf(writer: PdfWriter, *, path: Path) -> None:
+def upload_pdf(
+        writer: PdfWriter,
+        *,
+        path: Path,
+        object_storage: utils.ObjectStorage
+) -> None:
+    path: Path = Path(settings.DATA_DIR) / path
     with path.open(mode='wb') as file_:
         writer.write(file_)
+
+    # __temp_file_path = Path('some_pdf.pdf')
+    # with __temp_file_path.open(mode='wb') as file_:
+    #     writer.write(file_)
+    # object_storage.upload(
+    #     file_path=__temp_file_path,
+    #     object_path=path,
+    #     object_storage_class=enums.ObjectStorageClass.STANDARD_IA
+    # )
+    # __temp_file_path.unlink()
 
 
 def get_fit(fit_schema: FitSchema | None = None) -> Fit:
@@ -98,13 +118,35 @@ def offset_pages_bookmarks(bookmarks: list[PdfBookmark], *, num_offset_pages: in
         _offset_pages_bookmarks(bookmark, num_offset_pages=num_offset_pages)
 
 
-def get_pdf_bookmarks(path: Path) -> list[PdfBookmark]:
-    reader = PdfReader(path)
+def get_pdf_bookmarks(
+        path: Path,
+        *,
+        object_storage: utils.ObjectStorage
+) -> list[PdfBookmark]:
+    reader: PdfReader = __get_pdf_reader(path, object_storage=object_storage)
     bookmarks: list[PdfBookmark] = get_bookmarks(reader)
     return bookmarks
 
 
-def get_pdf_writer(path: Path) -> PdfWriter:
-    reader = PdfReader(path)
+def get_pdf_writer(
+        path: Path,
+        *,
+        object_storage: utils.ObjectStorage
+) -> PdfWriter:
+    reader: PdfReader = __get_pdf_reader(path, object_storage=object_storage)
     writer: PdfWriter = reader2writer(reader)
     return writer
+
+
+def __get_pdf_reader(
+        path: Path,
+        *,
+        object_storage: utils.ObjectStorage
+) -> PdfReader:
+    reader = PdfReader(Path(settings.DATA_DIR) / path)
+    return reader
+
+    object_: dict[str, Any] = object_storage.get(path)
+    with io.BytesIO(object_['Body'].read()) as open_pdf_file:
+        reader = PdfReader(open_pdf_file)
+        return reader

@@ -2,16 +2,20 @@ import logging
 
 from pydantic import BaseModel, model_validator
 
-from app.create import create_any_holidays, create_all_great_holidays, create_all_tipikons, update_dates_posts_ids, \
-    create_all_posts, create_dates_for_years
-from app.create.create.holiday.before_after_holiday import create_all_before_after_holidays
-from app.create.prepare.manuscript.bookmark.create_pdf_bookmark import create_lls_pdf_bookmarks
-from app.schemas._calendar_attribute import CalendarAttribute
+from app.create.create.icon.create_icon_imgs import create_all_shm_icons_imgs
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
+import logging
 
 from sqlalchemy.orm import Session
 from app.api import deps
+
+import boto3
+import requests
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class PydanticTestModel(BaseModel):
@@ -33,8 +37,18 @@ class PydanticTestModel(BaseModel):
 
 if __name__ == '__main__':
     db: Session = next(deps.get_db())
-    # session: requests.Session = next(deps.get_session())
-    # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    session: requests.Session = next(deps.get_session())
+
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+
+    s = Service(r"C:\Users\MaxDroN\Desktop\chromedriver-win64\chromedriver.exe")
+    driver = webdriver.Chrome(service=s)
+
+
+    # boto_session: boto3.session.Session = next(deps.get_boto())
+
+    # create_all_shm_icons_imgs(db, driver=driver, boto_session=boto_session)
 
     # p = PydanticTestModel(text1='text1')
     # print(p)
@@ -55,5 +69,7 @@ if __name__ == '__main__':
     # update_dates_posts_ids(db)
     # create_dates_for_years(db)
 
-    a = CalendarAttribute()
-    print(a)
+    # create_any_holidays(db)
+    # create_all_movable_saints_holidays(db)
+
+    # create_all_gallerix_icons_imgs(db, session=session, driver=driver, boto_session=boto_session)

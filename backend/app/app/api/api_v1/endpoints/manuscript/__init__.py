@@ -1,0 +1,1 @@
+from .manuscripts import get_valid_manuscript

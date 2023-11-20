@@ -4,7 +4,7 @@ import requests
 from bs4 import Tag
 from pydantic import ValidationError
 
-from app import models
+from app import models, const
 from app.schemas import SaintHolidayCreate, SaintsHolidayCreate
 from app.utils import int_date2date
 from .holiday_collect import HolidayCollectFactoryBase, SaintHolidayCollectFactory, SaintsHolidayCollectFactory, \
@@ -13,7 +13,6 @@ from .holiday_create import HolidayCreateFactoryBase, SaintHolidayCreateFactory,
     SaintsHolidayNewCreateFactory, SaintsHolidayNewMethod2CreateFactory
 from ..base_collect import get_saints_holidays_in_day, get_saints_groups_holidays_in_day, \
     get_saints_holidays_new_in_day, get_saints_groups_holidays_new_in_day, _get_saints_holidays_new_in_day_method_2
-from ...const import AzbykaUrl
 
 
 def _holiday_in_factory_base(
@@ -118,7 +117,7 @@ def saints_holidays_in_new_factory(day: date, *, all_holidays: list[models.Holid
     saints_holidays_data: list[Tag] = get_saints_holidays_new_in_day(day=day)
     for saint_holiday_data in saints_holidays_data:
         saint_slug: str = saint_holiday_data['href'].replace('http:', 'https:').replace(
-            AzbykaUrl.GET_SAINT_BY_SLUG, ''
+            const.AzbykaUrl.GET_SAINT_BY_SLUG, ''
         ).lower().strip()
         if 'sobor' in saint_slug:
             continue

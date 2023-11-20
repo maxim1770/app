@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app import enums
 from app.db.base_class import Base, intpk
+from ..day import Day
 from ..saint import Saint
 
 if TYPE_CHECKING:
@@ -20,29 +21,37 @@ if TYPE_CHECKING:
     from .cathedral_book import CathedralBook
     from .lls_book import LlsBook
 
+_relationship_some_book_kwargs = {
+    'back_populates': 'book',
+    'cascade': 'all, delete',
+    'passive_deletes': True
+}
+
 
 class Book(Base):
     id: Mapped[intpk]
 
     title: Mapped[enums.BookTitle | None] = mapped_column(index=True)
     type: Mapped[enums.BookType | None] = mapped_column(index=True)
-    bookmark_title: Mapped[str | None] = mapped_column(String(400), index=True)
+    bookmark_title: Mapped[str | None] = mapped_column(String(700), index=True)
 
     parent_id: Mapped[int | None] = mapped_column(ForeignKey('book.id'), index=True)
+    parent: Mapped[Book | None] = relationship(remote_side='Book.id')
+    children: Mapped[list[Book]] = relationship('Book')
 
     author_id: Mapped[int | None] = mapped_column(ForeignKey(Saint.id), index=True)
     author: Mapped[Saint | None] = relationship(back_populates='books')
 
-    parent: Mapped[Book | None] = relationship(remote_side='Book.id')
-    children: Mapped[list[Book]] = relationship('Book')
+    day_id: Mapped[int | None] = mapped_column(ForeignKey(Day.id), index=True)
+    day: Mapped[Day | None] = relationship(back_populates='books')
 
     bookmarks: Mapped[list[Bookmark]] = relationship(back_populates='book')
 
-    holiday_book: Mapped[HolidayBook | None] = relationship(back_populates='book')
-    molitva_book: Mapped[MolitvaBook | None] = relationship(back_populates='book')
-    topic_book: Mapped[TopicBook | None] = relationship(back_populates='book')
-    movable_date_book: Mapped[MovableDateBook | None] = relationship(back_populates='book')
-    lls_book: Mapped[LlsBook | None] = relationship(back_populates='book')
-    zachalo: Mapped[Zachalo | None] = relationship(back_populates='book')
-    psaltyr_book: Mapped[PsaltyrBook | None] = relationship(back_populates='book')
-    cathedral_book: Mapped[CathedralBook | None] = relationship(back_populates='book')
+    holiday_book: Mapped[HolidayBook | None] = relationship(**_relationship_some_book_kwargs)
+    molitva_book: Mapped[MolitvaBook | None] = relationship(**_relationship_some_book_kwargs)
+    topic_book: Mapped[TopicBook | None] = relationship(**_relationship_some_book_kwargs)
+    movable_date_book: Mapped[MovableDateBook | None] = relationship(**_relationship_some_book_kwargs)
+    lls_book: Mapped[LlsBook | None] = relationship(**_relationship_some_book_kwargs)
+    zachalo: Mapped[Zachalo | None] = relationship(**_relationship_some_book_kwargs)
+    psaltyr_book: Mapped[PsaltyrBook | None] = relationship(**_relationship_some_book_kwargs)
+    cathedral_book: Mapped[CathedralBook | None] = relationship(**_relationship_some_book_kwargs)

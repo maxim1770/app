@@ -9,7 +9,7 @@ from .cathedral import Cathedral
 
 
 class CathedralBook(Base):
-    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
+    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id, ondelete="CASCADE"))
 
     book: Mapped[Book] = relationship(back_populates='cathedral_book')
 

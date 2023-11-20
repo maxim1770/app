@@ -1,11 +1,11 @@
 from app import enums
-from .book import BookInDB
+from .book import BookInDBToBooks
+from .topic import Topic
 from ..base import SchemaBase, SchemaInDBBase
 
 
 class __TopicBookBase(SchemaBase):
     source: enums.BookSource | None = None
-    topics: list[enums.BookTopic] = []
 
 
 class TopicBookCreate(__TopicBookBase):
@@ -13,11 +13,11 @@ class TopicBookCreate(__TopicBookBase):
 
 
 class __TopicBookInDBBase(__TopicBookBase, SchemaInDBBase):
-    pass
+    topics: list[Topic] = []
 
 
 class TopicBook(__TopicBookInDBBase):
-    book: BookInDB
+    book: BookInDBToBooks
 
 
 class TopicBookInDB(__TopicBookInDBBase):

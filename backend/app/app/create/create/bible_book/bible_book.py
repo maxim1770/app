@@ -196,6 +196,6 @@ def create_bible_books(db: Session) -> None:
         ),
     ]
     for bible_book in bible_books:
-        if crud.get_bible_book(db, abbr=bible_book.abbr):
+        if crud.bible_book.get_by_abbr(db, abbr=bible_book.abbr):
             raise FatalCreateError(f'BibleBook: abbr={bible_book.abbr} already created')
-        crud.create_bible_book(db, bible_book=bible_book)
+        crud.bible_book.create(db, obj_in=bible_book)

@@ -1,18 +1,18 @@
 from __future__ import annotations
 
-from pathlib import Path
 from typing import TYPE_CHECKING
 
-from pydantic import model_validator
+from pydantic import model_validator, computed_field
 
 from app import models, enums
 from .holiday import __HolidayBase
 from ..holiday_category import HolidayCategory
 from ..tipikon import Tipikon
-from ...base import SchemaInDBBase, SchemaInDBToAssociationBase
-from ...book import HolidayBook, MolitvaBook
-from ...icon import IconInDB
-from ...saint import SaintInDBToHoliday
+from ..._calendar_attribute import CalendarAttribute
+from ...base import SchemaInDBBase, SchemaBase
+from ...book import HolidayBook, MolitvaBookInDB
+from ...icon import IconHolidayAssociationInDB
+from ...saint import SaintInDB
 from ...year import Year
 
 if TYPE_CHECKING:
@@ -40,8 +40,10 @@ class __HolidayInDBWithMovableDayBase(__HolidayInDBBase):
 
 
 class __HolidayInDBWithSaintsBase(__HolidayInDBBase):
-    saints: list[SaintInDBToHoliday] = []
+    saints: list[SaintInDB] = []
 
+
+class __HolidayInDBWithTitleInDativeBase(__HolidayInDBBase):
     title_in_dative: str | None
 
     @model_validator(mode='before')
@@ -58,74 +60,97 @@ class __HolidayInDBWithSaintsBase(__HolidayInDBBase):
 
 
 class __HolidayInDBWithIconsBase(__HolidayInDBBase):
-    icons: list[IconInDB] = []
-
-    @model_validator(mode='before')
-    @classmethod
-    def prepare_icons_paths(cls, values: models.Holiday) -> models.Holiday:
-        holiday_slug: str = values.slug
-        for icon in values.icons:
-            if isinstance(icon, dict):
-                if not icon['path']:
-                    if pravicon_id := icon.get('pravicon_id'):
-                        icon_library_str_id = f'pravicon-{pravicon_id}'
-                    elif gallerix_id := icon.get('gallerix_id'):
-                        icon_library_str_id = f'gallerix-{gallerix_id}'
-                    elif shm_id := icon.get('shm_id'):
-                        icon_library_str_id = f'shm-{shm_id}'
-                    icon['path']: Path = Path(f'img/icons/{holiday_slug}/{icon_library_str_id}.webp')
-            else:
-                if pravicon_id := icon.pravicon_id:
-                    icon_library_str_id = f'pravicon-{pravicon_id}'
-                elif gallerix_id := icon.gallerix_id:
-                    icon_library_str_id = f'gallerix-{gallerix_id}'
-                elif shm_id := icon.shm_id:
-                    icon_library_str_id = f'shm-{shm_id}'
-                icon.path: Path = Path(f'img/icons/{holiday_slug}/{icon_library_str_id}.webp')
-        return values
+    icons: list[IconHolidayAssociationInDB] = []
 
 
-class HolidayInDBToDay(__HolidayInDBWithSaintsBase):
-    pass
-
-
-class HolidayInDBToMovableDay(__HolidayInDBWithSaintsBase):
-    pass
-
-
-class HolidayInDBToSaint(__HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase, __HolidayInDBWithIconsBase):
-    pass
-
-
-class HolidayInDBToIcon(__HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase, __HolidayInDBWithSaintsBase):
-    pass
-
-
-class Holiday(
-    __HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase, __HolidayInDBWithSaintsBase, __HolidayInDBWithIconsBase
-):
+class __HolidayInDBWithHolidayBooksBase(__HolidayInDBBase):
     holiday_books: list[HolidayBook] = []
-    molitva_books_: dict[str, list[MolitvaBook]] | None
-    before_after_holiday: BeforeAfterHoliday | None
-    before_after_holidays: list[BeforeAfterHoliday] = []
+
+
+class __HolidayInDBWithMolitvaBooksByManuscriptBase(__HolidayInDBBase):
+    molitva_books_by_manuscript: dict[str, list[MolitvaBookInDB]] | None
 
     @model_validator(mode='before')
     @classmethod
     def structure_molitva_books_by_manuscript(cls, values: models.Holiday) -> models.Holiday:
-        manuscript_molitva_books: dict[str, list[MolitvaBook]] = {}
+        manuscript_molitva_books: dict[str, list[MolitvaBookInDB]] = {}
         for molitva_book in values.molitva_books:
             try:
                 manuscript_molitva_books[molitva_book.book.bookmarks[0].manuscript.code].append(molitva_book)
             except KeyError:
                 manuscript_molitva_books[molitva_book.book.bookmarks[0].manuscript.code] = [molitva_book]
-        values.molitva_books_ = manuscript_molitva_books if manuscript_molitva_books else None
+        values.molitva_books_by_manuscript = manuscript_molitva_books if manuscript_molitva_books else None
         return values
 
 
-class HolidayInDB(__HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase, __HolidayInDBWithIconsBase):
+class HolidayInDBToDay(
+    __HolidayInDBWithMolitvaBooksByManuscriptBase, __HolidayInDBWithHolidayBooksBase,
+    __HolidayInDBWithIconsBase, __HolidayInDBWithTitleInDativeBase
+):
     pass
 
 
-class HolidayWithData(SchemaInDBToAssociationBase):
-    holiday: Holiday
-    tipikon_titles: list[enums.TipikonTitle] = list(enums.TipikonTitle)
+class HolidayInDBToMovableDay(
+    __HolidayInDBWithHolidayBooksBase, __HolidayInDBWithIconsBase,
+    __HolidayInDBWithTitleInDativeBase
+):
+    pass
+
+
+class HolidayInDBToBeforeAfterHoliday(
+    __HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase, __HolidayInDBWithIconsBase
+):
+    pass
+
+
+class HolidayInDBToSaint(
+    __HolidayInDBWithDayBase,
+    __HolidayInDBWithMovableDayBase,
+    __HolidayInDBWithIconsBase,
+    __HolidayInDBWithMolitvaBooksByManuscriptBase,
+    __HolidayInDBWithHolidayBooksBase,
+    __HolidayInDBWithTitleInDativeBase
+):
+    pass
+
+
+class HolidayInDB(
+    __HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase
+):
+    pass
+
+
+class Holiday(
+    __HolidayInDBWithDayBase,
+    __HolidayInDBWithMovableDayBase,
+    __HolidayInDBWithIconsBase,
+    __HolidayInDBWithMolitvaBooksByManuscriptBase,
+    __HolidayInDBWithHolidayBooksBase,
+    __HolidayInDBWithTitleInDativeBase,
+    __HolidayInDBWithSaintsBase
+):
+    before_after_holiday: BeforeAfterHoliday | None
+    before_after_holidays: list[BeforeAfterHoliday] = []
+
+    @computed_field
+    @property
+    def before_after_holidays_attributes(self) -> list[CalendarAttribute]:
+        before_after_holidays_attributes: list[CalendarAttribute] = []
+        for before_after_holiday in self.before_after_holidays:
+            for attribute in before_after_holiday.attributes:
+                if attribute not in before_after_holidays_attributes:
+                    before_after_holidays_attributes.append(attribute)
+        return before_after_holidays_attributes
+
+
+class HolidayInDBToBook(
+    __HolidayInDBWithDayBase, __HolidayInDBWithMovableDayBase, __HolidayInDBWithTitleInDativeBase
+):
+    pass
+
+
+class HolidaysSearchData(SchemaBase):
+    holiday_category_titles: list[enums.HolidayCategoryTitle] = list(enums.HolidayCategoryTitle)
+    tipikons: list[dict[str, str]] = [
+        {'title': tipikon_title, 'title_en': tipikon_title.name} for tipikon_title in enums.TipikonTitle
+    ]

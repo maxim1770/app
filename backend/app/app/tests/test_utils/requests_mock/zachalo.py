@@ -1,7 +1,7 @@
 from pathlib import Path
 
+from app.const import AzbykaUrl
 from app.core.config import settings
-from app.create.const import AzbykaUrl
 from ..create_test_data import _prepare_zachalo_abbr_to_path
 
 

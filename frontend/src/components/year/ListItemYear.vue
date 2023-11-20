@@ -1,9 +1,10 @@
 <template>
   <v-list-item
+    v-if="year"
     prepend-icon="mdi-timer-sand"
   >
-    Год:
-    <ChipYear :year="year" class="ml-1" />
+    Год
+    <ChipYear :year="year" class="ma-1" />
   </v-list-item>
 </template>
 

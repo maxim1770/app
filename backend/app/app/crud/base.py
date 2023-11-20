@@ -3,16 +3,17 @@ from typing import Any, Generic, Type, TypeVar
 
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
-# from fastapi_filter.contrib.sqlalchemy import Filter
+from fastapi_filter.contrib.sqlalchemy import Filter
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import func
 
 from app.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
-FilterSchemaType = TypeVar("FilterSchemaType", bound=BaseModel)  # Filter
+FilterSchemaType = TypeVar("FilterSchemaType", bound=Filter)
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, FilterSchemaType]):
@@ -23,7 +24,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, FilterSche
         ...
 
     @staticmethod
-    def _filtering_and_sorting_select(select: sa.Select, *, filter: FilterSchemaType) -> sa.Select:
+    def _filter_and_sort_select(select: sa.Select, *, filter: FilterSchemaType) -> sa.Select:
         select: sa.Select = filter.filter(select)
         select: sa.Select = filter.sort(select)
         return select
@@ -34,11 +35,18 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType, FilterSche
     def get_all_select(self) -> sa.Select:
         return sa.select(self.model)
 
+    @staticmethod
+    def get_random_id(db: Session, *, select: sa.Select) -> int | None:
+        return db.execute(select.order_by(func.random())).scalars().first().id
+
     def get_by_slug(self, db: Session, *, slug: str) -> ModelType | None:
         return db.execute(sa.select(self.model).filter_by(slug=slug)).scalar_one_or_none()
 
     def get_by_title(self, db: Session, *, title: StrEnum) -> ModelType | None:
         return db.execute(sa.select(self.model).filter_by(title=title)).scalar_one_or_none()
+
+    def get_by_abbr(self, db: Session, *, abbr: StrEnum) -> ModelType | None:
+        return db.execute(sa.select(self.model).filter_by(abbr=abbr)).scalar_one_or_none()
 
     def get(self, db: Session, *, id: int) -> ModelType | None:
         return db.execute(sa.select(self.model).filter_by(id=id)).scalar_one_or_none()

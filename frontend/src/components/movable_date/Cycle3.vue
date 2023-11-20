@@ -1,54 +1,51 @@
 <template>
-  <div>
-    <v-container class="mb-2 rounded-lg border text-center">
-      <v-row class="bg-red-lighten-3 border-b">
-        <v-col
-          cols="12"
-          class="text-h6 text-red-accent-4 font-weight-bold"
-        >
+  <v-card class="bg-red-lighten-3 ma-3">
+    <v-container>
+      <v-row>
+        <v-col class="text-h6 text-red-accent-4 font-weight-bold">
           Святой и Великий Пост
         </v-col>
       </v-row>
     </v-container>
-    <v-container
-      v-for="week in cycle.weeks.slice(0, -2)"
-      :key="week.id"
-      class="mb-2 rounded-lg border text-center"
-    >
+  </v-card>
+  <v-card
+    v-for="week in cycle.weeks.slice(0, -2)"
+    :key="week.id"
+    class="ma-4"
+  >
+    <v-container>
       <weekForCycle3 :week="week" />
     </v-container>
-    <v-container
-      class="mb-2 rounded-lg border text-center"
-    >
+  </v-card>
+  <v-card class="ma-4">
+    <v-container>
       <week6InCycle3 :week="week6" />
     </v-container>
-    <v-container class="mb-2 rounded-lg border text-center">
-      <v-row class="bg-red-lighten-3 border-b">
-        <v-col
-          cols="12"
-          class="text-h6 text-red-accent-4 font-weight-bold"
-        >
+  </v-card>
+  <v-card class="bg-red-lighten-3 ma-3">
+    <v-container>
+      <v-row>
+        <v-col class="text-h6 text-red-accent-4 font-weight-bold">
           Страстная седмица
         </v-col>
       </v-row>
     </v-container>
-    <v-container
-      class="rounded-lg border text-center text-red-accent-3"
-    >
+  </v-card>
+  <v-card class="text-red-accent-3 ma-4">
+    <v-container>
       <strastnajaSedmitsa :week="strastnajaSedmitsa_" />
     </v-container>
-  </div>
+  </v-card>
 </template>
 
 <script>
 
-import ChipZachalo from "@/components/book/ChipZachalo.vue";
 import weekForCycle3 from "@/components/movable_date/week/weekForCycle3.vue";
 import week6InCycle3 from "@/components/movable_date/week/week6InCycle3.vue";
 import strastnajaSedmitsa from "@/components/movable_date/week/strastnajaSedmitsa.vue";
 
 export default {
-  components: { ChipZachalo, weekForCycle3, week6InCycle3, strastnajaSedmitsa },
+  components: { weekForCycle3, week6InCycle3, strastnajaSedmitsa },
   props: {
     cycle: {
       type: Object,

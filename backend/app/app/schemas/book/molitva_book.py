@@ -1,8 +1,14 @@
-from pydantic import conint, model_validator
+from __future__ import annotations
 
-from app import models
-from .book import BookInDB
+from typing import TYPE_CHECKING
+
+from pydantic import conint
+
+from .book import BookInDBToBooks
 from ..base import SchemaBase, SchemaInDBBase
+
+if TYPE_CHECKING:
+    from ..holiday import HolidayInDBToBook
 
 
 class __MolitvaBookBase(SchemaBase):
@@ -14,18 +20,24 @@ class MolitvaBookCreate(__MolitvaBookBase):
 
 
 class __MolitvaBookInDBBase(__MolitvaBookBase, SchemaInDBBase):
-    title: str
-
-    @model_validator(mode='before')
-    @classmethod
-    def prepare_title(cls, values: models.MolitvaBook) -> models.MolitvaBook:
-        values.title: str = f'{values.book.type} глас {values.glas_num}' if values.glas_num else f'{values.book.type}'
-        return values
+    pass
 
 
-class MolitvaBook(__MolitvaBookInDBBase):
-    book: BookInDB
+class __MolitvaBookInDBWithHolidayBase(__MolitvaBookInDBBase):
+    holiday: HolidayInDBToBook
 
 
-class MolitvaBookInDB(__MolitvaBookInDBBase):
+class __MolitvaBookInDBWithBookBase(__MolitvaBookInDBBase):
+    book: BookInDBToBooks
+
+
+class MolitvaBook(__MolitvaBookInDBWithBookBase):
+    pass
+
+
+class MolitvaBookInDB(__MolitvaBookInDBWithHolidayBase, __MolitvaBookInDBWithBookBase):
+    pass
+
+
+class MolitvaBookInDBToBook(__MolitvaBookInDBWithHolidayBase):
     pass

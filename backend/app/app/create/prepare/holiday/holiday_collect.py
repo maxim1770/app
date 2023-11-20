@@ -8,7 +8,6 @@ from pydantic import BaseModel, constr
 
 from app import const
 from ..base_collect import get_all_cathedrals_saints
-from ...const import AzbykaUrl
 
 
 class __HolidayCollectBase(BaseModel):
@@ -74,7 +73,7 @@ class SaintHolidayCollectFactory(HolidayCollectFactoryBase):
 
     @property
     def saint_slug(self) -> str:
-        saint_slug: str = self.holiday_data['href'].replace('http:', 'https:').replace(AzbykaUrl.GET_SAINT_BY_SLUG,
+        saint_slug: str = self.holiday_data['href'].replace('http:', 'https:').replace(const.AzbykaUrl.GET_SAINT_BY_SLUG,
                                                                                        '').lower().strip()
         self._check_saint_slug_in_cathedrals_saints(saint_slug)
         self._check_saint_slug_not_is_one_saint(saint_slug)
@@ -119,7 +118,7 @@ class SaintsHolidayNewCollectFactory(HolidayCollectFactoryBase):
     def saints_slugs(self) -> str:
         if 'svv' not in self.holiday_data['href']:
             raise ValueError('Not valid saints slugs in one tag a')
-        saints_slugs: str = self.holiday_data['href'].replace('http:', 'https:').replace(AzbykaUrl.GET_SAINTS_BY_SLUG,
+        saints_slugs: str = self.holiday_data['href'].replace('http:', 'https:').replace(const.AzbykaUrl.GET_SAINTS_BY_SLUG,
                                                                                          '').lower().strip()
         return saints_slugs
 
@@ -146,7 +145,7 @@ class SaintsHolidayNewMethod2CollectFactory(object):
             while isinstance(tag_a, Tag):
                 title += tag_a.text
                 saint_slug: str = tag_a['href'].replace('http:', 'https:').replace(
-                    AzbykaUrl.GET_SAINT_BY_SLUG,
+                    const.AzbykaUrl.GET_SAINT_BY_SLUG,
                     '').lower().strip()
                 saints_slugs.append(saint_slug)
                 some_sting = tag_a.next_sibling.text

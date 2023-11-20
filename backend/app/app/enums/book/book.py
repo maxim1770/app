@@ -3,7 +3,9 @@ from enum import StrEnum
 
 class BookTitle(StrEnum):
     Prolog = 'Пролог'
+    Paterik = 'Патерик'
     Zhitija_Svjatyh = 'Жития Святых'
+    Sluzhby_i_Zhitija_Svjatyh = 'Службы и Жития Святых'
     Mesjatseslov = 'Месяцеслов'
     Sbornik_Slov = 'Сборник Слов'
     Sbornik_Slov_i_Zhitij = 'Сборник Слов и Житий'
@@ -21,9 +23,12 @@ class BookTitle(StrEnum):
 
 class BookType(StrEnum):
     Slovo = 'Слово'
+    Oglashenie = 'Оглашение'
+    Skazanie = 'Сказание'
     Pouchenie = 'Поучение'
     Pritcha = 'Притча'
     Povest = 'Повесть'
+    Poslanie = 'Послание'
     Pohvala = 'Похвала'
     Slovo_Pohvalnoe = 'Слово Похвальное'
     Slovo_Vospominatelnoe = 'Слово Воспоминательное'
@@ -31,6 +36,8 @@ class BookType(StrEnum):
     Beseda = 'Беседа'
     Sluzhba = 'Служба'
     Nakazanie = 'Наказание'
+    Nravouchenie = 'Нравоучение'
+    Glavy = 'Главы'
     _istorija = 'история'
     slovo_istorija = f'{Slovo}-{_istorija}'
     pouchenie_istorija = f'{Pouchenie}-{_istorija}'
@@ -40,6 +47,8 @@ class BookType(StrEnum):
     Pravilo = 'Правило'
     Tropar = 'Тропарь'
     Kondak = 'Кондак'
+    Molitva = 'Молитва'
+    Stih = 'Стих'
 
 
 class BookSource(StrEnum):

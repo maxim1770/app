@@ -7,22 +7,17 @@ import "moment/locale/ru";
 import moment from "moment";
 import "v-calendar/style.css";
 import VueViewer from "v-viewer";
+import "viewerjs/dist/viewer.css";
 
-moment.locale("ru");
 
 const app = createApp(App);
 
-app.use(VueViewer.default)
-
-app.use(router).use(vuetify);
-
-app.use(VCalendar, {
-  locale: "ru",
-  popoverVisibility: "focus",
-  firstDayOfWeek: 1,
-  datePickerTintColor: "#4CAF50"
-});
-
+moment.locale("ru");
 app.config.globalProperties.$moment = moment;
 
+app.use(router).use(vuetify);
+app.use(VCalendar, {
+  locale: "ru", popoverVisibility: "focus", firstDayOfWeek: 1, datePickerTintColor: "#4CAF50"
+});
+app.use(VueViewer);
 app.mount("#app");

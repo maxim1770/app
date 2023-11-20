@@ -1,52 +1,26 @@
 <template>
   <div>
-    <h4 class="text-h4 font-weight-bold ma-2">
-      Соборы, Правила Святых Отцов
-    </h4>
-    <v-divider></v-divider>
+    <v-divider />
     <v-timeline side="end" align="start">
       <v-timeline-item
         v-for="cathedral in cathedrals"
         :key="cathedral.id"
-        :dot-color="cathedralDotColor(cathedral)"
-        size="small"
+        @click="$router.push({name: 'cathedral', params: { cathedralSlug: cathedral.slug } })"
+        :dot-color="isVselenskijSobor(cathedral) ? 'red-darken-4' : 'red-lighten-2'"
+        :size="isVselenskijSobor(cathedral) ? 'default' : 'small'"
+        icon="mdi-book-open-page-variant"
+        fill-dot
       >
-        <template v-slot:opposite>
-          <div v-if="cathedral.year"
-               class="pt-1 headline font-weight-bold"
-               v-text="cathedral.year.title"
-          ></div>
+        <template v-if="mdAndUp" v-slot:opposite>
+          <ChipYear :year="cathedral.year" />
         </template>
-        <div class="d-flex">
-          <div>
-            <strong>{{ cathedral.title }}</strong>
-            <div class="text-caption">
-              (Кол. Правил
-              <v-chip
-                variant="tonal"
-                color="blue"
-              >
-                {{ cathedral.num_rules }}
-              </v-chip>
-              )
-            </div>
-            <v-menu activator="parent" transition="scale-transition" location="end" open-on-hover>
-              <v-sheet elevation="8" rounded="lg">
-                <v-chip-group class="ma-1">
-                  <v-chip
-                    v-for="cathedral_book in cathedral.cathedral_books"
-                    :key="cathedral_book.id"
-                    :to="{ name: 'book', params: { bookId: cathedral_book.id } }"
-                  > {{ cathedral_book.rule_num }}
-                  </v-chip>
-                </v-chip-group>
-              </v-sheet>
-            </v-menu>
-          </div>
-        </div>
+        <CathedralFullTitleByCathedral
+          :cathedral="cathedral"
+          :has_show_year="!mdAndUp"
+        />
       </v-timeline-item>
     </v-timeline>
-    <v-divider></v-divider>
+    <v-divider />
   </div>
 </template>
 
@@ -54,22 +28,26 @@
 
 
 import ChipYear from "@/components/year/ChipYear.vue";
+import MainTitle from "@/components/common/title/MainTitle.vue";
+import { useDisplay } from "vuetify";
+import BadgeNum from "@/components/common/BadgeNum.vue";
+import CathedralFullTitleByCathedral from "@/components/cathedral/CathedralFullTitle.vue";
+import { isVselenskijSobor } from "@/utils/common";
 
 export default {
-  components: { ChipYear },
+  components: { CathedralFullTitleByCathedral, BadgeNum, MainTitle, ChipYear },
   props: {
     cathedrals: {
       type: Object,
       required: true
     }
   },
+  setup() {
+    const mdAndUp = useDisplay();
+    return mdAndUp;
+  },
   methods: {
-    cathedralDotColor(cathedral) {
-      if (cathedral.slug?.startsWith("vselenskij_sobor")) {
-        return "red-darken-3";
-      }
-      return "blue";
-    }
+    isVselenskijSobor
   }
 };
 </script>

@@ -1,24 +1,19 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-# from app.filters import DateFilter
+from app.filters import DateFilter
 from app.models import Date
 from app.schemas import DateCreate, DateUpdate
 from .base import CRUDBase
-
-
-class DateFilter(BaseModel):
-    pass
 
 
 class CRUDDate(CRUDBase[Date, DateCreate, DateUpdate, DateFilter]):
 
     def get_multi_by_filter(self, db: Session, *, filter: DateFilter) -> sa.Select:
         select: sa.Select = sa.select(self.model)
-        select: sa.Select = self._filtering_and_sorting_select(select, filter=filter)
+        select: sa.Select = self._filter_and_sort_select(select, filter=filter)
         return select
 
     def get_by_day_and_year(self, db: Session, *, day_id: int, year: int) -> models.Date | None:
@@ -45,22 +40,6 @@ class CRUDDate(CRUDBase[Date, DateCreate, DateUpdate, DateFilter]):
             day_id=day_id,
             movable_day_id=movable_day_id,
         )
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
-        return db_obj
-
-    @staticmethod
-    def update_movable_day_id(db: Session, *, db_obj: models.Date, movable_day_id: int) -> models.Date:
-        db_obj.movable_day_id = movable_day_id
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
-        return db_obj
-
-    @staticmethod
-    def update_post_id(db: Session, *, db_obj: models.Date, post_id: int) -> models.Date:
-        db_obj.post_id = post_id
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

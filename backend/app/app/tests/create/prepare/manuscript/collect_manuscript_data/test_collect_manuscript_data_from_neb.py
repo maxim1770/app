@@ -36,7 +36,7 @@ from app.tests import test_utils
     ),
 
 ])
-def test_collect_manuscript_data_from_neb(
+def test_collect_manuscript_data_has_left_and_right(
         requests_mock,
         session: requests.Session,
         manuscript_neb_slug: str,
@@ -49,14 +49,14 @@ def test_collect_manuscript_data_from_neb(
     assert manuscript_data_any['fund_title'] == collect_manuscript_data.fund_title
 
 
-@pytest.mark.parametrize('manuscript_code_title_from_neb, manuscript_code_title', [
+@pytest.mark.parametrize('manuscript_code_title_has_left_and_right, manuscript_code_title', [
     ('Ф.178.1 №9500', 'Ф.178/I №9500'),
     ('Ф.304.3 №15', 'Ф.304/III №15'),
     ('Ф.304.3 №3', 'Ф.304/III №3'),
     ('Ф.98 №80', 'Ф.98 №80'),
     ('Ф.7 №27', 'Ф.7 №27'),
 ])
-def test_prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title_from_neb: str, manuscript_code_title: str):
-    assert CollectManuscriptDataFromNeb._prepare_rsl_manuscript_code_title_from_neb(
-        manuscript_code_title_from_neb
+def test_prepare_rsl_manuscript_code_title_has_left_and_right(manuscript_code_title_has_left_and_right: str, manuscript_code_title: str):
+    assert CollectManuscriptDataFromNeb._prepare_rsl_manuscript_code_title_has_left_and_right(
+        manuscript_code_title_has_left_and_right
     ) == manuscript_code_title

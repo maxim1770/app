@@ -11,9 +11,10 @@ def prepare_db_bookmark(db: Session, *, bookmark_data_in: schemas.BookmarkDataCr
         book: models.Book | None = create_book(db, book_data_in=bookmark_data_in.book_data_in)
     if book is None:
         return None
-    first_page = crud.create_page(db, page_in=bookmark_data_in.pages_in.first_page)
-    end_page = crud.create_page(db, page_in=bookmark_data_in.pages_in.end_page)
+    first_page = crud.page.create(db, obj_in=bookmark_data_in.pages_in.first_page)
+    end_page = crud.page.create(db, obj_in=bookmark_data_in.pages_in.end_page)
     db_bookmark = models.Bookmark(
+        **bookmark_data_in.bookmark_in.model_dump(),
         book_id=book.id,
         first_page_id=first_page.id,
         end_page_id=end_page.id

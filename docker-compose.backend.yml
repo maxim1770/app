@@ -1,0 +1,69 @@
+version: "3.8"
+services:
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    env_file:
+      - .env
+    expose:
+      - 6379
+  db:
+    container_name: db
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./app-db-data:/var/lib/postgresql/data/pgdata
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    deploy:
+      placement:
+        constraints:
+          - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    depends_on:
+      - db
+    env_file:
+      - .env
+  backend:
+    container_name: backend
+    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    depends_on:
+      - db
+      - redis
+    command: bash -c "start_server.production.sh"
+    expose:
+      - 8000
+    env_file:
+      - .env
+    environment:
+      - SERVER_NAME=${DOMAIN?Variable not set}
+      - SERVER_HOST=https://${DOMAIN?Variable not set}
+      - SMTP_HOST=${SMTP_HOST}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-true} # На prode установить -false
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx_backend
+    ports:
+      - "80:81"
+    restart: always
+    depends_on:
+      - backend
+      - pgadmin
+
+volumes:
+  app-db-data:
+
+networks:
+  default:
+    driver: bridge
+    name: webnet

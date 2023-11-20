@@ -65,6 +65,7 @@ class BibleBookAbbr(StrEnum):
     # Апокалипсис
     Apok = auto()
 
+    # Ветхий Завет
     Ps = auto()
 
     Gen = auto()

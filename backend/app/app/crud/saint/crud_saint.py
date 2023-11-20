@@ -1,23 +1,19 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-# from app.filters import SaintFilter
+from app.filters import SaintFilter
 from app.models import Saint
 from app.schemas import SaintCreate, SaintUpdate
 from ..base import CRUDBase
 
 
-class SaintFilter(BaseModel):
-    pass
-
 class CRUDSaint(CRUDBase[Saint, SaintCreate, SaintUpdate, SaintFilter]):
 
     def get_multi_by_filter(self, db: Session, *, filter: SaintFilter) -> sa.Select:
         select: sa.Select = sa.select(self.model).outerjoin(models.Dignity).outerjoin(models.FaceSanctity)
-        select: sa.Select = self._filtering_and_sorting_select(select, filter=filter)
+        select: sa.Select = self._filter_and_sort_select(select, filter=filter)
         return select
 
     def create_with_any(

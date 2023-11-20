@@ -4,7 +4,9 @@ from app import models
 
 
 class DateFilter(Filter):
-    search: str | None
+    year: int | None = None
+
+    order_by: list[str] = []
 
     class Constants(Filter.Constants):
         model = models.Date

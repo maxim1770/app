@@ -4,9 +4,7 @@ from app import models, enums
 
 
 class DignityFilter(Filter):
-    title: enums.DignityTitle | None
-
-    # order_by: list[str] = ['title']
+    title: enums.DignityTitle | None = None
 
     class Constants(Filter.Constants):
         model = models.Dignity

@@ -16,14 +16,14 @@ if TYPE_CHECKING:
     from ..saint import Saint, SaintHolidayAssociation
     from ..book import HolidayBook
     from ..book import MolitvaBook
-    from ..icon import Icon, IconHolidayAssociation
+    from ..icon import IconHolidayAssociation
     from .before_after_holiday import BeforeAfterHoliday
 
 
 class Holiday(Base):
     id: Mapped[intpk] = mapped_column()
 
-    title: Mapped[str | None] = mapped_column(String(200), index=True)
+    title: Mapped[str | None] = mapped_column(String(250), index=True)
     slug: Mapped[unique_slug]
 
     holiday_category_id: Mapped[int] = mapped_column(ForeignKey(HolidayCategory.id), index=True)
@@ -40,7 +40,6 @@ class Holiday(Base):
 
     holiday_books: Mapped[list[HolidayBook]] = relationship(back_populates='holiday')
     molitva_books: Mapped[list[MolitvaBook]] = relationship(back_populates='holiday')
-    icons: Mapped[list[Icon]] = relationship(back_populates='holiday')
 
     before_after_holiday: Mapped[BeforeAfterHoliday | None] = relationship(
         'BeforeAfterHoliday',
@@ -58,9 +57,4 @@ class Holiday(Base):
     )
     saint_associations: Mapped[list[SaintHolidayAssociation]] = relationship(back_populates='holiday')
 
-    icons: Mapped[list[Icon]] = relationship(
-        secondary='icon_holiday_association',
-        back_populates='holidays',
-        viewonly=True
-    )
-    icon_associations: Mapped[list[IconHolidayAssociation]] = relationship(back_populates='holiday')
+    icons: Mapped[list[IconHolidayAssociation]] = relationship(back_populates='holiday')

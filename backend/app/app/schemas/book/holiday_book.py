@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from app import enums
-from .book import BookInDB
+from .book import BookInDBToBooks
 from ..base import SchemaBase, SchemaInDBBase
 
 if TYPE_CHECKING:
-    from ..holiday import HolidayInDB
+    from ..holiday import HolidayInDBToBook
     from ..saint import SaintInDB
 
 
@@ -20,13 +20,21 @@ class HolidayBookCreate(__HolidayBookBase):
 
 
 class __HolidayBookInDBBase(__HolidayBookBase, SchemaInDBBase):
-    holiday: HolidayInDB | None
+    pass
+
+
+class __HolidayBookInDBWithHolidayOrSaintBase(__HolidayBookInDBBase):
+    holiday: HolidayInDBToBook | None
     saint: SaintInDB | None
 
 
-class HolidayBook(__HolidayBookInDBBase):
-    book: BookInDB
+class __HolidayBookInDBWithBookBase(__HolidayBookInDBBase):
+    book: BookInDBToBooks
 
 
-class HolidayBookInDB(__HolidayBookInDBBase):
+class HolidayBook(__HolidayBookInDBWithBookBase):
+    pass
+
+
+class HolidayBookInDBToBook(__HolidayBookInDBWithHolidayOrSaintBase):
     pass

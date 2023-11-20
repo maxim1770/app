@@ -11,6 +11,7 @@ from app.db.base_class import Base, intpk
 if TYPE_CHECKING:
     from .date import Date
     from .holiday import Holiday, BeforeAfterHolidayDayAssociation
+    from .book import Book
 
 
 class Day(Base):
@@ -20,6 +21,7 @@ class Day(Base):
     day: Mapped[int] = mapped_column(SmallInteger)
 
     holidays: Mapped[list[Holiday]] = relationship(back_populates='day')
+    books: Mapped[list[Book]] = relationship(back_populates='day')
 
     before_after_holidays: Mapped[list[BeforeAfterHolidayDayAssociation]] = relationship(back_populates='day')
     movable_days: Mapped[list[Date]] = relationship(back_populates='day')

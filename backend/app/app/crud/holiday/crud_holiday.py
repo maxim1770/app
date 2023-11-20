@@ -1,19 +1,29 @@
+import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-# from app.filters import HolidayFilter
+from app.filters import HolidayFilter
 from app.models import Holiday
 from app.schemas import HolidayCreate, HolidayUpdate
 from ..base import CRUDBase
 
 
-class HolidayFilter(BaseModel):
-    pass
-
-
 class CRUDHoliday(CRUDBase[Holiday, HolidayCreate, HolidayUpdate, HolidayFilter]):
+
+    def get_multi_by_filter(self, db: Session, *, filter: HolidayFilter) -> sa.Select:
+        select: sa.Select = sa.select(
+            self.model
+        ).outerjoin(
+            models.HolidayCategory
+        ).outerjoin(
+            models.Tipikon
+        ).outerjoin(
+            models.Day
+        )
+        select: sa.Select = self._filter_and_sort_select(select, filter=filter)
+        return select
+
     def create_with_category(
             self, db: Session, *, obj_in: HolidayCreate, holiday_category_id: int
     ) -> Holiday:

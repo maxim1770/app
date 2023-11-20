@@ -66,7 +66,6 @@ class SaintDataUpdateFactory(object):
                 self.dignity_title[0].lower() + self.dignity_title[1:],
                 self.dignity_title
             )
-        # name = 'NEW G_M_2 ' + name
         return schemas.SaintUpdate(name=name, name_in_dative=self.name_in_dative)
 
     @property

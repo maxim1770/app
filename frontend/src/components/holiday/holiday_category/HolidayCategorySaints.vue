@@ -1,30 +1,16 @@
 <template>
-  <div class="mt-2">
-    <h3>Святые:</h3>
-    <v-list>
-      <v-list-item
-        v-for="saint in holiday.saints"
-        :key="saint.id"
-        :title="saint.name"
-        :to="{ name: 'saint', params: { saintSlug: saint.slug } }"
-        linec="two"
-        rounded="xl"
-        class="my-1"
-      >
-        <ChipFaceSanctity v-if="saint.face_sanctity" :face_sanctity="saint.face_sanctity" />
-        <ChipDignity v-if="saint.dignity" :dignity="saint.dignity" class="ml-1" />
-      </v-list-item>
-    </v-list>
-  </div>
+  <ChapterWithHead headTitle="Святые">
+    <ListSaints :saints="holiday.saints" :holiday="holiday" />
+  </ChapterWithHead>
 </template>
 
 <script>
 
-import ChipFaceSanctity from "@/components/saint/ChipFaceSanctity.vue";
-import ChipDignity from "@/components/saint/ChipDignity.vue";
+import ChapterWithHead from "@/components/common/ChapterWithHead.vue";
+import ListSaints from "@/components/saint/ListSaints.vue";
 
 export default {
-  components: { ChipFaceSanctity, ChipDignity },
+  components: { ListSaints, ChapterWithHead },
   props: {
     holiday: {
       type: Object,

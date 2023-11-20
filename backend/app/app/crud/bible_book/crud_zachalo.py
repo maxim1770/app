@@ -2,7 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums, utils
-from .crud_bible_book import get_bible_book
+from .crud_bible_book import bible_book as crud_bible_book
 from ..book import book
 from ..saint import saint
 
@@ -19,7 +19,7 @@ def create_zachalo(
         bible_book_abbr: enums.BibleBookAbbr,
         zachalo_in: schemas.ZachaloCreate
 ) -> models.Zachalo:
-    bible_book: models.BibleBook = get_bible_book(db, abbr=bible_book_abbr)
+    bible_book: models.BibleBook = crud_bible_book.get_by_abbr(db, abbr=bible_book_abbr)
     saint_slug: str = enums.BibleBookAuthorSlug[bible_book.abbr.name].value
     book_title: enums.BookTitle = utils.get_bible_book_title(bible_book.part)
     book_data_in = schemas.BookDataCreate(

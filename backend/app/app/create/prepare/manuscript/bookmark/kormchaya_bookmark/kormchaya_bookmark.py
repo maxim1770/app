@@ -39,13 +39,14 @@ def get_kormchaya_bookmarks(kormchaya_book: KormchayaBookFullType) -> list[PdfBo
             title=bookmark_title,
             color=color,
         )
-        for rule_num, page_num in list_:
-            bookmark_ = PdfBookmark(
-                page_num=page_num,
-                start_on_new_page=start_on_new_page,
-                title=f'Правило {utils.Cyrillic.to_cyrillic(rule_num)} ({rule_num})',
-                color=color,
-            )
-            bookmark.children.append(bookmark_)
+        if list_ and len(list_[0]) == 2:
+            for rule_num, page_num in list_:
+                bookmark_ = PdfBookmark(
+                    page_num=page_num,
+                    start_on_new_page=start_on_new_page,
+                    title=f'Правило {utils.Cyrillic.to_cyrillic(rule_num)} ({rule_num})',
+                    color=color,
+                )
+                bookmark.children.append(bookmark_)
         kormchaya_bookmarks.append(bookmark)
     return kormchaya_bookmarks

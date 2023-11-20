@@ -4,8 +4,9 @@ import requests
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
-from ..base_cls import FatalCreateError
 from app.create import prepare
+from ..base_cls import FatalCreateError
+
 
 def create_saint(db: Session, *, saint_data_in: schemas.SaintDataCreate) -> models.Saint:
     foreign_keys: dict[str, int] = {}

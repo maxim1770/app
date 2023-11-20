@@ -1,5 +1,5 @@
 <template>
-  <v-row :class="{'rounded-shaped bg-red-lighten-3': satWeek6.abbr === currentMovableDayAbbr}">
+  <v-row :class="{'rounded-shaped bg-red-lighten-3': satWeek6?.abbr === currentMovableDayAbbr}">
     <v-col cols="2">
       {{ satWeek6?.abbr_ru }} {{ week6?.sunday_num }}, {{ satWeek6?.title }}
     </v-col>
@@ -11,7 +11,7 @@
       <ChipZachalo :zachalo="zachalo" />
     </v-col>
   </v-row>
-  <v-row :class="{'bg-red-lighten-3': sunWeek6.abbr === currentMovableDayAbbr}">
+  <v-row :class="{'bg-red-lighten-3': sunWeek6?.abbr === currentMovableDayAbbr}">
     <v-col cols="2">
       {{ sunWeek6?.abbr_ru }} {{ week6?.sunday_num }}, {{ sunWeek6?.title }}
     </v-col>
@@ -22,7 +22,7 @@
       <ChipZachalo :zachalo="sunMatinsWeek6" />
     </v-col>
   </v-row>
-  <v-row :class="{'bg-red-lighten-3': sunWeek6.abbr === currentMovableDayAbbr}">
+  <v-row :class="{'bg-red-lighten-3': sunWeek6?.abbr === currentMovableDayAbbr}">
     <v-col cols="2">
       На Литургии
     </v-col>
@@ -61,13 +61,13 @@ export default {
       return this.week.movable_days[6];
     },
     satLiturgyWeek6() {
-      return this.satWeek6.movable_dates.filter(movable_date => movable_date.divine_service.title === "liturgy")[0].zachalos.slice(0, 2);
+      return this.satWeek6.movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos.slice(0, 2);
     },
     sunMatinsWeek6() {
-      return this.sunWeek6.movable_dates.filter(movable_date => movable_date.divine_service.title === "matins")[0].zachalos[0];
+      return this.sunWeek6?.movable_dates.find(movable_date => movable_date.divine_service.title === "matins")?.zachalos[0];
     },
     sunLiturgyWeek6() {
-      return this.sunWeek6.movable_dates.filter(movable_date => movable_date.divine_service.title === "liturgy")[0].zachalos.slice(0, 2);
+      return this.sunWeek6?.movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos.slice(0, 2);
     }
   }
 };

@@ -21,17 +21,14 @@ class Icon(Base):
     year: Mapped[Year] = relationship(back_populates='icons')
     city: Mapped[City | None] = relationship(back_populates='icons')
 
-    holidays: Mapped[list[Holiday]] = relationship(
-        secondary='icon_holiday_association',
-        back_populates='icons',
-        viewonly=True
-    )
-    holiday_associations: Mapped[list['IconHolidayAssociation']] = relationship(back_populates='icon')
+    holidays: Mapped[list['IconHolidayAssociation']] = relationship(back_populates='icon')
 
 
 class IconHolidayAssociation(Base):
     icon_id: Mapped[int] = mapped_column(ForeignKey(Icon.id), primary_key=True, index=True)
     holiday_id: Mapped[int] = mapped_column(ForeignKey(Holiday.id), primary_key=True, index=True)
 
-    icon: Mapped[Icon] = relationship(back_populates='holiday_associations')
-    holiday: Mapped[Holiday] = relationship(back_populates='icon_associations')
+    is_use_slug: Mapped[bool | None]
+
+    icon: Mapped[Icon] = relationship(back_populates='holidays')
+    holiday: Mapped[Holiday] = relationship(back_populates='icons')

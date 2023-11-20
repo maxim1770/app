@@ -18,5 +18,10 @@ def create_icon(
         year_id=year.id,
         city_id=city_id
     )
-    icon = crud.icon.create_holiday_association(db, db_obj=icon, holiday=holiday)
+    icon = crud.icon.create_holiday_association(
+        db,
+        db_obj=icon,
+        holiday=holiday,
+        icon_holiday_association_in=schemas.IconHolidayAssociationCreate()
+    )
     return icon

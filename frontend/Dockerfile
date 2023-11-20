@@ -1,18 +1,22 @@
-FROM node:lts-alpine as build-stage
+FROM node:20.8.0-alpine as build-stage
 
 WORKDIR /frontend
 
-COPY package*.json .
-
+COPY package*.json ./
 
 RUN apk update && apk add --no-cache bash
-RUN npm install -g npm@latest
+RUN npm install -g npm@latest --no-cache
 RUN npm install
 
 COPY . .
 
-ARG FRONTEND_ENV=production
+RUN npm run build
 
-ENV VUE_APP_ENV=${FRONTEND_ENV}
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /frontend/dist /usr/share/nginx/html
 
-EXPOSE 5173
+# RUN rm /etc/nginx/conf.d/default.confe
+# COPY ./nginx.conf /etc/nginx/conf.d
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

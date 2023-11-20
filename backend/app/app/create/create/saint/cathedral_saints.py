@@ -4,15 +4,14 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from sqlalchemy.orm import Session
 
-from app import crud, models
+from app import crud, models, const
 from app.api import deps
-from ...const import AzbykaUrl
 
 logging.basicConfig(level=logging.WARNING)
 
 
 def collect_saints_cathedral_saints(cathedral_saints_title: str) -> list[str]:
-    r = requests.get(AzbykaUrl.GET_SAINT_BY_SLUG + cathedral_saints_title)
+    r = requests.get(const.AzbykaUrl.GET_SAINT_BY_SLUG + cathedral_saints_title)
     saints_data: Tag = BeautifulSoup(r.text, 'lxml').find(
         lambda tag: tag.name == 'h2'
                     and 'Список Святых' in tag.text

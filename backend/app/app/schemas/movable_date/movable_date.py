@@ -7,7 +7,7 @@ from ..base import SchemaBase, SchemaInDBBase
 from ..bible_book import ZachaloInDBToBook, ZachaloInDB
 
 if TYPE_CHECKING:
-    from .movable_day import MovableDayInDB
+    from .movable_day import MovableDayInDBBase
 
 
 class __MovableDateBase(SchemaBase):
@@ -22,15 +22,15 @@ class __MovableDateInDBBase(__MovableDateBase, SchemaInDBBase):
     divine_service: DivineService | None
 
 
-class __MovableDateInDBWithZachalos(__MovableDateInDBBase):
+class __MovableDateInDBWithZachalosBase(__MovableDateInDBBase):
     zachalos: list[ZachaloInDB] = []
 
 
-class MovableDate(__MovableDateInDBWithZachalos):
-    movable_day: MovableDayInDB
+class MovableDate(__MovableDateInDBWithZachalosBase):
+    movable_day: MovableDayInDBBase
 
 
-class MovableDateInDB(__MovableDateInDBWithZachalos):
+class MovableDateInDB(__MovableDateInDBWithZachalosBase):
     pass
 
 

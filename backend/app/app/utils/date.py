@@ -4,11 +4,8 @@ from app import const
 
 
 def calculate_current_year() -> int:
-    __current_date: date = date.today()
-    _current_offset_year: int = __current_date.year
-    current_year: int = _current_offset_year + const.NUM_OFFSET_YEARS
-    if 9 <= __current_date.month <= 12:
-        current_year += 1
+    __offset_current_date: date = date.today()
+    current_year: int = offset_year2year(__offset_current_date.year, month=__offset_current_date.month)
     return current_year
 
 
@@ -17,6 +14,13 @@ def year2offset_year(year: int, *, month: int) -> int:
     if 9 <= month <= 12:
         offset_year -= 1
     return offset_year
+
+
+def offset_year2year(offset_year: int, *, month: int) -> int:
+    year: int = offset_year + const.NUM_OFFSET_YEARS
+    if 9 <= month <= 12:
+        year += 1
+    return year
 
 
 def is_after_sunset(datetime_: datetime) -> bool:

@@ -7,14 +7,19 @@ def pages_nums2pages_in(
         first_page_num: int,
         end_page_num: int,
         *,
-        not_numbered_pages: schemas.NotNumberedPages,
-        from_neb: bool,
+        not_numbered_pages: schemas.SortedNotNumberedPages,
+        has_left_and_right: bool,
         first_page_position: enums.PagePosition | None = None
 ) -> schemas.PagesCreate:
-    if from_neb:
-        first_page: schemas.PageCreate = __convert_page_from_neb(first_page_num,
-                                                                 first_page_position=first_page_position)
-        end_page: schemas.PageCreate = __convert_page_from_neb(end_page_num, first_page_position=first_page_position)
+    if has_left_and_right:
+        first_page: schemas.PageCreate = __convert_page_has_left_and_right(
+            first_page_num,
+            first_page_position=first_page_position
+        )
+        end_page: schemas.PageCreate = __convert_page_has_left_and_right(
+            end_page_num,
+            first_page_position=first_page_position
+        )
     else:
         first_page = schemas.PageCreate(num=first_page_num, position=enums.PagePosition.left)
         end_page = schemas.PageCreate(num=end_page_num, position=enums.PagePosition.left)
@@ -30,7 +35,11 @@ def pages_nums2pages_in(
     return pages_in
 
 
-def __convert_page_from_neb(page_num: int, *, first_page_position: enums.PagePosition) -> schemas.PageCreate:
+def __convert_page_has_left_and_right(
+        page_num: int,
+        *,
+        first_page_position: enums.PagePosition
+) -> schemas.PageCreate:
     add_to_num: int = 1 if page_num % 2 == 0 and first_page_position else 0
     page = schemas.PageCreate(
         num=ceil(page_num / 2) + add_to_num,

@@ -10,6 +10,7 @@ from app.enums import BookSource, BookTopic, BookUtil, BookType
 
 class BookRegexGroupName(StrEnum):
     type = auto()
+    molitva_book_type = auto()
     source = auto()
     topics = auto()
     slug = auto()
@@ -20,12 +21,16 @@ class BookRegexGroupName(StrEnum):
 
 class _BookRegexStr(StrEnum):
     _TYPE = utils.enum2regex(BookType, group=BookRegexGroupName.type)
+    _MOLITVA_BOOK_TYPE = utils.enum2regex(
+        (BookType.Kondak, BookType.Tropar),
+        group=BookRegexGroupName.molitva_book_type
+    )
     _SOURCE = utils.enum2regex(BookSource, group=BookRegexGroupName.source)
     _TOPIC = utils.enum2regex(BookTopic)
     _UTIL = utils.enum2regex(BookUtil, group=BookRegexGroupName.util)
-    TOPIC = f'^{_TYPE}(\s({SLUG}|{_SOURCE}))?(\s(?P<{BookRegexGroupName.topics}>{_TOPIC}(,\sи\s{_TOPIC})?))?$'
-    HOLIDAY = f'^{SLUG}(\s({_UTIL}|{_TYPE}))?(\sАвтор:\s{SLUG.replace(BookRegexGroupName.slug, BookRegexGroupName.saint_slug)})?$'
-    MOLITVA = f'^{_TYPE}(\sглас\s(?P<{BookRegexGroupName.glas_num}>\d))?(\s{SLUG})$'
+    TOPIC = f'^{_TYPE}(\s{SLUG})?(\s{_SOURCE})?(\s(?P<{BookRegexGroupName.topics}>{_TOPIC}(,\sи\s{_TOPIC})?))?$'
+    HOLIDAY = f'^{SLUG}(\s{_UTIL})?(\s{_TYPE})?(\sАвтор:\s{SLUG.replace(BookRegexGroupName.slug, BookRegexGroupName.saint_slug)})?$'
+    MOLITVA = f'^{_MOLITVA_BOOK_TYPE}(\sглас\s(?P<{BookRegexGroupName.glas_num}>\d))?(\s{SLUG})$'
     SLOVO_ABOUT_SAINT = f'^{BookType.Slovo}\sо\s{SLUG}$'
     CHUDO_SAINT = f'^{BookUtil.Chudo}\s{SLUG}$'
 

@@ -1,19 +1,17 @@
 <template>
   <div>
-    <h1 className="text-center text-red-darken-4 my-2 ">Лицевой Летописный Свод</h1>
-    <v-divider></v-divider>
+    <ImgMainTitle mainPageValue="lls" />
     <div>
-      <h2 className="text-center text-red-darken-3 my-2">Библейская история</h2>
-      <v-divider></v-divider>
+      <v-divider />
+      <MainTitle title="Библейская история" textColor="red-darken-3" :hasDivider="true" />
       <TimelineLls :llsManuscripts="llsBibleManuscripts" />
-      <v-divider></v-divider>
-      <h2 className="text-center text-red-darken-3 my-2">Всемирная история</h2>
-      <v-divider></v-divider>
+      <v-divider />
+      <MainTitle title="Всемирная история" textColor="red-darken-3" :hasDivider="true" />
       <TimelineLls :llsManuscripts="llsOtherManuscripts" />
-      <v-divider></v-divider>
-      <h2 className="text-center text-red-darken-3 my-2">Русская летописная история</h2>
+      <v-divider />
+      <MainTitle title="Русская летописная история" textColor="red-darken-3" :hasDivider="true" />
       <TimelineLls :llsManuscripts="llsRusManuscripts" />
-      <v-divider></v-divider>
+      <v-divider />
     </div>
   </div>
 </template>
@@ -22,9 +20,12 @@
 
 
 import TimelineLls from "@/components/book/timeline/TimelineLls.vue";
+import MainTitle from "@/components/common/title/MainTitle.vue";
+import MainBigTitle from "@/components/common/title/MainBigTitle.vue";
+import ImgMainTitle from "@/components/common/ImgMainTitle.vue";
 
 export default {
-  components: { TimelineLls },
+  components: { ImgMainTitle, MainBigTitle, MainTitle, TimelineLls },
   props: {
     llsManuscripts: {
       type: Object,
@@ -42,5 +43,6 @@ export default {
       return Object.values(this.llsManuscripts).filter(manuscript => manuscript.code?.includes("rus"));
     }
   }
+
 };
 </script>

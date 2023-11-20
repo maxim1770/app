@@ -40,7 +40,7 @@ def __create_dates_for_one_year(db: Session, *, PASKHA_DAY: date_type) -> None:
         date_in = schemas.DateCreate(year=year)
         date = crud.date.get_by_day_and_year(db, day_id=day.id, year=date_in.year)
         if date:
-            crud.date.update_movable_day_id(db, db_obj=date, movable_day_id=movable_day.id)
+            crud.date.update(db, db_obj=date, obj_in={'movable_day_id': movable_day.id})
         else:
             crud.date.create_with_any(db, obj_in=date_in, day_id=day.id, movable_day_id=movable_day.id)
 
@@ -84,7 +84,7 @@ def update_dates_posts_ids(db: Session) -> None:
             if first_date is None or last_date is None:
                 continue
             if first_date.day_id <= date.day_id <= last_date.day_id:
-                crud.date.update_post_id(db, db_obj=date, post_id=post_ids[post_title.name])
+                crud.date.update(db, db_obj=date, obj_in={'post_id': post_ids[post_title.name]})
 
 
 def __find_date_by_day_and_year(db: Session, *, some_day: DayCreate | MovableDayGet, year: int) -> models.Date:

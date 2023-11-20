@@ -7,7 +7,7 @@
       'bg-red-lighten-2 rounded-shaped': movable_day.abbr === currentMovableDayAbbr,
       'bg-red-lighten-3': movable_day.abbr !== currentMovableDayAbbr
     }">
-      <v-col cols="12" class="text-red-accent-4">
+      <v-col class="red-accent-4">
         {{ movable_day.title }}
       </v-col>
     </v-row>
@@ -16,7 +16,7 @@
         На Литургии
       </v-col>
       <v-col cols="5">
-        <ChipZachalo :zachalo="dayLiturgyStrastnajaSedmitsa(movable_day)" color="text-red-accent-3" />
+        <ChipZachalo :zachalo="dayLiturgyStrastnajaSedmitsa(movable_day)" color="red-accent-3" />
       </v-col>
     </v-row>
   </template>
@@ -28,7 +28,7 @@
       На умовение ногам
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="thuUmyveniyeStrastnajaSedmitsa[0]" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="thuUmyveniyeStrastnajaSedmitsa?.[0]" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row
@@ -39,7 +39,7 @@
       По умовению
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="thuUmyveniyeStrastnajaSedmitsa[1]" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="thuUmyveniyeStrastnajaSedmitsa?.[1]" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row
@@ -50,22 +50,26 @@
       Апостол на Вечерне
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="thuVespersStrastnajaSedmitsa" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="thuVespersStrastnajaSedmitsa" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row>
-    <v-col cols="12" class="text-red-accent-4 bg-red-lighten-3 mb-3">
+    <v-col class="red-accent-4 bg-red-lighten-3 mb-3">
       Евангелия 12 Святых Страстей Господа Бога и Спаса нашего Исуса Христа
     </v-col>
   </v-row>
   <v-row
-    v-for="zachalo in friCommonStrastnajaSedmitsa.slice(0, 12)"
+    v-for="zachalo in friCommonStrastnajaSedmitsa?.slice(0, 12)"
     :key="zachalo.id"
     no-gutters
     class="mt-3"
   >
-    <v-col cols="12">
-      <ChipZachalo :zachalo="zachalo" style="width: 100px;" color="text-red-accent-3" />
+    <v-col>
+      <ChipZachalo
+        :zachalo="zachalo"
+        color="red-accent-3"
+        :style="{ 'width': mdAndUp ? '140px' : '120px' }"
+      />
     </v-col>
   </v-row>
   <v-row :class="{
@@ -73,7 +77,7 @@
       'bg-red-lighten-3': friStrastnajaSedmitsa.abbr !== currentMovableDayAbbr
     }"
   >
-    <v-col cols="12" class="text-red-accent-4">
+    <v-col class="red-accent-4">
       Последование часов Святой и Великой Пятницы
     </v-col>
   </v-row>
@@ -86,10 +90,10 @@
       <template v-else>{{ (i - 1) * 3 }}</template>
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="friCommonStrastnajaSedmitsa[11 + i]" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="friCommonStrastnajaSedmitsa?.[11 + i]" color="red-accent-3" />
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="friCommonStrastnajaSedmitsa[15 + i]" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="friCommonStrastnajaSedmitsa?.[15 + i]" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row>
@@ -101,7 +105,7 @@
       :key="zachalo.id"
       cols="5"
     >
-      <ChipZachalo :zachalo="zachalo" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row :class="{
@@ -109,7 +113,7 @@
       'bg-red-lighten-3': satStrastnajaSedmitsa.abbr !== currentMovableDayAbbr
     }"
   >
-    <v-col cols="12" class="text-red-accent-4">
+    <v-col class="red-accent-4">
       {{ satStrastnajaSedmitsa.title }}
     </v-col>
   </v-row>
@@ -122,7 +126,7 @@
       :key="zachalo.id"
       cols="5"
     >
-      <ChipZachalo :zachalo="zachalo" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row>
@@ -134,7 +138,7 @@
       :key="zachalo.id"
       cols="5"
     >
-      <ChipZachalo :zachalo="zachalo" color="text-red-accent-3" />
+      <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
     </v-col>
   </v-row>
 </template>
@@ -142,6 +146,7 @@
 <script>
 
 import ChipZachalo from "@/components/book/ChipZachalo.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   components: { ChipZachalo },
@@ -167,27 +172,31 @@ export default {
       return this.week.movable_days[5];
     },
     thuUmyveniyeStrastnajaSedmitsa() {
-      return this.thuStrastnajaSedmitsa.movable_dates.filter(movable_date => movable_date.divine_service === null)[0].zachalos;
+      return this.thuStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service === null)?.zachalos;
     },
     thuVespersStrastnajaSedmitsa() {
-      return this.thuStrastnajaSedmitsa.movable_dates.filter(movable_date => movable_date.divine_service?.title === "vespers")[0].zachalos[0];
+      return this.thuStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service?.title === "vespers")?.zachalos[0];
     },
     friCommonStrastnajaSedmitsa() {
-      return this.friStrastnajaSedmitsa.movable_dates.filter(movable_date => movable_date.divine_service === null)[0].zachalos;
+      return this.friStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service === null)?.zachalos;
     },
     friVespersStrastnajaSedmitsa() {
-      return this.friStrastnajaSedmitsa.movable_dates.filter(movable_date => movable_date.divine_service?.title === "vespers")[0].zachalos.slice(0, 2);
+      return this.friStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service?.title === "vespers")?.zachalos.slice(0, 2);
     },
     satMatinsStrastnajaSedmitsa() {
-      return this.satStrastnajaSedmitsa.movable_dates.filter(movable_date => movable_date.divine_service.title === "matins")[0].zachalos.slice(0, 2);
+      return this.satStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service.title === "matins")?.zachalos.slice(0, 2);
     },
     satLiturgyStrastnajaSedmitsa() {
-      return this.satStrastnajaSedmitsa.movable_dates.filter(movable_date => movable_date.divine_service.title === "liturgy")[0].zachalos.slice(0, 2);
+      return this.satStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos.slice(0, 2);
     }
+  },
+  setup() {
+    const mdAndUp = useDisplay();
+    return mdAndUp;
   },
   methods: {
     dayLiturgyStrastnajaSedmitsa(movable_day) {
-      return movable_day.movable_dates.filter(movable_date => movable_date.divine_service?.title === "liturgy")[0].zachalos[0];
+      return movable_day.movable_dates.find(movable_date => movable_date.divine_service?.title === "liturgy")?.zachalos[0];
     }
   }
 };

@@ -15,8 +15,16 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class CollectIcon(object):
 
-    def __init__(self, session: Session | None = None, *, driver: WebDriver | None = None, img_url: str, path: Path,
-                 is_shm: bool = False):
+    def __init__(
+            self,
+            session: Session | None = None,
+            *,
+            driver: WebDriver | None = None,
+            object_storage: utils.ObjectStorage,
+            img_url: str,
+            path: Path,
+            is_shm: bool = False
+    ):
         if is_shm:
             self._img: Image = self.collect_img_by_driver_for_shm(driver, img_url=img_url)
         elif driver:
@@ -24,6 +32,7 @@ class CollectIcon(object):
         else:
             self._img: Image = self.collect_img(session, img_url=img_url)
         self._path = path
+        self.__object_storage = object_storage
 
     @staticmethod
     def collect_img(session: Session, *, img_url: str) -> Image:
@@ -63,9 +72,10 @@ class CollectIcon(object):
         return img
 
     def save_img(self) -> None:
-        if not self._path.parent.exists():
-            self._path.parent.mkdir()
-        self._img.save(self._path, format='webp')
+        __temp_file_path = Path('some_img.webp')
+        self._img.save(__temp_file_path, format='webp')
+        self.__object_storage.upload(file_path=__temp_file_path, object_path=self._path)
+        __temp_file_path.unlink()
         logging.info(f'The Icon img saved: {self._path}')
 
 
@@ -76,16 +86,18 @@ class CollectIconFactory(object):
             cls,
             session: Session,
             *,
+            object_storage: utils.ObjectStorage,
             pravicon_id: int,
             holiday_slug: str
     ) -> CollectIcon:
         prepare_icon_path = utils.PrepareIconPathFactory.get(
             holiday_slug=holiday_slug,
-            pravicon_id=pravicon_id
+            pravicon_id=pravicon_id,
+            object_storage=object_storage
         )
-        path: Path = prepare_icon_path.path_two_parent
+        path: Path = prepare_icon_path.path
         img_url: str = prepare.prepare_pravicon_icon_img_url(pravicon_id)
-        collect_icon = CollectIcon(session, img_url=img_url, path=path)
+        collect_icon = CollectIcon(session, object_storage=object_storage, img_url=img_url, path=path)
         return collect_icon
 
     @classmethod
@@ -93,17 +105,25 @@ class CollectIconFactory(object):
             cls,
             session: Session,
             *,
+            object_storage: utils.ObjectStorage,
             driver: WebDriver,
             gallerix_id: int,
             holiday_slug: str
     ) -> CollectIcon:
         prepare_icon_path = utils.PrepareIconPathFactory.get_gallerix(
             holiday_slug=holiday_slug,
-            gallerix_id=gallerix_id
+            gallerix_id=gallerix_id,
+            object_storage=object_storage
         )
-        path: Path = prepare_icon_path.path_two_parent
+        path: Path = prepare_icon_path.path
         gallerix_icon_data_url: str = prepare.prepare_gallerix_icon_data_url(gallerix_id)
-        collect_icon = CollectIcon(session, driver=driver, img_url=gallerix_icon_data_url, path=path)
+        collect_icon = CollectIcon(
+            session,
+            object_storage=object_storage,
+            driver=driver,
+            img_url=gallerix_icon_data_url,
+            path=path
+        )
         return collect_icon
 
     @classmethod
@@ -111,14 +131,22 @@ class CollectIconFactory(object):
             cls,
             driver: WebDriver,
             *,
+            object_storage: utils.ObjectStorage,
             shm_id: int,
             holiday_slug: str
     ) -> CollectIcon:
         prepare_icon_path = utils.PrepareIconPathFactory.get_shm(
             holiday_slug=holiday_slug,
-            shm_id=shm_id
+            shm_id=shm_id,
+            object_storage=object_storage
         )
-        path: Path = prepare_icon_path.path_two_parent
+        path: Path = prepare_icon_path.path
         shm_icon_data_url: str = prepare.prepare_shm_item_data_url(shm_id)
-        collect_icon = CollectIcon(driver=driver, img_url=shm_icon_data_url, path=path, is_shm=True)
+        collect_icon = CollectIcon(
+            driver=driver,
+            object_storage=object_storage,
+            img_url=shm_icon_data_url,
+            path=path,
+            is_shm=True
+        )
         return collect_icon

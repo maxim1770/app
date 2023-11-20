@@ -78,7 +78,6 @@ def create_all_saints_holidays_new(db: Session):
             )
             if holiday_data_in is None:
                 continue
-            holiday_data_in.holiday_in.title = 'NEW ' + holiday_data_in.holiday_in.title
             # holiday = create_saint_holiday(db, holiday_data_in)
             logging.info(f'Created Holiday {holiday_data_in}')
     logging.info('New Holidays data created')
@@ -98,7 +97,6 @@ def create_all_saints_groups_holidays_new(db: Session, *, session: requests.Sess
             )
             if holiday_data_in is None:
                 continue
-            holiday_data_in.holiday_in.title = 'NEW ' + holiday_data_in.holiday_in.title
             # holiday = create_saints_holiday(db, holiday_data_in)
             # logging.info(f'Created Holiday {holiday_data_in}')
     logging.info('New Holidays data created')

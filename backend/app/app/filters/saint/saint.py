@@ -13,10 +13,10 @@ class SaintFilter(Filter):
     book: BookFilter | None = FilterDepends(with_prefix('book', BookFilter))
     # books__isnull: bool | None
 
-    search: str | None
+    search: str | None = None
 
-    order_by: list[str] = ['name', 'face_sanctity_id', 'dignity_id']
+    order_by: list[str] = []
 
     class Constants(Filter.Constants):
         model = models.Saint
-        search_model_fields = ['name', 'slug']
+        search_model_fields = ['name', 'slug', 'name_in_dative']

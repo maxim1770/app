@@ -26,14 +26,21 @@ def get_psaltyr_bookmarks(psaltyr_book: PsaltyrBookFullType) -> list[PdfBookmark
     psaloms_bookmarks: list[PdfBookmark] = []
     __start_on_new_page: bool = False
     for title, page_num in psaltyr_book[0]:
-        num: int = int(title.split(' ')[0])
-        color: Color | None = Color(ColorHex.red_darken_2.value) if '?' not in title else None
-        psalom_bookmark = PdfBookmark(
-            page_num=page_num,
-            start_on_new_page=__start_on_new_page,
-            title=f'Псалом {utils.Cyrillic.to_cyrillic(num)} ({num})',
-            color=color,
-        )
+        if '-' == title.strip():
+            psalom_bookmark = PdfBookmark(
+                page_num=page_num,
+                start_on_new_page=__start_on_new_page,
+                title='-',
+            )
+        else:
+            num: int = int(title.split(' ')[0])
+            color: Color | None = Color(ColorHex.red_darken_2.value) if '?' not in title else None
+            psalom_bookmark = PdfBookmark(
+                page_num=page_num,
+                start_on_new_page=__start_on_new_page,
+                title=f'Псалом {utils.Cyrillic.to_cyrillic(num)} ({num})',
+                color=color,
+            )
         psaloms_bookmarks.append(psalom_bookmark)
     head_bookmark.children = psaloms_bookmarks
     psaltyr_bookmarks = [bookmark_book_title, head_bookmark]

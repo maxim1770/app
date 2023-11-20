@@ -38,10 +38,19 @@ def get_book(db: Session, *, book_data_get: schemas.BookDataGetType) -> models.B
 
 
 def create_book(db: Session, *, book_data_in: schemas.BookDataType) -> models.Book | None:
-    logging.info(book_data_in)
     author_id: int | None = crud.saint.get_by_slug(db, slug=book_data_in.book_data_in.saint_slug).id \
         if book_data_in.book_data_in.saint_slug else None
-    book = crud.book.create_with_any(db, obj_in=book_data_in.book_data_in.book_in, author_id=author_id)
+    day_id: int | None = crud.day.get_by_month_and_day(
+        db,
+        month=book_data_in.book_data_in.day_in.month,
+        day=book_data_in.book_data_in.day_in.day
+    ).id if book_data_in.book_data_in.day_in else None
+    book = crud.book.create_with_any(
+        db,
+        obj_in=book_data_in.book_data_in.book_in,
+        author_id=author_id,
+        day_id=day_id
+    )
     if isinstance(book_data_in, schemas.SomeBookDataCreate):
         return book
     book_ = None
@@ -55,6 +64,9 @@ def create_book(db: Session, *, book_data_in: schemas.BookDataType) -> models.Bo
         book_ = __create_lls_book(db, book_id=book.id, lls_book_data_in=book_data_in)
     elif isinstance(book_data_in, schemas.TopicBookDataCreate):
         book_ = crud.create_topic_book(db, id=book.id, topic_book_in=book_data_in.topic_book_in)
+        for topic_title in book_data_in.topics_titles:
+            topic = crud.topic.get_by_title(db, title=topic_title)
+            crud.topic.create_topic_book_association(db, db_obj=topic, topic_book=book_)
     if book_ is None:
         db.delete(book)
         db.commit()
@@ -83,7 +95,7 @@ def __create_holiday_book(
         id=book_id,
         holiday_book_in=holiday_book_data_in.holiday_book_in,
         holiday_id=holiday_id,
-        saint_id=saint_id
+        saint_id=saint_id,
     )
     return holiday_book
 
@@ -102,7 +114,7 @@ def __create_molitva_book(
         db,
         id=book_id,
         molitva_book_in=molitva_book_data_in.molitva_book_in,
-        holiday_id=holiday.id
+        holiday_id=holiday.id,
     )
     return molitva_book
 

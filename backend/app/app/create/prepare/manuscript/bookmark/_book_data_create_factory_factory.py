@@ -1,7 +1,7 @@
-from app import schemas, enums
+from app import schemas, enums, utils
 from .__book_data_create_factory import MolitvaBookDataCreateFactory, HolidayBookDataCreateFactory, \
     TopicBookDataCreateFactory, MovableDateBookDataCreateFactory, ZachaloBookDataGetFactory, PsaltyrBookDataGetFactory, \
-    CathedralBookDataGetFactory, SomeBookDataCreateFactory, LlsBookDataCreateFactory
+    CathedralBookDataGetFactory, SomeBookDataCreateFactory
 from ....const import BookRegex
 
 
@@ -14,20 +14,28 @@ class BookDataCreateFactoryFactory(object):
             *,
             main_author: str | None,
             book_title: enums.BookTitle | None,
-            book_type: enums.BookType | None
-    ) -> schemas.BookDataType | None:
-        bookmark_title = bookmark_title.replace('Глава ', '').strip()
+            book_type: enums.BookType | None,
+    ) -> tuple[schemas.BookDataType | None, schemas.BookmarkCreate]:
+        bookmark_title: str = utils.clean_extra_spaces(bookmark_title.replace('Глава', ''))
 
-        if bookmark_title.isdigit() or '?' in bookmark_title:
-            return None
+        if len(bookmark_title) == 0:
+            return None, schemas.BookmarkCreate()
 
-        if bookmark_title.split()[0].isdigit():
+        if (__chapter_num := bookmark_title).isdigit():
+            return None, schemas.BookmarkCreate(chapter_num=int(__chapter_num))
+
+        if (__chapter_num := bookmark_title.split()[0]).isdigit():
+            chapter_num: int | None = int(__chapter_num)
             bookmark_title: str = ' '.join(bookmark_title.split()[1:])
+        else:
+            chapter_num = None
 
         if book_type and not any(book_type_ in bookmark_title for book_type_ in enums.BookType):
             bookmark_title = f'{bookmark_title} {book_type}'
 
-        if BookRegex.MOLITVA.match(bookmark_title):
+        if '?' in bookmark_title:
+            book_data_create_factory_cls = SomeBookDataCreateFactory
+        elif BookRegex.MOLITVA.match(bookmark_title):
             book_data_create_factory_cls = MolitvaBookDataCreateFactory
         elif BookRegex.TOPIC.match(bookmark_title):
             book_data_create_factory_cls = TopicBookDataCreateFactory
@@ -35,8 +43,6 @@ class BookDataCreateFactoryFactory(object):
             book_data_create_factory_cls = HolidayBookDataCreateFactory
         elif 'Нд' in bookmark_title or any(day in bookmark_title for day in enums.MovableDayStrastnajaSedmitsaRu):
             book_data_create_factory_cls = MovableDateBookDataCreateFactory
-        elif bookmark_title.startswith('В лето'):
-            book_data_create_factory_cls = LlsBookDataCreateFactory
         else:
             book_data_create_factory_cls = SomeBookDataCreateFactory
 
@@ -47,7 +53,9 @@ class BookDataCreateFactoryFactory(object):
         if book_data_in.book_data_in.book_in.title is None:
             book_data_in.book_data_in.book_in.title = book_title
 
-        return book_data_in
+        bookmark_in = schemas.BookmarkCreate(chapter_num=chapter_num)
+
+        return book_data_in, bookmark_in
 
 
 class BookDataGetFactoryFactory(object):

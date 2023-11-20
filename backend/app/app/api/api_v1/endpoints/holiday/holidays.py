@@ -3,22 +3,31 @@ from typing import Any
 import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, Path, HTTPException, Body
 from fastapi_cache.decorator import cache
-from fastapi_pagination import Page, paginate
+from fastapi_filter import FilterDepends
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas, const, create, enums
+from app import crud, models, schemas, const, create, enums, filters
 from app.api import deps
 
 router = APIRouter()
 
 
-@router.get('/', response_model=Page[schemas.Holiday])
-@cache(expire=60)
+@router.get('/', response_model=Page[schemas.HolidayInDB])
+@cache(expire=60 * 2)
 def read_holidays(
         db: Session = Depends(deps.get_db),
+        filter: filters.HolidayFilter = FilterDepends(filters.HolidayFilter),
 ) -> Any:
-    select: sa.Select = crud.holiday.get_all_select()
+    select: sa.Select = crud.holiday.get_multi_by_filter(db, filter=filter)
     return paginate(db, select)
+
+
+@router.get('/search-data/', response_model=schemas.HolidaysSearchData)
+@cache(expire=60 * 15)
+def read_holidays_search_data() -> Any:
+    return {}
 
 
 @router.post('/', response_model=schemas.Holiday)
@@ -38,7 +47,7 @@ def create_holiday(
     return holiday
 
 
-@router.post('/saint', response_model=schemas.Holiday)
+@router.post('/saint/', response_model=schemas.Holiday)
 def create_saint_holiday(
         *,
         db: Session = Depends(deps.get_db),
@@ -56,7 +65,7 @@ def create_saint_holiday(
 
 def __get_valid_holiday(
         db: Session = Depends(deps.get_db),
-        holiday_slug: str = Path(max_length=150, pattern=const.REGEX_SLUG_STR)
+        holiday_slug: str = Path(max_length=250, pattern=const.REGEX_SLUG_STR)
 ) -> models.Holiday:
     holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
     if not holiday:
@@ -96,12 +105,12 @@ def update_holiday(
     return holiday
 
 
-@router.get('/{holiday_slug}', response_model=schemas.HolidayWithData)
-@cache(expire=60)
+@router.get('/{holiday_slug}', response_model=schemas.Holiday)
+@cache(expire=60 * 3)
 def read_holiday(
         holiday: models.Holiday = Depends(__get_valid_holiday)
 ) -> Any:
-    return {'holiday': holiday}
+    return holiday
 
 
 @router.delete('/{holiday_slug}', response_model=schemas.Holiday)

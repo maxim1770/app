@@ -8,7 +8,7 @@ from .lls_bookmark import get_lls_bookmarks
 from .lls_bookmark_data import LlsBookFullType
 from ..__get_bookmarks import get_bookmarks, PdfBookmark
 from ..common import add_bookmarks, reader2writer, set_show_bookmarks_panel, \
-    save_pdf, reader2writer_with_copy_bookmarks, offset_pages_bookmarks
+    upload_pdf, reader2writer_with_copy_bookmarks, offset_pages_bookmarks
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
@@ -36,7 +36,7 @@ def _lls_bookmarks_main(pdf_path: Path, *, out_pdf_path: Path, lls_book_rus: Lls
     )
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def main5():
@@ -54,7 +54,7 @@ def main5():
     bookmarks = part_1_bookmarks + bookmarks
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def _test_add_root_bookmark_and_bookmarks():
@@ -67,7 +67,7 @@ def _test_add_root_bookmark_and_bookmarks():
     root_bookmark.children = bookmarks
     add_bookmarks(writer, bookmarks=[root_bookmark])
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def main6():
@@ -85,7 +85,7 @@ def main6():
         bookmark.title = f'Слово {bookmark.title}'
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def _test_writer():
@@ -104,7 +104,7 @@ def lls(pdf_path: Path, *, out_pdf_path: Path) -> None:
     writer: PdfWriter = reader2writer(out_reader)
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def _test_zoom():
@@ -118,7 +118,7 @@ def _test_zoom():
     writer: PdfWriter = reader2writer(reader)
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def lls_bookmarks_main(lls_book_rus: LlsBookFullType, lls_book_rus_num: int) -> None:
@@ -174,6 +174,6 @@ if __name__ == '__main__':
     # page_number=reader.outline[5].page,
     # fit=fit
     # )
-    # save_pdf(writer, path=out_pdf_path)
+    # upload_pdf(writer, path=out_pdf_path)
 
     pass

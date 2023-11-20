@@ -7,3 +7,4 @@ from .psaltyr_book import PsaltyrBook
 from .cathedral import Cathedral
 from .cathedral_book import CathedralBook
 from .lls_book import LlsBook
+from .topic import Topic, TopicBookTopicAssociation

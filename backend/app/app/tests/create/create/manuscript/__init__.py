@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, schemas, models, enums, create
 from app.api import deps
-from app.schemas.manuscript.manuscript import NotNumberedPages, NotNumberedPage
+from app.schemas.manuscript.manuscript import SortedNotNumberedPages, NotNumberedPage
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
@@ -16,7 +16,7 @@ def _get_manuscript_delete_me_late(db) -> models.Manuscript:
         code=UUID('50D07A48-B72E-4372-B020-AD5BAF59F797'),
         handwriting=10,
         neb_slug='prolog-mart-avgust-4',
-        not_numbered_pages=NotNumberedPages(
+        not_numbered_pages=SortedNotNumberedPages(
             [
                 NotNumberedPage(
                     page=schemas.PageCreate(

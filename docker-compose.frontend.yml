@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+
+  nginx-frontend:
+    container_name: nginx-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: always

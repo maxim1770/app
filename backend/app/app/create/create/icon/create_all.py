@@ -538,7 +538,12 @@ def _create_all_shm_icons(db: Session, *, driver: WebDriver) -> None:
 def __create_gallerix_icon(db: Session, *, driver: WebDriver, holiday_slug: str, gallerix_icon_id: int) -> None:
     if icon := crud.icon.get_by_gallerix_id(db, gallerix_id=gallerix_icon_id):
         holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
-        crud.icon.create_holiday_association(db, db_obj=icon, holiday=holiday)
+        crud.icon.create_holiday_association(
+            db,
+            db_obj=icon,
+            holiday=holiday,
+            icon_holiday_association_in=schemas.IconHolidayAssociationCreate()
+        )
     else:
         icon_data_in = prepare.get_gallerix_icon_data_in(
             driver,
@@ -551,7 +556,12 @@ def __create_gallerix_icon(db: Session, *, driver: WebDriver, holiday_slug: str,
 def __create_shm_icon(db: Session, *, driver: WebDriver, holiday_slug: str, shm_icon_id: int) -> None:
     if icon := crud.icon.get_by_shm_id(db, shm_id=shm_icon_id):
         holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
-        crud.icon.create_holiday_association(db, db_obj=icon, holiday=holiday)
+        crud.icon.create_holiday_association(
+            db,
+            db_obj=icon,
+            holiday=holiday,
+            icon_holiday_association_in=schemas.IconHolidayAssociationCreate()
+        )
     else:
         icon_data_in = prepare.get_shm_icon_data_in(driver, holiday_slug=holiday_slug, shm_icon_id=shm_icon_id)
         create_icon(db, icon_data_in=icon_data_in)

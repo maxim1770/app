@@ -21,7 +21,7 @@ class FitSchema(BaseModel):
 
 class __PdfBookmarkBase(BaseModel):
     title: constr(strip_whitespace=True, strict=True, max_length=620)
-    page_num: conint(strict=True, ge=1, le=2000)
+    page_num: conint(strict=True, ge=0, le=3000)
     color: Color | None = None
 
 

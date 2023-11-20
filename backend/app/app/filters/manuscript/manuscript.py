@@ -7,13 +7,14 @@ from ..year import YearFilter
 
 
 class ManuscriptFilter(Filter):
-    handwriting__lt: int | None
-    handwriting__gte: int | None
-    year: YearFilter | None = FilterDepends(with_prefix('year', YearFilter))
+    handwriting__gte: int | None = None
+    handwriting__lt: int | None = None
+    code__like: str | None = None
+    year: YearFilter | None = FilterDepends(with_prefix('y', YearFilter))
     fund: FundFilter | None = FilterDepends(with_prefix('fund', FundFilter))
-    search: str | None
-    order_by: list[str] = ['handwriting']
+    search: str | None = None
+    order_by: list[str] = ['-handwriting', '-num_bookmarks']
 
     class Constants(Filter.Constants):
         model = models.Manuscript
-        search_model_fields = ['title', 'code_title']
+        search_model_fields = ['title', 'code_title', 'code', 'neb_slug']

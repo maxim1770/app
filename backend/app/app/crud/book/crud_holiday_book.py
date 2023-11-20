@@ -15,7 +15,7 @@ def create_holiday_book(
         id=id,
         **holiday_book_in.model_dump(),
         holiday_id=holiday_id,
-        saint_id=saint_id
+        saint_id=saint_id,
     )
     db.add(db_holiday_book)
     db.commit()

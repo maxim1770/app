@@ -1,15 +1,17 @@
-from pydantic import model_validator
+from pydantic import computed_field
 
-from app import enums, models
+from app import enums
 from ..base import SchemaBase, SchemaInDBBase
 
 
 class __TipikonBase(SchemaBase):
     title: enums.TipikonTitle | None = None
+    priority: enums.TipikonPriority | None = None
 
 
 class TipikonCreate(__TipikonBase):
     title: enums.TipikonTitle
+    priority: enums.TipikonPriority
 
 
 class TipikonUpdate(__TipikonBase):
@@ -17,10 +19,8 @@ class TipikonUpdate(__TipikonBase):
 
 
 class Tipikon(__TipikonBase, SchemaInDBBase):
-    title_en: str
 
-    @model_validator(mode='before')
-    @classmethod
-    def prepare_title_en(cls, values: models.Tipikon) -> models.Tipikon:
-        values.title_en = values.title.name
-        return values
+    @computed_field
+    @property
+    def title_en(self) -> str:
+        return self.title.name

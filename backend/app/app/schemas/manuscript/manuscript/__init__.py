@@ -1,3 +1,4 @@
-from .manuscript import ManuscriptCreate, ManuscriptCreateAny, ManuscriptUpdate, NotNumberedPages, NotNumberedPage
+from .manuscript import ManuscriptCreate, ManuscriptCreateAny, ManuscriptUpdate
 from .manuscript_data_create import ManuscriptDataCreateAny, ManuscriptDataCreate, ManuscriptDataUpdate
-from .manuscript_in_db import Manuscript, ManuscriptWithOther, ManuscriptInDB
+from .manuscript_in_db import Manuscript, ManuscriptInDB, ManuscriptInDBToMany, ManuscriptInDBToBookmark, ManuscriptsSearchData
+from .not_numbered_pages import SortedNotNumberedPages, NotNumberedPages, NotNumberedPage

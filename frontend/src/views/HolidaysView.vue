@@ -1,27 +1,38 @@
 <template>
-    <HolidaysPage :holidays="holidays"/>
+  <div>
+    <ImgMainTitle
+      mainPageValue="holidays"
+      @click="$router.push({ name: 'holidays' })"
+    />
+    <HolidaysPage :holidaysSearchData="holidaysSearchData" />
+  </div>
 </template>
 
 <script>
-import {api} from "@/services/api";
 import HolidaysPage from "@/components/pages/HolidaysPage.vue";
+import { api } from "@/services/api";
+import ImgMainTitle from "@/components/common/ImgMainTitle.vue";
 
 export default {
-  components: {HolidaysPage},
-
+  components: { ImgMainTitle, HolidaysPage },
   data() {
     return {
-      holidays: {
+      holidaysSearchData: {
         type: Object,
-        required: true,
-      },
+        required: true
+      }
     };
   },
-
   mounted() {
     api
-      .getHolidays()
-      .then((response) => (this.holidays = response.data));
-  },
+      .getHolidaysSearchData()
+      .then((response) => (this.holidaysSearchData = response.data));
+  }
 };
 </script>
+
+
+
+
+
+

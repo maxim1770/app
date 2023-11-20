@@ -52,7 +52,7 @@ def _prepare_lls_bookmark_title(title: str) -> str:
         year: int = __offset_year2year(offset_year=title)
         title: str = __prepare_year_title(year)
     elif isinstance(title, str):
-        title: str = __prepare_title(title)
+        title: str = clean_lls_bookmark_title(title)
     elif isinstance(title, tuple):
         if isinstance(title[0], int):
             offset_year, title = title
@@ -61,7 +61,7 @@ def _prepare_lls_bookmark_title(title: str) -> str:
         else:
             title, offset_year = title
             year: int = __offset_year2year(offset_year)
-            title: str = __prepare_title_with_year(title, year=year)
+            title: str = clean_lls_bookmark_title_with_year(title, year=year)
     return title
 
 
@@ -70,23 +70,26 @@ def __prepare_year_title(year: int) -> str:
     return title
 
 
-def __prepare_title(title: str) -> str:
+def clean_lls_bookmark_title(title: str) -> str:
     title: str = utils.clean_extra_spaces(title)
     title: str = utils.set_first_letter_upper(title)
-    if not title[-1] in ['.', '!', '?', ':']:
-        title += '.'
+
+    # if not title[-1] in ['.', '!', '?', ':']:
+    #     title += '.'
+    
+    title: str = utils.prepare_dash(title)
     title: str = utils.remove_extra_space_before_punctuation_marks(title)
     title: str = utils.clean_extra_spaces(title)
     return title
 
 
 def __prepare_year_with_title(year: int, *, title: str) -> str:
-    title: str = __prepare_year_title(year) + ' ' + __prepare_title(title)
+    title: str = __prepare_year_title(year) + ' ' + clean_lls_bookmark_title(title)
     return title
 
 
-def __prepare_title_with_year(title: str, *, year: int) -> str:
-    title: str = __prepare_title(title) + ' ' + __prepare_year_title(year)
+def clean_lls_bookmark_title_with_year(title: str, *, year: int) -> str:
+    title: str = clean_lls_bookmark_title(title) + ' ' + __prepare_year_title(year)
     return title
 
 

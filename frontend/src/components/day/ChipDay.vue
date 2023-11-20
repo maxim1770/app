@@ -1,7 +1,7 @@
 <template>
   <v-chip
-    :to="{ name: 'date', params: { date: day.month_day } }"
-    variant="tonal"
+    v-if="day"
+    :to="{ name: 'date', params: { dateSlug: day.date_slug } }"
     color="amber"
     prepend-icon="mdi-calendar-today-outline"
   >

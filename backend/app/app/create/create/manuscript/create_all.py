@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from sqlalchemy.orm import Session
@@ -10,17 +11,26 @@ from .manuscript import create_manuscript_bookmark
 def create_manuscript_bookmarks(
         db: Session,
         *,
-        manuscript: models.Manuscript
+        manuscript: models.Manuscript,
+        object_storage: utils.ObjectStorage
 ) -> models.Manuscript:
-    pdf_path: Path = utils.assemble_manuscript_pdf_path(manuscript)
+    pdf_path: Path = utils.assemble_manuscript_pdf_path(
+        manuscript,
+        object_storage=object_storage
+    )
+    bookmarks: list[schemas.PdfBookmark] = prepare.get_pdf_bookmarks(
+        pdf_path,
+        object_storage=object_storage
+    )
     bookmarks_data_in: list[schemas.BookmarkDataCreate] = prepare.prepare_manuscript_bookmark(
-        pdf_path=pdf_path,
+        bookmarks,
         not_numbered_pages=manuscript.not_numbered_pages,
-        from_neb=True if manuscript.neb_slug else False,
+        has_left_and_right=utils.manuscript_has_left_and_right(manuscript.neb_slug, manuscript_code=manuscript.code),
         first_page_position=manuscript.first_page_position
     )
     for bookmark_data_in in bookmarks_data_in:
         create_manuscript_bookmark(db, manuscript=manuscript, bookmark_data_in=bookmark_data_in)
+        logging.warning(bookmark_data_in)
     return manuscript
 
 
@@ -30,7 +40,7 @@ def create_all_manuscripts_lls(
     year_in = schemas.YearCreate(title='1568-1576')
     year = crud.year.get_or_create(db, year_in=year_in)
     handwriting: int = 12
-    not_numbered_pages = schemas.NotNumberedPages(
+    not_numbered_pages = schemas.SortedNotNumberedPages(
         [
             schemas.NotNumberedPage(
                 page=schemas.PageCreate(

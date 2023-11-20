@@ -1,6 +1,7 @@
 <template>
   <component
-    :is="holidayCategoryFactory"
+    :is="holidayCategory"
+    v-if="holiday?.saints.length"
     :holiday="holiday"
   />
 </template>
@@ -14,9 +15,6 @@ import { isGreatHoliday } from "@/utils/holidays";
 
 
 export default {
-  components: {
-    HolidayCategoryGreatHoliday, HolidayCategorySaints, HolidayCategorySaint
-  },
   props: {
     holiday: {
       type: Object,
@@ -24,7 +22,7 @@ export default {
     }
   },
   computed: {
-    holidayCategoryFactory() {
+    holidayCategory() {
       if (this.isGreatHoliday) {
         return HolidayCategoryGreatHoliday;
       } else if (this.holiday.saints?.length > 1) {

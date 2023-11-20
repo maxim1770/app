@@ -1,102 +1,68 @@
 <template>
   <div>
-    <v-sheet>
-      <v-calendar
-        v-model="selectedDate"
-        :date-formatter="customDateFormatter"
-        :initial-page="{ month: 9, year: 2023 }"
-        :attributes="dates.attributes"
-        :rows="4"
-        :columns="3"
-        first-day-of-week="1"
-        @dayclick="toSelectedDay"
-        @transition-start="Foo"
-      >
-        <template #popover="{ event: { popover } }">{{ popover.description }}</template>
-      </v-calendar>
-    </v-sheet>
-    <v-list
-      density="compact"
-      lines="one"
-    >
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon color="red-accent-4" icon="mdi-numeric-3-circle"></v-icon>
-        </template>
-        Великий Праздник
-      </v-list-item>
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon class="bg-red rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
-        </template>
-        Средний Праздник, Предпразднство и Попразднство
-      </v-list-item>
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon color="red-accent-4" icon="mdi-circle-small"></v-icon>
-        </template>
-        Малый Праздник
-      </v-list-item>
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon color="red" icon="mdi-numeric-3-circle-outline"></v-icon>
-        </template>
-        Отдание Праздника
-      </v-list-item>
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon class="bg-light-blue-accent-4 rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
-        </template>
-        Рождественский Пост, Петров Пост, Успенский Пост, Пост в Среду и Пятницу
-      </v-list-item>
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon class="bg-purple-lighten-2 rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
-        </template>
-        Великий Пост
-      </v-list-item>
-      <v-list-item>
-        <template v-slot:prepend>
-          <v-icon class="bg-indigo-darken-1 rounded-xl" color="black" icon="mdi-numeric-3"></v-icon>
-        </template>
-        Страстная Седмица
-      </v-list-item>
-    </v-list>
+    <FormDatesSearch
+      @getItems="getDates"
+      :year="$route.query.year"
+      @update:search="replaceRouterQuery({year: $event})"
+    />
+    <DatesCalendar :dates="dates" :year="$route.query.year" />
+    <ListSigns />
   </div>
 </template>
 
 <script>
 
 
+import ListSigns from "@/components/dates/ListSigns.vue";
+import FormDatesSearch from "@/components/dates/dates_search/FormDatesSearch.vue";
+import { replaceRouterQuery } from "@/utils/common";
+import DatesCalendar from "@/components/dates/DatesCalendar.vue";
+import { api } from "@/services/api";
+
 export default {
-  props: {
-    dates: {
-      type: Array,
-      required: true
-    }
-  },
+  components: { DatesCalendar, FormDatesSearch, ListSigns },
   data() {
     return {
-      selectedDate: new Date()
+      dates: {
+        type: Object,
+        required: true
+      }
     };
   },
+  computed: {
+    apiGetDates() {
+      return api.getDates({
+        year: this.$route.query.year
+      });
+    }
+  },
+  watch: {
+    "$route.query": function(newVal, oldVal) {
+      this.getDates();
+    }
+  },
+  mounted() {
+    this.getDates();
+  },
   methods: {
-    toSelectedDay(CalendarDay) {
-      let year = CalendarDay.year + 8;
-      if ((9 <= CalendarDay.month) && (CalendarDay.month <= 12)) {
-        year += 1;
-      }
-      this.$router.push({ name: "date", params: { date: CalendarDay.id.replace(CalendarDay.year, year) } });
-    },
-    Foo() {
-      console.log("test");
-    },
-    customDateFormatter(date, format, type) {
-      if (type === "calendar") {
-        return this.$moment.utc(date).format("D MMMM");
-      }
-      return this.$moment.utc(date).format("YYYY-MM-DD");
+    replaceRouterQuery,
+    getDates() {
+      this.apiGetDates.then(
+        (response) => {
+          // if (this.dates) {
+          //   this.dates.attributes = this.dates.attributes?.concat(response.data.attributes);
+          //   this.dates.dates = this.dates.dates?.concat(response.data.dates);
+          // } else {
+          this.dates = response.data;
+          // }
+        }
+      );
     }
   }
 };
 </script>
+
+
+
+
+

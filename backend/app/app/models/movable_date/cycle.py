@@ -16,6 +16,7 @@ class Cycle(Base):
     id: Mapped[intpk]
 
     num: Mapped[enums.CycleNum] = mapped_column(unique=True, index=True)
-    title: Mapped[str] = mapped_column(String(30), unique=True)
+    title: Mapped[str] = mapped_column(String(50), unique=True)
+    desc: Mapped[str | None] = mapped_column(String(200))
 
     weeks: Mapped[list[Week]] = relationship(back_populates='cycle')

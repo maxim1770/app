@@ -8,10 +8,10 @@ from pypdf import PdfWriter
 from app import enums, utils, models
 from app.api import deps
 from app.create.prepare.manuscript.bookmark.common import get_pdf_bookmarks, get_pdf_writer, offset_pages_bookmarks, \
-    set_show_bookmarks_panel, save_pdf, add_bookmarks
+    set_show_bookmarks_panel, upload_pdf, add_bookmarks
 from app.create.prepare.manuscript.bookmark.__get_bookmarks import PdfBookmark
 from app.enums import PagePosition
-from app.schemas import NotNumberedPages, NotNumberedPage, PageCreate
+from app.schemas import SortedNotNumberedPages, NotNumberedPage, PageCreate
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
@@ -71,7 +71,7 @@ def prepare_f_178i_9500():
 
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def prepare_f_256_472():
@@ -105,7 +105,7 @@ def prepare_f_256_472():
 
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def prepare_f_228_67():
@@ -126,7 +126,7 @@ def prepare_f_228_67():
 
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def prepare_f_173i_5():
@@ -156,7 +156,7 @@ def prepare_f_173i_5():
 
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 def prepare_f_98_30():
@@ -183,7 +183,7 @@ def prepare_f_98_30():
 
     add_bookmarks(writer, bookmarks=bookmarks)
     set_show_bookmarks_panel(writer)
-    save_pdf(writer, path=out_pdf_path)
+    upload_pdf(writer, path=out_pdf_path)
 
 
 if __name__ == '__main__':
@@ -230,7 +230,7 @@ if __name__ == '__main__':
     b = ' и '.join(a)
     print(b)
 
-    some_2_not_numbered_pages = NotNumberedPages(
+    some_2_not_numbered_pages = SortedNotNumberedPages(
         [
             NotNumberedPage(
                 page=PageCreate(

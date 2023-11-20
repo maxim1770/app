@@ -42,7 +42,7 @@ if __name__ == "__main__":
     #         first_page=page_in.first_page,
     #         end_page=page_in.end_page,
     #         not_numbered_pages=not_numbered_pages,
-    #         from_neb=True if manuscript.neb_slug else False,
+    #         has_left_and_right=True if manuscript.neb_slug else False,
     #         first_page_position=manuscript.first_page_position
     #     )
     #     print(f'(СathedralSlug.{list(enums.СathedralSlug)[i].value}, {pages_nums[0] - 1}),')

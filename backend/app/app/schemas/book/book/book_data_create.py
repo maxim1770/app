@@ -16,14 +16,16 @@ if TYPE_CHECKING:
     from ..movable_date_book import MovableDateBookCreate
     from ...bible_book import ZachaloCreate
     from ...movable_date import MovableDayGet
-    from ...manuscript import PagesCreate
+    from ...manuscript import PagesCreate, BookmarkCreate
     from ..cathedral_book import CathedralBookCreate
     from ..lls_book import LlsBookCreate
+    from ...day import DayCreate
 
 
 class BookDataCreate(BaseModel):
     book_in: BookCreate
     saint_slug: constr(strip_whitespace=True, strict=True, max_length=150, pattern=const.REGEX_SLUG_STR) | None = None
+    day_in: DayCreate | None = None
 
 
 class __BookDataCreateBase(BaseModel):
@@ -46,6 +48,7 @@ class HolidayBookDataCreate(__BookDataCreateBase):
 
 class TopicBookDataCreate(__BookDataCreateBase):
     topic_book_in: TopicBookCreate
+    topics_titles: list[enums.BookTopic] = []
 
 
 class MolitvaBookDataCreate(__BookDataCreateBase):
@@ -81,5 +84,6 @@ BookDataGetType: TypeAlias = ZachaloBookDataGet | PsaltyrBookDataGet | Cathedral
 
 
 class BookmarkDataCreate(BaseModel):
+    bookmark_in: BookmarkCreate
     pages_in: PagesCreate
     book_data_in: BookDataType | BookDataGetType

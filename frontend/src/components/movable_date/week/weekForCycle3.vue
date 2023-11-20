@@ -14,7 +14,6 @@
     >
       <ChipZachalo :zachalo="zachalo" />
     </v-col>
-    <v-divider></v-divider>
   </v-row>
 </template>
 

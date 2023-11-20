@@ -6,12 +6,11 @@ from .topic_book import TopicBookFilter
 
 
 class BookFilter(Filter):
-    title: enums.BookTitle | None
-    type: enums.BookType | None
-    author_id__isnull: bool | None
+    title: enums.BookTitle | None = None
+    type: enums.BookType | None = None
     topic_book: TopicBookFilter | None = FilterDepends(with_prefix('topic_book', TopicBookFilter))
 
-    order_by: list[str] = ['title', 'type', 'author_id']
+    order_by: list[str] = []
 
     class Constants(Filter.Constants):
         model = models.Book

@@ -12,9 +12,6 @@ import SomeHoliday from "@/components/holiday/holiday/SomeHoliday.vue";
 
 
 export default {
-  components: {
-    BeforeAfterHoliday, SomeHoliday
-  },
   props: {
     holiday: {
       type: Object,

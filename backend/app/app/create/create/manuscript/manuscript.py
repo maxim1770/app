@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app import crud, models, schemas
 from .bookmark import prepare_db_bookmark
 
+
 def create_manuscript(db: Session, *, manuscript_data_in: schemas.ManuscriptDataCreate) -> models.Manuscript:
     fund = crud.fund.get_by_title(db, title=manuscript_data_in.fund_title)
     year = crud.year.get_or_create(db, year_in=manuscript_data_in.year_in)
@@ -33,25 +34,8 @@ def update_manuscript(
         year = crud.year.get_or_create(db, year_in=manuscript_data_in.year_in)
         obj_in |= {'year_id': year.id}
     manuscript = crud.manuscript.update(db, db_obj=manuscript, obj_in=obj_in)
-    return manuscript
-
-
-def update_manuscript_bookmark(
-        db: Session,
-        *,
-        manuscript: models.Manuscript,
-        book: models.Book,
-        pages_in: schemas.PagesCreate
-) -> models.Manuscript:
-    db_bookmark = models.Bookmark(
-        first_page=models.Page(**pages_in.first_page.model_dump()),
-        end_page=models.Page(**pages_in.end_page.model_dump())
-    )
-    db_bookmark.book = book
-    manuscript.bookmarks.append(db_bookmark)
-    db.add(manuscript)
-    db.commit()
-    db.refresh(manuscript)
+    if preview_page_in := manuscript_data_in.preview_page_in:
+        crud.page.update(db, db_obj=manuscript.preview_page, obj_in=preview_page_in)
     return manuscript
 
 

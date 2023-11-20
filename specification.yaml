@@ -1,0 +1,44 @@
+name: group-coi-containers # Имя группы ВМ, уникальным в рамках каталога.
+service_account_id: ajelj3ur44ktn3nco0ib # Идентификатор сервисного аккаунта.
+instance_template:
+  service_account_id: ajelj3ur44ktn3nco0ib # Идентификатор сервисного аккаунта для доступа к приватным Docker-образам.
+  platform_id: standard-v3 # Идентификатор платформы.
+  resources_spec:
+    memory: 2G # Количество памяти (RAM).
+    cores: 2 # Количество ядер процессора (vCPU).
+  boot_disk_spec:
+    mode: READ_WRITE # Режим доступа к диску: чтение и запись.
+    disk_spec:
+      image_id: fd80o2eikcn22b229tsa
+      type_id: network-hdd # Тип диска.
+      size: 32G # Размер диска. Должен быть не менее 30 ГБ.
+  network_interface_specs:
+    - network_id: enpf2v3c52jefrjirnd4 # Идентификатор сети.
+      subnet_ids:
+        - e9b96oqkbvhv6uvb18pq # Идентификатор подсети.
+      primary_v4_address_spec: {
+        one_to_one_nat_spec: {
+          ip_version: IPV4 # Спецификация версии интернет-протокола IPv4 для публичного доступа к ВМ.
+        }
+      }
+  metadata: # Значения, которые будут переданы в метаданные ВМ.
+    docker-compose: |- # Ключ в метаданных ВМ, при котором используется Docker Compose спецификация.     
+      version: "3.8"
+      services:
+        frontend:
+          container_name: app-nginx_frontend
+          image: cr.yandex/crp085obp8dj4e4q9hd3/app-nginx_frontend:latest
+          ports:
+            - "80:80"
+          restart: always
+    ssh-keys: | # Параметр для передачи SSH-ключа на ВМ. # Имя пользователя для подключения к ВМ.
+      maxim:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIbrf9IUKdUDkIqawmfv+NZ7JB8jLtNvwwfNl7ZCen6D maxdron@maxim1770
+deploy_policy: # Политика развертывания ВМ в группе.
+  max_unavailable: 1
+  max_expansion: 0
+scale_policy: # Политика масштабирования ВМ в группе.
+  fixed_scale:
+    size: 2
+allocation_policy: # Политика распределения ВМ по зонам и регионам.
+  zones:
+    - zone_id: ru-central1-a

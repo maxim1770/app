@@ -1,12 +1,11 @@
 <template>
-  <v-list-item v-if="manuscript?.code" prepend-icon="mdi-bookshelf">
-    Источник:
-    <v-chip
-      :to="{ name: 'manuscript', params: { manuscriptCode: manuscript.code } }"
-      class="ml-1"
-    >
-      <ManuscriptFullTitle :manuscript="manuscript" />
-    </v-chip>
+  <v-list-item
+    v-if="manuscript?.code"
+    :to="{ name: 'manuscript', params: { manuscriptCode: manuscript.code } }"
+    prepend-icon="mdi-bookshelf"
+    class="mt-1"
+  >
+    <ManuscriptFullTitle :manuscript="manuscript" />
   </v-list-item>
 </template>
 

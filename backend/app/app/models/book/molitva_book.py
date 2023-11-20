@@ -7,7 +7,7 @@ from ..holiday import Holiday
 
 
 class MolitvaBook(Base):
-    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
+    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id, ondelete="CASCADE"))
 
     book: Mapped[Book] = relationship(back_populates='molitva_book')
     glas_num: Mapped[int | None] = mapped_column(SmallInteger)

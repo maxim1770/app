@@ -15,5 +15,6 @@ class Tipikon(Base):
     id: Mapped[intpk]
 
     title: Mapped[enums.TipikonTitle] = mapped_column(unique=True, index=True)
+    priority: Mapped[enums.TipikonPriority] = mapped_column(unique=True, index=True)
 
     holidays: Mapped[list[Holiday]] = relationship(back_populates='tipikon')

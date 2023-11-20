@@ -7,7 +7,7 @@ from ..movable_date import MovableDay
 
 
 class MovableDateBook(Base):
-    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
+    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id, ondelete="CASCADE"))
 
     book: Mapped[Book] = relationship(back_populates='movable_date_book')
 

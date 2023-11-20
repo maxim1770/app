@@ -13,13 +13,13 @@ class CollectManuscriptImgsUrls(object):
     def __init__(
             self,
             session: Session,
-            driver: WebDriver,
             *,
+            driver: WebDriver,
             code: str,
             neb_slug: str | None
     ):
         if neb_slug:
-            self.__imgs_urls = self._from_neb(driver, neb_slug)
+            self.__imgs_urls = self._has_left_and_right(driver, neb_slug)
         elif utils.is_rsl_manuscript_code(code):
             self.__imgs_urls = self._from_rsl(driver, code)
         else:
@@ -30,7 +30,7 @@ class CollectManuscriptImgsUrls(object):
         return self.__imgs_urls
 
     @classmethod
-    def _from_neb(cls, driver: WebDriver, manuscript_slug: str) -> list[str]:
+    def _has_left_and_right(cls, driver: WebDriver, manuscript_slug: str) -> list[str]:
         url: str = f'{const.NebUrl.GET_MANUSCRIPT_PAGES}/{manuscript_slug}'
         soup = BeautifulSoup(cls._collect_page(driver, url=url), 'lxml')
         imgs_links: list[Tag] = soup.find('div', class_="main-right-side").find('div', class_="panel").find_all('div',

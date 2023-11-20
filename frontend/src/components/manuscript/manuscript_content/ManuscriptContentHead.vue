@@ -1,52 +1,82 @@
 <template>
-  <v-list
-    density="compact"
-    lines="one"
+  <ChapterWithHead
+    headTitle="Содержание"
+    class="mt-3"
   >
-    <v-list-group
-      v-for="(subBookmarks, head_slug, index) in manuscript?.bookmarks_"
-      :key="index"
-    >
-      <template v-slot:activator="{ props }">
-        <v-list-item
-          v-bind="props"
-          rounded="lg"
+    <template v-slot:head>
+      <UnfoldBtns @openAll="openAll" @closeAll="closeAll" />
+    </template>
+    <v-card>
+      <v-card-item>
+        <v-list
+          v-model:opened="open"
+          density="compact"
         >
-          <v-list-item-title class="text-body-2 font-weight-bold">
-            <HeadBookmarkFullTitleFactory :book="subBookmarks?.[0].book" />
-
-          </v-list-item-title>
-        </v-list-item>
-      </template>
-      <v-list-item
-        v-for="bookmark in subBookmarks"
-        :key="bookmark.book.id"
-        :to="{ name: 'book', params: { bookId: bookmark.book?.id } }"
-        rounded="xl"
-      >
-        <div class="mb-1">
-          <ChipBookmarkFirstPageNum :first_page="bookmark.first_page" class="mr-1" />
-          <BookFullTitleFactory :book="bookmark?.book" />
-        </div>
-        <v-divider></v-divider>
-      </v-list-item>
-    </v-list-group>
-  </v-list>
+          <v-list-group
+            v-for="(subBookmarks, head_slug, index) in manuscript?.structured_bookmarks"
+            :key="index"
+            :value="head_slug"
+          >
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                class="ma-1"
+              >
+                <HeadBookmarkFullTitleFactory :book="subBookmarks?.[0].book" />
+              </v-list-item>
+            </template>
+            <v-list-item
+              v-for="bookmark in subBookmarks"
+              :key="bookmark.book.id"
+              :to="{ name: 'book', params: { bookId: bookmark.book?.id } }"
+            >
+              <BookmarkPageData :bookmark="bookmark" class="ma-1" />
+              <ChipChapter :chapter_num="bookmark?.chapter_num" class="ma-1" />
+              <BookFullTitleFactory :book="bookmark?.book" />
+            </v-list-item>
+          </v-list-group>
+        </v-list>
+      </v-card-item>
+    </v-card>
+  </ChapterWithHead>
 </template>
 
 <script>
 
 
 import BookFullTitleFactory from "@/components/book/book_full_title/BookFullTitleFactory.vue";
-import ChipBookmarkFirstPageNum from "@/components/manuscript/ChipBookmarkFirstPageNum.vue";
-import HeadBookmarkFullTitleFactory from "@/components/book/head_bookmark_full_title/HeadBookmarkFullTitleFactory.vue";
+import HeadBookmarkFullTitleFactory from "@/components/book/HeadBookmarkFullTitleFactory.vue";
+import UnfoldBtns from "@/components/common/UnfoldBtns.vue";
+import ChapterWithHead from "@/components/common/ChapterWithHead.vue";
+import ChipChapter from "@/components/manuscript/ChipChapter.vue";
+import BookmarkPageData from "@/components/bookmark/BookmarkPageData.vue";
 
 export default {
-  components: { BookFullTitleFactory, ChipBookmarkFirstPageNum, HeadBookmarkFullTitleFactory },
+  components: {
+    BookmarkPageData,
+    ChipChapter,
+    ChapterWithHead,
+    UnfoldBtns,
+    BookFullTitleFactory,
+    HeadBookmarkFullTitleFactory
+  },
   props: {
     manuscript: {
       type: Object,
       required: true
+    }
+  },
+  data() {
+    return {
+      open: []
+    };
+  },
+  methods: {
+    openAll() {
+      this.open = Object.keys(this.manuscript?.structured_bookmarks);
+    },
+    closeAll() {
+      this.open = [];
     }
   }
 };

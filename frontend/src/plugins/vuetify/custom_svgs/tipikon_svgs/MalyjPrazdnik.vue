@@ -1,5 +1,5 @@
 <template>
-  <svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.04 30">
+  <svg xmlns="http://www.w3.org/2000/svg" id="Слой_1" data-name="Слой 1" viewBox="0 0 30.04 30">
     <title>Малый Праздник</title>
     <circle class="cls-1" cx="12.83" cy="9.98" r="2.33" />
     <circle class="cls-1" cx="12.83" cy="20.26" r="2.33" />
@@ -13,8 +13,7 @@
 <style scoped>
 
 .cls-1 {
-  fill: #d55955;
+  fill: #000105;
 }
 
 </style>
-

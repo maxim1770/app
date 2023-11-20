@@ -8,12 +8,12 @@ from bs4 import BeautifulSoup, Tag
 from sqlalchemy.orm import Session
 
 from app import schemas, enums
+from app.const import AzbykaUrl
 from app.create import const
 from app.create.create.bible_book.zachalo import CreateZachalo
 from ..base_classes import PrepareTableBase, PrepareParentDataSliceBase, PrepareParentNoCopyBase, \
     convert_to_schemas, PrepareError
 from ..base_collect import get_readings
-from ...const import AzbykaUrl
 
 
 def _collect_zachalo_num(zachalo_abbr: str) -> int:
@@ -332,9 +332,11 @@ class PrepareC2EvangelAbbr(PrepareParentNoCopyBase):
     def __init__(self, parent: PrepareC2EvangelZachalo):
         super().__init__(parent=parent)
 
-    def _fill_gaps(self): pass
+    def _fill_gaps(self):
+        pass
 
-    def _clean(self): pass
+    def _clean(self):
+        pass
 
     def _convert(self):
         for i, zachalo in enumerate(self.parent.data):
@@ -351,9 +353,11 @@ class PrepareC2ApostleAbbr(PrepareParentNoCopyBase):
     def __init__(self, parent: PrepareC2ApostleZachalo):
         super().__init__(parent=parent)
 
-    def _fill_gaps(self): pass
+    def _fill_gaps(self):
+        pass
 
-    def _clean(self): pass
+    def _clean(self):
+        pass
 
     def _convert(self):
         for i, zachalo in enumerate(self.parent.data):

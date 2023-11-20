@@ -1,10 +1,9 @@
 <template>
   <v-chip
-    variant="tonal"
+    v-if="movable_day"
+    :to="{ name: 'date', params: { dateSlug: movable_day.date_slug } }"
     color="amber"
     prepend-icon="mdi-calendar-today-outline"
-    v-if="movable_day?.month_day"
-    :to="{ name: 'date', params: { date: movable_day.month_day } }"
   >
     {{ movable_day?.full_title }}
   </v-chip>

@@ -1,13 +1,22 @@
 <template>
-  <BibleBooksPage :bible_books="bible_books" />
+  <div>
+    <ImgMainTitle
+      mainPageValue="bible-books"
+      @click="$router.push({ name: 'bible-books' })"
+    />
+    <BibleBooksPage :bible_books="bible_books" />
+    <CardRandomBook />
+  </div>
 </template>
 
 <script>
 import { api } from "@/services/api";
 import BibleBooksPage from "@/components/pages/BibleBooksPage.vue";
+import ImgMainTitle from "@/components/common/ImgMainTitle.vue";
+import CardRandomBook from "@/components/book/random_book/CardRandomBook.vue";
 
 export default {
-  components: { BibleBooksPage },
+  components: { CardRandomBook, ImgMainTitle, BibleBooksPage },
 
   data() {
     return {

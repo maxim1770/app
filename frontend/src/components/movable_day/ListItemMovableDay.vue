@@ -1,9 +1,10 @@
 <template>
   <v-list-item
+    v-if="movable_day"
     prepend-icon="mdi-calendar-range"
   >
-    Переходящая дата:
-    <ChipMovableDay :movable_day="movable_day" class="ml-1" />
+    Переходящая дата
+    <ChipMovableDay :movable_day="movable_day" class="ma-1" />
   </v-list-item>
 </template>
 

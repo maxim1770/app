@@ -1,14 +1,14 @@
 <template>
   <v-chip
-    v-if="book.title.includes('толковое')"
-    variant="tonal"
-    color="green"
+    v-if="book && book.title.includes('толк')"
+    :to="{ name: 'book', params: { bookId: book.id } }"
+    prepend-icon="mdi-check-circle-outline"
+    color="blue"
+    class="ma-1"
   >
     Толковое
   </v-chip>
-  <v-chip class="ml-1">
-    {{ book.zachalo.bible_book.title }} зачало {{ book.zachalo.num }}
-  </v-chip>
+  <ChipZachalo :zachalo="book.zachalo" :hasBibleBookLink="true" />
 </template>
 
 <script>
@@ -27,6 +27,4 @@ export default {
 };
 
 </script>
-
-
 

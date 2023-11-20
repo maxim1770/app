@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+
+  nginx-frontend:
+    container_name: nginx-frontend
+    image: cr.yandex/crp085obp8dj4e4q9hd3/nginx-frontend:latest
+    expose:
+      - 80
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - custom
+
+networks:
+  custom:
+    driver: bridge

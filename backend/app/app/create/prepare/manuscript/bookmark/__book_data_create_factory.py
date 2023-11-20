@@ -68,7 +68,7 @@ class MolitvaBookDataCreateFactory(__BookDataCreateFactoryBase):
     @property
     def book_data_in(self) -> schemas.MolitvaBookDataCreate:
         groups: dict[str, str] = BookRegex.MOLITVA.match(self._bookmark_title).groupdict()
-        book_type = enums.BookType(groups[BookRegexGroupName.type])
+        book_type = enums.BookType(groups[BookRegexGroupName.molitva_book_type])
         glas_num = int(groups[BookRegexGroupName.glas_num]) if groups[BookRegexGroupName.glas_num] else None
         holiday_slug = groups[BookRegexGroupName.slug]
         molitva_book_data_in = schemas.MolitvaBookDataCreate(
@@ -154,12 +154,10 @@ class TopicBookDataCreateFactory(__BookDataCreateFactoryBase):
         groups: dict[str, str] = BookRegex.TOPIC.match(self._bookmark_title).groupdict()
         type_ = enums.BookType(groups[BookRegexGroupName.type])
         source = enums.BookSource(groups[BookRegexGroupName.source]) if groups[BookRegexGroupName.source] else None
-        topics_str: str | None = groups[BookRegexGroupName.topics]
-        topics = [enums.BookTopic(topic) for topic in topics_str.split(', и ')] if topics_str else []
-        topic_book_in = schemas.TopicBookCreate(
-            source=source,
-            topics=topics
-        )
+        topics_titles_str: str | None = groups[BookRegexGroupName.topics]
+        topics_titles: list[enums.BookTopic] = [
+            enums.BookTopic(topic) for topic in topics_titles_str.split(', и ')
+        ] if topics_titles_str else []
         saint_slug: str = groups['slug']
         topic_book_data_in = schemas.TopicBookDataCreate(
             book_data_in=schemas.BookDataCreate(
@@ -168,30 +166,12 @@ class TopicBookDataCreateFactory(__BookDataCreateFactoryBase):
                 ),
                 saint_slug=saint_slug
             ),
-            topic_book_in=topic_book_in
+            topic_book_in=schemas.TopicBookCreate(
+                source=source
+            ),
+            topics_titles=topics_titles
         )
         return topic_book_data_in
-
-
-class LlsBookDataCreateFactory(__BookDataCreateFactoryBase):
-
-    def __init__(self, bookmark_title: str):
-        super().__init__(bookmark_title)
-
-    @property
-    def book_data_in(self) -> schemas.LlsBookDataCreate:
-        year_title = int(self._bookmark_title.split()[3][1:-2])
-        year_in = schemas.YearCreate(title=str(year_title))
-        lls_book_data_in = schemas.LlsBookDataCreate(
-            book_data_in=schemas.BookDataCreate(
-                book_in=schemas.BookCreate(
-                    bookmark_title=self._bookmark_title
-                ),
-            ),
-            lls_book_in=schemas.LlsBookCreate(),
-            year_in=year_in
-        )
-        return lls_book_data_in
 
 
 class SomeBookDataCreateFactory(__BookDataCreateFactoryBase):

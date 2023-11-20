@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <v-container
-      v-for="week in cycle.weeks"
-      :key="week.id"
-      class="mb-2 rounded-lg border text-center"
-    >
+  <v-card
+    v-for="week in cycle.weeks"
+    :key="week.id"
+    class="ma-4"
+  >
+    <v-container>
       <weekForCycle1And2 :week="week" />
     </v-container>
-  </div>
+  </v-card>
 </template>
 
 <script>

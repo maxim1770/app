@@ -1,6 +1,6 @@
 from pydantic import conint
 
-from .book import BookInDB
+from .book import BookInDBToBooks
 from .cathedral import CathedralInDB
 from ..base import SchemaBase, SchemaInDBBase
 
@@ -26,7 +26,7 @@ class CathedralBookInDBToCathedral(__CathedralBookInDBBase):
 
 
 class CathedralBook(__CathedralBookInDBWithCathedralBase):
-    book: BookInDB
+    book: BookInDBToBooks
 
 
 class CathedralBookInDB(__CathedralBookInDBWithCathedralBase):

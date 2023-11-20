@@ -7,3 +7,4 @@ from .crud_psaltyr_book import create_psaltyr_book, create_psaltyr_book_tolkovoe
 from .crud_topic_book import create_topic_book
 from .crud_cathedral_book import create_cathedral_book
 from .crud_lls_book import create_lls_book
+from .crud_topic import topic

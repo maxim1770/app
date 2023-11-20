@@ -1,8 +1,8 @@
 from pydantic import conint
 
-from .bible_book import BibleBook
+from .bible_book import BibleBookInDB
 from ..base import SchemaBase, SchemaInDBBase
-from ..book import BookInDBToBooks
+from ..book import BookInDBBase
 
 
 class __ZachaloBase(SchemaBase):
@@ -19,18 +19,18 @@ class __ZachaloInDBBase(__ZachaloBase, SchemaInDBBase):
 
 
 class __ZachaloInDBWithBibleBookBase(__ZachaloInDBBase):
-    bible_book: BibleBook
+    bible_book: BibleBookInDB
 
 
-class __ZachaloInDBWithBookBase(__ZachaloInDBWithBibleBookBase):
-    book: BookInDBToBooks
+class __ZachaloInDBWithBookBase(__ZachaloInDBBase):
+    book: BookInDBBase
 
 
-class ZachaloInDBToBibleBook(__ZachaloInDBBase):
+class ZachaloInDBToBibleBook(__ZachaloInDBWithBookBase):
     pass
 
 
-class ZachaloInDBToBook(__ZachaloInDBWithBibleBookBase):
+class ZachaloInDBToBook(__ZachaloInDBWithBookBase, __ZachaloInDBWithBibleBookBase):
     pass
 
 
@@ -38,5 +38,5 @@ class Zachalo(__ZachaloInDBWithBookBase, __ZachaloInDBWithBibleBookBase):
     pass
 
 
-class ZachaloInDB(__ZachaloInDBWithBookBase, __ZachaloInDBWithBibleBookBase):
+class ZachaloInDB(__ZachaloInDBWithBibleBookBase):
     pass

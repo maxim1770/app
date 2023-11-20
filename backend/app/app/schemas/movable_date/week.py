@@ -23,14 +23,18 @@ class WeekCreate(__WeekBase):
 
 
 class __WeekInDBBase(__WeekBase, SchemaInDBBase):
-    cycle: CycleInDB
-
-
-class Week(__WeekInDBBase):
     pass
 
 
-class WeekInDBToMovableDay(__WeekInDBBase):
+class __WeekInDBWithCycleBase(__WeekInDBBase):
+    cycle: CycleInDB
+
+
+class Week(__WeekInDBWithCycleBase):
+    pass
+
+
+class WeekInDBToMovableDay(__WeekInDBWithCycleBase):
     movable_days: list[MovableDayInDBForMovableDay] = []
 
 

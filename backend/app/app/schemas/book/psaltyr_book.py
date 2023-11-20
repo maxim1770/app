@@ -1,8 +1,8 @@
 from pydantic import conint
 
 from ..base import SchemaBase, SchemaInDBBase
-from ..bible_book import BibleBook
-from ..book import BookInDBToBooks
+from ..bible_book import BibleBookInDB
+from ..book import BookInDBBase
 
 
 class __PsaltyrBookBase(SchemaBase):
@@ -14,20 +14,28 @@ class PsaltyrBookCreate(__PsaltyrBookBase):
 
 
 class __PsaltyrBookInDBBase(__PsaltyrBookBase, SchemaInDBBase):
-    bible_book: BibleBook
+    pass
+
+
+class __PsaltyrBookInDBWithBibleBookBase(__PsaltyrBookInDBBase):
+    bible_book: BibleBookInDB
 
 
 class __PsaltyrBookInDBWithBookBase(__PsaltyrBookInDBBase):
-    book: BookInDBToBooks
+    book: BookInDBBase
 
 
-class PsaltyrBookInDBToBook(__PsaltyrBookInDBBase):
+class PsaltyrBookInDBToBibleBook(__PsaltyrBookInDBWithBookBase):
     pass
 
 
-class PsaltyrBook(__PsaltyrBookInDBWithBookBase):
+class PsaltyrBookInDBToBook(__PsaltyrBookInDBWithBibleBookBase):
     pass
 
 
-class PsaltyrBookInDB(__PsaltyrBookInDBWithBookBase):
+class PsaltyrBook(__PsaltyrBookInDBWithBookBase, __PsaltyrBookInDBWithBibleBookBase):
+    pass
+
+
+class PsaltyrBookInDB(__PsaltyrBookInDBWithBookBase, __PsaltyrBookInDBWithBibleBookBase):
     pass

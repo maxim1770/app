@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from app.core.config import settings
-from app.create.const import AzbykaUrl
+from app.const import AzbykaUrl
 
 
 def requests_mock_get_saint_data(requests_mock, *, saint_slug: str) -> None:

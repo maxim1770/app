@@ -1,12 +1,7 @@
 <template>
   <v-row class="bg-red-lighten-3 border-b">
-    <v-col
-      cols="12"
-      class="text-h6 text-red-accent-4 font-weight-bold"
-    >
-      Нд {{ week.sunday_num }}
-      <template v-if="week.sunday_title">, {{ week.sunday_title }}</template>
-      <!-- TODO запятая на сайте неправильно: 'text , '-->
+    <v-col class="text-h6 text-red-accent-4 font-weight-bold">
+      Нд {{ week?.sunday_num }}<span v-if="week?.sunday_title">, {{ week?.sunday_title }}</span>
     </v-col>
   </v-row>
   <v-row
@@ -30,7 +25,7 @@
       <ChipZachalo :zachalo="sundayMatins(week).zachalos[0]" color="red-accent-3" />
     </v-col>
   </v-row>
-  <v-row class="bg-red-lighten-3 border-b-md">
+  <v-row class="bg-red-lighten-3">
     <v-col cols="2">
       На Литургии
     </v-col>
@@ -43,7 +38,7 @@
     </v-col>
   </v-row>
   <v-row
-    v-for="movable_day in week.movable_days.slice(1)"
+    v-for="movable_day in week?.movable_days.slice(1)"
     :key="movable_day.id"
     :class="{'rounded-shaped bg-red-lighten-3': movable_day.abbr === currentMovableDayAbbr}"
   >
@@ -58,7 +53,7 @@
     >
       <ChipZachalo :zachalo="zachalo" />
     </v-col>
-    <v-divider></v-divider>
+
   </v-row>
 </template>
 
@@ -81,10 +76,10 @@ export default {
   },
   methods: {
     sundayMatins(week) {
-      return week.movable_days[0].movable_dates.filter(movable_date => movable_date.divine_service.title !== "liturgy")[0];
+      return week?.movable_days[0].movable_dates.find(movable_date => movable_date.divine_service.title !== "liturgy");
     },
     sundayLiturgyZachalos(week) {
-      return week.movable_days[0].movable_dates.filter(movable_date => movable_date.divine_service.title === "liturgy")[0].zachalos.slice(0, 2);
+      return week?.movable_days[0].movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos.slice(0, 2);
     }
   }
 };

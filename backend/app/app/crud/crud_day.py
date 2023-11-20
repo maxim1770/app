@@ -1,14 +1,10 @@
 import sqlalchemy as sa
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from app.filters import DayFilter
 from app.models import Day
 from app.schemas import DayCreate, DayUpdate
 from .base import CRUDBase
-
-
-class DayFilter(BaseModel):
-    pass
 
 
 class CRUDDay(CRUDBase[Day, DayCreate, DayUpdate, DayFilter]):

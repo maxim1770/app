@@ -39,13 +39,13 @@ def test_search_manuscript_in_neb_not_found(
     assert search_manuscript.manuscript_neb_slug is None
 
 
-@pytest.mark.parametrize('manuscript_code_title, manuscript_code_title_from_neb', [
+@pytest.mark.parametrize('manuscript_code_title, manuscript_code_title_has_left_and_right', [
     ('Ф.178/I №9500', 'Ф.178.1 №9500'),
     ('Ф.304/III №15', 'Ф.304.3 №15'),
     ('Ф.304/III №3', 'Ф.304.3 №3'),
     ('Ф.98 №80', 'Ф.98 №80')
 ])
-def test_prepare_rsl_manuscript_code_title(manuscript_code_title: str, manuscript_code_title_from_neb: str):
+def test_prepare_rsl_manuscript_code_title(manuscript_code_title: str, manuscript_code_title_has_left_and_right: str):
     assert SearchManuscriptInNeb.prepare_rsl_manuscript_code_title(
         manuscript_code_title
-    ) == manuscript_code_title_from_neb
+    ) == manuscript_code_title_has_left_and_right

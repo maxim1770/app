@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="bookFullTitleFactory"
+    :is="bookFullTitle"
     :book="book"
   />
 </template>
@@ -16,18 +16,9 @@ import ZachaloBookFullTitle from "@/components/book/book_full_title/ZachaloBookF
 import CathedralBookFullTitle from "@/components/book/book_full_title/CathedralBookFullTitle.vue";
 import LlsBookFullTitle from "@/components/book/book_full_title/LlsBookFullTitle.vue";
 import SomeBookFullTitle from "@/components/book/book_full_title/SomeBookFullTitle.vue";
+import PsaltyrBookFullTitle from "@/components/book/book_full_title/PsaltyrBookFullTitle.vue";
 
 export default {
-  components: {
-    HolidayBookFullTitle,
-    TopicBookFullTitle,
-    MolitvaBookFullTitle,
-    MovableDateBookFullTitle,
-    ZachaloBookFullTitle,
-    CathedralBookFullTitle,
-    LlsBookFullTitle,
-    SomeBookFullTitle
-  },
   props: {
     book: {
       type: Object,
@@ -35,12 +26,12 @@ export default {
     }
   },
   computed: {
-    bookFullTitleFactory() {
+    bookFullTitle() {
       if (this.book?.holiday_book) {
         return HolidayBookFullTitle;
       } else if (this.book?.topic_book) {
         return TopicBookFullTitle;
-      } else if (this.book?.molitva_books) {
+      } else if (this.book?.molitva_book) {
         return MolitvaBookFullTitle;
       } else if (this.book?.movable_date_book) {
         return MovableDateBookFullTitle;
@@ -48,6 +39,8 @@ export default {
         return ZachaloBookFullTitle;
       } else if (this.book?.cathedral_book) {
         return CathedralBookFullTitle;
+      } else if (this.book?.psaltyr_book) {
+        return PsaltyrBookFullTitle;
       } else if (this.book?.lls_book) {
         return LlsBookFullTitle;
       } else {

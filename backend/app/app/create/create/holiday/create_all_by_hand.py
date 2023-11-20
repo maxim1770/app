@@ -10,6 +10,18 @@ from app.schemas import SaintsHolidayCreate
 from .holiday import create_holiday, create_saint_holiday, create_saints_holiday, create_movable_saint_holiday, \
     create_saint_holiday_without_year
 from ..saint import create_saint
+from sqlalchemy.orm import Session
+
+from app import crud
+from app.enums import CycleNum, MovableDayAbbr
+from app.enums import FaceSanctityTitle, HolidayCategoryTitle, TipikonTitle
+from app.schemas import MovableSaintHolidayCreate, MovableSaintHolidayCreateWithoutData, MovableDayGet
+from app.schemas import SaintDataCreate, SaintCreate, HolidayCreate, YearCreate, HolidayDataCreate
+from app.schemas import SaintHolidayCreate, SaintHolidayCreateWithoutYear, DayCreate
+from app.schemas import SaintsHolidayCreate
+from .holiday import create_holiday, create_saint_holiday, create_saints_holiday, create_movable_saint_holiday, \
+    create_saint_holiday_without_year
+from ..saint import create_saint
 
 
 def create_all_great_holidays(db: Session) -> None:
@@ -395,8 +407,9 @@ def create_all_movable_saints_holidays(db: Session) -> None:
     ]
     for movable_saint_holiday in movable_saints_holidays:
         if isinstance(movable_saint_holiday, MovableSaintHolidayCreateWithoutData):
-            holiday_slug = HolidayCategoryTitle.den_pamjati.name.replace('_',
-                                                                         '-') + '-' + movable_saint_holiday.saint_slug
+            holiday_slug = HolidayCategoryTitle.den_pamjati.name.replace(
+                '_', '-'
+            ) + '-' + movable_saint_holiday.saint_slug
             holiday = crud.holiday.get_by_slug(db, slug=holiday_slug)
             movable_holiday_slug = 'movable-' + holiday_slug
             movable_saint_holiday_in = MovableSaintHolidayCreate(
@@ -422,6 +435,17 @@ def create_all_cathedrals_saints(db: Session) -> None:
             day_in=DayCreate(month=12, day=26),
             saints_in=[
                 SaintCreate(slug='presvjataja-vladychitsa-nasha-bogoroditsa-i-prisnodeva-marija')
+            ]
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='sobor-prorok-i-krestitel-ioann-predtecha',
+                title='Собор Святого и Славного Пророка, Предтечи и Крестителя Господня Иоа́нна'
+            ),
+            holiday_category_title=HolidayCategoryTitle.cathedral_saints,
+            day_in=DayCreate(month=1, day=7),
+            saints_in=[
+                SaintCreate(slug='prorok-i-krestitel-ioann-predtecha')
             ]
         ),
         SaintsHolidayCreate(
@@ -561,11 +585,15 @@ def create_all_cathedrals_saints(db: Session) -> None:
         ),
     ]
     for saints_holiday_in in cathedrals_saints:
+        if crud.holiday.get_by_slug(db, slug=saints_holiday_in.holiday_in.slug):
+            continue
         holiday = create_saints_holiday(db, saints_holiday_in=saints_holiday_in)
 
 
 def create_any_holidays(db: Session) -> None:
-    holidays_data_in: list[HolidayDataCreate | SaintHolidayCreate | SaintHolidayCreateWithoutYear] = [
+    holidays_data_in: list[
+        HolidayDataCreate | SaintHolidayCreate | SaintHolidayCreateWithoutYear | SaintsHolidayCreate
+        ] = [
         HolidayDataCreate(
             holiday_in=HolidayCreate(
                 slug='vozdvizhenie-chestnogo-i-zhivotvorjashchego-kresta-gospodnja',
@@ -654,7 +682,53 @@ def create_any_holidays(db: Session) -> None:
                 slug='ioann-bogoslov'
             ),
             day_in=DayCreate(month=9, day=26)
-        )
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-afanasij-velikij-i-kirill-aleksandrijskij',
+                title='Иже во Святых Отец наших, Архиепископов Александрийских, Афанасия Великого и Кирила',
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            day_in=DayCreate(month=1, day=18),
+            saints_in=[
+                SaintCreate(slug='kirill-aleksandrijskij'),
+                SaintCreate(slug='afanasij-velikij')
+            ]
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='perenesenie-moschej-boris-v-kreshchenii-roman-i-gleb-v-kreshchenii-david',
+                title='Перенесение Честных Мощей Святых и Праведных Страстоте́рпцев, Боголюбивых князей Русских, братьев по плоти, Бориса и Глеба, нареченных во Святом Крещении Романа и Давида, Киевских и всея России Чудотворцев',
+            ),
+            holiday_category_title=HolidayCategoryTitle.perenesenie_moschej,
+            day_in=DayCreate(month=5, day=2),
+            saints_in=[
+                SaintCreate(slug='boris-v-kreshchenii-roman'),
+                SaintCreate(slug='gleb-v-kreshchenii-david')
+            ]
+        ),
+        SaintsHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='den-pamjati-boris-v-kreshchenii-roman-i-gleb-v-kreshchenii-david',
+                title='Святых и Праведных Страстоте́рпцев, Боголюбивых князей Русских, братьев по плоти, Бориса и Глеба, нареченных во Святом Крещении Романа и Давида, Киевских и всея России Чудотворцев',
+            ),
+            holiday_category_title=HolidayCategoryTitle.den_pamjati,
+            day_in=DayCreate(month=7, day=24),
+            saints_in=[
+                SaintCreate(slug='boris-v-kreshchenii-roman'),
+                SaintCreate(slug='gleb-v-kreshchenii-david')
+            ]
+        ),
+        SaintHolidayCreate(
+            holiday_in=HolidayCreate(
+                slug='perenesenie-moschej-ioann-zlatoust',
+                title='Перенесение Честных Мощей, иже во Святых Отца нашего, Иоа́нна Златоуста, Патриарха Константинопольского',
+            ),
+            saint_in=SaintCreate(slug='ioann-zlatoust'),
+            holiday_category_title=HolidayCategoryTitle.perenesenie_moschej,
+            day_in=DayCreate(month=1, day=27),
+            year_in=YearCreate(title='446'),  # НЕТОЧНО, ДАТУ ВЗЯЛ с azbyka
+        ),
     ]
     for holiday_data_in in holidays_data_in:
         if crud.holiday.get_by_slug(db, slug=holiday_data_in.holiday_in.slug):
@@ -665,6 +739,8 @@ def create_any_holidays(db: Session) -> None:
             holiday = create_saint_holiday_without_year(db, saint_holiday_in=holiday_data_in)
         elif isinstance(holiday_data_in, HolidayDataCreate):
             holiday = create_holiday(db, holiday_data_in=holiday_data_in)
+        elif isinstance(holiday_data_in, SaintsHolidayCreate):
+            holiday = create_saints_holiday(db, saints_holiday_in=holiday_data_in)
 
 
 def create_all_proroks_and_any_pravednyjs(db: Session) -> None:

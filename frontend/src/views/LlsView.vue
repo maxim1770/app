@@ -1,13 +1,17 @@
 <template>
-  <LlsPage :llsManuscripts="llsManuscripts" />
+  <div>
+    <LlsPage :llsManuscripts="llsManuscripts" />
+    <CardRandomBook />
+  </div>
 </template>
 
 <script>
 import { api } from "@/services/api";
 import LlsPage from "@/components/pages/LlsPage.vue";
+import CardRandomBook from "@/components/book/random_book/CardRandomBook.vue";
 
 export default {
-  components: { LlsPage },
+  components: { CardRandomBook, LlsPage },
 
   data() {
     return {

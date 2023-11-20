@@ -1,6 +1,6 @@
 import pytest
 
-from app.create.prepare.manuscript.bookmark.__convert_page import __convert_page_from_neb
+from app.create.prepare.manuscript.bookmark.__convert_page import __convert_page_has_left_and_right
 from app.enums import PagePosition
 from app.schemas import PageCreate
 
@@ -21,5 +21,5 @@ from app.schemas import PageCreate
     (14, PagePosition.left, PageCreate(num=7, position=PagePosition.right)),
     (14, PagePosition.right, PageCreate(num=8, position=PagePosition.left)),
 ])
-def test_convert_page_from_neb(page_num: int, first_page_position: PagePosition, page: PageCreate):
-    assert __convert_page_from_neb(page_num, first_page_position=first_page_position) == page
+def test_convert_page_has_left_and_right(page_num: int, first_page_position: PagePosition, page: PageCreate):
+    assert __convert_page_has_left_and_right(page_num, first_page_position=first_page_position) == page

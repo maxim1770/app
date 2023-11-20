@@ -20,7 +20,9 @@ from app.models.book import LlsBook  # noqa
 from app.models.book import MolitvaBook  # noqa
 from app.models.book import MovableDateBook  # noqa
 from app.models.book import PsaltyrBook  # noqa
+from app.models.book import Topic  # noqa
 from app.models.book import TopicBook  # noqa
+from app.models.book import TopicBookTopicAssociation  # noqa
 from app.models.holiday import BeforeAfterHoliday  # noqa
 from app.models.holiday import BeforeAfterHolidayDayAssociation  # noqa
 from app.models.holiday import BeforeAfterHolidayMovableDayAssociation  # noqa

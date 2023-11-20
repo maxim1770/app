@@ -9,7 +9,7 @@ from ..saint import Saint
 
 
 class HolidayBook(Base):
-    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id))
+    id: Mapped[intpk] = mapped_column(ForeignKey(Book.id, ondelete="CASCADE"))
 
     book: Mapped[Book] = relationship(back_populates='holiday_book')
     book_util: Mapped[enums.BookUtil | None] = mapped_column(index=True)

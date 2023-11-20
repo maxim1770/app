@@ -70,16 +70,23 @@ def create_all_before_after_holidays(db: Session) -> None:
         (
             'svjataja-pjatidesjatnitsa',
             'Пятидесятницы',
-            (enums.HolidayCategoryTitle.predprazdnstvo, 0),
+            None,
             (enums.HolidayCategoryTitle.poprazdnstvo, 6),
         ),
     ]
     for great_holiday_slug, great_holiday_title_in_genitive, before_data, after_data in great_holidays_num_before_after_days:
+        __before_after_data: list = []
+        if before_data:
+            __before_after_data.append(before_data)
+        __before_after_data.append(after_data)
         __great_holiday = crud.holiday.get_by_slug(db, slug=great_holiday_slug)
         if __great_holiday.day:
-            __great_holiday_date = date(const.BASE_YEAR_FOR_DAY, month=__great_holiday.day.month,
-                                        day=__great_holiday.day.day)
-            for _holiday_category_title, _num_days in [before_data, after_data]:
+            __great_holiday_date = date(
+                const.BASE_YEAR_FOR_DAY,
+                month=__great_holiday.day.month,
+                day=__great_holiday.day.day
+            )
+            for _holiday_category_title, _num_days in __before_after_data:
                 before_after_holiday: models.BeforeAfterHoliday = __create_before_after_holiday(
                     db,
                     holiday_category_title=_holiday_category_title,
@@ -107,7 +114,7 @@ def create_all_before_after_holidays(db: Session) -> None:
                     )
         else:
             __great_holiday_movable_day_id: int = __great_holiday.movable_day_id
-            for _holiday_category_title, _num_days in [before_data, after_data]:
+            for _holiday_category_title, _num_days in __before_after_data:
                 before_after_holiday: models.BeforeAfterHoliday = __create_before_after_holiday(
                     db,
                     holiday_category_title=_holiday_category_title,

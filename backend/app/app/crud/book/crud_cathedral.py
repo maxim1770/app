@@ -16,7 +16,7 @@ class CRUDCathedral(CRUDBase[Cathedral, CathedralCreate, CathedralUpdate, Cathed
 
     def get_multi_by_filter(self, db: Session, *, filter: CathedralFilter) -> sa.Select:
         select: sa.Select = sa.select(self.model)
-        select: sa.Select = self._filtering_and_sorting_select(select, filter=filter)
+        select: sa.Select = self._filter_and_sort_select(select, filter=filter)
         return select
 
     def create_with_any(

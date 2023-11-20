@@ -15,10 +15,19 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 class CollectManuscript(object):
 
-    def __init__(self, session: Session, *, imgs_urls: list[str], path: Path, pdf_path: Path):
+    def __init__(
+            self,
+            session: Session,
+            *,
+            object_storage: utils.ObjectStorage,
+            imgs_urls: list[str],
+            path: Path,
+            pdf_path: Path
+    ):
         self._imgs: list[Image] = self.collect_imgs(session, imgs_urls=imgs_urls)
         self._path = path
         self._pdf_path = pdf_path
+        self.__object_storage = object_storage
 
     @staticmethod
     def collect_imgs(session: Session, *, imgs_urls: list[str]) -> list[Image]:
@@ -35,21 +44,37 @@ class CollectManuscript(object):
             self._imgs[i] = img.crop((0, 0, x_max, y_max - 62))
 
     def save_imgs(self) -> None:
-        self._path.mkdir()
+        # self._path = Path(settings.DATA_DIR) / self._path
+        # self._path.mkdir()
         for i, img in enumerate(self._imgs):
             current_path: Path = self._path / f'{i + 1}.webp'
-            img.save(current_path, format='webp')
+
+            __temp_file_path = Path('some_img.webp')
+            img.save(__temp_file_path, format='webp')
+            self.__object_storage.upload(file_path=__temp_file_path, object_path=current_path)
+            __temp_file_path.unlink()
+
+            # img.save(current_path, format='webp')
         logging.info(f'The Manuscript imgs saved: {self._path}')
 
     def create_pdf(self) -> None:
-        self.create_pdf_from_imgs(self._pdf_path, imgs=self._imgs)
+        self.create_pdf_from_imgs(self._pdf_path, object_storage=self.__object_storage, imgs=self._imgs)
         logging.info(f'The Manuscript pdf created: {self._pdf_path}')
 
     @staticmethod
-    def create_pdf_from_imgs(pdf_path: Path, *, imgs: list[Image], resolution: float = 99.0):  # 99.0 # 100.0
+    def create_pdf_from_imgs(
+            pdf_path: Path,
+            *,
+            imgs: list[Image],
+            resolution: float = 99.0,
+            object_storage: utils.ObjectStorage
+    ):  # 99.0 # 100.0
+        __temp_file_path = Path('some_pdf.pdf')
         imgs[0].save(
-            pdf_path, 'PDF', resolution=resolution, save_all=True, append_images=imgs[1:]
+            __temp_file_path, 'PDF', resolution=resolution, save_all=True, append_images=imgs[1:]
         )
+        object_storage.upload(file_path=__temp_file_path, object_path=pdf_path)
+        __temp_file_path.unlink()
 
 
 class CollectManuscriptFactory(object):
@@ -58,8 +83,9 @@ class CollectManuscriptFactory(object):
     def get(
             cls,
             session: Session,
-            driver: WebDriver,
             *,
+            driver: WebDriver,
+            object_storage: utils.ObjectStorage,
             fund_title: enums.FundTitle,
             library_title: enums.LibraryTitle,
             code: str,
@@ -68,13 +94,25 @@ class CollectManuscriptFactory(object):
         prepare_manuscript_path = utils.PrepareManuscriptPathFactory.from_lib(
             fund_title=fund_title,
             library_title=library_title,
-            code=code
+            code=code,
+            object_storage=object_storage
         )
         path: Path = prepare_manuscript_path.path
-        pdf_path: Path = prepare_manuscript_path.pdf_path
-        imgs_urls: list[str] = prepare.CollectManuscriptImgsUrls(session, driver, code=code,
-                                                                 neb_slug=neb_slug).imgs_urls
-        collect_manuscript = CollectManuscript(session, imgs_urls=imgs_urls, path=path, pdf_path=pdf_path)
+        # pdf_path: Path = prepare_manuscript_path.pdf_path
+        pdf_path: Path = Path()
+        imgs_urls: list[str] = prepare.CollectManuscriptImgsUrls(
+            session,
+            driver=driver,
+            code=code,
+            neb_slug=neb_slug
+        ).imgs_urls
+        collect_manuscript = CollectManuscript(
+            session,
+            object_storage=object_storage,
+            imgs_urls=imgs_urls,
+            path=path,
+            pdf_path=pdf_path
+        )
         return collect_manuscript
 
 
@@ -128,15 +166,22 @@ class CollectManuscriptLlsFactory(object):
             session: Session,
             *,
             code: str,
+            object_storage: utils.ObjectStorage,
     ) -> CollectManuscript:
-        prepare_manuscript_path = utils.PrepareManuscriptPathFactory.from_lls(code=code)
+        prepare_manuscript_path = utils.PrepareManuscriptPathFactory.from_lls(code=code, object_storage=object_storage)
         path: Path = prepare_manuscript_path.path
         pdf_path: Path = prepare_manuscript_path.pdf_path
         imgs_urls: list[str] = [
             f'{const.RuniversUrl.GET_MANUSCRIPT_PAGES}/{const.RuniversLlsId[code.replace("-", "_")]}/{cls._add_zeros_to_num(num + 1)}.gif'
             for num in range(cls.RuniversLlsNumPages[code.replace('-', '_')])
         ]
-        collect_manuscript = CollectManuscript(session, imgs_urls=imgs_urls, path=path, pdf_path=pdf_path)
+        collect_manuscript = CollectManuscript(
+            session,
+            object_storage=object_storage,
+            imgs_urls=imgs_urls,
+            path=path,
+            pdf_path=pdf_path
+        )
         return collect_manuscript
 
     @classmethod
@@ -149,11 +194,13 @@ def create_manuscript_pdf(
         fund_title: enums.FundTitle,
         library_title: enums.LibraryTitle,
         code: str,
+        object_storage: utils.ObjectStorage
 ) -> None:
     prepare_manuscript_path = utils.PrepareManuscriptPathFactory.from_lib(
         fund_title=fund_title,
         library_title=library_title,
-        code=code
+        code=code,
+        object_storage=object_storage
     )
     created_path: Path = prepare_manuscript_path.created_path
     pdf_path: Path = prepare_manuscript_path.pdf_path
@@ -161,25 +208,26 @@ def create_manuscript_pdf(
         Image.open(created_path / f'{num + 1}.webp')
         for num in range(len(list(created_path.iterdir())))
     ]
-    CollectManuscript.create_pdf_from_imgs(pdf_path, imgs=imgs)
+    CollectManuscript.create_pdf_from_imgs(pdf_path, imgs=imgs, object_storage=object_storage)
 
 
 def create_manuscript_pdf_from_lls(
         *,
         code: str,
-        resolution: float = 99.0
+        resolution: float = 99.0,
+        object_storage: utils.ObjectStorage
 ) -> None:
-    prepare_manuscript_path = utils.PrepareManuscriptPathFactory.from_lls(code=code)
+    prepare_manuscript_path = utils.PrepareManuscriptPathFactory.from_lls(code=code, object_storage=object_storage)
     created_path: Path = prepare_manuscript_path.created_path
     pdf_path: Path = prepare_manuscript_path.pdf_path
     imgs = [
         Image.open(created_path / f'{num + 1}.webp')
         for num in range(len(list(created_path.iterdir())))
     ]
-    CollectManuscript.create_pdf_from_imgs(pdf_path, imgs=imgs, resolution=resolution)
+    CollectManuscript.create_pdf_from_imgs(pdf_path, imgs=imgs, resolution=resolution, object_storage=object_storage)
 
 
-def create_manuscript_data_dirs():
+def __create_manuscript_data_dirs():
     path = Path(settings.DATA_DIR) / 'img' / 'manuscripts'
     for fund_title in enums.FundTitle:
         if utils.is_rsl_library(fund_title):

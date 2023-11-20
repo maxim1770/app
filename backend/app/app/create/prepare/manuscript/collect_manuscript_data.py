@@ -153,7 +153,7 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
         return manuscript_title
 
     @staticmethod
-    def _prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title: str) -> str:
+    def _prepare_rsl_manuscript_code_title_has_left_and_right(manuscript_code_title: str) -> str:
         if match := re.search(r'(?<=\d\.)\d(?=\s№)', manuscript_code_title):
             sub_num: int = int(match[0])
             sub_roman_num: str = toRoman(sub_num)
@@ -171,7 +171,7 @@ class CollectManuscriptDataFromNeb(CollectManuscriptDataBase):
         manuscript_code_title = manuscript_code_title.replace('ОР ', '')
         if manuscript_code_title[-1]:
             if utils.is_rsl_manuscript_code_title(manuscript_code_title):
-                manuscript_code_title: str = self._prepare_rsl_manuscript_code_title_from_neb(manuscript_code_title)
+                manuscript_code_title: str = self._prepare_rsl_manuscript_code_title_has_left_and_right(manuscript_code_title)
         return manuscript_code_title
 
     @property

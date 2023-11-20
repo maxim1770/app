@@ -1,16 +1,13 @@
 import sqlalchemy as sa
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app import models
-# from app.filters import IconFilter
+from app.filters import IconFilter
 from app.models import Icon
-from app.schemas import IconCreate, IconUpdate
+from app.schemas import IconCreate, IconUpdate, IconHolidayAssociationCreate
 from .base import CRUDBase
 
-class IconFilter(BaseModel):
-    pass
 
 class CRUDIcon(CRUDBase[Icon, IconCreate, IconUpdate, IconFilter]):
 
@@ -48,12 +45,32 @@ class CRUDIcon(CRUDBase[Icon, IconCreate, IconUpdate, IconFilter]):
             *,
             db_obj: Icon,
             holiday: models.Holiday,
+            icon_holiday_association_in: IconHolidayAssociationCreate
     ) -> Icon:
-        db_obj.holiday_associations.append(models.IconHolidayAssociation(holiday=holiday))
+        icon_holiday_association_in_data = jsonable_encoder(icon_holiday_association_in)
+        db_icon_holiday_association = models.IconHolidayAssociation(
+            **icon_holiday_association_in_data,
+            icon=db_obj,
+            holiday=holiday
+        )
+        db_obj.holidays.append(db_icon_holiday_association)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
         return db_obj
+
+    @staticmethod
+    def update_icon_holiday_association_is_use_slug(
+            db: Session,
+            *,
+            icon_holiday_association: models.IconHolidayAssociation,
+            icon_holiday_association_in: IconHolidayAssociationCreate
+    ) -> models.IconHolidayAssociation:
+        icon_holiday_association.is_use_slug = icon_holiday_association_in.is_use_slug
+        db.add(icon_holiday_association)
+        db.commit()
+        db.refresh(icon_holiday_association)
+        return icon_holiday_association
 
 
 icon = CRUDIcon(Icon)
