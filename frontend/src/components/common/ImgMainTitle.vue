@@ -1,5 +1,6 @@
 <template>
   <ImgWithPlaceholder
+    v-once
     :src="imgUrl(mainPage.img)"
     :style="{ 'height': xlAndUp ? '450px' : '250px'}"
     class="mb-5"

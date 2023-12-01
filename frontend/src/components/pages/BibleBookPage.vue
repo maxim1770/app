@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[bible_book?.id]"
+  >
     <ImgMainTitle
       mainPageValue="bible-books"
       @click="$router.push({ name: 'bible-book', params: { bibleBookAbbr: bible_book.abbr } })"

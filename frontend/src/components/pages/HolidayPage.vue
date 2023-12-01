@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[holiday?.id]"
+  >
     <CarouselMain :imgs_data="holiday?.icons" :has_cover="false" />
     <MainTitle :title="holiday?.title" :textColor="choiceHolidayColor(holiday)" />
     <!--    <AdminSelectHolidayTipikon :holiday="holiday" />-->
@@ -15,7 +17,7 @@
 
 <script>
 
-import { choiceHolidayColor, isGreatHoliday } from "@/utils/holidays";
+import { choiceHolidayColor } from "@/utils/holidays";
 import HolidayFactory from "@/components/holiday/holiday/HolidayFactory.vue";
 import AdminSelectHolidayTipikon from "@/components/holiday/AdminSelectHolidayTipikon.vue";
 import MainTitle from "@/components/common/title/MainTitle.vue";
@@ -39,17 +41,12 @@ export default {
       required: true
     }
   },
-  computed: {
-    isGreatHoliday() {
-      return isGreatHoliday(this.holiday?.holiday_category.title);
-    }
-  },
   setup() {
     // const theme = useTheme();
     // return { theme };
   },
   mounted() {
-    // if (this.isGreatHoliday) {
+    // if () {
     //   this.theme.global.name.value = "myCustomLightTheme";
     // }
   },

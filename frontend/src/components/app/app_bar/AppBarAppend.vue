@@ -9,15 +9,19 @@
   <!--      @click:prepend=""-->
   <!--    ></v-combobox>-->
   <v-divider
-    class="mx-2"
     vertical
+    class="mx-2"
   />
-  <AppBarDate :date="mainData.date" />
+  <AppBarDate
+    v-memo="[mainData.date?.day?.id]"
+    :date="mainData.date"
+  />
   <v-divider
-    class="mx-2"
     vertical
+    class="mx-2"
   />
   <v-app-bar-nav-icon
+    v-once
     @click.stop="$emit('update:drawer', $event)"
     variant="text"
   />

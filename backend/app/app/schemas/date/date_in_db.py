@@ -27,6 +27,11 @@ class Date(__DateInDBBase):
     def date_slug(self) -> str:
         return str(date(self.year, self.day.month, self.day.day))
 
+    @computed_field
+    @property
+    def year_title(self) -> str:
+        return f'{self.year} года'
+
 
 class DateInDB(__DateInDBBase):
     day: DayInDB

@@ -3,50 +3,100 @@
     <v-btn
       v-if="date?.date_slug"
       @click="$router.push({ name: 'date', params: { dateSlug: preDateSlug } })"
-      prepend-icon="mdi-arrow-left"
       size="small"
       rounded="xl"
       elevation="4"
       class="text-none ml-2"
     >
-      <span v-if="lgAndUp">Предыдущий день</span>
+      <template
+        v-if="lgAndUp"
+        v-slot:prepend
+      >
+        <v-icon
+          icon="mdi-arrow-left"
+          size="large"
+        />
+      </template>
+      <span
+        v-if="lgAndUp"
+      >
+        Предыдущий день
+      </span>
+      <v-icon
+        v-if="!lgAndUp"
+        icon="mdi-arrow-left"
+        size="large"
+      />
     </v-btn>
-    <div>
-      <v-card-item class="text-center">
-        <v-card-title>
-          <MainBigTitle :title="date.day?.title" textColor="red-accent-4" :hasDivider="false" />
-          <v-chip
-            v-if="date.movable_day?.week?.sunday_title"
-            color="red-accent-4"
-          >
-            {{ date.movable_day.week.sunday_title }}
-          </v-chip>
-          <MainSmallTitle :title="date.movable_day?.full_title" />
-        </v-card-title>
-        <v-divider />
-        <v-card-subtitle>
-          {{ date.movable_day?.week.title }}
-        </v-card-subtitle>
-      </v-card-item>
-      <v-card-text class="text-center text-subtitle-1">
-        <v-badge color="blue">
-          <template v-slot:badge>
-            <template v-if="date.post">{{ date.post.title }}</template>
-            <template v-else>Поста нет</template>
-          </template>
-        </v-badge>
-      </v-card-text>
-    </div>
+    <v-card-item
+      class="text-center my-2"
+    >
+      <MainBigTitle
+        :title="date.day?.title"
+        textColor="red-accent-4"
+        :hasDivider="false"
+        :hasMargin="false"
+      />
+      <v-card-subtitle
+        :style="{ 'font-size': !lgAndUp ? 'smaller' : 'medium' }"
+      >
+        {{ date.year_title }}
+      </v-card-subtitle>
+      <v-chip
+        v-if="date.movable_day?.week?.sunday_title"
+        color="red-accent-4"
+        class="ma-1"
+        :style="{ 'font-size': !lgAndUp ? 'small' : 'medium' }"
+      >
+        {{ date.movable_day.week.sunday_title }}
+      </v-chip>
+      <MainSmallTitle
+        :title="date.movable_day?.full_title"
+        :hasMargin="false"
+      />
+      <v-divider class="ma-1" />
+      <v-card-subtitle
+        :style="{ 'font-size': !lgAndUp ? 'smaller' : 'larger' }"
+      >
+        {{ date.movable_day?.week.title }}
+      </v-card-subtitle>
+      <v-badge
+        color="blue"
+        class="mt-1"
+      >
+        <template v-slot:badge>
+          <template v-if="date.post">{{ date.post.title }}</template>
+          <template v-else>Поста нет</template>
+        </template>
+      </v-badge>
+    </v-card-item>
     <v-btn
       v-if="date?.date_slug"
       @click="$router.push({ name: 'date', params: { dateSlug: nextDateSlug } })"
-      append-icon="mdi-arrow-right"
       size="small"
       rounded="xl"
       elevation="4"
       class="text-none mr-2"
     >
-      <span v-if="lgAndUp">Следующий день</span>
+      <template
+        v-if="lgAndUp"
+        v-slot:append
+      >
+        <v-icon
+          icon="mdi-arrow-right"
+          size="large"
+        />
+      </template>
+      <span
+        v-if="lgAndUp"
+      >
+        Следующий день
+      </span>
+      <v-icon
+        v-if="!lgAndUp"
+        icon="mdi-arrow-right"
+        size="large"
+      />
     </v-btn>
   </v-card>
 </template>
@@ -82,6 +132,3 @@ export default {
 };
 
 </script>
-
-
-

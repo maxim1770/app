@@ -1,15 +1,30 @@
 <template>
-  <ChipDay :day="holiday.day" class="ma-1" />
-  <ChipMovableDay :movable_day="holiday.movable_day" class="ma-1" />
-  <BadgeHolidayCategory :holiday_category="holiday.holiday_category" class="ma-1" />
+  <ChipDay
+    :day="holiday.day"
+    class="ma-1"
+  />
+  <ChipMovableDay
+    :movable_day="holiday.movable_day"
+    class="ma-1"
+  />
+  <BadgeHolidayCategory
+    :holiday_category="holiday.holiday_category"
+    class="ma-1"
+  />
   <span
     :class="choiceHolidayTextColor(holiday)"
     class="ma-1"
   >
     {{ holiday.title }}
   </span>
-  <ChipYear :year="holiday.year" class="ma-1" />
-  <ChipTipikon :tipikon="holiday.tipikon" class="ma-1" />
+  <ChipYear
+    :year="holiday.year"
+    class="ma-1"
+  />
+  <ChipTipikon
+    :tipikon="holiday.tipikon"
+    class="ma-1"
+  />
 </template>
 
 <script>

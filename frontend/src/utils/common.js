@@ -53,55 +53,48 @@ const MONTH_TITLE = {
   8: "Август"
 };
 
-const mainPages = [{
-  title: "Праздники",
-  value: "holidays",
-  prependIcon: "mdi-candelabra-fire",
-  img: "img/icons/svetloe-hristovo-voskresenie-svjataja-pasha/gallerix-1185377134.webp"
-}, {
-  title: "Святые", value: "saints", prependIcon: "mdi-account-group", img: "img/manuscripts/lls/lls-book-10/5.webp"
-}, {
-  title: "Календарь",
-  value: "dates",
-  prependIcon: "mdi-calendar-range-outline",
-  img: "img/manuscripts/rsl/f_173i/f-173i-11/196.webp"
-}, {
-  title: "Рукописи", value: "manuscripts", prependIcon: "mdi-bookshelf", img: "img/manuscripts/lls/lls-book-1/1.webp"
-}, {
-  title: "Чтения по времени",
-  value: "movable-dates",
-  prependIcon: "mdi-clipboard-text-clock-outline",
-  img: "img/manuscripts/rsl/f_178i/f-178i-9500/607.webp"
-}, {
-  title: "Книги",
-  value: "books",
-  prependIcon: "mdi-book-open-page-variant",
-  img: "img/manuscripts/rsl/f_98/f-98-80/15.webp"
-}, {
-  title: "Библия",
-  value: "bible-books",
-  prependIcon: "mdi-notebook-heart-outline",
-  img: "img/manuscripts/lls/lls-book-1/31.webp"
-}, {
-  title: "Лицевой Летописный Свод",
-  value: "lls",
-  prependIcon: "mdi-book-open-variant",
-  img: "img/manuscripts/lls/lls-book-rus-11/4.webp"
-}, {
-  title: "Соборы, Правила Святых Отцов",
-  value: "cathedrals",
-  prependIcon: "mdi-menorah-fire",
-  img: "img/manuscripts/lls/lls-book-8/565.webp"
-}];
+const mainPages = [// {
+  //   title: "Календарь",
+  //   value: "dates",
+  //   prependIcon: "mdi-calendar-range-outline",
+  //   img: "img/manuscripts/rsl/f_173i/f-173i-11/196.webp"
+  // },
+  {
+    title: "Библия",
+    value: "bible-books",
+    prependIcon: "mdi-notebook-heart-outline",
+    img: "img/manuscripts/lls/lls-book-1/31.webp"
+  }, {
+    title: "Соборы, Правила Святых Отцов",
+    value: "cathedrals",
+    prependIcon: "mdi-menorah-fire",
+    img: "img/manuscripts/lls/lls-book-8/565.webp"
+  }, {
+    title: "Лицевой Летописный Свод",
+    value: "lls",
+    prependIcon: "mdi-book-open-variant",
+    img: "img/manuscripts/lls/lls-book-rus-11/4.webp"
+  }, {
+    title: "Чтения по времени",
+    value: "movable-dates",
+    prependIcon: "mdi-clipboard-text-clock-outline",
+    img: "img/manuscripts/rsl/f_178i/f-178i-9500/607.webp"
+  }, {
+    title: "Книги",
+    value: "books",
+    prependIcon: "mdi-book-open-page-variant",
+    img: "img/manuscripts/rsl/f_98/f-98-80/15.webp"
+  }, {
+    title: "Рукописи", value: "manuscripts", prependIcon: "mdi-bookshelf", img: "img/manuscripts/lls/lls-book-1/1.webp"
+  }, {
+    title: "Праздники",
+    value: "holidays",
+    prependIcon: "mdi-candelabra-fire",
+    img: "img/icons/izhe-po-ploti-rozhdestvo-gospoda-boga-i-spasa-nashego-isusa-hrista/gallerix-37212762.webp"
+  }, {
+    title: "Святые", value: "saints", prependIcon: "mdi-account-group", img: "img/manuscripts/lls/lls-book-10/5.webp"
+  }];
 
 export {
-  imgUrl,
-  scroll,
-  MONTH_TITLE,
-  mainPages,
-  replaceRouterQuery,
-  computeCustomIcon,
-  toUrl,
-  numObjectKeys,
-  isVselenskijSobor
+  imgUrl, scroll, MONTH_TITLE, mainPages, replaceRouterQuery, computeCustomIcon, toUrl, numObjectKeys, isVselenskijSobor
 };

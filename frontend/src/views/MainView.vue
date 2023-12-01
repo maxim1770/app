@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-container>
+    <DatePage
+      v-if="mainData.date?.year"
+      :date="mainData.date"
+    />
+    <v-container
+      v-once
+    >
       <v-row
         v-for="i in this.mainPages?.length"
         :key="i"
@@ -27,31 +33,7 @@
         </template>
       </v-row>
     </v-container>
-    <v-divider class="my-5" />
-    <DatePage
-      v-if="mainData.date?.year"
-      :date="mainData.date"
-    />
   </div>
-  <!--  <div>-->
-  <!--    <v-btn-group>-->
-  <!--      <v-btn-->
-  <!--        @click="$router.push({ name: 'lls'})"-->
-  <!--      >-->
-  <!--        lls-->
-  <!--      </v-btn>-->
-  <!--      <v-btn-->
-  <!--        @click="$router.push({ name: 'bible-books'})"-->
-  <!--      >-->
-  <!--        bible-books-->
-  <!--      </v-btn>-->
-  <!--      <v-btn-->
-  <!--        @click="$router.push({ name: 'cathedrals'})"-->
-  <!--      >-->
-  <!--        cathedrals-->
-  <!--      </v-btn>-->
-  <!--    </v-btn-group>-->
-  <!--  </div>-->
 </template>
 
 <script>

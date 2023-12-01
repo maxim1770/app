@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[date?.day?.id]"
+  >
     <CarouselMain :imgs_data="allIcons" :has_cover="false" />
     <DateHead :date="date" />
     <!--    <AdminTableDateHolidays :date="date" />-->
@@ -10,7 +12,7 @@
       :molitva_books_by_manuscript="date.day?.molitva_books_by_manuscript"
       :holiday_books="allHolidaysBooks"
     />
-    <CardRandomBook />
+    <CardRandomBook class="mt-8" />
   </div>
 </template>
 
@@ -26,10 +28,12 @@ import BooksForHoliday from "@/components/book/book_for_holiday/BooksForHoliday.
 import CarouselMain from "@/components/gallery/CarouselMain.vue";
 import { prepareAllHolidaysBooks, prepareAllIcons, prepareDateAllSortedHolidays } from "@/utils/holidays";
 import CardRandomBook from "@/components/book/random_book/CardRandomBook.vue";
+import AppBarDate from "@/components/date/AppBarDate.vue";
 
 
 export default {
   components: {
+    AppBarDate,
     CardRandomBook,
     CarouselMain,
     BooksForHoliday,

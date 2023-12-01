@@ -49,7 +49,7 @@ export default {
       return this.holiday_book.book.bookmarks?.[0];
     },
     Holiday() {
-      return this.holiday ? this.holiday : this.holiday_book?.holiday;
+      return this.holiday || this.holiday_book?.holiday;
     }
   },
   methods: { choiceHolidayColor }

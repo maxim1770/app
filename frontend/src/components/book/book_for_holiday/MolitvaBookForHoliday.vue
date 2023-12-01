@@ -1,7 +1,7 @@
 <template>
   <ChapterWithHead
     v-if="numObjectKeys(molitva_books_by_manuscript)"
-    headTitle="Тропари, кондаки"
+    headTitle="Тропари, Кондаки"
   >
     <v-card
       v-for="(molitva_books, manuscript_code, index) in molitva_books_by_manuscript"

@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[saint?.id]"
+  >
     <CarouselMain :imgs_data="allIcons" />
     <MainTitle
       :title="saint.name"

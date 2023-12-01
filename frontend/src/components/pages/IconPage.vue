@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[icon?.id]"
+  >
     <GalleryMain :imgs_paths="[this.icon?.path]" :has_preview_img="false" :has_cover="false" />
     <MainSmallTitle :title="icon.desc" />
     <IconData :icon="icon" />

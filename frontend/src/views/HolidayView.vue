@@ -1,6 +1,9 @@
 <template>
   <div>
-    <HolidayPage v-if="holiday.id" :holiday="holiday" />
+    <HolidayPage
+      v-if="holiday.id"
+      :holiday="holiday"
+    />
     <ChapterWithHead headTitle="Другие Праздники">
       <HolidaysView />
     </ChapterWithHead>

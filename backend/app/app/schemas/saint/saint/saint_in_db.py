@@ -43,7 +43,7 @@ class __SaintInDBWithNameInGenitiveBase(__SaintInDBBase):
             values.name_in_genitive: str = next((
                 holiday.title
                 for holiday in values.holidays
-                if holiday.holiday_category.title == enums.HolidayCategoryTitle.den_pamjati \
+                if holiday.holiday_category and holiday.holiday_category.title == enums.HolidayCategoryTitle.den_pamjati \
                    and 'Преставление' not in holiday.title
             ))
         except StopIteration:

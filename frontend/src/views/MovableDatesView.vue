@@ -1,6 +1,9 @@
 <template>
   <div>
-    <MovableDatesPage :movableDates="movableDates" v-if="movableDates[0]" />
+    <MovableDatesPage
+      v-if="movableDates[0]"
+      :movableDates="movableDates"
+    />
     <CardRandomBook />
   </div>
 </template>

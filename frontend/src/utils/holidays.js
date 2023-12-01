@@ -3,8 +3,8 @@ import { numObjectKeys } from "@/utils/common";
 const GREAT_HOLIDAYS = ["Праздники Христовы", "Праздники Богородичны", "Праздники Предтечевы"];
 
 
-function isGreatHoliday(holidayCategoryTitle) {
-  return GREAT_HOLIDAYS.includes(holidayCategoryTitle);
+function isGreatHoliday(holiday_category) {
+  return !holiday_category || GREAT_HOLIDAYS.includes(holiday_category?.title);
 }
 
 function __prepareBeforeAfterHoliday(date) {

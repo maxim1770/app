@@ -5,7 +5,7 @@
       style="min-height: 300px;"
     >
       <router-view />
-      <ScrollUp />
+      <ScrollUp v-once />
     </v-container>
   </v-main>
 </template>

@@ -18,12 +18,6 @@
 import { mainPages } from "@/utils/common";
 
 export default {
-  props: {
-    mainData: {
-      type: Object,
-      required: true
-    }
-  },
   computed: {
     mainPages() {
       return mainPages;

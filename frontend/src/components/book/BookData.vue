@@ -5,9 +5,6 @@
       class="text-center mb-1"
     >
       <BookmarkPageData :bookmark="bookmark" />
-
-      {{ bookmark.first_page }}
-
       <BookFullTitleFactory :book="book" />
     </v-list-item>
     <v-divider />
@@ -37,6 +34,4 @@ export default {
 };
 
 </script>
-
-
 

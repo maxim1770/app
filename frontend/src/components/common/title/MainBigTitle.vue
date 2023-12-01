@@ -1,6 +1,7 @@
 <template>
   <p
-    :class="`text-h5 text-sm-h4 text-md-h3 font-weight-bold ma-2 text-center text-${textColor}`"
+    class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center"
+    :class="[hasMargin ? 'ma-2' : '', `text-${textColor}`]"
   >
     {{ title }}
   </p>
@@ -22,6 +23,11 @@ export default {
       default: "black"
     },
     hasDivider: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    hasMargin: {
       type: Boolean,
       required: false,
       default: true

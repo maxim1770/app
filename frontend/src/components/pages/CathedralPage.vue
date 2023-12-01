@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[cathedral?.id]"
+  >
     <ImgMainTitle
       mainPageValue="cathedrals"
       @click="$router.push({ name: 'cathedral', params: { cathedralSlug: cathedral.slug } })"

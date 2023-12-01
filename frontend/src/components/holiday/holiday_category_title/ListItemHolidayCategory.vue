@@ -1,5 +1,7 @@
 <template>
-  <v-list-item>
+  <v-list-item
+    v-if="holiday.holiday_category"
+  >
     <template v-slot:prepend>
       <v-icon
         icon="mdi-candelabra-fire"

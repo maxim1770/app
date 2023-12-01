@@ -2,14 +2,12 @@
   <v-list>
     <v-list-item
       @click="getRandomBookId"
+      class="text-center"
     >
-      <template v-slot:prepend>
-        <v-badge
-          content="Случайное"
-          class="mr-1"
-          color="blue"
-        />
-      </template>
+      <v-badge
+        content="Случайное"
+        color="blue"
+      />
       Слово, Поучение
     </v-list-item>
   </v-list>

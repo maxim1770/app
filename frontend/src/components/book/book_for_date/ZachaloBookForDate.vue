@@ -1,5 +1,6 @@
 <template>
   <ChapterWithHead
+    v-memo="[movable_day?.week?.id]"
     headTitle="Чтения Священного Писания на неделю"
   >
     <template v-slot:head>

@@ -1,13 +1,18 @@
 <template>
-  <div class="mt-3">
-    <MainSmallTitle title="Содержание" />
+  <div
+    :class="isSecondManuscriptContent ? 'mt-1' : 'mt-3'"
+  >
+    <MainSmallTitle
+      :title="title || 'Содержание'"
+      :textColor="title ? 'red-darken-3' : 'black'"
+    />
     <v-divider class="mt-1" />
     <v-timeline side="end" align="start">
       <v-timeline-item
-        v-for="bookmark in manuscript?.structured_bookmarks"
+        v-for="bookmark in Bookmarks"
         :key="bookmark?.id"
         @click="$router.push({ name: 'book', params: { bookId: bookmark.book?.id } })"
-        dot-color="blue"
+        :dot-color="title ? 'red-lighten-1' : 'blue'"
         icon="mdi-book-variant"
         fill-dot
         size="small"
@@ -46,7 +51,28 @@ export default {
     manuscript: {
       type: Object,
       required: true
+    },
+    bookmarks: {
+      type: Object,
+      required: false,
+      default: null
+    },
+    title: {
+      type: String,
+      required: false,
+      default: null
+    },
+    isSecondManuscriptContent: {
+      type: Boolean,
+      required: false,
+      default: false
     }
+  },
+  computed: {
+    Bookmarks() {
+      return this.bookmarks || this.manuscript?.structured_bookmarks;
+    }
+
   },
   setup() {
     const lgAndUp = useDisplay();

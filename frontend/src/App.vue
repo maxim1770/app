@@ -1,7 +1,12 @@
 <template>
   <v-app>
-    <AppBar :mainData="mainData" />
-    <AppMain :mainData="mainData" />
+    <AppBar
+      v-memo="[mainData?.date?.day?.id]"
+      :mainData="mainData"
+    />
+    <AppMain
+      :mainData="mainData"
+    />
   </v-app>
 </template>
 
@@ -33,9 +38,4 @@ export default {
   }
 };
 </script>
-
-
-
-
-
 

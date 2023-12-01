@@ -7,7 +7,7 @@
       color="red-darken-2"
       class="bg-red-darken-2"
     >
-      {{ some_book.num ? some_book.num : some_book.rule_num }}
+      {{ some_book.num || some_book.rule_num }}
     </v-chip>
   </v-chip-group>
 </template>

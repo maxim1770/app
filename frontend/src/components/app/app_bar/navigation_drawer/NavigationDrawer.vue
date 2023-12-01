@@ -4,15 +4,15 @@
     @update:modelValue="$emit('update:drawer', $event)"
     width="300"
   >
-    <NavigationDrawerPrepend />
+    <NavigationDrawerPrepend v-once />
     <v-divider />
     <NavigationDrawerHoliday :mainData="mainData" />
     <v-divider />
-    <NavigationDrawerList :mainData="mainData" />
+    <NavigationDrawerList v-once />
     <v-divider />
-    <NavigationDrawerRandomBook />
+    <NavigationDrawerRandomBook v-once />
     <v-divider />
-    <NavigationDrawerLink />
+    <NavigationDrawerLink v-once />
   </v-navigation-drawer>
 </template>
 

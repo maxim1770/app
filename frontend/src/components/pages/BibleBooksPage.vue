@@ -1,33 +1,37 @@
 <template>
-  <v-divider />
-  <MainTitle title="Новый Завет" textColor="red-darken-4" :hasDivider="true" />
-  <template
-    v-for="bible_books in [evangelies, apostols]"
-    :key="bible_books?.[0]?.id"
+  <div
+    v-memo="[bible_books?.length]"
   >
-    <MainTitle
-      v-if="bible_books?.[0]?.part_ru"
-      :title="bible_books[0].part_ru"
-      textColor="red-darken-3"
-      :hasDivider="true"
-    />
-    <TimelineBibleBooks :bible_books="bible_books" />
     <v-divider />
-  </template>
-  <MainTitle title="Ветхий Завет" textColor="red-darken-4" :hasDivider="true" />
-  <template
-    v-for="bible_books in [pjatiknizhieMoiseja, psaltyr, oldTestamentOtherBibleBooks]"
-    :key="bible_books?.[0]?.id"
-  >
-    <MainTitle
-      v-if="bible_books?.[0]?.part_ru"
-      :title="bible_books[0].part_ru"
-      textColor="red-darken-3"
-      :hasDivider="true"
-    />
-    <TimelineBibleBooks :bible_books="bible_books" />
-    <v-divider />
-  </template>
+    <MainTitle title="Новый Завет" textColor="red-darken-4" :hasDivider="true" />
+    <template
+      v-for="bible_books in [evangelies, apostols]"
+      :key="bible_books?.[0]?.id"
+    >
+      <MainTitle
+        v-if="bible_books?.[0]?.part_ru"
+        :title="bible_books[0].part_ru"
+        textColor="red-darken-3"
+        :hasDivider="true"
+      />
+      <TimelineBibleBooks :bible_books="bible_books" />
+      <v-divider />
+    </template>
+    <MainTitle title="Ветхий Завет" textColor="red-darken-4" :hasDivider="true" />
+    <template
+      v-for="bible_books in [pjatiknizhieMoiseja, psaltyr, oldTestamentOtherBibleBooks]"
+      :key="bible_books?.[0]?.id"
+    >
+      <MainTitle
+        v-if="bible_books?.[0]?.part_ru"
+        :title="bible_books[0].part_ru"
+        textColor="red-darken-3"
+        :hasDivider="true"
+      />
+      <TimelineBibleBooks :bible_books="bible_books" />
+      <v-divider />
+    </template>
+  </div>
 </template>
 
 <script>

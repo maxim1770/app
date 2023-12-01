@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[movableDates?.length]"
+  >
     <ImgMainTitle mainPageValue="movable-dates" />
     <MainTitle
       title="Указатель Евангельских и Апостольских чтений на каждый день года"

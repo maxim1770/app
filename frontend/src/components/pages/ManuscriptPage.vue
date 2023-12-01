@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[manuscript?.id]"
+  >
     <GalleryMain
       :imgs_paths="manuscript?.all_pages_paths"
       :preview_img_num="manuscript?.preview_page_num ? manuscript.preview_page_num : 0"

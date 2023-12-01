@@ -32,7 +32,7 @@ export default {
       }
     },
     isGreatHoliday() {
-      return isGreatHoliday(this.holiday.holiday_category?.title);
+      return isGreatHoliday(this.holiday.holiday_category);
     }
   }
 };

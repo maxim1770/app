@@ -25,7 +25,7 @@ class __HolidayInDBBase(__HolidayBase, SchemaInDBBase):
     title: str
     slug: str
 
-    holiday_category: HolidayCategory
+    holiday_category: HolidayCategory | None
     tipikon: Tipikon | None
 
     year: Year | None

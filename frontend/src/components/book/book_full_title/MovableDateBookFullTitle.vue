@@ -39,12 +39,9 @@ export default {
   },
   computed: {
     movableDateBook() {
-      return this.movable_date_book ? this.movable_date_book : this.book.movable_date_book;
+      return this.movable_date_book || this.book.movable_date_book;
     }
   }
 };
 
 </script>
-
-
-

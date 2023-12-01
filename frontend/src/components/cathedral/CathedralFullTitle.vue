@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     Cathedral() {
-      return this.cathedral ? this.cathedral : this.book.cathedral_book.cathedral;
+      return this.cathedral || this.book.cathedral_book.cathedral;
     }
   },
   methods: { isVselenskijSobor }

@@ -5,7 +5,7 @@
     @update:drawer="drawer = !drawer"
   />
   <v-app-bar>
-    <AppBarTitle />
+    <AppBarTitle v-once />
     <AppBarAppend
       :mainData="mainData"
       @update:drawer="drawer = !drawer"

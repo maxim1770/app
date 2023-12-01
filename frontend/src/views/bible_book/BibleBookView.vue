@@ -34,7 +34,7 @@ export default {
   methods: {
     getBibleBook() {
       api
-        .getBibleBook(this.bibleBookAbbr ? this.bibleBookAbbr : this.$route.params.bibleBookAbbr)
+        .getBibleBook(this.bibleBookAbbr || this.$route.params.bibleBookAbbr)
         .then((response) => (this.bible_book = response.data));
     }
   }

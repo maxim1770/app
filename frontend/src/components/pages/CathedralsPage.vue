@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[cathedrals?.length]"
+  >
     <v-divider />
     <v-timeline side="end" align="start">
       <v-timeline-item

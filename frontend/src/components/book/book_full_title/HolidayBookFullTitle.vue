@@ -8,7 +8,7 @@
     class="ma-1"
   />
   <v-chip
-    v-if="book.type || isSaintLife && (isDenPamjati || Saint) || isPaterik && Saint || holidayBook.book_util === 'Упоминание' || holidayBook.book_util === 'Чудо' || book.title === 'Пролог'"
+    v-if="book.type || isSaintLife && (isDenPamjati || Saint) || Saint && (isPaterik || isLls) || holidayBook.book_util === 'Упоминание' || holidayBook.book_util === 'Чудо' || book.title === 'Пролог'"
     color="pink-darken-1"
     class="ma-1"
   >
@@ -18,14 +18,14 @@
       <template v-else-if="isDenPamjati && isBookTypePouchenie"> на Память</template>
       <template v-else-if="isBookTypeHasLetterO"> о</template>
     </template>
-    <template v-else-if="isPaterik && Saint">
+    <template v-else-if="holidayBook.book_util === 'Упоминание'">
+      Упоминание
+    </template>
+    <template v-else-if="Saint && (isPaterik || isLls)">
       О
     </template>
     <template v-else-if="isSaintLife && (isDenPamjati || Saint)">
       Житие
-    </template>
-    <template v-else-if="holidayBook.book_util === 'Упоминание'">
-      Упоминание
     </template>
     <template v-else-if="holidayBook.book_util === 'Чудо'">
       Чудо
@@ -107,14 +107,14 @@ export default {
   },
   computed: {
     holidayBook() {
-      return this.holiday_book ? this.holiday_book : this.book.holiday_book;
+      return this.holiday_book || this.book.holiday_book;
     },
     Holiday() {
-      return this.holiday ? this.holiday : this.holidayBook?.holiday;
+      return this.holiday || this.holidayBook?.holiday;
     },
     Saint() {
       if (!this.Holiday) {
-        return this.saint ? this.saint : this.holidayBook?.saint;
+        return this.saint || this.holidayBook?.saint;
       } else {
         return null;
       }
@@ -132,10 +132,10 @@ export default {
       }
     },
     isGreatHoliday() {
-      return isGreatHoliday(this.Holiday?.holiday_category.title);
+      return isGreatHoliday(this.Holiday?.holiday_category);
     },
     isDenPamjati() {
-      return this.Holiday?.holiday_category.title === "День памяти";
+      return this.Holiday?.holiday_category && this.Holiday?.holiday_category.title === "День памяти";
     },
     isBookTypeHasLetterO() {
       return this.BOOK_TYPES_HAS_LETTER_O.includes(this.book.type);
@@ -148,16 +148,16 @@ export default {
     },
     isPaterik() {
       return this.book.title === "Патерик";
+    },
+    isLls() {
+      return this.book.title === "ЛЛС";
     }
   },
   created() {
     this.BOOK_TYPES_HAS_LETTER_O = ["Слово", "Притча", "Повесть", "Беседа"];
-    this.BOOK_TITLES_HAS_SAINT_LIFE = ["Жития Святых", "Сборник Слов и Житий", "Службы и Жития Святых", "Патерик"];
+    this.BOOK_TITLES_HAS_SAINT_LIFE = ["Жития Святых", "Сборник Слов и Житий", "Службы и Жития Святых", "Патерик", "ЛЛС"];
   },
   methods: { choiceHolidayTextColor }
 };
 
 </script>
-
-
-

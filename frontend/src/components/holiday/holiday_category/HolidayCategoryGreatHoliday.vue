@@ -1,5 +1,7 @@
 <template>
-  <ChapterWithHead :headTitle="`Другие ${ holiday.holiday_category.title}`">
+  <ChapterWithHead
+    :headTitle="`Другие ${ holiday.holiday_category ? holiday.holiday_category.title : 'Праздники' }`"
+  >
     <v-card>
       <v-card-item>
         <v-list>
@@ -13,12 +15,10 @@
                 size="large"
               />
             </template>
-            <span
-              :class="choiceHolidayTextColor(holiday)"
-              class="ma-1"
-            >
-              {{ holiday.saints[0].name }}
-            </span>
+            <SaintFullTitle
+              :saint="holiday.saints[0]"
+              :holiday="holiday"
+            />
           </v-list-item>
         </v-list>
       </v-card-item>
@@ -30,17 +30,20 @@
 
 
 import ChapterWithHead from "@/components/common/ChapterWithHead.vue";
-import { choiceHolidayColor, choiceHolidayTextColor } from "@/utils/holidays";
+import { choiceHolidayColor } from "@/utils/holidays";
+import SaintFullTitle from "@/components/saint/SaintFullTitle.vue";
 
 export default {
-  components: { ChapterWithHead },
+  components: { SaintFullTitle, ChapterWithHead },
   props: {
     holiday: {
       type: Object,
       required: true
     }
   },
-  methods: { choiceHolidayTextColor, choiceHolidayColor }
+  methods: {
+    choiceHolidayColor
+  }
 };
 
 </script>

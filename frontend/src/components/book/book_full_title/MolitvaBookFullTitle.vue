@@ -72,13 +72,13 @@ export default {
   },
   computed: {
     molitvaBook() {
-      return this.molitva_book ? this.molitva_book : this.book.molitva_book;
+      return this.molitva_book || this.book.molitva_book;
     },
     Holiday() {
-      return this.holiday ? this.holiday : this.molitvaBook.holiday;
+      return this.holiday || this.molitvaBook.holiday;
     },
     holidayTitle() {
-      return this.Holiday?.title_in_dative ? this.Holiday.title_in_dative : this.Holiday.title;
+      return this.Holiday.title_in_dative || this.Holiday.title;
     },
     bookTypeColor() {
       return this.book.type === "Тропарь" ? "amber-darken-1" : "teal-lighten-1";

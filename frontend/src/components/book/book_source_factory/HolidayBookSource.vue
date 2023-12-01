@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     holiday() {
-      return this.book.holiday_book ? this.book.holiday_book?.holiday : this.book?.molitva_book.holiday;
+      return this.book?.holiday_book?.holiday || this.book?.molitva_book?.holiday;
     },
     saint() {
       return this.book?.holiday_book?.saint;

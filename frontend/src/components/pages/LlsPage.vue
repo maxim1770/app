@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[llsManuscripts?.length]"
+  >
     <ImgMainTitle mainPageValue="lls" />
     <div>
       <v-divider />

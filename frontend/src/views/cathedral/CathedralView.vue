@@ -34,7 +34,7 @@ export default {
   methods: {
     getCathedral() {
       api
-        .getCathedral(this.cathedralSlug ? this.cathedralSlug : this.$route.params.cathedralSlug)
+        .getCathedral(this.cathedralSlug || this.$route.params.cathedralSlug)
         .then((response) => (this.cathedral = response.data));
     }
   }

@@ -27,7 +27,7 @@ export default {
       return this.__some_book?.bible_book?.abbr;
     },
     __some_book() {
-      return this.book.zachalo ? this.book.zachalo : this.book.psaltyr_book;
+      return this.book?.zachalo || this.book?.psaltyr_book;
     }
   }
 };

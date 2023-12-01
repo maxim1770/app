@@ -8,10 +8,13 @@
       :key="bible_book.id"
       dot-color="red-lighten-1"
       icon="mdi-book-open-page-variant"
-      fill-dot
       size="small"
+      fill-dot
     >
-      <BibleBookFullTitleByBibleBook :bible_book="bible_book" />
+      <BibleBookFullTitleByBibleBook
+        :bible_book="bible_book"
+        class="d-flex justify-center"
+      />
     </v-timeline-item>
   </v-timeline>
 </template>

@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-memo="[book.book?.id]"
+  >
     <CardBook
       :bookmark="bookmarkWithBestManuscriptHandwriting"
       :book="this.book.book"

@@ -8,14 +8,15 @@
       :key="manuscript.id"
       dot-color="red-lighten-1"
       icon="mdi-bookshelf"
-      fill-dot
       size="small"
+      fill-dot
     >
       <v-chip
         v-if="manuscript.code"
         :to="{ name: 'manuscript', params: { manuscriptCode: manuscript.code } }"
         :style="{ 'font-size': smAndDown ? 'smaller' : 'larger' }"
         color="blue"
+        class="d-flex justify-center"
       >
         {{ manuscript.title }}
       </v-chip>

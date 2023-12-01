@@ -29,10 +29,10 @@ export default {
   },
   computed: {
     bibleBook() {
-      return this.bible_book ? this.bible_book : this.__zachalo_or_psaltyr_book.bible_book;
+      return this.bible_book || this.__zachalo_or_psaltyr_book.bible_book;
     },
     __zachalo_or_psaltyr_book() {
-      return this.book.zachalo ? this.book.zachalo : this.book.psaltyr_book;
+      return this.book.zachalo || this.book.psaltyr_book;
     }
   },
   setup() {

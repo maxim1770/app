@@ -64,7 +64,8 @@ def update_dates_posts_ids(db: Session) -> None:
         ),
         (
             enums.PostTitle.Petrov_Post,
-            MovableDayGet(cycle_num=enums.CycleNum.cycle_2, sunday_num=2, abbr=enums.MovableDayAbbr.mon),
+            MovableDayGet(cycle_num=enums.CycleNum.cycle_2, sunday_num=1, abbr=enums.MovableDayAbbr.mon),
+            # TODO: Изменил sunday_num=2 на sunday_num=1
             DayCreate(month=6, day=28)
         ),
         (

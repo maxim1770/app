@@ -1,5 +1,6 @@
 <template>
   <v-badge
+    v-if="holiday_category"
     :content="holiday_category?.title"
     color="green-lighten-1"
   />

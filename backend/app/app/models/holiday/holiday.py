@@ -26,13 +26,13 @@ class Holiday(Base):
     title: Mapped[str | None] = mapped_column(String(250), index=True)
     slug: Mapped[unique_slug]
 
-    holiday_category_id: Mapped[int] = mapped_column(ForeignKey(HolidayCategory.id), index=True)
+    holiday_category_id: Mapped[int | None] = mapped_column(ForeignKey(HolidayCategory.id), index=True)
     tipikon_id: Mapped[int | None] = mapped_column(ForeignKey(Tipikon.id), index=True)
     year_id: Mapped[int | None] = mapped_column(ForeignKey(Year.id), index=True)
     day_id: Mapped[int | None] = mapped_column(ForeignKey(Day.id), index=True)
     movable_day_id: Mapped[int | None] = mapped_column(ForeignKey(MovableDay.id), index=True)
 
-    holiday_category: Mapped[HolidayCategory] = relationship(back_populates='holidays')
+    holiday_category: Mapped[HolidayCategory | None] = relationship(back_populates='holidays')
     tipikon: Mapped[Tipikon | None] = relationship(back_populates='holidays')
     year: Mapped[Year | None] = relationship(back_populates='holidays')
     day: Mapped[Day | None] = relationship(back_populates='holidays')

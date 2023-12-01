@@ -1,5 +1,7 @@
 <template>
-  <v-list>
+  <v-list
+    v-memo="[mainData.date?.day?.id]"
+  >
     <v-list-item
       v-if="topTipikonHoliday?.slug"
       :to="{ name: 'holiday', params: { holidaySlug: topTipikonHoliday.slug } }"
@@ -10,13 +12,9 @@
           v-if="topTipikonHoliday.tipikon"
           :icon="computeCustomIcon(topTipikonHoliday.tipikon?.title_en)"
         />
-        <BadgeHolidayCategory
-          v-else
-          :holiday_category="topTipikonHoliday?.holiday_category"
-        />
       </template>
       <BadgeHolidayCategory
-        :holiday_category="topTipikonHoliday.holiday_category"
+        :holiday_category="topTipikonHoliday?.holiday_category"
         class="ma-1"
       />
       <span

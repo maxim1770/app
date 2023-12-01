@@ -1,5 +1,8 @@
 <template>
-  <v-card class="text-center my-5">
+  <v-card
+    v-once
+    class="text-center my-5"
+  >
     <v-container>
       <v-row>
         <v-col>
