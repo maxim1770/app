@@ -8,7 +8,6 @@ import moment from "moment";
 import "v-calendar/style.css";
 import VueViewer from "v-viewer";
 import "viewerjs/dist/viewer.css";
-import { createHead } from '@unhead/vue'
 
 const app = createApp(App);
 
@@ -18,7 +17,6 @@ app.config.globalProperties.$moment = moment;
 
 app
   .use(router)
-  .use(createHead())
   .use(VueViewer)
   .use(vuetify)
   .use(VCalendar, {

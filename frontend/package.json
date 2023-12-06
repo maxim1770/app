@@ -12,7 +12,6 @@
   "dependencies": {
     "@mdi/font": "^7.2.96",
     "@popperjs/core": "^2.11.8",
-    "@unhead/vue": "^1.8.8",
     "axios": "^1.4.0",
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",
