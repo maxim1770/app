@@ -15,20 +15,17 @@ import AppMain from "@/components/app/app_main/AppMain.vue";
 import { mainPages } from "@/utils/common";
 
 export default {
+  head: {
+    title: "My awesome site"
+  },
   metaInfo: {
-    title: "Православие в Рукописях",
-    titleTemplate: "%s | Православие в Рукописях",
     htmlAttrs: {
       lang: "ru-RU",
       amp: true
     },
     meta: [
       { charset: "utf-8" },
-      { vmid: "description", name: "description", content: "Выдержки из Рукописей до 1597 года" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" }
-    ],
-    link: [
-      { rel: "icon", href: "/FaviconOrthodoxCross.ico" }
     ]
   },
   components: { AppMain, AppBar },
@@ -39,6 +36,13 @@ export default {
         required: true
       }
     };
+  },
+  setup() {
+    // const head = useHead();
+    // head.title.value = "Православие в Рукописях";
+    // head.meta.description = "Выдержки из Рукописей до 1597 года";
+    // head.link.icon = "/FaviconOrthodoxCross.ico";
+    // return { head };
   },
   mounted() {
     api
