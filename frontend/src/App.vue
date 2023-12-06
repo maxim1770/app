@@ -4,9 +4,7 @@
       v-memo="[mainData?.date?.day?.id]"
       :mainData="mainData"
     />
-    <AppMain
-      :mainData="mainData"
-    />
+    <AppMain />
   </v-app>
 </template>
 
@@ -17,6 +15,22 @@ import AppMain from "@/components/app/app_main/AppMain.vue";
 import { mainPages } from "@/utils/common";
 
 export default {
+  metaInfo: {
+    title: "Православие в Рукописях",
+    titleTemplate: "%s | Православие в Рукописях",
+    htmlAttrs: {
+      lang: "ru-RU",
+      amp: true
+    },
+    meta: [
+      { charset: "utf-8" },
+      { vmid: "description", name: "description", content: "Выдержки из Рукописей до 1597 года" },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    ],
+    link: [
+      { rel: "icon", href: "/FaviconOrthodoxCross.ico" }
+    ]
+  },
   components: { AppMain, AppBar },
   data() {
     return {

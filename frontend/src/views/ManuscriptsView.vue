@@ -14,6 +14,14 @@ import { api } from "@/services/api";
 import ImgMainTitle from "@/components/common/ImgMainTitle.vue";
 
 export default {
+  metaInfo() {
+    return {
+      title: "Рукописи",
+      meta: [
+        { vmid: "description", name: "description", content: "Рукописи до 1597 года" }
+      ]
+    };
+  },
   components: { ImgMainTitle, ManuscriptsPage },
   data() {
     return {

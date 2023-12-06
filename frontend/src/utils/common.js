@@ -90,7 +90,7 @@ const mainPages = [// {
     title: "Праздники",
     value: "holidays",
     prependIcon: "mdi-candelabra-fire",
-    img: "img/icons/izhe-po-ploti-rozhdestvo-gospoda-boga-i-spasa-nashego-isusa-hrista/gallerix-37212762.webp"
+    img: "img/manuscripts/rsl/f_98/f-98-80/831.webp"
   }, {
     title: "Святые", value: "saints", prependIcon: "mdi-account-group", img: "img/manuscripts/lls/lls-book-10/5.webp"
   }];

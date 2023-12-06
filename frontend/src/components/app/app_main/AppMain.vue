@@ -16,13 +16,7 @@
 import ScrollUp from "@/components/common/ScrollUp.vue";
 
 export default {
-  components: { ScrollUp },
-  props: {
-    mainData: {
-      type: Object,
-      required: true
-    }
-  }
+  components: { ScrollUp }
 };
 
 </script>
