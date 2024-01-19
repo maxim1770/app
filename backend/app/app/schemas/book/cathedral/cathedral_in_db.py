@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from app.schemas.base import SchemaInDBBase
 from app.schemas.manuscript import ManuscriptInDBToMany
-from app.schemas.year import Year
+from app.schemas.year import YearInDB
 from .cathedral import __CathedralBase
 
 if TYPE_CHECKING:
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class __CathedralInDBBase(__CathedralBase, SchemaInDBBase):
     title: str
 
-    year: Year | None
+    year: YearInDB | None
 
 
 class Cathedral(__CathedralInDBBase):

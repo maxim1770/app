@@ -9,7 +9,7 @@ from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 
-from app import crud, models, utils, schemas, filters, enums
+from app import crud, models, utils, schemas, filters, enums, create
 from ..manuscript import get_valid_manuscript
 from ....deps import get_db
 
@@ -30,6 +30,27 @@ def read_books(
 @cache(expire=60 * 15)
 def read_books_search_data() -> Any:
     return {}
+
+
+@router.post('/', response_model=schemas.Book)
+def create_book_bookmark(
+        *,
+        db: Session = Depends(get_db),
+        manuscript: models.Manuscript = Depends(get_valid_manuscript),
+        bookmark_data_in: schemas.BookmarkDataCreate
+) -> Any:
+    bookmark: models.Bookmark | None = create.create_manuscript_bookmark(
+        db,
+        manuscript=manuscript,
+        bookmark_data_in=bookmark_data_in
+    )
+    if bookmark is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='The Book Data invalid, check logs please'
+        )
+    book = bookmark.book
+    return book
 
 
 def __get_valid_random_book_id(

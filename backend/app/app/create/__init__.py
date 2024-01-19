@@ -16,6 +16,6 @@ from .create import create_all_zachalos_movable_dates_associations
 from .create import create_dates_for_years, update_dates_posts_ids
 from .create import create_holiday, create_saint_holiday, create_saint_holiday_without_year, create_saints_holiday, \
     create_movable_saint_holiday
-from .create import create_manuscript, update_manuscript, create_manuscript_bookmarks, \
+from .create import create_manuscript, update_manuscript, create_manuscript_bookmark, create_manuscript_bookmarks, \
     create_all_manuscripts_lls
 from .create import create_saint, update_saint, update_saint_from_azbyka, update_saints

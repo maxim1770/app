@@ -60,15 +60,10 @@
       >
         {{ date.movable_day?.week.title }}
       </v-card-subtitle>
-      <v-badge
-        color="blue"
+      <BadgePost
+        :post="date.post"
         class="mt-1"
-      >
-        <template v-slot:badge>
-          <template v-if="date.post">{{ date.post.title }}</template>
-          <template v-else>Поста нет</template>
-        </template>
-      </v-badge>
+      />
     </v-card-item>
     <v-btn
       v-if="date?.date_slug"
@@ -108,9 +103,10 @@ import { nextDateSlug, preDateSlug } from "@/utils/date";
 import MainSmallTitle from "@/components/common/title/MainSmallTitle.vue";
 import MainTitle from "@/components/common/title/MainTitle.vue";
 import MainBigTitle from "@/components/common/title/MainBigTitle.vue";
+import BadgePost from "@/components/post/BadgePost.vue";
 
 export default {
-  components: { MainBigTitle, MainTitle, MainSmallTitle },
+  components: { BadgePost, MainBigTitle, MainTitle, MainSmallTitle },
   props: {
     date: {
       type: Object,

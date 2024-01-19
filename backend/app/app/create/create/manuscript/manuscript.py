@@ -44,9 +44,9 @@ def create_manuscript_bookmark(
         *,
         manuscript: models.Manuscript,
         bookmark_data_in: schemas.BookmarkDataCreate
-) -> models.Manuscript | None:
+) -> models.Bookmark | None:
     db_bookmark: models.Bookmark | None = prepare_db_bookmark(db, bookmark_data_in=bookmark_data_in)
     if db_bookmark is None:
         return None
     manuscript = crud.manuscript.create_book_association(db, db_obj=manuscript, db_bookmark=db_bookmark)
-    return manuscript
+    return db_bookmark

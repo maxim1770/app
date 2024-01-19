@@ -55,7 +55,7 @@ from .saint import Dignity, DignityCreate, DignityUpdate
 from .saint import FaceSanctity, FaceSanctityCreate, FaceSanctityUpdate
 from .saint import SaintsSearchData, Saint, SaintCreate, SaintUpdate, SaintDataCreate, SaintDataUpdate, SaintInDBToBook, \
     SaintInDB
-from .year import Year, YearCreate, YearUpdate
+from .year import Year, YearInDB, YearCreate, YearUpdate
 
 MovableDate.model_rebuild()
 WeekInDB.model_rebuild()

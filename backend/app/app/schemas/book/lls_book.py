@@ -1,7 +1,7 @@
 from .book import BookInDBToBooks
 from ..base import SchemaBase, SchemaInDBBase
 
-from ..year import Year
+from ..year import YearInDB
 
 
 class __LlsBookBase(SchemaBase):
@@ -14,7 +14,7 @@ class LlsBookCreate(__LlsBookBase):
 
 
 class __LlsBookInDBBase(__LlsBookBase, SchemaInDBBase):
-    year: Year | None
+    year: YearInDB | None
 
 
 class LlsBook(__LlsBookInDBBase):

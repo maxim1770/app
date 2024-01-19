@@ -1,5 +1,7 @@
 <template>
-  <v-sheet class="text-center">
+  <v-sheet
+    class="text-center mt-5"
+  >
     <v-calendar
       :masks="CALENDAR_MASKS"
       :initial-page="{ month: 9, year: calendarInitialYear }"

@@ -5,7 +5,10 @@
       :year="$route.query.year"
       @update:search="replaceRouterQuery({year: $event})"
     />
-    <DatesCalendar :dates="dates" :year="$route.query.year" />
+    <DatesCalendar
+      :dates="dates"
+      :year="$route.query.year"
+    />
     <ListSigns />
   </div>
 </template>

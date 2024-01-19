@@ -7,7 +7,6 @@ from app import crud, models, schemas
 
 
 def get_book(db: Session, *, book_data_get: schemas.BookDataGetType) -> models.Book | None:
-    logging.info(book_data_get)
     book: models.Book | None = None
     if isinstance(book_data_get, schemas.ZachaloBookDataGet):
         book: models.Book | None = db.execute(

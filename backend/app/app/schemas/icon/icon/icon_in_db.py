@@ -7,7 +7,7 @@ from .icon import __IconBase
 from ..icon_holiday_association import IconHolidayAssociation
 from ...base import SchemaInDBBase
 from ...city import City
-from ...year import Year
+from ...year import YearInDB
 
 
 class __IconInDBBase(SchemaInDBBase):
@@ -33,7 +33,7 @@ class __IconInDBBase(SchemaInDBBase):
 class Icon(__IconInDBBase, __IconBase):
     desc: str
 
-    year: Year
+    year: YearInDB
     city: City | None
 
     holidays: list[IconHolidayAssociation] = []

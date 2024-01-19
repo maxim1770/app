@@ -1,5 +1,26 @@
 from app import schemas, enums
 
+lls_book_7 = (
+    [],
+    4
+)
+
+lls_book_8 = (
+    [],
+    4
+)
+
+lls_book_9 = (
+    [],
+    4
+)
+
+lls_book_10 = (
+    [],
+    4
+)
+
+
 lls_book_rus_5 = (
     [
         (
@@ -273,6 +294,309 @@ lls_book_rus_9 = (
             ),
             222,
             224
+        ),
+    ],
+    4
+)
+
+lls_book_rus_10 = (
+    [
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='presvjataja-vladychitsa-nasha-bogoroditsa-i-prisnodeva-marija',
+                holiday_book_in=schemas.HolidayBookCreate(
+                    book_util=enums.BookUtil.Chudo
+                ),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            117,
+            122
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-dionisij-suzdalskij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            155,
+            156
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='isaakij-molchalnik-troickij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            201,
+            202
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-marija-egipetskaja',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.Slovo
+                    )
+                )
+            ),
+            311,
+            312
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-dimitrij-donskoj',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            392,
+            429
+        ),
+    ],
+    4
+)
+
+lls_book_rus_11 = (
+    [
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-sergij-radonezhskij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.Povest
+                    )
+                )
+            ),
+            4,
+            115
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-feodor-rostovskij-svjatitel',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            78,
+            93
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-andronik-moskovskij-i-savva-moskovskij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            93,
+            95
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-afanasij-serpuhovskij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            96,
+            97
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-feodor-rostovskij-svjatitel',
+                holiday_book_in=schemas.HolidayBookCreate(
+                    book_util=enums.BookUtil.Upominanie
+                ),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            167,
+            167
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='petr-moskovskij',
+                holiday_book_in=schemas.HolidayBookCreate(
+                    book_util=enums.BookUtil.Chudo
+                ),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            171,
+            171
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='sretenie-vladimirskoj-ikony-presvjatoj-bogorodicy-prazdnestvo-ustanovleno-v-pamjat-spasenija-moskvy-ot-nashest',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.Povest
+                    )
+                )
+            ),
+            179,
+            294
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-stefan-permskij-velikopermskij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            336,
+            347
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-mihail-aleksandrovich-tverskoj',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.Povest
+                    )
+                )
+            ),
+            432,
+            480
+        ),
+    ],
+    2
+)
+
+lls_book_rus_12 = (
+    [
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-kiprian-moskovskij',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            85,
+            97
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-evfrosinija-v-miru-evdokija-moskovskaja',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.Skazanie
+                    )
+                )
+            ),
+            116,
+            128
+        ),
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-arsenij-tverskoj',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.Povest
+                    )
+                )
+            ),
+            228,
+            234
+        ),
+        (
+            schemas.TopicBookDataCreate(
+                topic_book_in=schemas.TopicBookCreate(),
+                topics_titles=[
+                    enums.BookTopic.o_Dolgoterpenii,
+                ],
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.slovo_istorija
+                    )
+                )
+            ),
+            270,
+            273
+        ),
+        (
+            schemas.TopicBookDataCreate(
+                topic_book_in=schemas.TopicBookCreate(),
+                topics_titles=[
+                    enums.BookTopic.o_Svjatyh_Ikonah,
+                    enums.BookTopic.o_pjanstve
+                ],
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                        type=enums.BookType.slovo_istorija
+                    )
+                )
+            ),
+            324,
+            341
+        ),
+    ],
+    4
+)
+
+lls_book_rus_13 = (
+    [
+        (
+            schemas.HolidayBookDataCreate(
+                holiday_slug='den-pamjati-stefan-shchiljanovich',
+                holiday_book_in=schemas.HolidayBookCreate(),
+                book_data_in=schemas.BookDataCreate(
+                    book_in=schemas.BookCreate(
+                        title=enums.BookTitle.Lls,
+                    )
+                )
+            ),
+            30,
+            42
         ),
     ],
     4

@@ -1,5 +1,7 @@
 <template>
-  <v-app>
+  <v-app
+    class="text-body-1"
+  >
     <AppBar
       v-memo="[mainData?.date?.day?.id]"
       :mainData="mainData"

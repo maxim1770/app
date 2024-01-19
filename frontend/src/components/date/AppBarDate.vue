@@ -30,10 +30,8 @@
 
 
 import { choiceHolidayColor, prepareDateAllSortedHolidays } from "@/utils/holidays";
-import ChipTipikon from "@/components/holiday/tipikon/ChipTipikon.vue";
 
 export default {
-  components: { ChipTipikon },
   props: {
     date: {
       type: Object,

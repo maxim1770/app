@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends
 from fastapi_cache.decorator import cache
@@ -15,7 +16,8 @@ def get_valid_current_date(
         *,
         db: Session = Depends(deps.get_db),
 ) -> models.Date:
-    datetime_now = datetime.now().replace(year=utils.calculate_current_year())
+    moscow_tz = ZoneInfo('Europe/Moscow')
+    datetime_now = datetime.now(moscow_tz).replace(year=utils.calculate_current_year())
     if utils.is_after_sunset(datetime_now):
         datetime_now += timedelta(days=1)
     date: models.Date = get_valid_date(db=db, day=get_valid_day(db=db, date=datetime_now), date=datetime_now)

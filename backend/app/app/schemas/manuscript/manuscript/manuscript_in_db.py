@@ -10,7 +10,7 @@ from app import models, utils, enums
 from .not_numbered_pages import NotNumberedPages
 from ..fund import Fund
 from ...base import SchemaInDBBase, SchemaBase
-from ...year import Year
+from ...year import YearInDB
 
 if TYPE_CHECKING:
     from ..bookmark import BookmarkInDB
@@ -22,7 +22,7 @@ class __ManuscriptInDBBase(SchemaInDBBase):
     handwriting: int
     num_bookmarks: enums.NumBookmarks | None
 
-    year: Year
+    year: YearInDB
 
     @computed_field
     @property

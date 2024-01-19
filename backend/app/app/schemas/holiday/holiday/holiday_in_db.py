@@ -13,7 +13,7 @@ from ...base import SchemaInDBBase, SchemaBase
 from ...book import HolidayBook, MolitvaBookInDB
 from ...icon import IconHolidayAssociationInDB
 from ...saint import SaintInDB
-from ...year import Year
+from ...year import YearInDB
 
 if TYPE_CHECKING:
     from ...movable_date import MovableDayInDB
@@ -28,7 +28,7 @@ class __HolidayInDBBase(__HolidayBase, SchemaInDBBase):
     holiday_category: HolidayCategory | None
     tipikon: Tipikon | None
 
-    year: Year | None
+    year: YearInDB | None
 
 
 class __HolidayInDBWithDayBase(__HolidayInDBBase):

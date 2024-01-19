@@ -5,6 +5,7 @@
     >
       Дни
       <v-chip
+        v-if="hasPredprazdnstvo"
         :to="{ name: 'holiday', params: { holidaySlug: 'predprazdnstvo-' + holiday?.slug } }"
         variant="elevated"
         color="red-lighten-4"
@@ -12,8 +13,13 @@
       >
         Предпразднства
       </v-chip>
+      <span
+        v-if="hasPredprazdnstvo && hasPoprazdnstvo"
+      >
       и
+      </span>
       <v-chip
+        v-if="hasPoprazdnstvo"
         :to="{ name: 'holiday', params: { holidaySlug: 'poprazdnstvo-' + holiday?.slug } }"
         variant="elevated"
         color="red-lighten-4"
@@ -39,10 +45,16 @@ export default {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    hasPoprazdnstvo() {
+      return !!this.holiday.before_after_holidays_attributes.find(attribute => attribute.popover.label.startsWith("Отдание"));
+    },
+    hasPredprazdnstvo() {
+      return !!this.holiday.before_after_holidays_attributes.find(attribute => attribute.popover.label.startsWith("Предпразднство"));
+    }
   }
-
 };
 
 </script>
-
 

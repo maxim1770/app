@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
-from pydantic import computed_field
+from pydantic import computed_field, model_validator
 
 from app import enums, utils
 from .date import __DateBase
@@ -76,28 +76,29 @@ class DateInDBToDates(__DateInDBBase):
                         _end_offset_date -= timedelta(days=1)
                 attribute.dates = CalendarAttributeDates(start=_start_offset_date, end=_end_offset_date)
             attributes.append(attribute)
-        for attribute in self.movable_day.attributes:
-            if not isinstance(attribute.highlight, Highlights):
-                attribute.dates = _offset_dates
-            else:
-                __before_after_holiday = self.movable_day.before_after_holidays[0].before_after_holiday
-                __end_movable_day = __before_after_holiday.movable_days[-1].movable_day
-                __end_day: DayInDB = next(
-                    (date_.day for date_ in __end_movable_day.days if date_.year == self.year)
-                )
-                _end_offset_date = date(_offset_year, __end_day.month, __end_day.day)
-                if self.movable_day.before_after_holidays[0].is_last_day:
-                    _start_offset_date = _end_offset_date
-                else:
-                    __start_movable_day = __before_after_holiday.movable_days[0].movable_day
-                    __start_day: DayInDB = next(
-                        (date_.day for date_ in __start_movable_day.days if date_.year == self.year)
-                    )
-                    _start_offset_date = date(_offset_year, __start_day.month, __start_day.day)
-                    if __before_after_holiday.holiday.holiday_category.title == enums.HolidayCategoryTitle.poprazdnstvo:
-                        _end_offset_date -= timedelta(days=1)
-                attribute.dates = CalendarAttributeDates(start=_start_offset_date, end=_end_offset_date)
-            attributes.append(attribute)
+        # for attribute in self.movable_day.attributes:
+        #     if not isinstance(attribute.highlight, Highlights):
+        #         attribute.dates = _offset_dates
+        #     else:
+        #         logging.warning(self.movable_day.before_after_holidays[0].before_after_holiday)
+        #         __before_after_holiday = self.movable_day.before_after_holidays[0].before_after_holiday
+        #         __end_movable_day = __before_after_holiday.movable_days[-1].movable_day
+        #         __end_day: DayInDB = next(
+        #             (date_.day for date_ in __end_movable_day.days if date_.year == self.year)
+        #         )
+        #         _end_offset_date = date(_offset_year, __end_day.month, __end_day.day)
+        #         if self.movable_day.before_after_holidays[0].is_last_day:
+        #             _start_offset_date = _end_offset_date
+        #         else:
+        #             __start_movable_day = __before_after_holiday.movable_days[0].movable_day
+        #             __start_day: DayInDB = next(
+        #                 (date_.day for date_ in __start_movable_day.days if date_.year == self.year)
+        #             )
+        #             _start_offset_date = date(_offset_year, __start_day.month, __start_day.day)
+        #             if __before_after_holiday.holiday.holiday_category.title == enums.HolidayCategoryTitle.poprazdnstvo:
+        #                 _end_offset_date -= timedelta(days=1)
+        #         attribute.dates = CalendarAttributeDates(start=_start_offset_date, end=_end_offset_date)
+        #     attributes.append(attribute)
         return attributes
 
     @staticmethod
@@ -152,6 +153,15 @@ class Dates(SchemaInDBToAssociationBase):
                 if attribute not in attributes:
                     attributes.append(attribute)
         return attributes
+
+    @model_validator(mode='after')
+    @classmethod
+    def remove_dates(
+            cls,
+            values: Dates
+    ) -> Dates:
+        values.dates = []
+        return values
 
     @staticmethod
     def __prepare_post_attributes(dates: list[DateInDBToDates]) -> list[CalendarAttribute]:

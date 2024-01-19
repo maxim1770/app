@@ -65,4 +65,12 @@ class YearUpdate(__YearBase):
 
 
 class Year(__YearBase, SchemaInDBBase):
+    holidays: list[SchemaInDBBase] = []
+    manuscripts: list[SchemaInDBBase] = []
+    icons: list[SchemaInDBBase] = []
+    cathedrals: list[SchemaInDBBase] = []
+    lls_books: list[SchemaInDBBase] = []
+
+
+class YearInDB(__YearBase, SchemaInDBBase):
     pass
