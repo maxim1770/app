@@ -13,6 +13,8 @@
     <NavigationDrawerRandomBook v-once />
     <v-divider />
     <NavigationDrawerLink v-once />
+    <v-divider />
+    <NavigationDrawerShare v-once />
   </v-navigation-drawer>
 </template>
 
@@ -24,9 +26,11 @@ import NavigationDrawerList from "@/components/app/app_bar/navigation_drawer/Nav
 import NavigationDrawerRandomBook from "@/components/book/random_book/NavigationDrawerRandomBook.vue";
 import NavigationDrawerHoliday from "@/components/holiday/NavigationDrawerHoliday.vue";
 import NavigationDrawerLink from "@/components/app/app_bar/navigation_drawer/NavigationDrawerLink.vue";
+import NavigationDrawerShare from "@/components/app/app_bar/navigation_drawer/NavigationDrawerShare.vue";
 
 export default {
   components: {
+    NavigationDrawerShare,
     NavigationDrawerLink,
     NavigationDrawerHoliday,
     NavigationDrawerRandomBook,

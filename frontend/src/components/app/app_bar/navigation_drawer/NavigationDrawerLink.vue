@@ -1,4 +1,4 @@
-<template v-slot:append>
+<template>
   <v-list>
     <v-list-item
       @click="toUrl(TG_CHANNEL_LINK)"

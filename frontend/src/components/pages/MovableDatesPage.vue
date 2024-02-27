@@ -8,9 +8,7 @@
       textColor="red-accent-4"
       :hasDivider="true"
     />
-    <ChapterWithHead
-      headTitle="Годовой круг"
-    >
+    <ChapterWithHead>
       <template v-slot:head>
         <UnfoldBtns @openAll="openAll" @closeAll="closeAll" />
       </template>
@@ -76,8 +74,6 @@ export default {
             week_1.sunday_num > week_2?.sunday_num ? 1 : -1
         );
       }
-      sortedMovableDates[2].weeks.push(sortedMovableDates[2].weeks[0]);
-      sortedMovableDates[2].weeks = sortedMovableDates[2].weeks.filter((_, index) => index !== 0);
       return sortedMovableDates;
     }
   },

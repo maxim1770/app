@@ -1,4 +1,4 @@
-from datetime import date as date_type
+from datetime import date as date_type, datetime
 from typing import Any
 
 import sqlalchemy as sa
@@ -7,19 +7,22 @@ from fastapi_cache.decorator import cache
 from fastapi_filter import FilterDepends
 from sqlalchemy.orm import Session
 
-from app import crud, models, schemas, filters
+from app import crud, models, schemas, filters, utils
 from app.api import deps
 
 router = APIRouter()
 
 
 @router.get('/', response_model=schemas.Dates)
-@cache(expire=60 * 15)
+@cache(expire=60 * 60 * 24 * 7)
 def read_dates(
         *,
         db: Session = Depends(deps.get_db),
         filter: filters.DateFilter = FilterDepends(filters.DateFilter),
 ) -> Any:
+    if not filter.year:
+        current_datetime: datetime = utils.calculate_current_date()
+        filter.year = current_datetime.year
     select: sa.Select = crud.date.get_multi_by_filter(db, filter=filter)
     return {
         'dates': db.execute(select).scalars().all()

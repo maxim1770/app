@@ -14,7 +14,7 @@ def create_dates_for_years(db: Session) -> None:
     for PASKHA_DAY in [
         date_type(2031, 4, 16),
         date_type(2032, 3, 31),
-        date_type(2033, 4, 20)  # TODO не точно !!!
+        date_type(2033, 4, 20)
     ]:
         __create_dates_for_one_year(db, PASKHA_DAY=PASKHA_DAY)
 
@@ -45,6 +45,25 @@ def __create_dates_for_one_year(db: Session, *, PASKHA_DAY: date_type) -> None:
             crud.date.create_with_any(db, obj_in=date_in, day_id=day.id, movable_day_id=movable_day.id)
 
 
+def update_dates_is_solid_weeks(db: Session) -> None:
+    dates_is_solid_weeks = [
+        *db.execute(sa.select(models.Date).join(models.Day).filter(
+            ((models.Day.month == 12) & (models.Day.day.in_([25, 26, 27, 28, 29, 30, 31]))) |
+            (models.Day.month == 1) & (models.Day.day.in_([1, 2, 3, 4, 5, 6]))
+        )).scalars().all(),  # Святки – период от Рождества до Крещения (25 дек. – 6 янв. включительно!)
+        *db.execute(sa.select(models.Date).join(models.MovableDay).join(models.Week).filter(
+            (models.Week.num == 34) & (models.Week.sunday_num == 33))).scalars().all(),  # Мытаря и фарисея
+        *db.execute(sa.select(models.Date).join(models.MovableDay).join(models.Week).filter(
+            (models.Week.num == 36) & (models.Week.sunday_num == 35))).scalars().all(),  # Сырная седмица
+        *db.execute(sa.select(models.Date).join(models.MovableDay).join(models.Week).filter(
+            (models.Week.num == 1) & (models.Week.sunday_num == 1))).scalars().all(),  # Светлая седмица
+        *db.execute(sa.select(models.Date).join(models.MovableDay).join(models.Week).filter(
+            (models.Week.num == 1) & (models.Week.sunday_num == 8))).scalars().all(),  # Троицкая – седмица после Троицы
+    ]
+    for date in dates_is_solid_weeks:
+        crud.date.update(db, db_obj=date, obj_in={'is_solid_week': True})
+
+
 def update_dates_posts_ids(db: Session) -> None:
     POSTS_DATA: list[tuple[enums.PostTitle, DayCreate | MovableDayGet, DayCreate | MovableDayGet]] = [
         (
@@ -54,18 +73,17 @@ def update_dates_posts_ids(db: Session) -> None:
         ),
         (
             enums.PostTitle.Velikij_Post,
-            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=1, abbr=enums.MovableDayAbbr.mon),
-            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=6, abbr=enums.MovableDayAbbr.sun),
+            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=36, abbr=enums.MovableDayAbbr.mon),
+            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=5, abbr=enums.MovableDayAbbr.sat),
         ),
         (
             enums.PostTitle.Strastnaja_Sedmitsa,
-            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=None, abbr=enums.MovableDayAbbr.mon),
-            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=None, abbr=enums.MovableDayAbbr.sat),
+            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=6, abbr=enums.MovableDayAbbr.sun),
+            MovableDayGet(cycle_num=enums.CycleNum.cycle_3, sunday_num=6, abbr=enums.MovableDayAbbr.sat),
         ),
         (
             enums.PostTitle.Petrov_Post,
             MovableDayGet(cycle_num=enums.CycleNum.cycle_2, sunday_num=1, abbr=enums.MovableDayAbbr.mon),
-            # TODO: Изменил sunday_num=2 на sunday_num=1
             DayCreate(month=6, day=28)
         ),
         (
@@ -88,7 +106,12 @@ def update_dates_posts_ids(db: Session) -> None:
                 crud.date.update(db, db_obj=date, obj_in={'post_id': post_ids[post_title.name]})
 
 
-def __find_date_by_day_and_year(db: Session, *, some_day: DayCreate | MovableDayGet, year: int) -> models.Date:
+def __find_date_by_day_and_year(
+        db: Session,
+        *,
+        some_day: DayCreate | MovableDayGet,
+        year: int
+) -> models.Date:
     if isinstance(some_day, DayCreate):
         date: models.Date = crud.date.get_by_day_and_year(
             db,

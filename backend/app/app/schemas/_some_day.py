@@ -14,15 +14,15 @@ def prepare_some_day_attributes(some_day: models.Day | models.MovableDay) -> lis
             case enums.TipikonTitle.Velikij_Prazdnik:
                 highlight = HighlightColor.red
                 dot = None
-                order = 3
-            case enums.TipikonTitle.Srednij_Prazdnik:
+                order = 4
+            case enums.TipikonTitle.Srednij_Prazdnik | enums.TipikonTitle.Srednij_Prazdnik_Vsenoschnoe_Bdenie:
                 highlight = Highlight(color=HighlightColor.red)
                 dot = None
                 order = 3
-            case enums.TipikonTitle.Malyj_Prazdnik:
+            case enums.TipikonTitle.Malyj_Prazdnik | enums.TipikonTitle.Malyj_Prazdnik_Slavoslovnaja_Sluzhba:
                 highlight = None
                 dot = HighlightColor.red
-                order = 0
+                order = 1
             case _:
                 highlight = None
                 dot = None

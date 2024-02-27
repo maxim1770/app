@@ -4,6 +4,7 @@
     :class="[hasMargin ? 'ma-2' : '', `text-${textColor}`]"
   >
     {{ title }}
+    <slot></slot>
   </p>
   <v-divider v-if="hasDivider" />
 </template>

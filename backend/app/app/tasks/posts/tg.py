@@ -39,9 +39,9 @@ async def __send_random_book(db: Session) -> None:
         chat_id=settings.TG_CHANNEL_ID,
         media=[
             InputMediaPhoto(
-                'http://storage.yandexcloud.net/pravoslavie16.ru/img/manuscripts/nlr/sof/50d07a48-b72e-4372-b020-ad5baf59f797/344.webp'),
+                'http://storage.yandexcloud.net/pravoslavie16v.ru/img/manuscripts/nlr/sof/50d07a48-b72e-4372-b020-ad5baf59f797/344.webp'),
             InputMediaPhoto(
-                'http://storage.yandexcloud.net/pravoslavie16.ru/img/manuscripts/nlr/sof/50d07a48-b72e-4372-b020-ad5baf59f797/345.webp')
+                'http://storage.yandexcloud.net/pravoslavie16v.ru/img/manuscripts/nlr/sof/50d07a48-b72e-4372-b020-ad5baf59f797/345.webp')
         ],
         caption=f'{book.type} {book.topic_book.source}',
         # parse_mode='MarkdownV2'
@@ -60,7 +60,7 @@ async def __send_message(db: Session) -> None:
     """
     await bot.send_photo(
         chat_id=settings.TG_CHANNEL_ID,
-        photo='https://storage.yandexcloud.net/pravoslavie16.ru/img/manuscripts/lls/lls-book-1/31.webp',
+        photo='https://storage.yandexcloud.net/pravoslavie16v.ru/img/manuscripts/lls/lls-book-1/31.webp',
         caption="""
              *bold \*text*   
             _italic \*text_

@@ -16,11 +16,11 @@
       />
       <v-divider class="mb-6" />
     </template>
-    <v-card>
+    <v-card
+      v-if="books?.length"
+    >
       <v-card-item>
-        <v-list
-          v-if="books?.length"
-        >
+        <v-list>
           <v-list-item
             v-for="book in books"
             :key="book.id"

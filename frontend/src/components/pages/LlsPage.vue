@@ -5,13 +5,13 @@
     <ImgMainTitle mainPageValue="lls" />
     <div>
       <v-divider />
-      <MainTitle title="Библейская история" textColor="red-darken-3" :hasDivider="true" />
+      <MainTitle title="Библейская история" textColor="red-darken-4" :hasDivider="true" />
       <TimelineLls :llsManuscripts="llsBibleManuscripts" />
       <v-divider />
-      <MainTitle title="Всемирная история" textColor="red-darken-3" :hasDivider="true" />
+      <MainTitle title="Всемирная история" textColor="red-darken-4" :hasDivider="true" />
       <TimelineLls :llsManuscripts="llsOtherManuscripts" />
       <v-divider />
-      <MainTitle title="Русская летописная история" textColor="red-darken-3" :hasDivider="true" />
+      <MainTitle title="Русская летописная история" textColor="red-darken-4" :hasDivider="true" />
       <TimelineLls :llsManuscripts="llsRusManuscripts" />
       <v-divider />
     </div>

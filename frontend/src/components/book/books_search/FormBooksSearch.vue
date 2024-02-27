@@ -21,6 +21,7 @@
           <v-chip
             v-for="book_topic in booksSearchData.book_topics"
             :key="book_topic"
+            :style="{ 'font-size': smAndDown ? 'x-small' : 'medium' }"
           >
             {{ book_topic }}
           </v-chip>
@@ -61,6 +62,7 @@
 import TextFieldSearch from "@/components/search/TextFieldSearch.vue";
 import ExpansionPanelSearch from "@/components/search/ExpansionPanelSearch.vue";
 import YearsRangeSearch from "@/components/manuscript/manuscripts_search/YearsRangeSearch.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   components: { YearsRangeSearch, ExpansionPanelSearch, TextFieldSearch },
@@ -105,6 +107,10 @@ export default {
       }
       this.$emit("update:topics__title__in", topics__title__in);
     }
+  },
+  setup() {
+    const smAndDown = useDisplay();
+    return smAndDown;
   }
 };
 

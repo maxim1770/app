@@ -1,6 +1,6 @@
 from .common import enum2regex, int_date2date, get_book_title_tolkovoe, get_bible_book_title
 from .cyrillic import Cyrillic
-from .date import calculate_current_year, year2offset_year, offset_year2year, is_after_sunset
+from .date import calculate_current_date, calculate_current_year, year2offset_year
 from .icon import PrepareIconPathFactory
 from .manuscript import PrepareManuscriptPathFactory, replace_path_base_dir
 from .manuscript import is_rsl_manuscript_code, is_rsl_manuscript_code_title, is_rsl_library, prepare_manuscript_url, \

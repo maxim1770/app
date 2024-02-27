@@ -471,7 +471,7 @@ def _create_all_shm_icons(db: Session, *, driver: WebDriver) -> None:
         ('nikolaj-mirlikijskij',
          ['1655698', '1652998', '1652555', '1652607', '1654311', '5521034', '5521035']),
         # ('ioann-lestvichnik', ['']),
-        ('ioann-bogoslov', ['1654252', '1654246', '5521023', '5521024']),
+        ('ioann-bogoslov', ['1654252', '1654246']),
         # ('sergij-radonezhskij', ['? 1652337']),
         ('ilija-fesvitjanin', ['1650004', '1655313', '1652755', '1654258']),
         # ('simeon-bogopriimec', ['1655327']),

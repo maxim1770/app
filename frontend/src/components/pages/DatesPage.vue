@@ -1,13 +1,18 @@
 <template>
   <div>
-    <FormDatesSearch
-      @getItems="getDates"
-      :year="$route.query.year"
-      @update:search="replaceRouterQuery({year: $event})"
-    />
+    <v-card
+      class="mb-2"
+    >
+      <MainTitle
+        :title="$route.query.year"
+        textColor="red-darken-3"
+      />
+    </v-card>
     <DatesCalendar
+      v-if="$route.query.year"
       :dates="dates"
       :year="$route.query.year"
+      @update:year="replaceRouterQuery({year: $event})"
     />
     <ListSigns />
   </div>
@@ -17,13 +22,13 @@
 
 
 import ListSigns from "@/components/dates/ListSigns.vue";
-import FormDatesSearch from "@/components/dates/dates_search/FormDatesSearch.vue";
 import { replaceRouterQuery } from "@/utils/common";
 import DatesCalendar from "@/components/dates/DatesCalendar.vue";
 import { api } from "@/services/api";
+import MainTitle from "@/components/common/title/MainTitle.vue";
 
 export default {
-  components: { DatesCalendar, FormDatesSearch, ListSigns },
+  components: { MainTitle, DatesCalendar, ListSigns },
   data() {
     return {
       dates: {
@@ -52,20 +57,13 @@ export default {
     getDates() {
       this.apiGetDates.then(
         (response) => {
-          // if (this.dates) {
-          //   this.dates.attributes = this.dates.attributes?.concat(response.data.attributes);
-          //   this.dates.dates = this.dates.dates?.concat(response.data.dates);
-          // } else {
           this.dates = response.data;
-          // }
+          if (!this.$route.query.year) {
+            this.replaceRouterQuery({ year: this.dates?.year });
+          }
         }
       );
     }
   }
 };
 </script>
-
-
-
-
-

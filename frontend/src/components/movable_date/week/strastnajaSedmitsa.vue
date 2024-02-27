@@ -1,13 +1,13 @@
 <template>
   <template
-    v-for="movable_day in week.movable_days.slice(0, 4)"
+    v-for="movable_day in [monStrastnajaSedmitsa, tueStrastnajaSedmitsa, wedStrastnajaSedmitsa, thuStrastnajaSedmitsa]"
     :key="movable_day.id"
   >
     <v-row :class="{
       'bg-red-lighten-2 rounded-shaped': movable_day.abbr === currentMovableDayAbbr,
       'bg-red-lighten-3': movable_day.abbr !== currentMovableDayAbbr
     }">
-      <v-col class="red-accent-4">
+      <v-col class="red-accent-4 text-red-accent-3">
         {{ movable_day.title }}
       </v-col>
     </v-row>
@@ -54,13 +54,26 @@
     </v-col>
   </v-row>
   <v-row>
-    <v-col class="red-accent-4 bg-red-lighten-3 mb-3">
+    <v-col class="red-accent-4 text-red-accent-4 bg-red-lighten-3 mb-3">
       Евангелия 12 Святых Страстей Господа Бога и Спаса нашего Исуса Христа
     </v-col>
   </v-row>
   <v-row
-    v-for="zachalo in friCommonStrastnajaSedmitsa?.slice(0, 12)"
-    :key="zachalo.id"
+    v-for="zachalo in [
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 46 && zachalo.bible_book.abbr === 'jn'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 58 && zachalo.bible_book.abbr === 'jn'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 109 && zachalo.bible_book.abbr === 'mt'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 59 && zachalo.bible_book.abbr === 'jn'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 111 && zachalo.bible_book.abbr === 'mt'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 67 && zachalo.bible_book.abbr === 'mk'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 113 && zachalo.bible_book.abbr === 'mt'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 111 && zachalo.bible_book.abbr === 'lk'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 61 && zachalo.bible_book.abbr === 'jn'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 69 && zachalo.bible_book.abbr === 'mk'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 62 && zachalo.bible_book.abbr === 'jn'),
+      friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 114 && zachalo.bible_book.abbr === 'mt'),
+    ]"
+    :key="zachalo?.id"
     no-gutters
     class="mt-3"
   >
@@ -68,7 +81,7 @@
       <ChipZachalo
         :zachalo="zachalo"
         color="red-accent-3"
-        :style="{ 'width': mdAndUp ? '140px' : '120px' }"
+        :style="{ 'width': mdAndUp ? '140px' : '90px' }"
       />
     </v-col>
   </v-row>
@@ -77,7 +90,7 @@
       'bg-red-lighten-3': friStrastnajaSedmitsa.abbr !== currentMovableDayAbbr
     }"
   >
-    <v-col class="red-accent-4">
+    <v-col class="red-accent-4 text-red-accent-3">
       Последование часов Святой и Великой Пятницы
     </v-col>
   </v-row>
@@ -90,10 +103,10 @@
       <template v-else>{{ (i - 1) * 3 }}</template>
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="friCommonStrastnajaSedmitsa?.[11 + i]" color="red-accent-3" />
+      <ChipZachalo :zachalo="friHoursStrastnajaSedmitsa[i - 1]?.[0]" color="red-accent-3" />
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="friCommonStrastnajaSedmitsa?.[15 + i]" color="red-accent-3" />
+      <ChipZachalo :zachalo="friHoursStrastnajaSedmitsa[i - 1]?.[1]" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row>
@@ -102,7 +115,7 @@
     </v-col>
     <v-col
       v-for="zachalo in friVespersStrastnajaSedmitsa"
-      :key="zachalo.id"
+      :key="zachalo?.id"
       cols="5"
     >
       <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
@@ -113,7 +126,7 @@
       'bg-red-lighten-3': satStrastnajaSedmitsa.abbr !== currentMovableDayAbbr
     }"
   >
-    <v-col class="red-accent-4">
+    <v-col class="red-accent-4 text-red-accent-3">
       {{ satStrastnajaSedmitsa.title }}
     </v-col>
   </v-row>
@@ -123,7 +136,7 @@
     </v-col>
     <v-col
       v-for="zachalo in satMatinsStrastnajaSedmitsa"
-      :key="zachalo.id"
+      :key="zachalo?.id"
       cols="5"
     >
       <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
@@ -135,7 +148,7 @@
     </v-col>
     <v-col
       v-for="zachalo in satLiturgyStrastnajaSedmitsa"
-      :key="zachalo.id"
+      :key="zachalo?.id"
       cols="5"
     >
       <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
@@ -147,6 +160,7 @@
 
 import ChipZachalo from "@/components/book/ChipZachalo.vue";
 import { useDisplay } from "vuetify";
+import { chooseEvangelAndApostleZachalos } from "@/utils/zachalos";
 
 export default {
   components: { ChipZachalo },
@@ -162,14 +176,26 @@ export default {
     }
   },
   computed: {
+    sunWeek6() {
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "sun");
+    },
+    monStrastnajaSedmitsa() {
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "mon");
+    },
+    tueStrastnajaSedmitsa() {
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "tue");
+    },
+    wedStrastnajaSedmitsa() {
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "wed");
+    },
     thuStrastnajaSedmitsa() {
-      return this.week.movable_days[3];
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "thu");
     },
     friStrastnajaSedmitsa() {
-      return this.week.movable_days[4];
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "fri");
     },
     satStrastnajaSedmitsa() {
-      return this.week.movable_days[5];
+      return this.week?.movable_days.find(movable_date => movable_date.abbr === "sat");
     },
     thuUmyveniyeStrastnajaSedmitsa() {
       return this.thuStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service === null)?.zachalos;
@@ -180,14 +206,34 @@ export default {
     friCommonStrastnajaSedmitsa() {
       return this.friStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service === null)?.zachalos;
     },
+    friHoursStrastnajaSedmitsa() {
+      return [
+        [
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 111 && zachalo.bible_book.abbr === "mt"),
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 215 && zachalo.bible_book.abbr === "gal")
+        ],
+        [
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 66 && zachalo.bible_book.abbr === "mk"),
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 88 && zachalo.bible_book.abbr === "rom")
+        ],
+        [
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 110 && zachalo.bible_book.abbr === "lk"),
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 306 && zachalo.bible_book.abbr === "hebr")
+        ],
+        [
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 59 && zachalo.bible_book.abbr === "jn"),
+          this.friCommonStrastnajaSedmitsa.find(zachalo => zachalo.num === 324 && zachalo.bible_book.abbr === "hebr")
+        ]
+      ];
+    },
     friVespersStrastnajaSedmitsa() {
-      return this.friStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service?.title === "vespers")?.zachalos.slice(0, 2);
+      return chooseEvangelAndApostleZachalos(this.friStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service?.title === "vespers")?.zachalos);
     },
     satMatinsStrastnajaSedmitsa() {
-      return this.satStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service.title === "matins")?.zachalos.slice(0, 2);
+      return chooseEvangelAndApostleZachalos(this.satStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service.title === "matins")?.zachalos);
     },
     satLiturgyStrastnajaSedmitsa() {
-      return this.satStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos.slice(0, 2);
+      return chooseEvangelAndApostleZachalos(this.satStrastnajaSedmitsa.movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos);
     }
   },
   setup() {
@@ -202,6 +248,3 @@ export default {
 };
 
 </script>
-
-
-

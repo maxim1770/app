@@ -1,6 +1,7 @@
 <template>
   <p
-    :class="`text-h6 text-sm-h5 text-md-h4 font-weight-bold ma-2 text-center text-${textColor}`"
+    class="text-h6 text-sm-h5 text-md-h4 font-weight-bold text-center"
+    :class="[hasMargin ? 'ma-2' : '', `text-${textColor}`]"
   >
     {{ title }}
   </p>
@@ -26,6 +27,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    hasMargin: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   }
 };

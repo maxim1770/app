@@ -10,4 +10,4 @@ class CycleNum(IntEnum):
 class CycleDesc(StrEnum):
     cycle_1 = 'по Пасце'
     cycle_2 = ''
-    cycle_3 = 'Святого Поста'
+    cycle_3 = 'Вел. Поста'

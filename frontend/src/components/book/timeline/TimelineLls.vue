@@ -34,7 +34,7 @@ export default {
   components: { ManuscriptFullTitle },
   props: {
     llsManuscripts: {
-      type: Object,
+      type: Array,
       required: true
     }
   },
@@ -45,6 +45,3 @@ export default {
 };
 
 </script>
-
-
-

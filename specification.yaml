@@ -27,7 +27,7 @@ instance_template:
       services:
         frontend:
           container_name: app-nginx_frontend
-          image: cr.yandex/crp085obp8dj4e4q9hd3/app-nginx_frontend:latest
+          image: cr.yandex/crpt1bjls9dnr4c3c3bu/app-nginx_frontend:latest
           ports:
             - "80:80"
           restart: always

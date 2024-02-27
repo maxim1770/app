@@ -1,5 +1,8 @@
 <template>
   <v-sheet
+    v-memo="[year]"
+    elevation="6"
+    rounded="xl"
     class="text-center mt-5"
   >
     <v-calendar
@@ -10,6 +13,7 @@
       :columns="numColumns"
       first-day-of-week="1"
       @dayclick="toSelectedDate"
+      @update:pages="updateYear"
       class="w-100"
     >
       <template #popover="{ event: { popover } }">{{ popover.description }}</template>
@@ -34,6 +38,9 @@ export default {
       required: true
     }
   },
+  emits: [
+    "update:year"
+  ],
   computed: {
     numRows() {
       if (this.smAndDown) {
@@ -69,16 +76,20 @@ export default {
         {
           name: "date",
           params: {
-            dateSlug: CalendarDay.id.replace(CalendarDay.year, year)
+            dateSlug: CalendarDay?.id.replace(CalendarDay.year, year)
           }
         }
       );
+    },
+    updateYear(page) {
+      if (Number(this.year) === offsetYear2year(page[0]?.year, 9)) {
+      } else if (Number(this.year) < offsetYear2year(page[0]?.year, 9)) {
+        this.$emit("update:year", Number(this.year) + 1);
+      } else {
+        this.$emit("update:year", Number(this.year) - 1);
+      }
     }
   }
-
 };
 
 </script>
-
-
-

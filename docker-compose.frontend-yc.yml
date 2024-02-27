@@ -3,7 +3,7 @@ services:
 
   nginx-frontend:
     container_name: nginx-frontend
-    image: cr.yandex/crp085obp8dj4e4q9hd3/nginx-frontend:latest
+    image: cr.yandex/crpt1bjls9dnr4c3c3bu/nginx-frontend:latest
     expose:
       - 80
     ports:

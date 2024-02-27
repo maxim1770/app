@@ -1,7 +1,7 @@
 <template>
   <v-chip
     :to="{ name: 'bible-book', params: { bibleBookAbbr: bibleBook.abbr } }"
-    :style="{ 'font-size': smAndDown ? 'smaller' : 'larger' }"
+    :style="{ 'font-size': smAndDown ? 'xx-small' : 'larger' }"
     color="blue"
     class="ma-1"
   >

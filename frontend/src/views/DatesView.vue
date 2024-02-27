@@ -17,12 +17,3 @@ export default {
 };
 </script>
 
-
-
-
-
-
-
-
-
-

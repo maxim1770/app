@@ -40,6 +40,11 @@ function offsetYear2year(offsetYear, month) {
   return year;
 }
 
+
+function isSunDate(date) {
+  return date?.movable_day?.abbr === "sun";
+}
+
 const YEAR_CHRISTMAS = 5500;
 
 const CALENDAR_MASKS = {
@@ -65,6 +70,7 @@ export {
   date2dateSlug,
   offsetYear2year,
   year2offsetYear,
+  isSunDate,
   YEAR_CHRISTMAS,
   getMonth,
   CALENDAR_MASKS

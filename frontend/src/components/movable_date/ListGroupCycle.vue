@@ -7,9 +7,12 @@
       >
         <MainSmallTitle
           :title="cycle.title"
-          textColor="red-darken-2"
+          textColor="red-darken-4"
         />
-        <p class="text-center font-weight-bold ma-1 ">
+        <p
+          class="text-blue-lighten-2 text-center ma-1"
+          :style="{ 'font-size': !lgAndUp ? 'smaller' : 'medium' }"
+        >
           {{ cycle?.desc }}
         </p>
       </v-list-item>
@@ -22,6 +25,7 @@
 <script>
 
 import MainSmallTitle from "@/components/common/title/MainSmallTitle.vue";
+import { useDisplay } from "vuetify";
 
 export default {
   components: { MainSmallTitle },
@@ -30,6 +34,10 @@ export default {
       type: Object,
       required: true
     }
+  },
+  setup() {
+    const lgAndUp = useDisplay();
+    return lgAndUp;
   }
 };
 </script>

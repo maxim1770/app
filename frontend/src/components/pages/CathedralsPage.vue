@@ -3,7 +3,10 @@
     v-memo="[cathedrals?.length]"
   >
     <v-divider />
-    <v-timeline side="end" align="start">
+    <v-timeline
+      side="end"
+      align="start"
+    >
       <v-timeline-item
         v-for="cathedral in cathedrals"
         :key="cathedral.id"

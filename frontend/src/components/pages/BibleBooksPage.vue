@@ -1,6 +1,6 @@
 <template>
   <div
-    v-memo="[bible_books?.length]"
+    v-memo="[sorted_bible_books?.length]"
   >
     <v-divider />
     <MainTitle title="Новый Завет" textColor="red-darken-4" :hasDivider="true" />
@@ -45,25 +45,28 @@ export default {
   components: { MainBigTitle, MainTitle, TimelineBibleBooks },
   props: {
     bible_books: {
-      type: Object,
+      type: Array,
       required: true
     }
   },
   computed: {
+    sorted_bible_books() {
+      return Object.values(this.bible_books).sort((bible_book_1, bible_book_2) => bible_book_1.id > bible_book_2.id ? 1 : -1);
+    },
     evangelies() {
-      return Object.values(this.bible_books).filter(bible_book => bible_book.part === "evangel");
+      return Object.values(this.sorted_bible_books).filter(bible_book => bible_book.part === "evangel");
     },
     apostols() {
-      return Object.values(this.bible_books).filter(bible_book => bible_book.part === "apostle");
+      return Object.values(this.sorted_bible_books).filter(bible_book => bible_book.part === "apostle");
     },
     pjatiknizhieMoiseja() {
-      return Object.values(this.bible_books).filter(bible_book => bible_book.part === "pjatiknizhie_moiseja");
+      return Object.values(this.sorted_bible_books).filter(bible_book => bible_book.part === "pjatiknizhie_moiseja");
     },
     psaltyr() {
-      return Object.values(this.bible_books).filter(bible_book => bible_book.part === "psaltyr");
+      return Object.values(this.sorted_bible_books).filter(bible_book => bible_book.part === "psaltyr");
     },
     oldTestamentOtherBibleBooks() {
-      return Object.values(this.bible_books).filter(bible_book => bible_book.testament === "old_testament" & !bible_book.part);
+      return Object.values(this.sorted_bible_books).filter(bible_book => bible_book.testament === "old_testament" & !bible_book.part);
     }
   }
 };

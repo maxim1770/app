@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from datetime import date
+from typing import TYPE_CHECKING
 
 from pydantic import model_validator
 
@@ -11,6 +14,9 @@ from ..._some_day import prepare_some_day_attributes
 from ...base import SchemaInDBBase
 from ...book import MovableDateBook
 from ...holiday import HolidayInDBToMovableDay, BeforeAfterHolidayMovableDayAssociation
+
+if TYPE_CHECKING:
+    from ...date import DateInDB
 
 
 class MovableDayInDBBase(__MovableDayBase, SchemaInDBBase):
@@ -35,17 +41,38 @@ class __MovableDayInDBWithFullTitleBase(MovableDayInDBBase):
     @model_validator(mode='before')
     @classmethod
     def prepare_full_title(cls, values: models.MovableDay) -> models.MovableDay:
-        if values.week.cycle.num == enums.CycleNum.cycle_3 and not values.week.sunday_num and not values.week.num:
+        if values.week.cycle.num == enums.CycleNum.cycle_3 and not values.week.num and values.abbr_ru != enums.MovableDayAbbrRu.sun:
             full_title: str = enums.MovableDayStrastnajaSedmitsaRu[values.abbr.name].value
+        elif values.week.cycle.num == enums.CycleNum.cycle_3 and values.week.num == 1 and values.abbr_ru == enums.MovableDayAbbrRu.sun:
+            full_title = f'Нд {values.week.sunday_num}'
+        elif values.week.cycle.num == enums.CycleNum.cycle_3 and values.abbr_ru != enums.MovableDayAbbrRu.sun:
+            full_title = f'{values.abbr_ru} {values.week.num} сед. Вел. Поста'
+        elif values.week.cycle.num == enums.CycleNum.cycle_1 and values.week.sunday_num == 8 and values.abbr_ru != enums.MovableDayAbbrRu.sun:
+            if values.abbr_ru == enums.MovableDayAbbrRu.sat:
+                full_title = f'{values.abbr_ru} {values.week.num} по Пятидесятнице'
+            else:
+                full_title = f'{values.abbr_ru} {values.week.num} Нд по Пятидесятнице'
         else:
             cycle_desc = enums.CycleDesc[values.week.cycle.num.name]
-            if values.abbr_ru != enums.MovableDayAbbrRu.sun:
-                full_title = f'{values.abbr_ru} {values.week.sunday_num} Нд {cycle_desc}'
-            else:
+            if values.abbr_ru == enums.MovableDayAbbrRu.sun:
                 full_title = f'Нд {values.week.sunday_num} {cycle_desc}'
-            full_title: str = utils.clean_extra_spaces(full_title)
-            full_title: str = utils.set_first_letter_upper(full_title)
+            elif values.abbr_ru == enums.MovableDayAbbrRu.sat:
+                full_title = f'{values.abbr_ru} {values.week.num} {cycle_desc}'
+            else:
+                full_title = f'{values.abbr_ru} {values.week.num} Нд {cycle_desc}'
+        full_title: str = utils.clean_extra_spaces(full_title)
+        full_title: str = utils.set_first_letter_upper(full_title)
         values.full_title = full_title
+        return values
+
+
+class __MovableDayInDBWithSundayTitleBase(MovableDayInDBBase):
+    sunday_title: str | None
+
+    @model_validator(mode='before')
+    @classmethod
+    def add_sunday_title(cls, values: models.MovableDay) -> models.MovableDay:
+        values.sunday_title: str | None = values.week.sunday_title
         return values
 
 
@@ -56,7 +83,11 @@ class MovableDay(__MovableDayInDBWithFullTitleBase):
     before_after_holidays: list[BeforeAfterHolidayMovableDayAssociation] = []
 
 
-class MovableDayInDB(__MovableDayInDBWithDateSlugBase, __MovableDayInDBWithFullTitleBase):
+class MovableDayInDB(
+    __MovableDayInDBWithDateSlugBase,
+    __MovableDayInDBWithFullTitleBase,
+    __MovableDayInDBWithSundayTitleBase
+):
     pass
 
 
@@ -79,3 +110,7 @@ class MovableDayInDBToDates(__MovableDayInDBWithFullTitleBase, SchemaInDBBase):
     def prepare_attributes(cls, values: models.MovableDay) -> models.MovableDay:
         values.attributes: list[CalendarAttribute] = prepare_some_day_attributes(values)
         return values
+
+
+class MovableDayInDBForBeforeAfterHoliday(__MovableDayBase):
+    days: list[DateInDB] = []

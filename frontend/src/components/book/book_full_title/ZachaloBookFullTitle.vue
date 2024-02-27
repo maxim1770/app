@@ -8,7 +8,11 @@
   >
     Толковое
   </v-chip>
-  <ChipZachalo :zachalo="book.zachalo" :hasBibleBookLink="true" />
+  <ChipZachalo
+    :zachalo="book.zachalo"
+    :hasBibleBookLink="true"
+    :hasAlwaysSeeOptional="true"
+  />
 </template>
 
 <script>

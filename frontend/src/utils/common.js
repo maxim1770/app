@@ -92,8 +92,15 @@ const mainPages = [{
   img: "img/manuscripts/rsl/f_98/f-98-80/831.webp"
 }, {
   title: "Святые", value: "saints", prependIcon: "mdi-account-group", img: "img/manuscripts/lls/lls-book-10/5.webp"
+}, {
+  title: "Древнерусский язык",
+  value: "language",
+  prependIcon: "mdi-pencil-outline",
+  img: "img/manuscripts/rsl/f_178i/f-178i-9500/471.webp"
 }];
 
 export {
   imgUrl, scroll, MONTH_TITLE, mainPages, replaceRouterQuery, computeCustomIcon, toUrl, numObjectKeys, isVselenskijSobor
 };
+
+

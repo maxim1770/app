@@ -1,7 +1,7 @@
 import psycopg2
 
 conn = psycopg2.connect("""
-    host=rc1a-2lz9baduguaj0cnx.mdb.yandexcloud.net
+    host=rc1a-72x7dd2xeqw4ztpl.mdb.yandexcloud.net
     port=6432
     dbname=db
     user=user

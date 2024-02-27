@@ -5,6 +5,7 @@ from ..base import SchemaBase
 
 class __DateBase(SchemaBase):
     year: conint(strict=True, ge=2_000, le=3_000) | None = None
+    is_solid_week: bool | None = None
 
 
 class DateCreate(__DateBase):

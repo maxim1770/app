@@ -1,15 +1,19 @@
 <template>
   <v-row class="bg-red-lighten-3 border-b">
-    <v-col class="text-h6 text-red-accent-4 font-weight-bold">
-      Нд {{ week?.sunday_num }}<span v-if="week?.sunday_title">, {{ week?.sunday_title }}</span>
+    <v-col>
+      <MainSmallTitle
+        :title="`Нд ${week?.sunday_num}${week?.sunday_title ? ', ' + week?.sunday_title : ''}`"
+        :hasMargin="false"
+        textColor="red-accent-4"
+      />
     </v-col>
   </v-row>
   <v-row
-    v-if="sundayMatins(week)"
+    v-if="sundayMatins"
     class="bg-red-lighten-3"
   >
-    <v-col cols="2">
-      <p v-if='sundayMatins(week).divine_service.title === "matins"'>
+    <v-col cols="2" class="text-red-accent-3">
+      <p v-if='sundayMatins.divine_service.title === "matins"'>
         На Утрене
       </p>
       <p v-else>
@@ -18,51 +22,64 @@
     </v-col>
     <v-col offset="1" cols="4">
       <p class="text-red-accent-3">
-        {{ sundayMatins(week).zachalos[0].title }}
+        {{ sundayMatins.zachalos[0].title }}
       </p>
     </v-col>
     <v-col cols="5">
-      <ChipZachalo :zachalo="sundayMatins(week).zachalos[0]" color="red-accent-3" />
+      <ChipZachalo :zachalo="sundayMatins.zachalos[0]" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row class="bg-red-lighten-3">
-    <v-col cols="2">
+    <v-col cols="2" class="text-red-accent-3">
       На Литургии
     </v-col>
     <v-col
-      v-for="zachalo in sundayLiturgyZachalos(week)"
-      :key="zachalo.id"
+      v-for="zachalo in sundayLiturgyZachalos"
+      :key="zachalo?.id"
       cols="5"
     >
       <ChipZachalo :zachalo="zachalo" color="red-accent-3" />
     </v-col>
   </v-row>
   <v-row
-    v-for="movable_day in week?.movable_days.slice(1)"
+    v-for="movable_day in sortedMovableDays.slice(1)"
     :key="movable_day.id"
-    :class="{'rounded-shaped bg-red-lighten-3': movable_day.abbr === currentMovableDayAbbr}"
+    :class="{'rounded-shaped bg-red-lighten-3': movable_day.abbr === currentMovableDayAbbr || movable_day?.title}"
   >
-    <v-col cols="2" class="text-capitalize">
-      {{ movable_day.abbr_ru }}
+    <v-col
+      cols="2"
+      class="text-capitalize"
+      :class="{'text-red-accent-3': movable_day?.title}"
+    >
+      {{ movable_day?.title || movable_day.abbr_ru }}
+      <v-tooltip
+        activator="parent"
+      >
+        {{ week.title }}
+      </v-tooltip>
     </v-col>
     <v-col
-      v-for="zachalo in movable_day.movable_dates[0].zachalos.slice(0, 2)"
+      v-for="zachalo in chooseEvangelAndApostleZachalos(movable_day.movable_dates[0]?.zachalos)"
       v-if="movable_day.movable_dates[0]"
       :key="zachalo.id"
       cols="5"
     >
-      <ChipZachalo :zachalo="zachalo" />
+      <ChipZachalo
+        :zachalo="zachalo"
+        :color="movable_day?.title ? 'red-accent-3' : 'success'"
+      />
     </v-col>
-
   </v-row>
 </template>
 
 <script>
 
 import ChipZachalo from "@/components/book/ChipZachalo.vue";
+import { chooseEvangelAndApostleZachalos } from "@/utils/zachalos";
+import MainSmallTitle from "@/components/common/title/MainSmallTitle.vue";
 
 export default {
-  components: { ChipZachalo },
+  components: { MainSmallTitle, ChipZachalo },
   props: {
     week: {
       type: Object,
@@ -74,17 +91,22 @@ export default {
       default: null
     }
   },
-  methods: {
-    sundayMatins(week) {
-      return week?.movable_days[0].movable_dates.find(movable_date => movable_date.divine_service.title !== "liturgy");
+  computed: {
+    sortedMovableDays() {
+      return Object.values(this.week?.movable_days).sort((movable_day_1, movable_day_2) => movable_day_1.id > movable_day_2.id ? 1 : -1);
     },
-    sundayLiturgyZachalos(week) {
-      return week?.movable_days[0].movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos.slice(0, 2);
+    sundayMatins() {
+      return this.sortedMovableDays[0]?.movable_dates.find(movable_date => movable_date.divine_service.title !== "liturgy");
+    },
+    sundayLiturgyZachalos() {
+      return chooseEvangelAndApostleZachalos(this.sortedMovableDays[0]?.movable_dates.find(movable_date => movable_date.divine_service.title === "liturgy")?.zachalos);
+    }
+  },
+  methods: {
+    chooseEvangelAndApostleZachalos(zachalos) {
+      return chooseEvangelAndApostleZachalos(zachalos);
     }
   }
 };
 
 </script>
-
-
-

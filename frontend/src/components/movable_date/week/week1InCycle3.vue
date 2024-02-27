@@ -5,7 +5,12 @@
     :class="{'rounded-shaped bg-red-lighten-3': movable_day.abbr === currentMovableDayAbbr}"
   >
     <v-col cols="2" class="text-capitalize">
-      {{ movable_day.abbr_ru.replace("вс", "Нд") }} {{ week.sunday_num + addOneToSat(movable_day) }}
+      <template v-if="movable_day.abbr === this.sun?.abbr">
+        {{ week.sunday_title }}
+      </template>
+      <template v-else>
+        {{ movable_day.abbr_ru }} {{ week.num }} Святого Поста
+      </template>
     </v-col>
     <v-col
       v-for="zachalo in chooseEvangelAndApostleZachalos(movable_day.movable_dates[0].zachalos)"
@@ -44,9 +49,6 @@ export default {
     }
   },
   methods: {
-    addOneToSat(movable_day) {
-      return movable_day.abbr === this.sat?.abbr ? 1 : 0;
-    },
     chooseEvangelAndApostleZachalos(zachalos) {
       return chooseEvangelAndApostleZachalos(zachalos);
     }

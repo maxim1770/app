@@ -1,5 +1,6 @@
 from .bible_book import bible_book
-from .bible_book import get_zachalo, create_zachalo, create_zachalo_tolkovoe, create_zachalo_movable_date_association
+from .bible_book import get_zachalo, create_zachalo, create_zachalo_tolkovoe, create_zachalo_movable_date_association, \
+    update_zachalo_movable_date_association
 from .book import book
 from .book import cathedral
 from .book import create_cathedral_book
@@ -27,7 +28,8 @@ from .manuscript import manuscript
 from .manuscript import page
 from .movable_date import get_cycles, get_cycle, create_cycle
 from .movable_date import get_divine_service, create_divine_service
-from .movable_date import get_movable_dates, get_movable_date, get_movable_date_by_id, create_movable_date
+from .movable_date import get_movable_dates, get_movable_date, get_movable_date_by_id, get_movable_date_by_my_id, \
+    create_movable_date
 from .movable_date import get_movable_day, get_movable_day, \
     get_movable_day_by_week_id, get_movable_day_by_id, create_movable_day
 from .movable_date import get_week, get_week, create_week

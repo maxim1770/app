@@ -2,14 +2,27 @@
   <v-card class="bg-red-lighten-3 ma-3">
     <v-container>
       <v-row>
-        <v-col class="text-h6 text-red-accent-4 font-weight-bold">
-          Святой и Великий Пост
+        <v-col>
+          <MainSmallTitle
+            title="Святой и Великий Пост"
+            text-color="red-accent-4"
+            :hasMargin="false"
+          />
         </v-col>
       </v-row>
     </v-container>
   </v-card>
   <v-card
-    v-for="week in cycle.weeks.slice(0, -2)"
+    class="ma-4"
+  >
+    <v-container>
+      <week1InCycle3
+        :week="cycle.weeks[6]"
+      />
+    </v-container>
+  </v-card>
+  <v-card
+    v-for="week in [cycle.weeks[0], cycle.weeks[1], cycle.weeks[2], cycle.weeks[3], cycle.weeks[4]]"
     :key="week.id"
     class="ma-4"
   >
@@ -19,14 +32,20 @@
   </v-card>
   <v-card class="ma-4">
     <v-container>
-      <week6InCycle3 :week="week6" />
+      <sun6InCycle3
+        :week="strastnajaSedmitsa_"
+      />
     </v-container>
   </v-card>
   <v-card class="bg-red-lighten-3 ma-3">
     <v-container>
       <v-row>
-        <v-col class="text-h6 text-red-accent-4 font-weight-bold">
-          Страстная седмица
+        <v-col>
+          <MainSmallTitle
+            title="Страстная седмица"
+            text-color="red-accent-4"
+            :hasMargin="false"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -41,11 +60,13 @@
 <script>
 
 import weekForCycle3 from "@/components/movable_date/week/weekForCycle3.vue";
-import week6InCycle3 from "@/components/movable_date/week/week6InCycle3.vue";
 import strastnajaSedmitsa from "@/components/movable_date/week/strastnajaSedmitsa.vue";
+import Week1InCycle3 from "@/components/movable_date/week/week1InCycle3.vue";
+import Sun6InCycle3 from "@/components/movable_date/week/sun6InCycle3.vue";
+import MainSmallTitle from "@/components/common/title/MainSmallTitle.vue";
 
 export default {
-  components: { weekForCycle3, week6InCycle3, strastnajaSedmitsa },
+  components: { MainSmallTitle, Sun6InCycle3, Week1InCycle3, weekForCycle3, strastnajaSedmitsa },
   props: {
     cycle: {
       type: Object,
@@ -53,13 +74,9 @@ export default {
     }
   },
   computed: {
-    week6() {
-      return this.cycle.weeks[5];
-    },
     strastnajaSedmitsa_() {
-      return this.cycle.weeks[6];
+      return this.cycle.weeks[5];
     }
   }
 };
 </script>
-

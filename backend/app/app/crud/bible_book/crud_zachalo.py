@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app import models, schemas, enums, utils
@@ -7,9 +8,14 @@ from ..book import book
 from ..saint import saint
 
 
-def get_zachalo(db: Session, bible_book_abbr: enums.BibleBookAbbr, num: int) -> models.Zachalo | None:
+def get_zachalo(
+        db: Session,
+        bible_book_abbr: enums.BibleBookAbbr,
+        num: int
+) -> models.Zachalo | None:
     return db.execute(
-        sa.select(models.Zachalo).filter_by(num=num).filter(models.BibleBook.abbr == bible_book_abbr)
+        sa.select(models.Zachalo).join(models.BibleBook).filter(
+            (models.BibleBook.abbr == bible_book_abbr) & (models.Zachalo.num == num))
     ).scalars().first()
 
 
@@ -84,3 +90,27 @@ def create_zachalo_movable_date_association(
     db.commit()
     db.refresh(zachalo)
     return zachalo
+
+
+def update_zachalo_movable_date_association(
+        db: Session,
+        *,
+        zachalo_id: int,
+        movable_date_id: int,
+        new_zachalo_id: int,
+) -> models.ZachaloMovableDateAssociation:
+    zachalo_movable_date_association: models.ZachaloMovableDateAssociation | None = db.execute(
+        sa.select(models.ZachaloMovableDateAssociation)
+        .filter_by(zachalo_id=zachalo_id)
+        .filter_by(movable_date_id=movable_date_id)
+    ).scalar_one_or_none()
+    if not zachalo_movable_date_association:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'The ZachaloMovableDateAssociation not found {zachalo_id}, {movable_date_id}'
+        )
+    zachalo_movable_date_association.zachalo_id = new_zachalo_id
+    db.add(zachalo_movable_date_association)
+    db.commit()
+    db.refresh(zachalo_movable_date_association)
+    return zachalo_movable_date_association

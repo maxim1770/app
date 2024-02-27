@@ -48,7 +48,7 @@ from .movable_date import Cycle, CycleCreate
 from .movable_date import DivineService, DivineServiceCreate
 from .movable_date import MovableDate, MovableDateCreate, MovableDateInDBForMovableDay, MovableDateInDB
 from .movable_date import MovableDay, MovableDayCreate, MovableDayGet, MovableDayInDB, MovableDayInDBForWeek, \
-    MovableDayInDBForMovableDay, MovableDayInDBToDates, MovableDayInDBBase
+    MovableDayInDBForMovableDay, MovableDayInDBToDates, MovableDayInDBBase, MovableDayInDBForBeforeAfterHoliday
 from .movable_date import Week, WeekCreate, WeekInDB, WeekInDBToMovableDay
 from .post import Post, PostCreate, PostUpdate
 from .saint import Dignity, DignityCreate, DignityUpdate
@@ -83,6 +83,7 @@ BeforeAfterHoliday.model_rebuild()
 BeforeAfterHolidayInDB.model_rebuild()
 BeforeAfterHolidayDayAssociationInDB.model_rebuild()
 BeforeAfterHolidayMovableDayAssociationInDB.model_rebuild()
+MovableDayInDBForBeforeAfterHoliday.model_rebuild()
 TopicBookDataCreate.model_rebuild()
 HolidayBookDataCreate.model_rebuild()
 MolitvaBookDataCreate.model_rebuild()

@@ -13,6 +13,7 @@ class HighlightColor(StrEnum):
     purple = auto()
     blue = auto()
     red = auto()
+    yellow = auto()
 
 
 class Highlight(SchemaBase):

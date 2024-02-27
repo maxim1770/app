@@ -1,2 +1,2 @@
 from .crud_bible_book import bible_book
-from .crud_zachalo import get_zachalo, create_zachalo, create_zachalo_tolkovoe, create_zachalo_movable_date_association
+from .crud_zachalo import get_zachalo, create_zachalo, create_zachalo_tolkovoe, create_zachalo_movable_date_association, update_zachalo_movable_date_association

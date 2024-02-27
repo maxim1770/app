@@ -19,6 +19,7 @@ def object_storage_upload_all_local_data_imgs(boto_session: boto3.session.Sessio
             file_path=file_path,
             object_storage_class=enums.ObjectStorageClass.STANDARD
         )
+        logging.info('Upload ' + str(Path(str(file_path).split('data\\')[1])))
 
 
 def __create_preview_img(img_path: Path, *, MAX_SIZE: tuple[int, int]) -> Image:
@@ -61,7 +62,7 @@ def object_storage_upload_all_preview_imgs(boto_session: boto3.session.Session) 
 
 if __name__ == '__main__':
     boto_session: boto3.session.Session = next(deps.get_boto())
-    object_storage_upload_all_local_data_imgs(boto_session)
+    # object_storage_upload_all_local_data_imgs(boto_session)
     # object_storage_upload_all_preview_imgs(boto_session)
 
     # object_storage = ObjectStorage(boto_session)

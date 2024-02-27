@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get('/', response_model=list[schemas.Cycle])
-@cache(expire=60 * 7)
+@cache(expire=60 * 60 * 24 * 30)
 def read_cycles(db: Session = Depends(deps.get_db)):
     cycles: list[models.Cycle] = crud.get_cycles(db)
     return cycles

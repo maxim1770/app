@@ -1,7 +1,7 @@
 from .base_cls import FatalCreateError
 from .bible_book import create_all_zachalos_movable_dates_associations
 from .city import create_all_cities
-from .date import create_dates_for_years, update_dates_posts_ids
+from .date import create_dates_for_years, update_dates_posts_ids, update_dates_is_solid_weeks
 from .day import create_all_days
 from .holiday import create_all_great_holidays, create_all_movable_saints_holidays, \
     create_all_proroks_and_any_pravednyjs

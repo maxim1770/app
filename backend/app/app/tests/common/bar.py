@@ -1,17 +1,12 @@
 import logging
 from pathlib import Path
-from subprocess import Popen, PIPE
 
-import sqlalchemy as sa
 from pypdf import PdfWriter
 
-from app import enums, utils, models
-from app.api import deps
+from app import enums, utils
+from app.create.prepare.manuscript.bookmark.__get_bookmarks import PdfBookmark
 from app.create.prepare.manuscript.bookmark.common import get_pdf_bookmarks, get_pdf_writer, offset_pages_bookmarks, \
     set_show_bookmarks_panel, upload_pdf, add_bookmarks
-from app.create.prepare.manuscript.bookmark.__get_bookmarks import PdfBookmark
-from app.enums import PagePosition
-from app.schemas import SortedNotNumberedPages, NotNumberedPage, PageCreate
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 
@@ -189,7 +184,6 @@ def prepare_f_98_30():
 if __name__ == '__main__':
     # db = next(deps.get_db())
 
-
     # select = sa.select(models.Book).outerjoin(models.TopicBook).filter(
     #     models.TopicBook.id == 15001
     # )
@@ -209,15 +203,6 @@ if __name__ == '__main__':
     # create.create_all_zachalos_movable_dates_associations(db)
     # create.create_dates_for_years(db)
 
-    a = [line.decode('cp866', 'ignore') for line in Popen('tasklist', stdout=PIPE).stdout.readlines()]
-    for i in [i_ for i_ in a if 'python.exe' in i_]:
-        print(f'taskkill /F /IM {i.split()[1]}')
-
-    # 'taskkill /F /IM {}'
-
-    # В Windows PowerShell
-    # taskkill /F /IM 12064
-
     # prepare_f_173i_5()
     # prepare_f_98_30()
 
@@ -225,27 +210,27 @@ if __name__ == '__main__':
     # logging.info(__prepare_zachalo_bookmark_title('Зачало 44 В Святой и Великий Четверг, Евангелие 1, на Умывении'))
 
     pass
+    #
+    # a = {'священномученику Макарию, митрополиту Киевскому', 'священномученику Мефодию, епископу Патарскому'}
+    # b = ' и '.join(a)
+    # print(b)
 
-    a = {'священномученику Макарию, митрополиту Киевскому', 'священномученику Мефодию, епископу Патарскому'}
-    b = ' и '.join(a)
-    print(b)
-
-    some_2_not_numbered_pages = SortedNotNumberedPages(
-        [
-            NotNumberedPage(
-                page=PageCreate(
-                    num=1,
-                    position=PagePosition.right
-                ),
-                count=2,
-            ),
-            NotNumberedPage(
-                page=PageCreate(
-                    num=5,
-                    position=PagePosition.left
-                ),
-                count=1,
-            )
-        ]
-    )
-    print(some_2_not_numbered_pages)
+    # some_2_not_numbered_pages = SortedNotNumberedPages(
+    #     [
+    #         NotNumberedPage(
+    #             page=PageCreate(
+    #                 num=1,
+    #                 position=PagePosition.right
+    #             ),
+    #             count=2,
+    #         ),
+    #         NotNumberedPage(
+    #             page=PageCreate(
+    #                 num=5,
+    #                 position=PagePosition.left
+    #             ),
+    #             count=1,
+    #         )
+    #     ]
+    # )
+    # print(some_2_not_numbered_pages)

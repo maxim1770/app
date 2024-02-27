@@ -8,7 +8,7 @@ from .before_after_holiday import BeforeAfterHolidayInDB
 from ..base import SchemaBase, SchemaInDBToAssociationBase
 
 if TYPE_CHECKING:
-    from ..movable_date import MovableDayInDBBase
+    from ..movable_date import MovableDayInDBForBeforeAfterHoliday
 
 
 class __BeforeAfterHolidayMovableDayAssociationBase(SchemaBase):
@@ -44,4 +44,4 @@ class BeforeAfterHolidayMovableDayAssociation(__BeforeAfterHolidayMovableDayAsso
 
 
 class BeforeAfterHolidayMovableDayAssociationInDB(__BeforeAfterHolidayMovableDayAssociationInDBBase):
-    movable_day: MovableDayInDBBase
+    movable_day: MovableDayInDBForBeforeAfterHoliday

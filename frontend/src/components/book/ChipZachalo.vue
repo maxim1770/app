@@ -3,25 +3,26 @@
     v-if="zachalo"
     :to="{ name: 'book', params: { bookId: zachalo?.id } }"
     :color="color"
-    :prepend-icon="mdAndUp ? 'mdi-book-open-page-variant' : undefined"
+    :prepend-icon="mdAndUp || hasAlwaysSeeOptional ? 'mdi-book-open-page-variant' : undefined"
     class="ma-1"
   >
     <router-link
       v-if="hasBibleBookLink"
       :to="{ name: 'bible-book', params: { bibleBookAbbr: zachalo.bible_book.abbr } }"
-      class="text-decoration-none text-blue-accent-4"
-      :class="{'mr-1': !isPsaltyrBook}"
+      class="text-decoration-none text-blue-accent-4 font-weight-bold"
+      :class="{'mr-1': hasZachaloAbbr}"
     >
       {{ zachalo.bible_book.abbr_ru }}
     </router-link>
     <span
       v-else
-      :class="{'mr-1': !isPsaltyrBook}"
+      :class="{'mr-1': hasZachaloAbbr}"
+      class="font-weight-bold"
     >
       {{ zachalo.bible_book.abbr_ru }}
     </span>
     <template
-      v-if="!isPsaltyrBook"
+      v-if="hasZachaloAbbr"
     >
       зач.
     </template>
@@ -56,15 +57,24 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    hasAlwaysSeeOptional: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  computed: {
+    hasZachaloAbbr() {
+      return (this.hasAlwaysSeeOptional || !this.smAndDown) && !this.isPsaltyrBook;
     }
   },
   setup() {
-    const mdAndUp = useDisplay();
-    return mdAndUp;
+    const { mdAndUp, smAndDown } = useDisplay();
+    return { mdAndUp, smAndDown };
   }
 };
 
 </script>
-
 
 

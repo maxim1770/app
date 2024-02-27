@@ -2,7 +2,7 @@
   "index": "index.html",
   "redirectAllRequests": {
     "protocol": "PROTOCOL_HTTP",
-    "hostname": "pravoslavie16.ru"
+    "hostname": "pravoslavie16v.ru"
   },
   "routingRules": [
     {
@@ -11,7 +11,7 @@
         "keyPrefixEquals": "key"
       },
       "redirect": {
-        "hostname": "pravoslavie16.ru",
+        "hostname": "pravoslavie16v.ru",
         "httpRedirectCode": "301",
         "protocol": "PROTOCOL_HTTP",
         "replaceKeyPrefixWith": "prefix",

@@ -1,6 +1,6 @@
 from typing import Any
 
-from pydantic import model_validator
+from pydantic import model_validator, conint
 
 from app import enums
 from app.schemas.base import SchemaBase
@@ -14,6 +14,7 @@ class __BibleBookBase(SchemaBase):
     title: str | None = None  # constr(strip_whitespace=True, strict=True, max_length=50)
     abbr: enums.BibleBookAbbr | None = None
     abbr_ru: enums.BibleBookAbbrRu | None = None
+    last_zachalo_num: conint(strict=True, ge=1, le=335) | None = None
 
 
 class BibleBookCreate(__BibleBookBase):

@@ -49,6 +49,14 @@ def get_movable_date_by_id(
     ).scalar_one_or_none()
 
 
+def get_movable_date_by_my_id(
+        db: Session,
+        *,
+        movable_date_id: int
+) -> models.MovableDate | None:
+    return db.execute(sa.select(models.MovableDate).filter_by(id=movable_date_id)).scalar_one_or_none()
+
+
 def create_movable_date(
         db: Session,
         movable_day_id: int,

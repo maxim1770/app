@@ -12,6 +12,7 @@ class Date(Base):
     movable_day_id: Mapped[int] = mapped_column(ForeignKey(MovableDay.id), primary_key=True)
 
     year: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
+    is_solid_week: Mapped[bool | None]
 
     post_id: Mapped[int | None] = mapped_column(ForeignKey(Post.id), index=True)
     post: Mapped[Post | None] = relationship(back_populates='dates')

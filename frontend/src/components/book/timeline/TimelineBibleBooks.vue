@@ -29,7 +29,7 @@ export default {
   components: { BibleBookFullTitleByBibleBook },
   props: {
     bible_books: {
-      type: Object,
+      type: Array,
       required: true
     }
   },

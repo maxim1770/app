@@ -2,7 +2,7 @@ from typing import Any
 
 import sqlalchemy as sa
 from fastapi import Depends, APIRouter, status, HTTPException
-from fastapi.params import Path
+from fastapi.params import Path, Query
 from fastapi_cache.decorator import cache
 from fastapi_filter import FilterDepends
 from fastapi_pagination import Page
@@ -75,7 +75,7 @@ def __get_valid_book(
     return book
 
 
-def __get_book_tolkovoe(
+def __get_valid_book_tolkovoe(
         *,
         db: Session = Depends(get_db),
         book: models.Book = Depends(__get_valid_book)
@@ -115,7 +115,7 @@ def read_random_book_id(
 @cache(expire=60 * 3)
 def read_book(
         book: models.Book = Depends(__get_valid_book),
-        book_tolkovoe: models.Book | None = Depends(__get_book_tolkovoe),
+        book_tolkovoe: models.Book | None = Depends(__get_valid_book_tolkovoe)
 ) -> Any:
     return {'book': book, 'book_tolkovoe': book_tolkovoe}
 
@@ -150,6 +150,53 @@ def update_bookmark_pages(
     return bookmark.book
 
 
+def __get_valid_movable_date(
+        *,
+        db: Session = Depends(get_db),
+        movable_date_id: int = Path(ge=1)
+) -> models.MovableDate:
+    movable_date = crud.movable_date.get_movable_date_by_my_id(db, movable_date_id=movable_date_id)
+    if not movable_date:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='MovableDate not found')
+    return movable_date
+
+
+@router.put('/{book_id}/zachalos/movable_date/{movable_date_id}', response_model=schemas.MovableDate)
+def update_zachalo_movable_date_associations(
+        *,
+        db: Session = Depends(get_db),
+        book: models.Book = Depends(__get_valid_book),
+        book_tolkovoe: models.Book | None = Depends(__get_valid_book_tolkovoe),
+        movable_date: models.MovableDate = Depends(__get_valid_movable_date),
+        new_book_id: int = Query(ge=1)
+) -> Any:
+    if not book_tolkovoe:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='The Book Tolkovoe not found')
+    new_book: models.Book = __get_valid_book(
+        db=db,
+        book_id=new_book_id
+    )
+    new_book_tolkovoe: models.Book | None = __get_valid_book_tolkovoe(
+        db=db,
+        book=new_book
+    )
+    if not new_book_tolkovoe:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='The New Book Tolkovoe not found')
+    crud.update_zachalo_movable_date_association(
+        db,
+        zachalo_id=book.id,
+        movable_date_id=movable_date.id,
+        new_zachalo_id=new_book.id
+    )
+    crud.update_zachalo_movable_date_association(
+        db,
+        zachalo_id=book_tolkovoe.id,
+        movable_date_id=movable_date.id,
+        new_zachalo_id=new_book_tolkovoe.id
+    )
+    return movable_date
+
+
 @router.delete('/{book_id}/bookmarks/{manuscript_code}', response_model=schemas.Book)
 def delete_bookmark(
         *,
@@ -157,4 +204,16 @@ def delete_bookmark(
         bookmark: models.Bookmark = Depends(__get_valid_bookmark),
 ) -> Any:
     book = crud.bookmark.remove_bookmark_and_orphan_book(db, db_obj=bookmark)
+    return book
+
+
+@router.delete('/{book_id}', response_model=schemas.Book)
+def delete_orphan_book(
+        *,
+        db: Session = Depends(get_db),
+        book: models.Book = Depends(__get_valid_book)
+) -> Any:
+    if len(book.bookmarks):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='The Book is not orphan, it has bookmark')
+    book = crud.book.remove(db, id=book.id)
     return book

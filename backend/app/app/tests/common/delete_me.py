@@ -2,20 +2,11 @@ import logging
 
 from pydantic import BaseModel, model_validator
 
-from app.create.create.icon.create_icon_imgs import create_all_shm_icons_imgs
-
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(message)s')
 import logging
 
 from sqlalchemy.orm import Session
 from app.api import deps
-
-import boto3
-import requests
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 
 class PydanticTestModel(BaseModel):
@@ -37,14 +28,11 @@ class PydanticTestModel(BaseModel):
 
 if __name__ == '__main__':
     db: Session = next(deps.get_db())
-    session: requests.Session = next(deps.get_session())
+    # session: requests.Session = next(deps.get_session())
 
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-
-
-    s = Service(r"C:\Users\MaxDroN\Desktop\chromedriver-win64\chromedriver.exe")
-    driver = webdriver.Chrome(service=s)
-
+    # s = Service(r"C:\Users\MaxDroN\Desktop\chromedriver-win64\chromedriver.exe")
+    # driver = webdriver.Chrome(service=s)
 
     # boto_session: boto3.session.Session = next(deps.get_boto())
 
@@ -67,6 +55,8 @@ if __name__ == '__main__':
     # create_all_tipikons(db)
     # create_all_posts(db)
     # update_dates_posts_ids(db)
+    # update_dates_is_solid_weeks(db)
+
     # create_dates_for_years(db)
 
     # create_any_holidays(db)
